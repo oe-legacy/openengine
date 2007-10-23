@@ -192,13 +192,16 @@ Vector<3,float>* Face::Intersection(Vector<3,float> p1, Vector<3,float> p2) {
     Vector<3,float>* intersectionPoint = PlaneIntersection(p1,p2);
 
     // If not intersecting just return NULL
-    if( intersectionPoint == NULL ) return NULL;
-    
-    if( this->Contains( *intersectionPoint ) ) {
-        return intersectionPoint;
-    }
-    else
+    if (intersectionPoint == NULL)
         return NULL;
+    
+    if (this->Contains(*intersectionPoint))
+        return intersectionPoint;
+
+    // If the intersection was not in the face itself delete the
+    // pointer and return null.
+    delete intersectionPoint;
+    return NULL;
 }
     
 /**  
