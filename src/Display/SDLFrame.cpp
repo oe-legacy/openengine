@@ -36,7 +36,7 @@ bool SDLFrame::IsTypeOf(const std::type_info& inf) {
 }
 
 bool SDLFrame::IsFocused() const {
-    return (SDL_GetAppState() & SDL_APPINPUTFOCUS);
+    return ((SDL_GetAppState() & SDL_APPINPUTFOCUS) != 0);
 }
 
 int SDLFrame::GetWidth() const {

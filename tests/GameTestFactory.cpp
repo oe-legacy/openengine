@@ -17,6 +17,9 @@
 #include <Devices/SDLInput.h>
 #include <Renderers/OpenGL/Renderer.h>
 #include <Renderers/OpenGL/RenderingView.h>
+#include <Resources/OBJResource.h>
+#include <Resources/TGAResource.h>
+#include <Resources/ResourceManager.h>
 #include <Scene/SceneNode.h>
 
 
@@ -57,6 +60,9 @@ public:
         // Setup input handling
         SDLInput* input = new SDLInput();
         engine.AddModule(*input);
+        // add plugins for the resources
+        ResourceManager::AddModelPlugin(new OBJPlugin());
+        ResourceManager::AddTexturePlugin(new TGAPlugin());
         // Return true to signal success.
         return true;
     }

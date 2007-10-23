@@ -14,8 +14,6 @@
 #include <Core/GameEngine.h>
 #include <Core/IModule.h>
 #include <Resources/IModelResource.h>
-#include <Resources/OBJResource.h>
-#include <Resources/TGAResource.h>
 #include <Resources/ResourceManager.h>
 #include <Geometry/FaceSet.h>
 #include "GameTestFactory.h"
@@ -124,10 +122,6 @@ void testOBJModelResource() {
         void Process(const float dt, const float p) {
             // Set the path to our resources
             ResourceManager::SetPath("tests/");
-
-            // add plugins for the resources
-            ResourceManager::AddModelPlugin(new OBJPlugin());
-            ResourceManager::AddTexturePlugin(new TGAPlugin());
 
             // Pointer to model resource.
             IModelResourcePtr mod_res;

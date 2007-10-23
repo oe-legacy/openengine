@@ -199,8 +199,8 @@ void RenderingView::VisitGeometryNode(GeometryNode* node) {
         glEnd();
 
         // Render normal if enabled
-        bool c = glIsEnabled(GL_COLOR);
-        bool l = glIsEnabled(GL_LIGHTING);
+        GLboolean c = glIsEnabled(GL_COLOR);
+        GLboolean l = glIsEnabled(GL_LIGHTING);
  		glEnable(GL_COLOR);
         glDisable(GL_LIGHTING);
 

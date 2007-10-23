@@ -186,8 +186,8 @@ GLSLVersion Renderer::GetGLSLVersion() {
  * @param width line width, default i one.
  */
 void Renderer::DrawFace(FacePtr face, Vector<3,float> color, float width) {
-    bool t = glIsEnabled(GL_TEXTURE_2D);
-    bool l = glIsEnabled(GL_LIGHTING);
+    GLboolean t = glIsEnabled(GL_TEXTURE_2D);
+    GLboolean l = glIsEnabled(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
 
@@ -218,8 +218,8 @@ void Renderer::DrawFace(FacePtr face, Vector<3,float> color, float width) {
  * @param width line width, default i one.
  */
 void Renderer::DrawLine(Line line, Vector<3,float> color, float width) {
-    bool t = glIsEnabled(GL_TEXTURE_2D);
-    bool l = glIsEnabled(GL_LIGHTING);
+    GLboolean t = glIsEnabled(GL_TEXTURE_2D);
+    GLboolean l = glIsEnabled(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
 
@@ -244,8 +244,8 @@ void Renderer::DrawLine(Line line, Vector<3,float> color, float width) {
  * @param size dot size, default i one.
  */
 void Renderer::DrawPoint(Vector<3,float> point, Vector<3,float> color , float size) {
-    bool t = glIsEnabled(GL_TEXTURE_2D);
-    bool l = glIsEnabled(GL_LIGHTING);
+    GLboolean t = glIsEnabled(GL_TEXTURE_2D);
+    GLboolean l = glIsEnabled(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
 
