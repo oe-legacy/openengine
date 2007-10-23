@@ -1,0 +1,73 @@
+// Generic stream logger.
+// -------------------------------------------------------------------
+// Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
+//
+// This program is free software; It is covered by the GNU General
+// Public License version 2 or any later version.
+// See the GNU General Public License for more details (see LICENSE).
+// --------------------------------------------------------------------
+
+#include <Logging/StreamLogger.h>
+#include <Utils/Timer.h>
+
+namespace OpenEngine {
+namespace Logging {
+
+using OpenEngine::Utils::Timer;
+
+/**
+ * Create a logger wrapping an output stream.
+ *
+ * @param stream Stream to use as log output.
+ */
+StreamLogger::StreamLogger(ostream* stream) : stream(stream){
+
+}
+
+/**
+ * Destruct the stream logger.
+ * Flushes the stream.
+ */
+StreamLogger::~StreamLogger(){
+    if (stream!=NULL) {
+        stream->flush();
+        delete stream;
+    }
+}
+
+/**
+ * Write a log message.
+ *
+ * @param type Log message type.
+ * @param msg Message to log.
+ */
+void StreamLogger::Write(LoggerType type, string msg) {
+    *stream << TypeToString(type) << " ";
+    *stream << Timer::GetDateTime() << ": ";
+    *stream << msg << std::endl;
+}
+
+/**
+ * Get string representation for a log message type.
+ *
+ * @param type Log message type.
+ * @return String representation of type.
+ */
+string StreamLogger::TypeToString(LoggerType type){
+    string str;
+    if (type == Error)
+        str ="[EE]";
+    else if (type == Warning)
+        str = "[WW]";
+    else if (type == Info)
+        str = "[II]";
+    else {
+        str = "[";
+        str += type;
+        str += "]";
+    }
+    return str;
+}
+
+} //NS Logging
+} //NS OpenEngine

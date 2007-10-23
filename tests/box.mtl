@@ -1,0 +1,3 @@
+newmtl testTexture
+map_Kd textureFileName.tga
+

@@ -1,0 +1,9 @@
+ADD_LIBRARY(OpenEngine_Geometry
+	    Geometry.cpp
+	    Box.cpp
+	    Sphere.cpp
+	    Line.cpp
+	    Plane.cpp
+	    Square.cpp
+	    Face.cpp
+	    FaceSet.cpp)

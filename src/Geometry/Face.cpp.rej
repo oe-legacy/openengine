@@ -1,0 +1,22 @@
+***************
+*** 246,255 ****
+   * Calculate hard norm, from the tre softnorms
+   */
+  void Face::CalcHardNorm() {
+-     // Verify that the face defines a plane
+-     if( vert[0] == vert[1] ||
+-         vert[1] == vert[2] ||
+-         vert[0] == vert[2]) throw Exception("CalcHardNorm on invalid face");
+      // Calculate face normal - we need normals perpendicular to the face
+      // so we can't use the loaded face normals because they might be soft.
+      Vector<3,float> v1 = vert[1] - vert[0];
+--- 246,254 ----
+   * Calculate hard norm, from the tre softnorms
+   */
+  void Face::CalcHardNorm() {
++ 
++     if( !Verify() ) throw Exception("CalcHardNorm on invalid face");
++ 
+      // Calculate face normal - we need normals perpendicular to the face
+      // so we can't use the loaded face normals because they might be soft.
+      Vector<3,float> v1 = vert[1] - vert[0];

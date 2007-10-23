@@ -1,0 +1,8 @@
+
+This source is part of the material for the Computer Game Developer
+course at the University of Aarhus 2007. The code is a joint effort by
+the students of the department. A list of the involved individuals can
+be found at http://www.openengine.dk/wiki/People
+
+If you have patches or requests in regard to the code please send your
+inquiry to bugs@openengine.dk
