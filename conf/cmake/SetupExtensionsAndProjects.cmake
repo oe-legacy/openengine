@@ -87,7 +87,7 @@ FOREACH(SUB_DIR ${EXTENSIONS_SUB_DIRECTORIES})
           SET(OE_VISITOR_IMPL_INCLUDE_EXPANSION
              "${OE_VISITOR_IMPL_INCLUDE_EXPANSION}#include <${SUB_EXP}.h>\n")
           SET(OE_VISITOR_IMPL_EXPANSION
-             "${OE_VISITOR_IMPL_EXPANSION}void ISceneNodeVisitor::Visit${SUB_EXP_NODE}(${SUB_EXP_NODE}* node) { DefaultVisitNode(node); }\n")
+             "${OE_VISITOR_IMPL_EXPANSION}//! @see VisitSceneNode\nvoid ISceneNodeVisitor::Visit${SUB_EXP_NODE}(${SUB_EXP_NODE}* node) { DefaultVisitNode(node); }\n")
 
         ENDIF(NOT EXP STREQUAL SUB_EXP)
   
