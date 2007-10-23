@@ -11,7 +11,7 @@ FIND_PATH(GLEW_INCLUDE_DIR NAMES GL/glew.h
   PATHS
   ${PROJECT_BINARY_DIR}/include
   ${PROJECT_SOURCE_DIR}/include
-  ${PROJECT_SOURCE_DIR}/libs/glew/include
+  ${PROJECT_SOURCE_DIR}/libraries/glew/include
   ENV CPATH
   /usr/include
   /usr/local/include
@@ -23,7 +23,7 @@ FIND_LIBRARY(GLEW_LIBRARIES NAMES GLEW GLEW32
   PATHS
   ${PROJECT_BINARY_DIR}/lib
   ${PROJECT_SOURCE_DIR}/lib
-  ${PROJECT_SOURCE_DIR}/libs/glew/lib
+  ${PROJECT_SOURCE_DIR}/libraries/glew/lib
   ENV LD_LIBRARY_PATH
   ENV LIBRARY_PATH
   /usr/lib

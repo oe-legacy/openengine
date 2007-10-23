@@ -79,7 +79,7 @@ IF(WIN32)
   SET(BOOST_DIR_SEARCH
     ${BOOST_DIR_SEARCH}
     C:/boost/include
-    "${PROJECT_SOURCE_DIR}/libs/boost"
+    "${PROJECT_SOURCE_DIR}/libraries/boost"
     "$ENV{ProgramFiles}/boost"
     D:/boost/include
   )
