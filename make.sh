@@ -1,15 +1,22 @@
 #!/bin/sh
-HELP="Small script to help build the OpenEngine source.
+HELP="Small script to help working on the OpenEngine source.
 Some useful targets are:
   all (default) -- set up the build system and compile the source
   rebuild       -- remove the build system and rebuild from source
-  test          -- run the all the test
-  test-auto     -- run all automatix tests
+  darcs <cmd>   -- run darcs command on all extensions, projects and openengine
+  test          -- run all tests
+  test-auto     -- run all automatic tests
   test-manual   -- run all tests that need interaction
   targets       -- list of make targets
   doc           -- build the doxygen documentation (requires doxygen)
   help          -- this message
   [other]       -- forwarded to make in the build directory"
+
+# check the current working dir is the oe root.
+if [ ! -f `pwd`/make.sh ]; then
+    echo "You must run make.sh from the openengine root directory."
+    exit 1
+fi
 
 CMD=$1
 if [ "$1" = "rebuild" ]; then
@@ -23,6 +30,18 @@ elif [ "$1" = "help" ]; then
     exit
 elif [ "$1" = "targets" ]; then
     CMD="help"
+elif [ "$1" = "darcs" ]; then
+    echo "**** $@ in OpenEngine"
+    $@
+    for e in extensions/* projects/*; do
+	cd $e
+	if [ -d "_darcs" ]; then
+	    echo "**** $@ in $e"
+	    $@
+	fi
+	cd ../../
+    done
+    exit
 fi
 
 # create build dir if non existent
