@@ -26,9 +26,16 @@ FOREACH(SUB_DIR ${EXTENSIONS_SUB_DIRECTORIES})
     INCLUDE_DIRECTORIES(${FULL_SUB_DIR})
     SUBDIRS(${FULL_SUB_DIR})
 
-    SET(EXP_FILE "${FULL_SUB_DIR}/VisitorExpansion.txt")
+    # Invoke setup file if present
+    SET(SETUP_FILE "${FULL_SUB_DIR}/Setup.cmake")
+    IF(EXISTS ${SETUP_FILE})
+      SET(OE_CURRENT_EXTENSION_DIR "${FULL_SUB_DIR}")
+      INCLUDE(${SETUP_FILE})
+      SET(OE_CURRENT_EXTENSION_DIR "")
+    ENDIF(EXISTS ${SETUP_FILE})
 
     # Search for visitor expansions
+    SET(EXP_FILE "${FULL_SUB_DIR}/VisitorExpansion.txt")
     IF(EXISTS ${EXP_FILE})
 
       IF(OE_DEBUG_CMAKE)
