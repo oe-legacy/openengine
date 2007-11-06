@@ -37,14 +37,24 @@ elif [ "$1" = "deploy-proj" ]; then
     echo "*** Deploying new project to: projects/${NAME}"
     cd projects
     darcs get http://daimi.au.dk/~cgd/projects/ExampleProject $NAME
-    cd ..
+    RET=$?
+    if [ $RET -ne 0 ]; then exit $RET; fi
+    cd $NAME
+    rm -r _darcs
+    darcs init
+    cd ../..
     exit
 elif [ "$1" = "deploy-ext" ]; then
     NAME=$2
     echo "*** Deploying new extension to: extensions/${NAME}"
     cd extensions
     darcs get http://daimi.au.dk/~cgd/extensions/ExampleExtension $NAME
-    cd ..
+    RET=$?
+    if [ $RET -ne 0 ]; then exit $RET; fi
+    cd $NAME
+    rm -r _darcs
+    darcs init
+    cd ../..
     exit
 elif [ "$1" = "darcs" ]; then
     echo "**** $@ in OpenEngine"
