@@ -18,7 +18,7 @@
     #include <time.h>
 #endif
 
-#if defined(linux)
+#if defined(linux) || defined(__APPLE__)
     #include <sys/time.h>
 #endif
 
