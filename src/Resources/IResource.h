@@ -1,6 +1,7 @@
 // Resource interface.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Modified by Anders Bach Nielsen <abachn@daimi.au.dk> - 21. Nov 2007
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -11,12 +12,14 @@
 #define IRESOURCE_H_
 
 #include <boost/shared_ptr.hpp>
+#include <list>
 #include <string>
 
 namespace OpenEngine {
 namespace Resources {
 
 using std::string;
+using std::list;
 
 /**
  * Resource interface.
@@ -52,19 +55,67 @@ public:
 typedef boost::shared_ptr<IResource> IResourcePtr;
 
 /**
+ * Iterator over all extensions type
+ */
+typedef list<string>::iterator ExtListItr;
+
+/**
  * Resource plug-in interface.
  *
  * @class IResourcePlugin IResource.h Resources/IResource.h
  */
 class IResourcePlugin {
-public:
+private:
+	
+	/// List of extensions this plugins knows how to handle
+	list<string> extensions;
 
-    /**
-     * Get the file extension for this resource type.
-     *
-     * @return Resource type extension Lowercase
-     */
-    virtual string GetExtension() = 0;
+protected:
+
+	/** 
+	 * Add new extension this plugin can handle
+	 * 
+	 * @param ext Resource type extension in Lowercase
+	 */
+	void AddExtension(string ext) {
+		extensions.push_back(ext);
+	};
+
+public:
+	
+	/** 
+	 * Extensions starting iterator
+	 * For iterating over all extensions in a plugin
+	 * See standard documentation for list::begin 
+	 *
+	 * @return Iterator over all extensions in this plugin
+	 */
+	ExtListItr begin() { return extensions.begin(); }
+
+	/** 
+	 * Extensions ending iterator
+	 * For identifing the end of the extensions iterator for a plugin
+	 * See standard documentation for list::begin 
+	 * 
+	 * @return Iterator over all extensions in this plugin
+	 */
+	ExtListItr end()   { return extensions.end(); }
+
+	/** 
+	 * Checks if this plugin accepts the given extension.
+	 * 
+	 * @param ext Resource type extension Lowercase
+	 * 
+	 * @return If the given extension is accepted by this plugin
+	 */
+    bool AcceptsExtension(string ext) {
+		for (list<string>::iterator itr = extensions.begin(); itr != extensions.end(); itr++ ) {
+			if ( (*itr) == ext) {
+				return true;
+			}
+		}
+		return false;
+	};
 
     /**
      * Default destructor.

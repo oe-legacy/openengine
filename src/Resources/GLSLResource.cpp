@@ -1,6 +1,7 @@
 // OpenGL Shader Language resource.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Modified by Anders Bach Nielsen <abachn@daimi.au.dk> - 21. Nov 2007
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -42,8 +43,8 @@ void PrintOpenGLError(string filename, int linenumber) {
     }
 }
 
-string GLSLPlugin::GetExtension() {
-    return "glsl";
+GLSLPlugin::GLSLPlugin() {
+    this->AddExtension("glsl");
 }
 
 IShaderResourcePtr GLSLPlugin::CreateResource(string file) {

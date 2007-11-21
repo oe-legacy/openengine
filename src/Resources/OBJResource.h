@@ -1,6 +1,7 @@
 // OBJ Model resource.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Modified by Anders Bach Nielsen <abachn@daimi.au.dk> - 21. Nov 2007
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -64,8 +65,8 @@ public:
  */
 class OBJPlugin : public IModelResourcePlugin {
 public:
+	OBJPlugin();
     IModelResourcePtr CreateResource(string file);
-    string GetExtension();
 };
 
 } // NS Resources

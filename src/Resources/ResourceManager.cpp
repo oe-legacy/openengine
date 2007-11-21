@@ -1,11 +1,14 @@
 // Resource Manager.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Modified by Anders Bach Nielsen <abachn@daimi.au.dk> - 21. Nov 2007
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
+
+#include <list>
 
 #include <Resources/ResourceManager.h>
 #include <Resources/Exceptions.h>
@@ -58,7 +61,9 @@ string ResourceManager::GetPath() {
  * @param plugin Texture plug-in
  */
 void ResourceManager::AddTexturePlugin(ITextureResourcePlugin* plugin) {
-    texturePlugins[plugin->GetExtension()] = plugin;
+	for(ExtListItr itr = plugin->begin(); itr != plugin->end(); itr++) {
+		texturePlugins[(*itr)] = plugin;
+	}
 }
 
 /**
@@ -67,7 +72,9 @@ void ResourceManager::AddTexturePlugin(ITextureResourcePlugin* plugin) {
  * @param plugin Model plug-in
  */
 void ResourceManager::AddModelPlugin(IModelResourcePlugin* plugin) {
-    modelPlugins[plugin->GetExtension()] = plugin;
+	for(ExtListItr itr = plugin->begin(); itr != plugin->end(); itr++) {
+		modelPlugins[(*itr)] = plugin;
+	}
 }
 
 /**
@@ -76,7 +83,9 @@ void ResourceManager::AddModelPlugin(IModelResourcePlugin* plugin) {
  * @param plugin Shader plug-in
  */
 void ResourceManager::AddShaderPlugin(IShaderResourcePlugin* plugin) {
-    shaderPlugins[plugin->GetExtension()] = plugin;
+	for(ExtListItr itr = plugin->begin(); itr != plugin->end(); itr++) {
+		shaderPlugins[(*itr)] = plugin;
+	}
 }
 
 /**
