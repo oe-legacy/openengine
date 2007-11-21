@@ -78,8 +78,8 @@ void FaceSet::Add(FaceSet* fset) {
  *
  * @param face Face iterator.
  */
-void FaceSet::Remove(FaceList::iterator face) {
-    faces.erase(face);
+FaceList::iterator FaceSet::Remove(FaceList::iterator face) {
+    return faces.erase(face);
 }
 
 /**

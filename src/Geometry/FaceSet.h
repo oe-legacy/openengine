@@ -54,7 +54,7 @@ public:
 
     void Add(FacePtr face);
     void Add(FaceSet* fset);
-    void Remove(FaceList::iterator face);
+    FaceList::iterator Remove(FaceList::iterator face);
     void Empty();
     int  Size();
     void Split(FacePtr& plane, FaceSet& front, FaceSet& span, FaceSet& back, const float epsilon = EPS);
