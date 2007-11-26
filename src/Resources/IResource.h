@@ -54,10 +54,6 @@ public:
  */
 typedef boost::shared_ptr<IResource> IResourcePtr;
 
-/**
- * Iterator over all extensions type
- */
-typedef list<string>::iterator ExtListItr;
 
 /**
  * Resource plug-in interface.
@@ -83,24 +79,6 @@ protected:
 
 public:
 	
-	/** 
-	 * Extensions starting iterator
-	 * For iterating over all extensions in a plugin
-	 * See standard documentation for list::begin 
-	 *
-	 * @return Iterator over all extensions in this plugin
-	 */
-	ExtListItr begin() { return extensions.begin(); }
-
-	/** 
-	 * Extensions ending iterator
-	 * For identifing the end of the extensions iterator for a plugin
-	 * See standard documentation for list::begin 
-	 * 
-	 * @return Iterator over all extensions in this plugin
-	 */
-	ExtListItr end()   { return extensions.end(); }
-
 	/** 
 	 * Checks if this plugin accepts the given extension.
 	 * 

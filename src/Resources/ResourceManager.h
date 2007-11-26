@@ -15,6 +15,8 @@
 #include <Resources/IShaderResource.h>
 #include <string>
 #include <map>
+#include <vector>
+#include <list>
 #include <iostream>
 
 namespace OpenEngine {
@@ -29,19 +31,26 @@ using namespace std;
  */
 class ResourceManager {
 private:
+    static list<string> paths;
+
+    static vector<ITextureResourcePlugin*> texturePlugins;
+    static vector<IModelResourcePlugin*>   modelPlugins;
+    static vector<IShaderResourcePlugin*>  shaderPlugins;
+
     static map<string, ITextureResourcePtr> textures;
     static map<string, IModelResourcePtr>   models;
     static map<string, IShaderResourcePtr>  shaders;
-    static map<string, ITextureResourcePlugin*> texturePlugins;
-    static map<string, IModelResourcePlugin*>   modelPlugins;
-    static map<string, IShaderResourcePlugin*>  shaderPlugins;
-    static string path;
+
 public:
-    static string SetPath(string);
-    static string GetPath();
+    static void AppendPath(string);
+    static void PrependPath(string);
+    static bool IsInPath(string);
+    static string FindFileInPath(string);
+
     static void AddTexturePlugin(ITextureResourcePlugin* plugin);
     static void AddModelPlugin(IModelResourcePlugin* plugin);
     static void AddShaderPlugin(IShaderResourcePlugin* plugin);
+
 	static ITextureResourcePtr CreateTexture(const string filename);
 	static IModelResourcePtr   CreateModel(const string filename);
     static IShaderResourcePtr  CreateShader(const string filename);

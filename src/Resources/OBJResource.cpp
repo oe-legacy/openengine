@@ -111,9 +111,10 @@ void OBJResource::LoadMaterialFile(string file) {
                 Error(line, "Multiple map_Kd sections appear before a newmtr declaration");
             else {
                 // we reset the resource path temporary to create the texture resource
-                string path = ResourceManager::SetPath("");
-                m->texture = ResourceManager::CreateTexture(resource_dir + string(tmp));
-                ResourceManager::SetPath(path);
+				if (! ResourceManager::IsInPath(resource_dir)) {
+					ResourceManager::AppendPath(resource_dir);
+				}
+                m->texture = ResourceManager::CreateTexture(string(tmp));
             }
 
         // shader material
@@ -125,9 +126,10 @@ void OBJResource::LoadMaterialFile(string file) {
                 Error(line, "Multiple shader sections appear before a newmtr declaration");
             else {
                 // reset resource path temporary and create the shader resource
-                string path = ResourceManager::SetPath("");
-                m->shader = ResourceManager::CreateShader(resource_dir + string(tmp));
-                ResourceManager::SetPath(path);
+				if (! ResourceManager::IsInPath(resource_dir)) {
+					ResourceManager::AppendPath(resource_dir);
+				}
+                m->shader = ResourceManager::CreateShader(string(tmp));
             }
         
         // we ignore all other sections in the material file

@@ -10,6 +10,10 @@
 
 #include <list>
 
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/exception.hpp>
+
+
 #include <Resources/ResourceManager.h>
 #include <Resources/Exceptions.h>
 #include <Resources/ITextureResource.h>
@@ -23,36 +27,82 @@ namespace OpenEngine {
 namespace Resources {
 
 using OpenEngine::Utils::Convert;
+namespace fs = boost::filesystem;
 
 // initialization of static members
-string ResourceManager::path = "";
+list<string> ResourceManager::paths = list<string>();
+
 map<string, ITextureResourcePtr> ResourceManager::textures = map<string, ITextureResourcePtr>();
 map<string, IModelResourcePtr>   ResourceManager::models   = map<string, IModelResourcePtr>();
 map<string, IShaderResourcePtr>  ResourceManager::shaders  = map<string, IShaderResourcePtr>();
 
-map<string, ITextureResourcePlugin*> ResourceManager::texturePlugins = map<string, ITextureResourcePlugin*>();
-map<string, IModelResourcePlugin*>   ResourceManager::modelPlugins   = map<string, IModelResourcePlugin*>();
-map<string, IShaderResourcePlugin*>  ResourceManager::shaderPlugins  = map<string, IShaderResourcePlugin*>();
+vector<ITextureResourcePlugin*>  ResourceManager::texturePlugins = vector<ITextureResourcePlugin*>();
+vector<IModelResourcePlugin*>	 ResourceManager::modelPlugins	 = vector<IModelResourcePlugin*>();
+vector<IShaderResourcePlugin*>	 ResourceManager::shaderPlugins	 = vector<IShaderResourcePlugin*>();
 
-/**
- * Set the resource root directory.
- *
- * @param str New resource directory
- * @return Old resource directory path
+/** 
+ * Append given path to the global path list
+ * 
+ * @param str File path to append
  */
-string ResourceManager::SetPath(string str) {
-    string old(path);
-    path = str;
-    return old;
+void ResourceManager::AppendPath(string str) {
+    paths.push_back(str);
 }
 
-/**
- * Get the current path to the resource root directory
- *
- * @return Resource directory path
+/** 
+ * Prepend given path to the global path list
+ * 
+ * @param str File path to prepend
  */
-string ResourceManager::GetPath() {
-    return path;
+void ResourceManager::PrependPath(string str) {
+	paths.push_front(str);
+}
+
+/** 
+ * Test if the given path p is already in the search path
+ * 
+ * @param p Path to test
+ * 
+ * @return If the given path is already added
+ */
+bool ResourceManager::IsInPath(string p) {
+	list<string>::iterator itr;
+	for (itr = paths.begin(); itr != paths.end() ; itr++) {
+		if ((*itr) == p) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/** 
+ * Find a given file in the search paths
+ * 
+ * @param file Filename to find in path
+ * 
+ * @return The complete file path or the empty string if file is not found in path
+ */
+string ResourceManager::FindFileInPath(string file) { 
+	list<string> possibles;
+	
+	for (list<string>::iterator itr = paths.begin(); itr != paths.end(); itr++) {
+		string p = (*itr) + file;
+		if (fs::exists(p)) {
+			possibles.push_back(p);
+		}
+	}
+
+	if (possibles.size() == 1) {
+		return *possibles.begin();
+	} else if (possibles.size() > 1) {
+		string s = *possibles.begin();
+		logger.warning << "Found more then one file matching the name given: " << file << logger.end;
+		for (list<string>::iterator itr = possibles.begin(); itr != possibles.end(); itr++) {
+			logger.warning << (*itr) << logger.end;
+		}
+		return s;
+	} 
+	return "";
 }
 
 /**
@@ -61,9 +111,7 @@ string ResourceManager::GetPath() {
  * @param plugin Texture plug-in
  */
 void ResourceManager::AddTexturePlugin(ITextureResourcePlugin* plugin) {
-	for(ExtListItr itr = plugin->begin(); itr != plugin->end(); itr++) {
-		texturePlugins[(*itr)] = plugin;
-	}
+	texturePlugins.push_back(plugin);
 }
 
 /**
@@ -72,9 +120,7 @@ void ResourceManager::AddTexturePlugin(ITextureResourcePlugin* plugin) {
  * @param plugin Model plug-in
  */
 void ResourceManager::AddModelPlugin(IModelResourcePlugin* plugin) {
-	for(ExtListItr itr = plugin->begin(); itr != plugin->end(); itr++) {
-		modelPlugins[(*itr)] = plugin;
-	}
+		modelPlugins.push_back(plugin);
 }
 
 /**
@@ -83,9 +129,7 @@ void ResourceManager::AddModelPlugin(IModelResourcePlugin* plugin) {
  * @param plugin Shader plug-in
  */
 void ResourceManager::AddShaderPlugin(IShaderResourcePlugin* plugin) {
-	for(ExtListItr itr = plugin->begin(); itr != plugin->end(); itr++) {
-		shaderPlugins[(*itr)] = plugin;
-	}
+		shaderPlugins.push_back(plugin);
 }
 
 /**
@@ -103,14 +147,21 @@ ITextureResourcePtr ResourceManager::CreateTexture(const string filename) {
 
     // get the file extension
     string ext = Convert::ToLower(File::Extension(filename));
-    map<string,ITextureResourcePlugin*>::iterator plugin = texturePlugins.find(ext);
-
+	vector<ITextureResourcePlugin*>::iterator plugin;
+	for (plugin = texturePlugins.begin(); plugin != texturePlugins.end() ; plugin++) {
+		if ((*plugin)->AcceptsExtension(ext)) {
+			break;
+		}
+	}
+	
     // load the resource
 	if (plugin != texturePlugins.end()) {
-		ITextureResourcePtr texture = plugin->second->CreateResource(path+filename);
+		string fullname = FindFileInPath(filename);
+		ITextureResourcePtr texture = (*plugin)->CreateResource(fullname);
         textures[filename] = texture;
         return texture;
-    }
+    } else
+        logger.warning << "Plugin for ." << ext << " not found." << logger.end;
 
 	throw ResourceException("Unsupported file format: " + filename);
 }
@@ -130,16 +181,22 @@ IModelResourcePtr ResourceManager::CreateModel(const string filename) {
 
     // get the file extension
     string ext = Convert::ToLower(File::Extension(filename));
-    map<string,IModelResourcePlugin*>::iterator plugin = modelPlugins.find(ext);
-
-    // load the resource
+	vector<IModelResourcePlugin*>::iterator plugin;
+	for (plugin = modelPlugins.begin(); plugin != modelPlugins.end() ; plugin++) {
+		if ((*plugin)->AcceptsExtension(ext)) {
+			break;
+		}
+	}
+	
+	// load the resource
 	if (plugin != modelPlugins.end()) {
-		IModelResourcePtr model = plugin->second->CreateResource(path+filename);
+		string fullname = FindFileInPath(filename);
+		IModelResourcePtr model = (*plugin)->CreateResource(fullname);
         models[filename] = model;
         return model;
-    } 
-    else
+    } else
         logger.warning << "Plugin for ." << ext << " not found." << logger.end;
+
     throw ResourceException("Unsupported file format: " + filename);
 }
 
@@ -158,14 +215,21 @@ IShaderResourcePtr ResourceManager::CreateShader(const string filename) {
 
     // get the file extension
     string ext = Convert::ToLower(File::Extension(filename));
-    map<string,IShaderResourcePlugin*>::iterator plugin = shaderPlugins.find(ext);
+	vector<IShaderResourcePlugin*>::iterator plugin;
+	for (plugin = shaderPlugins.begin(); plugin != shaderPlugins.end(); plugin++) {
+		if ((*plugin)->AcceptsExtension(ext)) {
+			break;
+		}
+	}
 
     // load the resource
 	if (plugin != shaderPlugins.end()) {
-		IShaderResourcePtr shader = plugin->second->CreateResource(path+filename);
+		string fullname = FindFileInPath(filename);
+		IShaderResourcePtr shader = (*plugin)->CreateResource(fullname);
         shaders[filename] = shader;
         return shader;
-    }
+    } else
+        logger.warning << "Plugin for ." << ext << " not found." << logger.end;
 
     throw ResourceException("Unsupported shader format: " + filename);
 }
