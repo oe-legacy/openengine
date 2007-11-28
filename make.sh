@@ -60,12 +60,14 @@ elif [ "$1" = "darcs" ]; then
     echo "**** $@ in OpenEngine"
     $@
     for e in extensions/* projects/*; do
-	cd $e
-	if [ -d "_darcs" ]; then
-	    echo "**** $@ in $e"
-	    $@
+	if [ -d "${e}" ]; then
+	  cd $e
+	  if [ -d "_darcs" ]; then
+	      echo "**** $@ in $e"
+	      $@
+	  fi
+	  cd ../../
 	fi
-	cd ../../
     done
     exit
 fi
