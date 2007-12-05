@@ -32,13 +32,15 @@ using namespace std;
 class ResourceManager {
 private:
     static list<string> paths;
+	static map<string, string> pathcache;
 
-    static vector<ITextureResourcePlugin*> texturePlugins;
-    static vector<IModelResourcePlugin*>   modelPlugins;
-    static vector<IShaderResourcePlugin*>  shaderPlugins;
-
+    static vector<ITextureResourcePlugin*>  texturePlugins;
     static map<string, ITextureResourcePtr> textures;
+
+    static vector<IModelResourcePlugin*>    modelPlugins;
     static map<string, IModelResourcePtr>   models;
+
+    static vector<IShaderResourcePlugin*>   shaderPlugins;
     static map<string, IShaderResourcePtr>  shaders;
 
 public:

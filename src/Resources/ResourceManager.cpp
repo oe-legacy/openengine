@@ -8,17 +8,12 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#include <list>
-
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/exception.hpp>
 
 
 #include <Resources/ResourceManager.h>
 #include <Resources/Exceptions.h>
-#include <Resources/ITextureResource.h>
-#include <Resources/IModelResource.h>
-#include <Resources/IShaderResource.h>
 #include <Resources/File.h>
 #include <Logging/Logger.h>
 #include <Utils/Convert.h>
@@ -31,6 +26,7 @@ namespace fs = boost::filesystem;
 
 // initialization of static members
 list<string> ResourceManager::paths = list<string>();
+map<string, string> ResourceManager::pathcache = map<string, string>();
 
 map<string, ITextureResourcePtr> ResourceManager::textures = map<string, ITextureResourcePtr>();
 map<string, IModelResourcePtr>   ResourceManager::models   = map<string, IModelResourcePtr>();
@@ -83,6 +79,12 @@ bool ResourceManager::IsInPath(string p) {
  * @return The complete file path or the empty string if file is not found in path
  */
 string ResourceManager::FindFileInPath(string file) { 
+	// looking in path cache for file -> fullpath
+	map<string, string>::iterator thefile = pathcache.find(file);
+	if (thefile != pathcache.end())
+        return thefile->second;
+
+	// file not found in cache, looking it up!
 	list<string> possibles;
 	
 	for (list<string>::iterator itr = paths.begin(); itr != paths.end(); itr++) {
@@ -93,6 +95,7 @@ string ResourceManager::FindFileInPath(string file) {
 	}
 
 	if (possibles.size() == 1) {
+		pathcache[file] = *possibles.begin();
 		return *possibles.begin();
 	} else if (possibles.size() > 1) {
 		string s = *possibles.begin();
@@ -100,6 +103,7 @@ string ResourceManager::FindFileInPath(string file) {
 		for (list<string>::iterator itr = possibles.begin(); itr != possibles.end(); itr++) {
 			logger.warning << (*itr) << logger.end;
 		}
+		pathcache[file] = s;
 		return s;
 	} 
 	return "";
