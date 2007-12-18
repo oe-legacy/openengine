@@ -23,6 +23,9 @@ class Convert {
 public:
     static string int2string(int i);
     static string ToLower(string str);
+
+	template<class T>
+	static string ToString(const T& t);
 };
 
 } // NS Utils

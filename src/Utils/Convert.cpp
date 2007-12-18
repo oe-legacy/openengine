@@ -20,9 +20,7 @@ namespace Utils {
  * @return String representation of the integer.
  */
 string Convert::int2string(int i) {
-    std::ostringstream o;
-    o << i;
-    return o.str();
+    return Convert::ToString<int>(i);
 }
 
 /**
@@ -39,6 +37,21 @@ string Convert::ToLower(string str) {
     }
     return lstr;
 }
+
+/** 
+ * Generic method for converting something to string
+ * 
+ * @param t Input you want to convert to string
+ * 
+ * @return String representing the input
+ */
+template <class T>
+string Convert::ToString(const T& t) {
+	std::stringstream ss;
+	ss << t;
+	return ss.str();
+}
+
 
 } // NS Utils
 } // NS OpenEngine
