@@ -7,6 +7,9 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
+#ifndef _CONVERT_
+#define _CONVERT_
+
 #include <string>
 
 namespace OpenEngine {
@@ -30,3 +33,5 @@ public:
 
 } // NS Utils
 } // NS OpenEngine
+
+#endif
