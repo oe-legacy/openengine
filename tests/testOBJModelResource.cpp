@@ -121,7 +121,7 @@ void testOBJModelResource() {
 
         void Process(const float dt, const float p) {
             // Set the path to our resources
-            ResourceManager::SetPath("tests/");
+            ResourceManager::AppendPath("tests/");
 
             // Pointer to model resource.
             IModelResourcePtr mod_res;
