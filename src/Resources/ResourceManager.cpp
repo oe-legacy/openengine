@@ -106,7 +106,7 @@ string ResourceManager::FindFileInPath(string file) {
 		pathcache[file] = s;
 		return s;
 	} 
-	return "";
+	throw ResourceException("Could not locate: " + file);
 }
 
 /**
