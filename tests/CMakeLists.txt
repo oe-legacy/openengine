@@ -13,6 +13,7 @@ IF(Boost_FOUND)
                    testDevices.cpp
                    testResources.cpp
 		   testOBJModelResource.cpp
+		   testScene.cpp
                    )
 
     IF(APPLE)

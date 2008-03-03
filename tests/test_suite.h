@@ -28,6 +28,7 @@ namespace OpenEngine {
 #include "testDevices.h"
 #include "testResources.h"
 #include "testOBJModelResource.h"
+#include "testScene.h"
 
 
 #endif

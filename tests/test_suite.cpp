@@ -80,6 +80,11 @@ test_suite* init_unit_test_suite( int argc, char* argv[] ) {
         test->add( BOOST_TEST_CASE(&testFile) );
         // Test OBJ loader 
         test->add( BOOST_TEST_CASE(&testOBJModelResource) );
+        // Scene tests
+        test->add( BOOST_TEST_CASE(&testSceneDelete) );
+        test->add( BOOST_TEST_CASE(&testSceneClone) );
+        test->add( BOOST_TEST_CASE(&testSceneReplace) );
+        test->add( BOOST_TEST_CASE(&testSceneRemove) );
     }
     if (type & MANUAL_TESTS) {
         // add manual tests here
