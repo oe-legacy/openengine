@@ -18,6 +18,10 @@ namespace Renderers {
 RenderStateNode::RenderStateNode() : options(NONE) {
 }
 
+RenderStateNode::RenderStateNode(RenderStateNode& node) {
+    options = node.options;
+}
+
 /**
  * Set constructor
  */
@@ -29,6 +33,10 @@ RenderStateNode::RenderStateNode(RenderStateOption options) {
  * Destructor
  */
 RenderStateNode::~RenderStateNode() {
+}
+
+ISceneNode* RenderStateNode::CloneSelf() {
+    return new RenderStateNode(*this);
 }
 
 /**

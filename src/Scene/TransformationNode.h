@@ -16,6 +16,9 @@
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 #include <Math/Quaternion.h>
+#include <boost/serialization/base_object.hpp>
+
+#include <boost/serialization/export.hpp>
 
 namespace OpenEngine {
 namespace Scene {
@@ -51,17 +54,33 @@ private:
     Vector<3,float> accPosition;
 
     //! current scaling factor
+    //! @todo - represent the scale as x,y,z. Using a 4x4 matrix is plain wast.
     Matrix<4,4,float> scale;
+	
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version) {
+        // serialize base class information
+        ar & boost::serialization::base_object<SceneNode>(*this);
+        ar & rotation;
+        ar & position;
+        ar & accRotation;
+        ar & accPosition;
+        ar & scale;
+    }
 
 protected:
 
     //! overwritten visiting method
     virtual void DefaultVisitNode(ISceneNode* node);
 
+    ISceneNode* CloneSelf();
+
 public:
     
     // constructor / destructor
     TransformationNode();
+    TransformationNode(TransformationNode& node);
     virtual ~TransformationNode();
 
     // ISceneNode methods
@@ -89,5 +108,7 @@ public:
 
 } // NS Scene
 } // NS OpenEngine
+
+BOOST_CLASS_EXPORT(OpenEngine::Scene::TransformationNode)
 
 #endif // _TRANSFORMATION_NODE_H_

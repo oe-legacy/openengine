@@ -37,8 +37,10 @@ private:
     private:
         Frustum& frustum;
     public:
-        FNode(Frustum& frustum);
+        explicit FNode(Frustum& frustum);
         ~FNode();
+        FNode(FNode& node);
+        ISceneNode* Clone();
         void Apply(IRenderingView* view);
     };
 

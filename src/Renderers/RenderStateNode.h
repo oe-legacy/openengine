@@ -50,11 +50,14 @@ public:
 
     //! Default constructor
     RenderStateNode();
+    //! Copy constructor
+    RenderStateNode(RenderStateNode& node);
     //! Set constructor
-    RenderStateNode(RenderStateOption options);
+    explicit RenderStateNode(RenderStateOption options);
     //! Destructor
     ~RenderStateNode();
 
+    ISceneNode* CloneSelf();
     void Accept(ISceneNodeVisitor& v);
     bool IsOptionSet(RenderStateOption o);
     RenderStateOption GetOptions();

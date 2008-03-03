@@ -14,6 +14,9 @@
 #include <Geometry/FaceSet.h>
 #include <Math/Vector.h>
 #include <Math/Quaternion.h>
+#include <boost/serialization/base_object.hpp>
+
+#include <boost/serialization/export.hpp>
 
 namespace OpenEngine {
 namespace Scene {
@@ -32,6 +35,17 @@ using OpenEngine::Math::Quaternion;
 class GeometryNode : public SceneNode {
 private:
     FaceSet* faces;
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+        // serialize base class information
+        ar & boost::serialization::base_object<SceneNode>(*this);
+        ar & faces;
+    }
+
+protected:
+    ISceneNode* CloneSelf();
 
 public:
     /**
@@ -39,12 +53,16 @@ public:
      */
     GeometryNode();
 
+    GeometryNode(GeometryNode& node);
+
     /**
      * Set constructor.
+     * The face set will be deleted if replaced by SetFaceSet or upon
+     * destruction of the geometry node.
      *
-     * @param faces content of this Geometry Node.
+     * @param faces Content of this Geometry Node.
      */
-    GeometryNode(FaceSet* faces);
+    explicit GeometryNode(FaceSet* faces);
 
     /**
      * Destructor.
@@ -59,7 +77,9 @@ public:
     FaceSet* GetFaceSet();
 
     /**
-     * Set FaceSet for this Geometry Nod.
+     * Set FaceSet for this geometry node.
+     * This will delete the current face set and bind the new one to
+     * the node.
      *
      * @param faces FaceSet pointer.
      */
@@ -76,5 +96,8 @@ public:
 
 } // NS Scene
 } // NS OpenEngine
+
+BOOST_CLASS_EXPORT(OpenEngine::Scene::GeometryNode)
+
 
 #endif // _GEOMETRY_NODE_H_

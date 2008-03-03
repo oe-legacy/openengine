@@ -470,6 +470,13 @@ public:
             throw IndexOutOfBounds(i,0,N);
         return elm[i]; 
     }
+    
+    //! Serialization support
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        ar & elm;
+    }
+
 };
 
 /**

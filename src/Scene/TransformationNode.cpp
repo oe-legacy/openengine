@@ -15,8 +15,25 @@ namespace Scene {
     //! Empty constructor.
     TransformationNode::TransformationNode() {}
 
+    /**
+     * Copy constructor.
+     * Performs a shallow copy.
+     *
+     * @param node Node to copy.
+     */
+    TransformationNode::TransformationNode(TransformationNode& node) {
+        rotation = node.rotation;
+        position = node.position;
+        scale = scale;
+    }
+
     //! Empty destructor.
     TransformationNode::~TransformationNode() {}
+
+    //! Clone node (uses copy constructor)
+    ISceneNode* TransformationNode::CloneSelf() {
+        return new TransformationNode(*this);
+    }
 
     //! Accept of visitors
     void TransformationNode::Accept(ISceneNodeVisitor& v) { 

@@ -64,6 +64,12 @@ public:
      * @return Char pointer to loaded data.
      */
 	virtual unsigned char* GetData() = 0;
+
+    //! Serialization support
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        ;
+    }
 };
 
 /**

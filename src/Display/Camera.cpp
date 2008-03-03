@@ -35,6 +35,16 @@ Camera::~Camera() {
 /**
  * Move the camera relative to the current position.
  *
+ * @param direction Relative direction to move the camera to
+ */
+void Camera::Move(const Vector<3,float> direction) {
+    volume.SetPosition(volume.GetPosition() +
+                       volume.GetDirection().RotateVector(direction));
+}
+
+/**
+ * Move the camera relative to the current position.
+ *
  * @param l Moves along the longitudinal axis (positive moves forward)
  * @param t Moves along the transverse axis (positive moves to the right)
  * @param v Moves along the vertical axis (positive moves upwards)

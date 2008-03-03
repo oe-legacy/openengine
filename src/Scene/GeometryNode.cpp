@@ -14,25 +14,47 @@
 namespace OpenEngine {
 namespace Scene {
 
-    GeometryNode::GeometryNode() : faces(NULL) {
+    GeometryNode::GeometryNode() {
+        faces = new FaceSet();
     }
 
-    GeometryNode::GeometryNode(FaceSet* faces) : faces(faces) {
+    /**
+     * Copy constructor.
+     * Performs a shallow copy.
+     *
+     * @param node Geometry node to copy.
+     */
+    GeometryNode::GeometryNode(GeometryNode& node) {
+        faces = node.faces;
+    }
+
+    GeometryNode::GeometryNode(FaceSet* faces)
+        : faces(faces) {
+
     }
     
     GeometryNode::~GeometryNode() {
+        delete faces;
     }
 
-    FaceSet* GeometryNode::GetFaceSet(){
+    ISceneNode* GeometryNode::CloneSelf() {
+        GeometryNode* clone = new GeometryNode(*this);
+        clone->faces = new FaceSet(*faces);
+        return clone;
+    }
+
+    FaceSet* GeometryNode::GetFaceSet() {
         return faces;
     }
 
     void GeometryNode::SetFaceSet(FaceSet* faces){
+        delete this->faces;
         this->faces = faces;
     }
 
     void GeometryNode::Accept(ISceneNodeVisitor& v) {
         v.VisitGeometryNode(this);
-    }    
+    }
+
 } //NS Scene
 } //NS OpenEngine

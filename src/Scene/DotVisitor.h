@@ -52,7 +52,7 @@ using std::map;
  * @class DotVisitor DotVisitor.h Scene/DotVisitor.h
  */
 class DotVisitor : public ISceneNodeVisitor {
-private:
+protected:
     ostringstream dotdata;      //!< graph data
     string id;                  //!< id/name of graph
     map<size_t,unsigned int> nodeNames; //!< map of defined names

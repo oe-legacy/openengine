@@ -125,13 +125,26 @@ Vector<3,float> Box::GetCorner(const bool signX, const bool signY, const bool si
 /**
  * Check if point is inside box.
  *
- * NOTE: NOT IMPLEMENTED YET!
- *
  * @param point point to test.
  * @return true if point is inside, false otherwise.
  */
 bool Box::Intersects(const Vector<3,float> point) const {
-    throw NotImplemented();
+    Vector<3,float> lowCorner,highCorner;
+
+    lowCorner = GetCorner(false,false,false);
+    highCorner = GetCorner(true,true,true);
+
+    
+
+    if (point.Get(0) >= lowCorner.Get(0) &&
+        point.Get(1) >= lowCorner.Get(1) &&
+        point.Get(2) >= lowCorner.Get(2) &&
+        point.Get(0) <= highCorner.Get(0) &&
+        point.Get(1) <= highCorner.Get(1) &&
+        point.Get(2) <= highCorner.Get(2))
+        return true;
+    else 
+        return false;
 }
 
 /**

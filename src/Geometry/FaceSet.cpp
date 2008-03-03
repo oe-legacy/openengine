@@ -381,6 +381,40 @@ void FaceSet::Divide(FacePtr& plane, FaceSet& front, FaceSet& back, const float 
 }
 
 /**
+ * Divide the set into two possibly overlapping sets and a span by a given face.
+ *
+ * @post |faces| == |front| + |span| + |back| + |split|
+ * @param[in] plane Face-plane to divide by.
+ * @param[out] front Faces fully in front of the plane.
+ * @param[out] span  Faces in the span of the plane.
+ * @param[out] back  Faces fully behind the plane.
+ * @param[out] split Faces that are both in front and behind the plane.
+ * @param[in] epsilon Width of spanning plane [optional].
+ */
+void FaceSet::Divide(FacePtr& plane,
+                     FaceSet& front, FaceSet& span, FaceSet& back, FaceSet& split,
+                     const float epsilon) {
+    FaceList::iterator itr;
+    for (itr = faces.begin(); itr!=faces.end(); itr++) {
+        FacePtr f = (*itr);
+        Vector<3,int> pos = plane->ComparePosition(f, epsilon);
+        int sum = pos.Sum();
+        if (sum <= -2)
+            // face is fully in front
+            back.Add(f);
+        else if (sum >= 2)
+            // face is fully in front
+            front.Add(f);
+        else if (sum == 0 && !(pos[0]||pos[1]||pos[2]))
+            // face is truly in the spanning plane
+            span.Add(f);
+        else
+            // face must run across the plane
+            split.Add(f);
+    }
+}
+
+/**
  * Calculate tangent and binormals for all faces
  *
  * @see Face::CalcTangentSpace();

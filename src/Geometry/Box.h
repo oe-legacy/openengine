@@ -37,7 +37,18 @@ private:
 
     void SetCorner(const bool x, const bool y, const bool z, Vector<3,float> c);
 
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+        ar & center;
+        ar & corner;
+        ar & corners;
+    }
+
+
 public:
+    Box() {}; // empty constructor for serialization
 
     explicit Box(FaceSet& faces);
     

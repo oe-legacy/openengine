@@ -47,6 +47,7 @@ public:
     virtual void SetDirection(const Vector<3,float> dir, const Vector<3,float> up);
     
     // New camera methods
+    virtual void Move(const Vector<3,float> position);
     virtual void Move(const float l, const float t, const float v);
     virtual void LookAt(const Vector<3,float> point);
     virtual void LookAt(const float x, const float y, const float z);

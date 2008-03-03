@@ -12,8 +12,11 @@
 
 #include <Math/Vector.h>
 #include <Resources/ITextureResource.h>
+#include <Resources/TGAResource.h>
 #include <Resources/IShaderResource.h>
 #include <Math/Math.h>
+#include <boost/serialization/shared_ptr.hpp> // include serialization
+                                              // for shared_ptr
 
 
 namespace OpenEngine {
@@ -21,7 +24,7 @@ namespace Geometry {
 
     //using OpenEngine::Math::Vector;
 using namespace OpenEngine::Math;
-
+    using namespace OpenEngine::Resources;
 
 class Face;
 //! Smart pointer to a face object.
@@ -31,12 +34,32 @@ typedef boost::shared_ptr<Face> FacePtr;
  * Face structure.
  * Face elements contained in a FaceSet group.
  *
+ * @todo Not all face members are serialized in the current
+ * implementation. When we have reworked the face+material structures
+ * we should support the full serialization of faces.
+ *
  * @class Face FaceSet.h Geometry/FaceSet.h
  */
 class Face {
 private:
     void Init();
     void Copy(const Face& face);
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        ar & vert;
+        ar & norm;
+        ar & texc;
+        ar & hardNorm;
+        ar & texr;
+        // members that are not serialized
+        // ar & colr;
+        // ar & tang;
+        // ar & bino;
+        // ar & shad;
+    }
+
+    Face() {}; // Empty constructor for boost serialize
 
 public:
     Vector<3,float> vert[3];    //!< vertex vectors

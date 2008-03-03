@@ -14,6 +14,9 @@
 #include <Math/Vector.h>
 #include <Math/Math.h>
 #include <Geometry/Face.h>
+#include <boost/serialization/shared_ptr.hpp> // include serialization
+                                              // for shared_ptr
+#include <boost/serialization/list.hpp>
 
 namespace OpenEngine {
 namespace Geometry {
@@ -43,7 +46,11 @@ typedef list<FacePtr> FaceList;
 class FaceSet {
 private:
     FaceList faces;
-
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        ar & faces;
+    }
 public:
     FaceSet();
     FaceSet(FaceSet& faces);
@@ -59,6 +66,7 @@ public:
     int  Size();
     void Split(FacePtr& plane, FaceSet& front, FaceSet& span, FaceSet& back, const float epsilon = EPS);
     void Divide(FacePtr& plane, FaceSet& front, FaceSet& back, const float epsilon = EPS);
+    void Divide(FacePtr& plane, FaceSet& front, FaceSet& span, FaceSet& back, FaceSet& split, const float epsilon = EPS);
     void CalcTangentSpace();
 };
 

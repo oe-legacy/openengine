@@ -13,6 +13,7 @@ IF (Boost_FOUND)
 
     SET (BOOST_FILESYSTEM_LIB "boost_filesystem")
     SET (BOOST_TEST_LIB       "boost_unit_test_framework")
+    SET (BOOST_SERIALIZATION_LIB "boost_serialization")
 
     IF (WIN32)
 	SET(Boost_LIBRARY_DIRS ${Boost_INCLUDE_DIRS}/lib)

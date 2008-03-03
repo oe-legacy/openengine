@@ -16,6 +16,11 @@
 #include <iostream>
 #include <fstream>
 
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <Logging/Logger.h>
+
 namespace OpenEngine {
 namespace Resources {
 
@@ -43,6 +48,20 @@ public:
      *
      * @param file tga file to load.
      */
+
+    //    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        
+        ar & boost::serialization::base_object<ITextureResource>(*this);
+        ar & filename;
+        
+    }
+
+    TGAResource() : loaded(false),data(NULL) {
+        width = height = depth = id = 0;
+    };
+
     TGAResource(string file);
     ~TGAResource();
 
@@ -73,5 +92,7 @@ public:
 
 } //NS Resources
 } //NS OpenEngine
+
+BOOST_CLASS_EXPORT(OpenEngine::Resources::TGAResource)
 
 #endif // _TGA_RESOURCE_H_

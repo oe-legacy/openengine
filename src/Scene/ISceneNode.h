@@ -11,6 +11,11 @@
 #define _INTERFACE_SCENE_NODE_H_
 
 #include <list>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/utility.hpp>
+#include <boost/serialization/list.hpp>
+
+#include <boost/serialization/export.hpp>
 
 namespace OpenEngine {
 namespace Scene {
@@ -34,6 +39,16 @@ using std::list;
  * @see SceneNode
  */
 class ISceneNode {
+
+private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        ar & subNodes;
+    }
+
+    friend class SceneNode;
+
 protected:
     //! The parent node
     ISceneNode* parent;
@@ -45,17 +60,12 @@ public:
     /**
      * Default constructor.
      */      
-    ISceneNode() {};
+    ISceneNode() : parent(NULL) {};
 
     /**
      * Default destructor.
      */
     virtual ~ISceneNode() {};
-
-    /**
-     * Set parent node.
-     */
-    virtual void SetParent(ISceneNode* node) = 0;
 
     /**
      * Get parent node.
@@ -97,9 +107,69 @@ public:
      */
     virtual void Accept(ISceneNodeVisitor& visitor) = 0;
 
+    /**
+     * Delete a sub node.
+     * No error occurs if the supplied node is not a sub node.
+     * It is safe to delete nodes during traversal. The actual
+     * deletion of a node might however be delayed. Causing undesired
+     * traversal or other effects due to the delay.
+     *
+     * @param node Sub node.
+     */
+    virtual void DeleteNode(ISceneNode* node) = 0;
+
+    /**
+     * Replace a sub node.
+     *
+     * The replaced node will be deleted after a successful
+     * replacement. 
+     *
+     * No error occurs if the supplied node is not a sub node.
+     * It is safe to replace nodes during traversal.
+     *
+     * The actual deletion of the replaced node might however be
+     * delayed.
+     *
+     * @param oldNode Sub node to be replaced (deleted).
+     * @param newNode Sub node to be replaced by (added).
+     */
+    virtual void ReplaceNode(ISceneNode* oldNode, ISceneNode* newNode) = 0;
+
+    /**
+     * Remove all sub nodes.
+     * 
+     * Identical to performing RemoveNode(node) for all sub nodes.
+     */
+    virtual void RemoveAllNodes() = 0;
+
+    /**
+     * Delete all sub nodes.
+     * 
+     * Identical to performing DeleteNode(node) for all sub nodes.
+     */
+    virtual void DeleteAllNodes() = 0;
+
+    /**
+     * Clone the scene.
+     * This performs a deep copy of the node and recursively clones
+     * all sub nodes.
+     *
+     * @return Deep clone of the scene
+     */
+    virtual ISceneNode* Clone() = 0;
+
+    /**
+     * Get sub node count.
+     *
+     * @return Number of sub nodes
+     */
+    virtual int GetNumberOfNodes() = 0;
 };
 
 } // NS Scene
 } // NS OpenEngine
+
+BOOST_CLASS_EXPORT(OpenEngine::Scene::ISceneNode)
+
 
 #endif // _INTERFACE_SCENE_NODE_H_

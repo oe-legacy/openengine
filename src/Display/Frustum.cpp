@@ -460,6 +460,14 @@ Frustum::FNode::~FNode() {
 
 }
 
+Frustum::FNode::FNode(FNode& node) : frustum(node.frustum) {
+
+}
+
+ISceneNode* Frustum::FNode::Clone() {
+    return new FNode(*this);
+}
+
 /**
  * Apply method for rendering nodes.
  * @see RenderingNode::Apply
