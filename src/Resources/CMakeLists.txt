@@ -5,7 +5,6 @@ IF(GLEW_FOUND AND BOOST_FILESYSTEM_FOUND)
 	      ResourceManager.cpp
               OBJResource.cpp
 	      TGAResource.cpp
-	      GLSLResource.cpp
 	      )
 
   TARGET_LINK_LIBRARIES(OpenEngine_Resources

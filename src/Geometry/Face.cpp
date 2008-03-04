@@ -10,7 +10,6 @@
 #include <Geometry/Face.h>
 #include <Logging/Logger.h>
 #include <math.h>
-#include <Meta/OpenGL.h>
 #include <Math/Math.h>
 
 namespace OpenEngine {

@@ -10,7 +10,7 @@
 #include <Display/Frustum.h>
 #include <Math/Math.h>
 
-#include <Meta/OpenGL.h>
+//#include <Meta/OpenGL.h>
 
 namespace OpenEngine {
 namespace Display {
@@ -490,6 +490,7 @@ void Frustum::FNode::Apply(IRenderingView* view) {
                      Vector<3,float>(1,0,0), 2);
     }
 
+    /* removed after moving the OpenGL renderer to its own extension.
     glPushMatrix();
     glTranslatef(frustum.volume.GetPosition()[0], frustum.volume.GetPosition()[1], frustum.volume.GetPosition()[2]);
 
@@ -507,6 +508,7 @@ void Frustum::FNode::Apply(IRenderingView* view) {
     // glutWireSphere(frustum.sphere.GetRadius(), 10, 10);
     
     glPopMatrix();
+    */
 }
 
 } // NS Display

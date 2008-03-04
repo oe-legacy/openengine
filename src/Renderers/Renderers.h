@@ -14,14 +14,5 @@ namespace OpenEngine {
      *
      * @namespace OpenEngine::Renderers
      */
-    namespace Renderers {
-
-        /**
-         * OpenGL Rendering implementation.
-         *
-         * @namespace OpenEngine::Renderers::OpenGL
-         */
-        namespace OpenGL {}
-
-    }
+    namespace Renderers {}
 }

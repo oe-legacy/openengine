@@ -1,5 +1,3 @@
-SUBDIRS(OpenGL)
-
 ADD_LIBRARY(OpenEngine_Renderers
 	    RenderStateNode.cpp )
 
