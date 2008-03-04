@@ -15,11 +15,17 @@ import string, sys, subprocess, os, os.path as path
 def update():
     """
     update [group] -- update from all repositories in the repositories group file.
-                  if no group is specified it will update from all group files
+                  if no groups are specified it will update from all group files
     """
     # find all repository group files
     gs = filter(lambda f: f[-6:]==".repos" and f[0] not in (".","#"),
                 os.listdir("."))
+    # if groups are given on the command line filter out the others
+    fs = map(string.lower,
+             map(lambda f: f[-6:] != ".repos" and f+".repos" or f,
+                 sys.argv[2:]))
+    if len(fs) > 0:
+        gs = filter(lambda g: g.lower() in fs, gs)
     # repository set: [(Path * Repo)]
     rs = []
     for g in gs:
@@ -43,6 +49,7 @@ def update():
             cmd = "pull"
         else:
             cmd = "get"
+            print 'Getting from "%s"...' % r
         if p == "": p = "."
         execute("darcs %s %s --repodir %s" % (cmd, r, p))
 
