@@ -10,7 +10,7 @@ SET(CMAKE_VERBOSE_MAKEFILE 0)
 SET(OE_SOURCE_DIR     "${OpenEngine_SOURCE_DIR}/src")
 SET(OE_BUILD_DIR      "${OpenEngine_SOURCE_DIR}/build")
 SET(OE_CONF_DIR       "${OpenEngine_SOURCE_DIR}/conf")
-SET(OE_TESTS_DIR      "${OpenEngine_SOURCE_DIR}/tests")
+#SET(OE_TESTS_DIR      "${OpenEngine_SOURCE_DIR}/tests")
 SET(OE_PROJECTS_DIR   "${OpenEngine_SOURCE_DIR}/projects")
 SET(OE_EXTENSIONS_DIR "${OpenEngine_SOURCE_DIR}/extensions")
 
@@ -22,7 +22,7 @@ INCLUDE_DIRECTORIES(
 # Sub directories
 SUBDIRS(
   ${OE_SOURCE_DIR}
-  ${OE_TESTS_DIR}
+#  ${OE_TESTS_DIR}
 )
 
 # Include configuration files
