@@ -31,7 +31,6 @@ INCLUDE(${CMAKE_CONF_DIR}/SetupGCC.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupVS.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupBoost.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupOpenGL.cmake)
-INCLUDE(${CMAKE_CONF_DIR}/SetupSDL.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupDoxygen.cmake)
 
 INCLUDE(${CMAKE_CONF_DIR}/SetupExtensionsAndProjects.cmake)

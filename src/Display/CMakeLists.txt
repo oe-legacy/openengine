@@ -1,5 +1,4 @@
 ADD_LIBRARY(OpenEngine_Display
-	    SDLFrame.cpp
 	    Viewport.cpp
 	    ViewingVolume.cpp
 	    Camera.cpp
@@ -10,5 +9,4 @@ ADD_LIBRARY(OpenEngine_Display
 
 TARGET_LINK_LIBRARIES(OpenEngine_Display
                       OpenEngine_Core
-                      OpenEngine_Math
-                      ${SDL_LIBRARY})
+                      OpenEngine_Math)
