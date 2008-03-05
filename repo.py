@@ -26,6 +26,10 @@ def update():
                  sys.argv[2:]))
     if len(fs) > 0:
         gs = filter(lambda g: g.lower() in fs, gs)
+    # check that all filters triggered
+    if len(gs) < len(fs):
+        error("Could not find the repository group files: " +
+              ", ".join(filter(lambda f: f not in map(string.lower, gs), fs)))
     # repository set: [(Path * Repo)]
     rs = []
     for g in gs:
@@ -57,23 +61,25 @@ def darcs():
     """
     darcs <cmd>    -- run darcs command on all extensions, projects and openengine
     """
+    cmd = " ".join(sys.argv[2:])
     ds = [path.join("extensions", e) for e in os.listdir("extensions")] + \
          [path.join("projects", p) for p in os.listdir("projects")]
+    print "**** OpenEngine"
+    execute("darcs %s --repodir %s" % (cmd, "."))
     for d in ds:
         if path.isdir(path.join(d, "_darcs")):
-            cmd = " ".join(sys.argv[2:])
             print "**** %s" % d
             execute("darcs %s --repodir %s" % (cmd, d))
 
 def mkext():
     """
-    mkext <name>   -- create new project projects/<name> from the ExampleProject
+    mkext <name>   -- create new extension extensions/<name> from the ExampleExtension
     """
     mkrepo("extensions", "http://daimi.au.dk/~cgd/extensions/ExampleExtension")
 
 def mkproj():
     """
-    mkproj <name>  -- create new extension extensions/<name> from the ExampleExtension
+    mkproj <name>  -- create new project projects/<name> from the ExampleProject
     """
     mkrepo("projects", "http://daimi.au.dk/~cgd/projects/ExampleProject")
 
