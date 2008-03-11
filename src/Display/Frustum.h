@@ -54,7 +54,6 @@ private:
 
     Plane* planes[6];           //!< computed clipping planes.
     FNode* node;                //!< rendering node.
-    Sphere sphere;              //!< bounding sphere.
     Vector<3,float> center;     //!< center of frustum.
     Vector<3,float> frame[32];  //!< computed frame vectors.
     Matrix<4,4,float> proj;     //!< computed projection matrix.
@@ -69,7 +68,6 @@ private:
 
     void UpdateProjection();
     void UpdateFrame();
-    void UpdateSphere();
 
     void CalculateNearPlane(float& right, float& left, float& top, float& bottom);
 

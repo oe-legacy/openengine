@@ -10,8 +10,6 @@
 #include <Display/Frustum.h>
 #include <Math/Math.h>
 
-//#include <Meta/OpenGL.h>
-
 namespace OpenEngine {
 namespace Display {
 
@@ -45,8 +43,6 @@ Frustum::Frustum(IViewingVolume& volume,
 
     // initialize the frustum
     UpdateDimensions();
-    sphere.SetCenter(volume.GetDirection().RotateVector(center)
-                     + volume.GetPosition());
     UpdatePlanes();
 
     // create a render node
@@ -157,9 +153,6 @@ IRenderNode* Frustum::GetFrustumNode() {
 void Frustum::SignalRendering(const float dt) {
     // update the volume first as we depend on its structure.
     volume.SignalRendering(dt);
-    // always update the sphere position and the frustum planes.
-    sphere.SetCenter(volume.GetDirection().RotateVector(center)
-                     + volume.GetPosition());
     UpdatePlanes();
     // clear the visible tests
     visible.clear();
@@ -179,57 +172,6 @@ void Frustum::SignalRendering(const float dt) {
 void Frustum::VisualizeClipping(const bool visualize) {
     visualizeClipping = visualize;
 }
-
-/**
- * Test if a square is visible to the frustum.
- * This test is currently implemented as a sphere/square test and
- * therefor suffers from some false positives (but no false
- * negatives).
- *
- * @param square Square to test for visibility.
- * @return True if visible in the frustum.
- */
-bool Frustum::IsVisible(const Square& square) {
-    bool v = Geometry::Intersects(square, sphere);
-    if (visualizeClipping) {
-        Vector<2,float> center = square.GetCenter();
-        float size = square.GetHalfSize();
-        list< Vector<3,float> >* lst = (v) ? &visible : &clipped;
-        lst->push_back(Vector<3,float>(center[0]-size, 0, center[1]-size));
-        lst->push_back(Vector<3,float>(center[0]+size, 0, center[1]-size));
-        lst->push_back(Vector<3,float>(center[0]-size, 0, center[1]+size));
-        lst->push_back(Vector<3,float>(center[0]+size, 0, center[1]+size));
-        lst->push_back(Vector<3,float>(center[0]-size, 0, center[1]-size));
-        lst->push_back(Vector<3,float>(center[0]-size, 0, center[1]+size));
-        lst->push_back(Vector<3,float>(center[0]+size, 0, center[1]+size));
-        lst->push_back(Vector<3,float>(center[0]+size, 0, center[1]-size));
-    }
-    return v;
-}
-
-// bool Frustum::IsVisible(const Square& square) const {
-//     Vector<2,float> sides[4], corner(square.GetHalfSize());
-//     sides[0] = square.GetCenter() + corner;
-//     sides[1] = square.GetCenter() - corner;
-//     corner[0] *= -1;
-//     sides[2] = square.GetCenter() + corner;
-//     sides[3] = square.GetCenter() - corner;
-//     for (unsigned int j=0; j<4; j++) {
-//         bool inside = true;
-//         // Go through all the sides of the frustum
-//         for (unsigned int i = 0; i < 6; i++ ) {
-//             // Calculate the plane equation and check if the point is behind a side of the frustum
-//             if (planes[i]->normal[0] * sides[i][0] +  planes[i]->normal[2] * sides[i][1] + planes[i]->distance <= 0)
-//                 // The point was behind a side, so it ISN'T in the frustum
-//                 return false;
-//             if (inside)
-//                 // The point was inside of the frustum (In front of ALL the sides of the frustum)
-//                 return true;
-//         }
-//     }
-//     // no corner was in the frustum
-//     return false;
-// }
 
 /**
  * Test if a box is visible in the frustum.
@@ -303,9 +245,8 @@ void Frustum::CalculateNearPlane(float& left, float& right, float& top, float& b
  * set-methods.
  */
 void Frustum::UpdateDimensions() {
-    UpdateProjection();     // frame depends on proj
-    UpdateFrame();          // sphere depends on frame
-    UpdateSphere();
+    UpdateProjection();
+    UpdateFrame();
 }
 
 /**
@@ -417,34 +358,6 @@ void Frustum::UpdateFrame() {
 }
 
 /**
- * Compute a bounding sphere for the frustum.
- */
-void Frustum::UpdateSphere() {
-    Vector<3,float> ntl, ftl, n, f;
-    float c, z, d;
-    ntl = frame[0];             // near top left corner
-    ftl = frame[10];            // far top left corner
-    c = -distFar*0.5f;              // halving variable
-    z = c;                      // position on z-axis (center of frustum)
-
-    // reset and recalculate the sphere with a binary search for when
-    // the `n' and `f' vectors differ by less then 1.
-    sphere.SetRadius(0);
-    while (sphere.GetRadius() == 0) {
-        c = c * 0.5f;
-        n = Vector<3,float>(0,0,z) - ntl;
-        f = Vector<3,float>(0,0,z) - ftl;
-        d = f*f - n*n;
-        if (d > 1)       z += c;
-        else if (d < -1) z -= c;
-        else sphere.SetRadius(((d >= 0)?n:f).GetLength());
-    }
-    center = Vector<3,float>(0,0,z);
-    sphere.SetCenter(center);
-}
-
-
-/**
  * Frustum rendering node constructor.
  *
  * @param frustum Frustum instance.
@@ -503,10 +416,6 @@ void Frustum::FNode::Apply(IRenderingView* view) {
     for (unsigned int i=0; i<32; i += 2)
         r->DrawLine(Line(frustum.frame[i], frustum.frame[i+1]), Vector<3,float>(0,1,0));
 
-    // draw bounding sphere
-    // glTranslatef(frustum.sphere.GetCenter()[0], frustum.sphere.GetCenter()[1], frustum.sphere.GetCenter()[2]);
-    // glutWireSphere(frustum.sphere.GetRadius(), 10, 10);
-    
     glPopMatrix();
     */
 }
