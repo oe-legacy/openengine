@@ -179,8 +179,11 @@ namespace Scene {
      * @param node Self or parenting transformation node.
      */
     void TransformationNode::VisitTransformationNode(TransformationNode* node) {
-        node->GetAccumulatedTranformations(&accPosition, &accRotation);
         DefaultVisitNode(node);
+
+        // write the result added to this nodes values to the parameters
+        accPosition = accRotation.RotateVector(node->position) + accPosition;
+        accRotation = accRotation * node->rotation;
     }
 
     /**
@@ -196,11 +199,11 @@ namespace Scene {
         accRotation = Quaternion<float>();
 
         // get the accumulators from the parenting chain
-        DefaultVisitNode(this);
+        VisitTransformationNode(this);
 
-        // write the result added to this nodes values to the parameters
-        *position = accRotation.RotateVector(this->position) + accPosition;
-        *rotation = accRotation * this->rotation;
+        // write in results
+        *position = accPosition;
+        *rotation = accRotation;
     }
 
 
