@@ -97,7 +97,6 @@ public:
     virtual void SignalRendering(const float dt);
 
     // viewing volume clipping methods
-    virtual bool IsVisible(const Square& square);
     virtual bool IsVisible(const Box& box);
 };
 
