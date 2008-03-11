@@ -32,45 +32,6 @@ elif [ "$1" = "help" ]; then
     exit
 elif [ "$1" = "targets" ]; then
     CMD="help"
-elif [ "$1" = "deploy-proj" ]; then
-    NAME=$2
-    echo "*** Deploying new project to: projects/${NAME}"
-    cd projects
-    darcs get http://daimi.au.dk/~cgd/projects/ExampleProject $NAME
-    RET=$?
-    if [ $RET -ne 0 ]; then exit $RET; fi
-    cd $NAME
-    rm -r _darcs
-    darcs init
-    cd ../..
-    exit
-elif [ "$1" = "deploy-ext" ]; then
-    NAME=$2
-    echo "*** Deploying new extension to: extensions/${NAME}"
-    cd extensions
-    darcs get http://daimi.au.dk/~cgd/extensions/ExampleExtension $NAME
-    RET=$?
-    if [ $RET -ne 0 ]; then exit $RET; fi
-    cd $NAME
-    rm -r _darcs
-    darcs init
-    cd ../..
-    exit
-elif [ "$1" = "darcs" ]; then
-    echo "**** $@ in OpenEngine"
-    $@
-    for e in extensions/* projects/*; do
-	if [ -d "${e}" ]; then
-	  cd $e
-	  if [ -d "_darcs" ]; then
-	      echo "**** $@ in $e"
-	      $@
-	  fi
-	  cd ../../
-	fi
-    done
-    exit
-fi
 
 # create build dir if non existent
 if [ ! -d build ]; then

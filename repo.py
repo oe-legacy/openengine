@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -------------------------------------------------------------------
 # Helper script to manage OpenEngine repositories.
-# For usage information run ./repos.py help
+# For usage information run ./repo.py help
 # -------------------------------------------------------------------
 # Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 # 
@@ -11,6 +11,13 @@
 #--------------------------------------------------------------------
 
 import string, sys, subprocess, os, os.path as path
+
+def commands():
+    return ((update, "update"),
+            (darcs,  "darcs"),
+            (mkproj, "mkproj"),
+            (mkext,  "mkext"),
+            (help,   "help"))
 
 def update():
     """
@@ -89,7 +96,7 @@ def help():
     """
     print "Small script to help working on OpenEngine repositories."
     print "Some useful targets are:"
-    printCommands()
+    printCommands(commands())
 
 def mkrepo(dir, repo):
     if len(sys.argv) < 3:
@@ -101,13 +108,7 @@ def mkrepo(dir, repo):
     execute("rm -r %s" % path.join(loc,"_darcs"))
     execute("darcs init --repodir %s" % loc)
 
-cmds = ((update, "update"),
-        (darcs,  "darcs"),
-        (mkproj, "mkproj"),
-        (mkext,  "mkext"),
-        (help,   "help"))
-
-def printCommands():
+def printCommands(cmds):
     print "\n".join([f.__doc__.strip() for f,c in cmds])
 
 def execute(cmd):
@@ -125,21 +126,25 @@ def error(err):
     print err
     sys.exit(1)
 
-try:
-    # check run location
-    if not path.isfile(path.join(os.getcwd(), "repo.py")):
-        print "You must run repo.py from the OpenEngine root directory."
-    # get command
-    cmd = sys.argv[1]
-    fn = None
-    for f,c in cmds:
-        if cmd == c: fn = f
-    if not fn:
-        raise IndexError()
-    # run command
-    fn()
-except IndexError:
-    print "Invalid command."
-    print "Possible commands are:"
-    printCommands()
-    sys.exit(1)
+def main():
+    try:
+        # check run location
+        if not path.isfile(path.join(os.getcwd(), "repo.py")):
+            print "You must run repo.py from the OpenEngine root directory."
+        # get command
+        cmd = sys.argv[1]
+        fn = None
+        for f,c in commands():
+            if cmd == c: fn = f
+        if not fn:
+            raise IndexError()
+        # run command
+        fn()
+    except IndexError:
+        print "Invalid command."
+        print "Possible commands are:"
+        printCommands(commands())
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()
