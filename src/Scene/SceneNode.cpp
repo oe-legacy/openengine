@@ -78,8 +78,8 @@ void SceneNode::DecAcceptStack() {
         for (q = operationQueue.begin(); q != operationQueue.end(); q++) {
             ISceneNode* node = (*q).node;
             QueueType type = (*q).type;
-            if      (type == DELETE) _DeleteNode(node);
-            else if (type == REMOVE) _RemoveNode(node);
+            if      (type == DELETE_OP) _DeleteNode(node);
+            else if (type == REMOVE_OP) _RemoveNode(node);
         }
         operationQueue.clear();
     }
@@ -116,7 +116,7 @@ void SceneNode::AddNode(ISceneNode* sub) {
 void SceneNode::RemoveNode(ISceneNode* sub) {
     // if there is a accept in progress queue the operation
     if (acceptStack)
-        operationQueue.push_back(QueuedNode(REMOVE, sub));
+        operationQueue.push_back(QueuedNode(REMOVE_OP, sub));
     // else we can safely remove it right away
     else _RemoveNode(sub);
 }
@@ -130,7 +130,7 @@ void SceneNode::_RemoveNode(ISceneNode* sub) {
 void SceneNode::DeleteNode(ISceneNode* sub) {
     // if there is a accept in progress queue the operation
     if (acceptStack)
-        operationQueue.push_back(QueuedNode(DELETE, sub));
+        operationQueue.push_back(QueuedNode(DELETE_OP, sub));
     // else we can safely delete it right away
     else _DeleteNode(sub);
 }
@@ -152,7 +152,7 @@ void SceneNode::ReplaceNode(ISceneNode* oldNode, ISceneNode* newNode) {
             newNode->parent = this;
             *itr = newNode;
             if (acceptStack)
-                operationQueue.push_back(QueuedNode(DELETE, oldNode));
+                operationQueue.push_back(QueuedNode(DELETE_OP, oldNode));
             else _DeleteNode(oldNode);
             return;
         }

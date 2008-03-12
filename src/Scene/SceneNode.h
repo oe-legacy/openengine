@@ -37,7 +37,7 @@ private:
 
 protected:
     //! Queue operation types.
-    enum QueueType { DELETE, REMOVE };
+    enum QueueType { DELETE_OP, REMOVE_OP };
     //! Wrapper for a node queued for later operation.
     struct QueuedNode {
         QueueType type;         //!< operation type
