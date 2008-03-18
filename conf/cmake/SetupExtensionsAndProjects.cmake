@@ -128,6 +128,6 @@ ENDIF(PROJECTS_SUB_FILES)
 
 # If any projects are found include them
 FOREACH(SUB_DIR ${PROJECTS_SUB_DIRECTORIES})
-  MESSAGE("-- Linking in project: ${SUB_DIR}")
+  MESSAGE(STATUS "Linking in project: ${SUB_DIR}")
   SUBDIRS("${OE_PROJECTS_DIR}/${SUB_DIR}")
 ENDFOREACH(SUB_DIR)
