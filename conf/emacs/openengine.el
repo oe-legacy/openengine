@@ -12,7 +12,7 @@
 
 (defun oe-find-make-path (path)
   (cond ((or (equal "/" path) (equal "" path)) nil)
-        ((file-exists-p (concat path "/make.sh")) path)
+        ((file-exists-p (concat path "/make.py")) path)
         (t (oe-find-make-path (path-parent path)))))
 
 (defun oe-new-file (file)
@@ -59,7 +59,7 @@
       (insert "\n};") (c-indent-command)))
 
 (defun oe-compile (&optional target)
-  "Compile function that searches recursively backwards for a make.sh
+  "Compile function that searches recursively backwards for a make.py
    script to invoke. If no script is found invokes `compile' in the
    default manner."
   (interactive)
@@ -68,7 +68,7 @@
         ;; we want to close the compile window again if no errors occurred
         ;; just cant find the function right now :/
 	(let ((my-buf (current-buffer))
-	      (com-buf (compile (concat "cd " make-path " && ./make.sh " target " -k"))))
+	      (com-buf (compile (concat "cd " make-path " && ./make.py " target " -k"))))
 	  (switch-to-buffer-other-window com-buf)
 	  (end-of-buffer)
 	  (switch-to-buffer-other-window my-buf)

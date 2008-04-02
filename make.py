@@ -30,13 +30,6 @@ def build():
     """
     all (default) -- set up the build system and compile the source
     """
-    if not path.isdir(build_dir):
-        os.mkdir(build_dir)
-    if not path.isfile(path.join(build_dir, "Makefile")):
-        owd = os.getcwd()
-        os.chdir(build_dir)
-        execute("cmake ..")
-        os.chdir(owd)
     make("all")
 
 def rebuild():
@@ -83,8 +76,12 @@ def make(target):
     """
     <other>       -- forwarded to make in the build directory
     """
+    if not path.isdir(build_dir):
+        os.mkdir(build_dir)
     owd = os.getcwd()
     os.chdir(build_dir)
+    if not path.isfile(path.join(build_dir, "Makefile")):
+        execute("cmake ..")
     execute("make "+target)
     os.chdir(owd)
 
