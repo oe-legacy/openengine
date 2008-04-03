@@ -12,6 +12,7 @@
 #define _OBJ_MODEL_RESOURCE_H_
 
 #include <Resources/IModelResource.h>
+#include <Resources/ResourcePlugin.h>
 #include <Resources/ITextureResource.h>
 #include <Resources/IShaderResource.h>
 #include <Geometry/FaceSet.h>
@@ -63,7 +64,7 @@ public:
  *
  * @class OBJPlugin OBJResource.h "OBJResource.h"
  */
-class OBJPlugin : public IModelResourcePlugin {
+class OBJPlugin : public ResourcePlugin<IModelResource> {
 public:
 	OBJPlugin();
     IModelResourcePtr CreateResource(string file);

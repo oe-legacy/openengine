@@ -12,6 +12,7 @@
 #define _TGA_RESOURCE_H_
 
 #include <Resources/ITextureResource.h>
+#include <Resources/ResourcePlugin.h>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -84,7 +85,7 @@ public:
  *
  * @class TGAPlugin TGAResource.h Resources/TGAResource.h
  */
-class TGAPlugin : public ITextureResourcePlugin {
+class TGAPlugin : public ResourcePlugin<ITextureResource> {
 public:
 	TGAPlugin();
     ITextureResourcePtr CreateResource(string file);

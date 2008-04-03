@@ -93,22 +93,6 @@ public:
  */
 typedef boost::shared_ptr<IShaderResource> IShaderResourcePtr;
 
-/**
- * Shader resources plug-in.
- *
- * @class IShaderResourcePlugin IShaderResource.h Resources/IShaderResource.h
- */
-class IShaderResourcePlugin : public virtual IResourcePlugin {
-public:
-    /**
-     * Create a new shader resource from a file.
-     *
-     * @param file Shader resource file.
-     * @return Shader resource pointer.
-     */
-    virtual IShaderResourcePtr CreateResource(string file) = 0;
-};
-
 } // NS Resources
 } // NS OpenEngine
 

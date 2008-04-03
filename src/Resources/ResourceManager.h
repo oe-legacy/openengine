@@ -10,18 +10,21 @@
 #ifndef _RESOURCE_MANAGER_H_
 #define _RESOURCE_MANAGER_H_
 
-#include <Resources/ITextureResource.h>
-#include <Resources/IModelResource.h>
-#include <Resources/IShaderResource.h>
+#include <Resources/ResourceManager.h>
+#include <Resources/DirectoryManager.h>
+#include <Resources/Exceptions.h>
+#include <Resources/File.h>
+#include <Utils/Convert.h>
+#include <Resources/TGAResource.h>
+#include <Resources/ResourcePlugin.h>
 #include <string>
 #include <map>
 #include <vector>
-#include <list>
-#include <iostream>
 
 namespace OpenEngine {
 namespace Resources {
 
+using OpenEngine::Utils::Convert;
 using namespace std;
 
 /**
@@ -29,35 +32,73 @@ using namespace std;
  *
  * @class ResourceManager ResourceManager.h Resources/ResourceManager.h
  */
+template<class T>
 class ResourceManager {
 private:
-    static list<string> paths;
-	static map<string, string> pathcache;
-
-    static vector<ITextureResourcePlugin*>  texturePlugins;
-    static map<string, ITextureResourcePtr> textures;
-
-    static vector<IModelResourcePlugin*>    modelPlugins;
-    static map<string, IModelResourcePtr>   models;
-
-    static vector<IShaderResourcePlugin*>   shaderPlugins;
-    static map<string, IShaderResourcePtr>  shaders;
+    static vector<ResourcePlugin<T>*> plugins;
+    static map<string,  boost::shared_ptr<T> > resources;
 
 public:
-    static void AppendPath(string);
-    static void PrependPath(string);
-    static bool IsInPath(string);
-    static string FindFileInPath(string);
 
-    static void AddTexturePlugin(ITextureResourcePlugin* plugin);
-    static void AddModelPlugin(IModelResourcePlugin* plugin);
-    static void AddShaderPlugin(IShaderResourcePlugin* plugin);
+/**
+ * Add shader resource plug-in.
+ *
+ * @param plugin Shader plug-in
+ */
+static void AddPlugin(ResourcePlugin<T>* plugin) {
+  plugins.push_back(plugin);
+}
+  
 
-	static ITextureResourcePtr CreateTexture(const string filename);
-	static IModelResourcePtr   CreateModel(const string filename);
-    static IShaderResourcePtr  CreateShader(const string filename);
-	static void Shutdown();
+/**
+ * Create a resource object.
+ *
+ * @param filename Texture file
+ * @return Texture resource
+ * @throws ResourceException if the texture format is unsupported or the file does not exist
+ */
+  static boost::shared_ptr<T> Create(const string filename) {
+
+  // check if the texture has previously been requested
+    typename map<string, boost::shared_ptr<T> >::iterator res;
+    res = resources.find(filename);
+ 
+  if (res != resources.end())
+    return res->second;
+
+  // get the file extension
+  string ext = Convert::ToLower(File::Extension(filename));
+
+  typename vector< ResourcePlugin<T>* >::iterator plugin;
+  for (plugin = plugins.begin(); plugin != plugins.end() ; plugin++) {
+    if ((*plugin)->AcceptsExtension(ext)) {
+      break;
+    }
+  }
+
+  // load the resource
+  if (plugin != plugins.end()) {
+    string fullname = DirectoryManager::FindFileInPath(filename);
+    boost::shared_ptr<T> resource = (*plugin)->CreateResource(fullname);
+    resources[filename] = resource;
+    return resource;
+  } else
+    logger.warning << "Plugin for ." << ext << " not found." << logger.end;
+
+  throw ResourceException("Unsupported file format: " + filename);
+}
+
+  static void Shutdown() {
+    resources.clear();
+  }
 };
+
+  template<class T>
+  vector<ResourcePlugin<T>*> ResourceManager<T>::plugins = vector<ResourcePlugin<T>*>();
+
+  template<class T>
+  map<string, boost::shared_ptr<T> > ResourceManager<T>::resources = 
+    map<string, boost::shared_ptr<T> >();
 
 } // NS Resources
 } // NS OpenEngine

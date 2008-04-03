@@ -2,7 +2,7 @@ IF(GLEW_FOUND AND BOOST_FILESYSTEM_FOUND)
 
   ADD_LIBRARY(OpenEngine_Resources
 	      File.cpp
-	      ResourceManager.cpp
+	      DirectoryManager.cpp
               OBJResource.cpp
 	      TGAResource.cpp
 	      )

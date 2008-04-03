@@ -77,22 +77,6 @@ public:
  */
 typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
 
-/**
- * Texture resources plug-in.
- *
- * @class ITextureResourcePlugin ITextureResource.h Resources/ITextureResource.h
- */
-class ITextureResourcePlugin : public virtual IResourcePlugin {
-public:
-    /**
-     * Create a new texture resource from a file.
-     *
-     * @param file Texture resource file.
-     * @return Texture resource pointer.
-     */
-    virtual ITextureResourcePtr CreateResource(string file) = 0;
-};
-
 } // NS Resources
 } // NS OpenEngine
 

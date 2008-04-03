@@ -9,6 +9,7 @@
 //--------------------------------------------------------------------
 
 #include <Resources/OBJResource.h>
+#include <Resources/DirectoryManager.h>
 #include <Resources/ResourceManager.h>
 #include <Resources/File.h>
 #include <Logging/Logger.h>
@@ -111,10 +112,10 @@ void OBJResource::LoadMaterialFile(string file) {
                 Error(line, "Multiple map_Kd sections appear before a newmtr declaration");
             else {
                 // we reset the resource path temporary to create the texture resource
-				if (! ResourceManager::IsInPath(resource_dir)) {
-					ResourceManager::AppendPath(resource_dir);
+				if (! DirectoryManager::IsInPath(resource_dir)) {
+					DirectoryManager::AppendPath(resource_dir);
 				}
-                m->texture = ResourceManager::CreateTexture(string(tmp));
+				m->texture = ResourceManager<ITextureResource>::Create(string(tmp));
             }
 
         // shader material
@@ -126,10 +127,10 @@ void OBJResource::LoadMaterialFile(string file) {
                 Error(line, "Multiple shader sections appear before a newmtr declaration");
             else {
                 // reset resource path temporary and create the shader resource
-				if (! ResourceManager::IsInPath(resource_dir)) {
-					ResourceManager::AppendPath(resource_dir);
+				if (! DirectoryManager::IsInPath(resource_dir)) {
+					DirectoryManager::AppendPath(resource_dir);
 				}
-                m->shader = ResourceManager::CreateShader(string(tmp));
+				m->shader = ResourceManager<IShaderResource>::Create(string(tmp));
             }
         
         // we ignore all other sections in the material file

@@ -7,6 +7,9 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
+#ifndef _RESOURCE_EXCEPTIONS_H_
+#define _RESOURCE_EXCEPTIONS_H_
+
 #include <Core/Exceptions.h>
 
 namespace OpenEngine {
@@ -29,3 +32,5 @@ public:
 
 } // NS Resources
 } // NS OpenEngine
+
+#endif // _RESOURCE_EXCEPTIONS_H_

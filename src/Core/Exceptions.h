@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------
 
 #ifndef _CORE_EXCEPTIONS_H_
-#define  _CORE_EXCEPTIONS_H_
+#define _CORE_EXCEPTIONS_H_
 
 #include <stdexcept>
 #include <string>

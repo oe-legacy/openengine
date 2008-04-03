@@ -38,22 +38,6 @@ public:
  */
 typedef boost::shared_ptr<IModelResource> IModelResourcePtr;
 
-/**
- * Model resources plug-in.
- *
- * @class IModelResourcePlugin IModelResource.h Resources/IModelResource.h
- */
-class IModelResourcePlugin : public virtual IResourcePlugin {
-public:
-    /**
-     * Create a new model resource from a file.
-     *
-     * @param file Model resource file.
-     * @return Model resource pointer.
-     */
-    virtual IModelResourcePtr CreateResource(string file) = 0;
-};
-
 } // NS Resources
 } // NS OpenEngine
 
