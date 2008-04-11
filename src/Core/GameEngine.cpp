@@ -279,7 +279,6 @@ void GameEngine::Start(IGameFactory* factory) {
     
     // If setup was successful start the engine.
     if (start) {
-        delete factory;
         running = true;
         InitModules();
         StartGameLoop();
