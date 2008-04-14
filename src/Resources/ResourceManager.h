@@ -15,8 +15,8 @@
 #include <Resources/Exceptions.h>
 #include <Resources/File.h>
 #include <Utils/Convert.h>
-#include <Resources/TGAResource.h>
 #include <Resources/ResourcePlugin.h>
+#include <Logging/Logger.h>
 #include <string>
 #include <map>
 #include <vector>

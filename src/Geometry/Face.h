@@ -12,7 +12,6 @@
 
 #include <Math/Vector.h>
 #include <Resources/ITextureResource.h>
-#include <Resources/TGAResource.h>
 #include <Resources/IShaderResource.h>
 #include <Math/Math.h>
 #include <boost/serialization/shared_ptr.hpp> // include serialization
