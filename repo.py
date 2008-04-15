@@ -126,6 +126,9 @@ def error(err):
     print err
     sys.exit(1)
 
+def system():
+    return os.name
+
 def main():
     try:
         # check run location

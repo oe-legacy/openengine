@@ -13,7 +13,7 @@
 import string, sys, subprocess, os, os.path as path
 
 # reuse the helpers from repo.py
-from repo import printCommands, error, execute
+from repo import printCommands, error, execute, system
 
 build_dir = path.join(os.getcwd(), "build")
 
@@ -81,9 +81,21 @@ def make(target):
     owd = os.getcwd()
     os.chdir(build_dir)
     if not path.isfile(path.join(build_dir, "Makefile")):
-        execute("cmake ..")
-    execute("make "+target)
+        sys_exec_cmake()
+    sys_exec_make(target)
     os.chdir(owd)
+
+def sys_exec_cmake():
+    if system() == "nt":
+        execute("cmake -G \"NMake Makefiles\" ../")
+    else: 
+        execute("cmake ../")
+
+def sys_exec_make(target):
+    if system() == "nt":
+        execute("nmake "+target)
+    else:
+        execute("make "+target)
 
 def main():
     # check run location
