@@ -12,6 +12,9 @@
 
 #include <Geometry/FaceSet.h>
 #include <Geometry/BoundingGeometry.h>
+#include <Scene/ISceneNodeVisitor.h>
+#include <Scene/ISceneNode.h>
+#include <Scene/GeometryNode.h>
 #include <string>
 #include <vector>
 
@@ -19,7 +22,9 @@ namespace OpenEngine {
 namespace Geometry {
 
 using OpenEngine::Math::Vector;
+using namespace OpenEngine::Scene;
 using std::vector;
+
 
 /**
  * Bounding geometry box.
@@ -31,12 +36,34 @@ class Box : public BoundingGeometry {
 friend class Geometry;
     
 private:
+// private visitor class to collect faces in scene graphs
+ class FaceCollector : public ISceneNodeVisitor {
+ private:
+    FaceSet* faces;
+ public:
+    FaceCollector(ISceneNode& node) {
+        faces = new FaceSet();
+        node.Accept(*this);
+    }
+    
+    virtual ~FaceCollector() {};
+    
+    void VisitGeometryNode(GeometryNode* node) {
+        faces->Add(node->GetFaceSet());
+    }
+     
+     FaceSet* GetFaceSet() {
+         return faces;
+     }
+ };
+    
     Vector<3,float> center;     //!< Box center
     Vector<3,float> corner;     //!< Box corner (relative)
     Vector<3,float> corners[8]; //!< Box corners (absolute)
 
     void SetCorner(const bool x, const bool y, const bool z, Vector<3,float> c);
-
+    void SetFromFaces(FaceSet& faces);
+    
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version)
@@ -51,6 +78,7 @@ public:
     Box() {}; // empty constructor for serialization
 
     explicit Box(FaceSet& faces);
+    explicit Box (ISceneNode& node);
     
     Vector<3,float> GetCenter() const;
     Vector<3,float> GetCorner() const;

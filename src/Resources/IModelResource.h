@@ -13,12 +13,12 @@
 #include <Resources/IResource.h>
 
 // forward declaration
-namespace OpenEngine { namespace Geometry { class FaceSet; } }
+namespace OpenEngine { namespace Scene { class ISceneNode; } }
 
 namespace OpenEngine {
 namespace Resources {
 
-using OpenEngine::Geometry::FaceSet;
+    using OpenEngine::Scene::ISceneNode;
 
 /**
  * Model resource interface.
@@ -27,10 +27,14 @@ using OpenEngine::Geometry::FaceSet;
  */
 class IModelResource : public IResource {
 public:
+
     /**
-     * Get the face set of the model.
+     * Get a scene graph containing a hierarchical model.
+     * This could be a graph containing transformation nodes and
+     * geometry nodes
      */
-    virtual FaceSet* GetFaceSet() = 0;
+    virtual ISceneNode* GetSceneNode() = 0;
+    
 };
 
 /**

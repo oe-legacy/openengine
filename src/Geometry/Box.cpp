@@ -27,6 +27,29 @@ using OpenEngine::Math::Vector;
  * @param faces Face set to create a box from.
  */
 Box::Box(FaceSet& faces) {
+    SetFromFaces(faces);
+}
+
+/**
+ * Create a bounding box from a scene graph.
+ * If the scene graph contains no non-empty geometry nodes
+ * the box will have center in [0,0,0] and
+ * the corner will be [0,0,0].
+ *
+ * @TODO Make sure that transformation nodes are accounted for!
+ * @param node root node to create a box from.
+ */
+Box::Box(ISceneNode& node) {
+    
+    FaceCollector fc(node);
+    FaceSet* faces = fc.GetFaceSet();
+    
+    SetFromFaces(*faces);
+    //delete faces;
+
+}
+   
+void Box::SetFromFaces(FaceSet& faces) {
     if (faces.Size() == 0) return;
 
     // initialize max and min with the first member of the face set
@@ -60,6 +83,7 @@ Box::Box(FaceSet& faces) {
     SetCorner(0,0,1, center+Vector<3,float>(-x,-y, z));
     SetCorner(0,0,0, center+Vector<3,float>(-x,-y,-z));
 }
+
 
 /**
  * Get the center of the box.
