@@ -193,7 +193,7 @@ namespace Scene {
      *
      * @return Accumulated position vector.
      */
-    void TransformationNode::GetAccumulatedTranformations(Vector<3,float>* position, Quaternion<float>* rotation) {
+    void TransformationNode::GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation) {
         // reset the accumulators
         accPosition = Vector<3,float>();
         accRotation = Quaternion<float>();

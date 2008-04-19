@@ -102,7 +102,7 @@ public:
     Quaternion<float> GetRotation();
     Matrix<4,4,float> GetScale();
     Matrix<4,4,float> GetTransformationMatrix();
-    void GetAccumulatedTranformations(Vector<3,float>* position, Quaternion<float>* rotation);
+    void GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation);
 
 };
 

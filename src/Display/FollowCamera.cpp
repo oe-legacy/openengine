@@ -76,7 +76,7 @@ void FollowCamera::SignalRendering(const float dt) {
         Vector<3,float> accPosition;
         Quaternion<float> accRotation;
         // get the transformations from the node chain
-        follow->GetAccumulatedTranformations(&accPosition, &accRotation);
+        follow->GetAccumulatedTransformations(&accPosition, &accRotation);
         volume.SetDirection( accRotation * local->GetDirection() );
         volume.SetPosition( accRotation.RotateVector(local->GetPosition()) + accPosition );
     } else {
