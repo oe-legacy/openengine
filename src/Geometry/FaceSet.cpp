@@ -130,7 +130,7 @@ void FaceSet::Split(FacePtr& plane, FaceSet& front, FaceSet& span, FaceSet& back
                     piv = 1;
                     if (positions[0] > 0) { pos = 0; neg = 2; }
                     else { pos = 2; neg = 0; }
-                } else if (!positions[2]) {
+                } else /* !positions[2] */ {
                     piv = 2;
                     if (positions[1] > 0) { pos = 1; neg = 0; }
                     else { pos = 0; neg = 1; }
@@ -191,16 +191,14 @@ void FaceSet::Split(FacePtr& plane, FaceSet& front, FaceSet& span, FaceSet& back
             } else {
                 // one point is positive and two negative
                 int pos, neg1, neg2;
-                if (positions[0] == 1) { pos=0; neg1=1; neg2=2; }
-                if (positions[1] == 1) { pos=1; neg1=0; neg2=2; }
-                if (positions[2] == 1) { pos=2; neg1=0; neg2=1; }
-
+                if      (positions[0] == 1)   { pos=0; neg1=1; neg2=2; }
+                else if (positions[1] == 1)   { pos=1; neg1=0; neg2=2; }
+                else  /* positions[2] == 1 */ { pos=2; neg1=0; neg2=1; }
 
                 Vector<3,float>* fint1 = plane->PlaneIntersection(face->vert[neg1],
                                                                   face->vert[pos]);
                 Vector<3,float>* fint2 = plane->PlaneIntersection(face->vert[neg2],
                                                                   face->vert[pos]);
-
 
                 Vector<2,float> tint1 = face->SplitTexture(pos,neg1,*fint1);
                 Vector<2,float> tint2 = face->SplitTexture(pos,neg2,*fint2);
@@ -279,9 +277,9 @@ void FaceSet::Split(FacePtr& plane, FaceSet& front, FaceSet& span, FaceSet& back
             } else {
                 // one point is negative and two positive
                 int pos1, pos2, neg;
-                if (positions[0] == -1) { pos1=1; pos2=2; neg=0; }
-                if (positions[1] == -1) { pos1=0; pos2=2; neg=1; }
-                if (positions[2] == -1) { pos1=0; pos2=1; neg=2; }
+                if      (positions[0] == -1)   { pos1=1; pos2=2; neg=0; }
+                else if (positions[1] == -1)   { pos1=0; pos2=2; neg=1; }
+                else  /* positions[2] == -1 */ { pos1=0; pos2=1; neg=2; }
 
                 Vector<3,float>* fint1 = plane->PlaneIntersection(face->vert[pos1],
                                                                  face->vert[neg]);
