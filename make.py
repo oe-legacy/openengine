@@ -86,13 +86,13 @@ def make(target):
     os.chdir(owd)
 
 def sys_exec_cmake():
-    if system() == "win":
+    if system("win"):
         execute("cmake -G \"NMake Makefiles\" ../")
     else: 
         execute("cmake ../")
 
 def sys_exec_make(target):
-    if system() == "win":
+    if system("win"):
         execute("nmake "+target)
     else:
         execute("make "+target)

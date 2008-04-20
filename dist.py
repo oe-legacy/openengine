@@ -14,30 +14,43 @@ import string, sys, subprocess, os, os.path as path
 import urllib, zipfile, tarfile
 
 def commands():
-    return ((update, "update"),
-            (data,   "data"),
-            (darcs,  "darcs"),
-            (mkproj, "mkproj"),
-            (mkext,  "mkext"),
-            (help,   "help"))
+    return ((update,  "update"),
+            (data,    "data"),
+            (install, "install"),
+            (darcs,   "darcs"),
+            (mkproj,  "mkproj"),
+            (mkext,   "mkext"),
+            (help,    "help"))
 
 def update(*args):
     """
-    update [dists] -- default target. update all repositories.
+    update  [dist] -- default target. update all repositories.
     """
     run_repo(parse(*args)["darcs"])
 
 def data(*args):
     """
-    data   [dists] -- fetch all data and libraries for your platform.
+    data    [dist] -- fetch all data and libraries for your platform.
     """
-    d = parse(*args)
-    run_data(d["any"])
-    run_data(d[system()])
+    d = [ (p, r) for s, p, r in parse(*args)["data"] if system(s)]
+    if d: run_data(d)
+    else: print "Found no data entries for platform %s." % sys.platform
+
+def install(dist):
+    """
+    install <dist> -- install the distribution <dist>
+    """
+    file = dist.split("/")[-1]
+    print "Installing distribution to %s" % file
+    urllib.urlretrieve(dist, file)
+    if ask("Would you like to update the distribution repositories"):
+        update(file)
+    if ask("Would you like to fetch the distribution data"):
+        data(file)
 
 def darcs(*args):
     """
-    darcs  <cmd>   -- run darcs command on all extensions, projects and openengine
+    darcs   <cmd>   -- run darcs command on all extensions, projects and openengine
     """
     cmd = " ".join(args)
     ds = [path.join("extensions", e) for e in os.listdir("extensions")] + \
@@ -51,19 +64,19 @@ def darcs(*args):
 
 def mkext(name):
     """
-    mkext  <name>  -- create new extension extensions/<name> from the ExampleExtension
+    mkext   <name>  -- create new extension extensions/<name> from the ExampleExtension
     """
     mkrepo(name, "extensions", "http://openengine.dk/code/extensions/ExampleExtension")
 
 def mkproj(name):
     """
-    mkproj <name>  -- create new project projects/<name> from the ExampleProject
+    mkproj  <name>  -- create new project projects/<name> from the ExampleProject
     """
     mkrepo(name, "projects", "http://openengine.dk/code/projects/ExampleProject")
 
 def help():
     """
-    help           -- this message
+    help            -- this message
     """
     print "Small script to help working on OpenEngine repositories."
     print "Some useful targets are:"
@@ -89,16 +102,14 @@ def run_data(data):
         file = path.join(dir, res.split("/")[-1])
         # ignore files that exist
         if path.isfile(file):
+            print "Skipping exiting file %s" % relpath(file)
             continue
         # make the containing directory
         if not path.isdir(dir):
             os.makedirs(dir)
         print "Retrieving %s from %s" % (relpath(file), res)
         f, h = urllib.urlretrieve(res, file)
-        if h.gettype() == "application/zip":
-            unzip(file, dir)
-        elif h.gettype() == "application/x-tar":
-            untar(file, dir)
+        unpack(h.gettype(), file, dir)
 
 def parse(*args):
     """
@@ -120,8 +131,10 @@ def parse(*args):
               ", ".join(invalid))
     # error queue
     errors = []
-    # entry dict with entries of type: [(path, resource)]
-    entries = { "darcs":[], "any":[], "gnu":[], "mac":[], "win":[] }
+    # entry dict with types:
+    #   darcs : [(path, resource)]
+    #   data  : [(sys, path, resource)]
+    entries = { "darcs":[], "data":[] }
     # parse each line in each file
     for file in files:
         f = open(file, "r")
@@ -132,27 +145,38 @@ def parse(*args):
             # ignore blank lines and comments
             if len(l) == 0 or l[0] == "#":
                 continue
-            # validate entry
+            # validate entry length
             e = filter(len, l.split(" "))
             if len(e) != 3:
                 errors.append("%s(%i): invalid entry." % (file, line))
-            # check if the entry operation is valid
-            if e[0] not in entries.keys():
-                errors.append("%s(%i): invalid operation '%s'." % (file, line, e[0]))
             # check if the entry path is valid
             if e[1][0] != "/":
                 errors.append("%s(%i): invalid path '%s'" % (file, line, e[1]))
-            # if no errors were found and the path+resource pair is
-            # not in the set add it
+            # if no errors were found and the tuple is not in the set add it
             if not errors:
                 p = path.join(os.getcwd(), e[1][1:])
-                if (p, e[2]) not in entries[e[0]]:
-                    entries[e[0]].append((p, e[2]))
+                if e[0] == "darcs":
+                    typ = "darcs"
+                    elm = (p, e[2])
+                else:
+                    typ = "data"
+                    elm = (e[0], p, e[2])
+                if elm not in entries[typ]:
+                    entries[typ].append(elm)
 
     # exit if errors were found
     if errors:
         error("\n".join(errors))
     return entries
+
+def unpack(type, file, dir):
+    if type not in ("application/zip", "application/x-tar"):
+        return
+    print "Unpacking %s" % relpath(file)
+    if type == "application/zip":
+        unzip(file, dir)
+    elif type == "application/x-tar":
+        untar(file, dir)
 
 def untar(file, dir):
     tar = tarfile.open(file)
@@ -182,6 +206,15 @@ def mkrepo(name, dir, repo):
 def relpath(path):
     return path.replace(os.getcwd(), "")
 
+def ask(msg):
+    a = raw_input("%s [Yn]? " % msg)
+    while True:
+        if a in ("", "y"):
+            return True
+        elif a is "n":
+            return False
+        a = raw_input("invalid answer. please type 'y' or 'n' ")
+
 def printCommands(cmds):
     print "\n".join([f.__doc__.strip() for f,c in cmds])
 
@@ -200,10 +233,8 @@ def error(err):
     print err
     sys.exit(1)
 
-def system():
-    # map from py names to our names
-    m = {"posix":"gnu", "mac":"mac", "nt":"win"}
-    return m[os.name]
+def system(name):
+    return name == "any" or sys.platform.startswith(name)
 
 def main():
     # check run location
@@ -218,8 +249,9 @@ def main():
     fn = None
     for f,c in commands():
         if cmd == c: fn = f
-    if fn: fn(*sys.argv[2:])
-    else:
+    try:
+        fn(*sys.argv[2:])
+    except TypeError:
         print "Invalid command."
         print "Possible commands are:"
         printCommands(commands())
