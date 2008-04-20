@@ -13,7 +13,7 @@
 import string, sys, subprocess, os, os.path as path
 
 # reuse the helpers from repo.py
-from repo import printCommands, error, execute, system
+from dist import printCommands, error, execute, system
 
 build_dir = path.join(os.getcwd(), "build")
 
