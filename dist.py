@@ -194,9 +194,6 @@ def unzip(file, dir):
             out.close()
 
 def mkrepo(name, dir, repo):
-    if len(sys.argv) < 3:
-        error("Invalid extension or project name")
-    name = sys.argv[2]
     loc = path.join(dir, name)
     print "Creating new repository at: %s" % loc
     execute("darcs get %s --repodir %s" % (repo, loc))
@@ -219,15 +216,11 @@ def printCommands(cmds):
     print "\n".join([f.__doc__.strip() for f,c in cmds])
 
 def execute(cmd):
-    proc = subprocess.Popen(cmd,
-                            shell=True,
-                            stderr=subprocess.PIPE,
-                            #stdout=subprocess.PIPE
-                            )
+    proc = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
     proc.wait()
-    errors = proc.stderr.read()
-    if bool(errors):
-        error(errors)
+    if proc.returncode != 0:
+        error("%s exited with error code %i\n%s"
+              % (cmd, proc.returncode, proc.stderr.read()))
 
 def error(err):
     print err
