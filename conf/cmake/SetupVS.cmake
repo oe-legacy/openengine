@@ -20,6 +20,7 @@ IF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
       CACHE STRING "Release builds CMAKE CXX flags " FORCE)
       
   # /NODEFAULTLIB:msvcrt.lib : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
-  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /fixed:no /INCREMENTAL:NO /NODEFAULTLIB:\"msvcrt.lib\"")
+  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /fixed:no /INCREMENTAL:NO")
+  SET(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:\"msvcrt.lib\"")
 
 ENDIF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")    

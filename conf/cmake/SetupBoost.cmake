@@ -1,63 +1,64 @@
-INCLUDE(${CMAKE_CONF_DIR}/FindBoost.cmake)
+FIND_PACKAGE(Boost)
 IF (Boost_FOUND) 
 
-    INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+   INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
-    # look for boost filesystem lib
-    FIND_FILE(BOOST_FILESYSTEM_FOUND "filesystem/operations.hpp" ${Boost_INCLUDE_DIRS}/boost)
+   FIND_LIBRARY(BOOST_FILESYSTEM_LIB NAMES
+               boost_filesystem
+               libboost_filesystem-vc80-mt-1_33_1
+               libboost_filesystem-vc80-mt-1_34_1
+               PATHS
+               ${Boost_INCLUDE_DIRS}
+               ${Boost_INCLUDE_DIRS}/lib
+               )
+   IF (NOT BOOST_FILESYSTEM_LIB)
+      SET(Boost_FOUND 0)
+   ENDIF(NOT BOOST_FILESYSTEM_LIB)
 
-    IF(NOT BOOST_FILESYSTEM_FOUND)
-       MESSAGE("WARNING: Could not find boost filesystem library - depending targets will be disabled.")
-       SET(OE_MISSING_LIBS "${OE_MISSING_LIBS}, boost-filesystem")
-    ENDIF(NOT BOOST_FILESYSTEM_FOUND)
+   FIND_LIBRARY(BOOST_FILESYSTEM_LIB_gd NAMES
+               boost_filesystem
+               libboost_filesystem-vc80-mt-gd-1_33_1
+               libboost_filesystem-vc80-mt-gd-1_34_1
+               PATHS
+               ${Boost_INCLUDE_DIRS}
+               ${Boost_INCLUDE_DIRS}/lib
+               )
+   IF (NOT BOOST_FILESYSTEM_LIB_gd)
+      SET(Boost_FOUND 0)
+   ENDIF(NOT BOOST_FILESYSTEM_LIB_gd)
 
-    SET (BOOST_FILESYSTEM_LIB "boost_filesystem")
-    SET (BOOST_TEST_LIB       "boost_unit_test_framework")
-    SET (BOOST_SERIALIZATION_LIB "boost_serialization")
+   FIND_LIBRARY(BOOST_TEST_LIB NAMES
+               boost_unit_test_framework
+               libboost_unit_test_framework-vc80-mt-1_33_1
+               libboost_unit_test_framework-vc80-mt-1_34_1
+               libboost_unit_test_framework-vc80-mt-gd-1_33_1
+               libboost_unit_test_framework-vc80-mt-gd-1_34_1
+               PATHS
+               ${Boost_INCLUDE_DIRS}
+               ${Boost_INCLUDE_DIRS}/lib
+               )
+   IF (NOT BOOST_TEST_LIB)
+      SET(Boost_FOUND 0) 
+   ENDIF(NOT BOOST_TEST_LIB)
 
-    IF (WIN32)
-	SET(Boost_LIBRARY_DIRS ${Boost_INCLUDE_DIRS}/lib)
-	LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
-
-	# look for the test lib binary file 
-    FIND_FILE(BOOST_TEST_LIB_FILE "libboost_unit_test_framework-vc80-mt-gd-1_33_1.lib" ${Boost_LIBRARY_DIRS})
-	IF (BOOST_TEST_LIB_FILE)
-		SET (BOOST_TEST_LIB ${BOOST_TEST_LIB_FILE})
-	ENDIF (BOOST_TEST_LIB_FILE)
-    FIND_FILE(BOOST_TEST_LIB_FILE "libboost_unit_test_framework-vc80-mt-gd-1_34_1.lib" ${Boost_LIBRARY_DIRS})
-	IF (BOOST_TEST_LIB_FILE)
-		SET (BOOST_TEST_LIB ${BOOST_TEST_LIB_FILE})
-	ENDIF (BOOST_TEST_LIB_FILE)
-
-	# look for the filesystem lib binary file 
-    FIND_FILE(BOOST_FILESYSTEM_LIB_FILE "libboost_filesystem-vc80-mt-gd-1_33_1.lib" ${Boost_LIBRARY_DIRS})
-	IF (BOOST_FILESYSTEM_LIB_FILE)
-		SET (BOOST_FILESYSTEM_LIB ${BOOST_FILESYSTEM_LIB_FILE})
-	ENDIF (BOOST_FILESYSTEM_LIB_FILE)
-    FIND_FILE(BOOST_FILESYSTEM_LIB_FILE "libboost_filesystem-vc80-mt-gd-1_34_1.lib" ${Boost_LIBRARY_DIRS})
-	IF (BOOST_FILESYSTEM_LIB_FILE)
-		SET (BOOST_FILESYSTEM_LIB ${BOOST_FILESYSTEM_LIB_FILE})
-	ENDIF (BOOST_FILESYSTEM_LIB_FILE)
-
-	# look for the serialization lib binary file 
-    FIND_FILE(BOOST_SERIALIZATION_LIB_FILE "libboost_serialization-vc80-mt-gd-1_33_1.lib" ${Boost_LIBRARY_DIRS})
-	IF (BOOST_SERIALIZATION_LIB_FILE)
-		SET (BOOST_SERIALIZATION_LIB ${BOOST_SERIALIZATION_LIB_FILE})
-	ENDIF (BOOST_SERIALIZATION_LIB_FILE)
-    FIND_FILE(BOOST_SERIALIZATION_LIB_FILE "libboost_serialization-vc80-mt-gd-1_34_1.lib" ${Boost_LIBRARY_DIRS})
-	IF (BOOST_SERIALIZATION_LIB_FILE)
-		SET (BOOST_SERIALIZATION_LIB ${BOOST_SERIALIZATION_LIB_FILE})
-	ENDIF (BOOST_SERIALIZATION_LIB_FILE)
-
-	IF (NOT BOOST_TEST_LIB_FILE AND NOT BOOST_FILESYSTEM_LIB_FILE AND NOT BOOST_SERIALIZATION_LIB_FILE)
-		SET(Boost_FOUND 0)
-	ENDIF(NOT BOOST_TEST_LIB_FILE AND NOT BOOST_FILESYSTEM_LIB_FILE AND NOT BOOST_SERIALIZATION_LIB_FILE)
-
-    ENDIF (WIN32)
+   FIND_LIBRARY(BOOST_SERIALIZATION_LIB NAMES
+               boost_serialization
+               # WINDOWS
+               libboost_serialization-vc80-mt-1_33_1
+               libboost_serialization-vc80-mt-1_34_1
+               libboost_serialization-vc80-mt-gd-1_33_1
+               libboost_serialization-vc80-mt-gd-1_34_1
+               PATHS
+               ${Boost_INCLUDE_DIRS}
+               ${Boost_INCLUDE_DIRS}/lib
+               )
+   IF (NOT BOOST_SERIALIZATION_LIB)
+      SET(Boost_FOUND 0)
+   ENDIF(NOT BOOST_SERIALIZATION_LIB)
 
 ENDIF (Boost_FOUND)
 
 IF (NOT Boost_FOUND)
-  MESSAGE ("WARNING: Could not find Boost - depending targets will be disabled.")
-  SET(OE_MISSING_LIBS "${OE_MISSING_LIBS}, boost")
+MESSAGE ("WARNING: Could not find Boost - depending targets will be disabled.")
+SET(OE_MISSING_LIBS "${OE_MISSING_LIBS}, boost")
 ENDIF (NOT Boost_FOUND)
