@@ -170,13 +170,14 @@ def parse(*args):
     return entries
 
 def unpack(type, file, dir):
-    if type not in ("application/zip", "application/x-tar"):
-        return
-    print "Unpacking %s" % relpath(file)
-    if type == "application/zip":
-        unzip(file, dir)
-    elif type == "application/x-tar":
-        untar(file, dir)
+    handles = {
+        "application/zip" : unzip,
+        "application/x-tar" : untar,
+        "application/x-gzip" : untar
+        }
+    if type in handles.keys():
+        print "Unpacking %s" % relpath(file)
+        handles[type](file, dir)
 
 def untar(file, dir):
     tar = tarfile.open(file)
