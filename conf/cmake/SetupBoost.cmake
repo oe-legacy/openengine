@@ -1,3 +1,4 @@
+SET(CMAKE_INCLUDE_PATH ${OE_LIB_DIR}/boost)
 FIND_PACKAGE(Boost)
 IF (Boost_FOUND) 
 
