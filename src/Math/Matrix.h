@@ -164,7 +164,7 @@ public:
      * a * a;                          // [(7, 10), (15, 22)]
      * @endcode
      */
-    const Matrix<M,M,T> operator*(const Matrix<N,M,T> m) {
+    Matrix<M,M,T> operator*(const Matrix<N,M,T> m) {
         Matrix<M,M,T> r;
         for (int i=0; i<M; i++) 
             for (int j=0; j<M; j++) {
@@ -175,6 +175,21 @@ public:
             }
         return r;
     }
+
+    /**
+     * Matrix-Vector multiplication. 3*3 matrices only.
+     */
+    const Vector<N,T> operator*(const Vector<N,T> v) {
+        BOOST_STATIC_ASSERT(M==3 && N==M);
+        Vector<N,T> r;
+	r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1) + elm[0][2] * v.Get(2);
+	r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1) + elm[1][2] * v.Get(2);
+	r[2] = elm[2][0] * v.Get(0) + elm[2][1] * v.Get(1) + elm[2][2] * v.Get(2);
+
+        return r;
+    }
+
+
     /**
      * Get matrix row vector.
      * @code
@@ -237,6 +252,16 @@ public:
                 elm[i][j] = elm[j][i];
                 elm[j][i] = tmp;
             }
+    }
+    /**
+     * Returns the transposed matrix.
+     * NOTE: Only works on 3*3 matrices.
+     */
+    Matrix <M,N,T> GetTranspose() {
+        BOOST_STATIC_ASSERT(M==N&&M==3);
+	return Matrix<M,N,T>(elm[0][0],elm[1][0],elm[2][0],
+			     elm[0][1],elm[1][1],elm[2][1],
+			     elm[0][2],elm[1][2],elm[2][2]);
     }
     /**
      * Get a matrix expanded by one column and one row.
@@ -310,6 +335,18 @@ public:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {
         ar & elm;
+    }
+
+    /**
+     *
+     *
+     *
+     */
+    Matrix<M, N, T> Star(Vector <M, T> vec) {
+      BOOST_STATIC_ASSERT(M==3 && N==3);
+      return Matrix(0, -vec[2], vec[1],
+		    vec[2], 0, -vec[0],
+		    -vec[1], vec[0], 0);
     }
 
 }; // Matrix

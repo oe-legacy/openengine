@@ -261,6 +261,13 @@ public:
         *this = *this * q;
     }
     /**
+     * Destructive addition.
+     */
+    void operator+=(const Quaternion<T> q) {
+        this->real += q.real;
+	this->image += q.image;
+    }
+    /**
      * Get quaternion element by index.
      * @code
      * Quaternion<int> q(1,2,3,4);    // (1, [2, 3, 4])
