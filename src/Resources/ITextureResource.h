@@ -63,7 +63,52 @@ public:
      *
      * @return Char pointer to loaded data.
      */
-	virtual unsigned char* GetData() = 0;
+    virtual unsigned char* GetData() = 0;
+
+    virtual void Reverse() {
+        unsigned int height = this->GetHeight();
+	unsigned int depth = this->GetDepth();
+	unsigned int width = this->GetWidth();
+	unsigned char* data = this->GetData();
+        unsigned char temp;
+	int numberOfCharsPerColor = (depth/8);
+	long size = width * height * numberOfCharsPerColor;
+	for (int i=0,j=size-numberOfCharsPerColor; i<j;
+	    i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
+	    for (int index=0; index<numberOfCharsPerColor; index++) {
+	        temp = data[i+index];
+		data[i+index] = data[j+index];
+		data[j+index] = temp;
+	    }
+	}
+    }
+
+    virtual void ReverseVertecally() {
+        //@todo make an optimized version that does this in one loop
+        Reverse();
+	ReverseHorizontally();
+    }
+
+    virtual void ReverseHorizontally() {
+        unsigned int height = this->GetHeight();
+	unsigned int depth = this->GetDepth();
+	unsigned int width = this->GetWidth();
+	unsigned char* data = this->GetData();
+        unsigned char temp;
+	int numberOfCharsPerColor = (depth/8);
+	long size = width * height * numberOfCharsPerColor;
+	for (int lineNumber=0; lineNumber<size;
+	     lineNumber+=width*numberOfCharsPerColor) {
+	    for (int i=0, j=(width-1)*numberOfCharsPerColor; i < j;
+		 i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
+	        for(int index=0; index<numberOfCharsPerColor;index++) {
+		  temp = data[lineNumber+i+index];
+		  data[lineNumber+i+index] = data[lineNumber+j+index];
+		  data[lineNumber+j+index] = temp;
+		}
+	    }
+	}
+    }
 
     //! Serialization support
     template<class Archive>
