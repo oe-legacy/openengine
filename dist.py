@@ -13,6 +13,9 @@
 import string, sys, subprocess, os, os.path as path
 import urllib, zipfile, tarfile
 
+class ExecError(Exception):
+    "Exception thrown if execute(cmd) exited with error code != 0"
+
 def commands():
     return ((update,  "update"),
             (data,    "data"),
@@ -56,11 +59,13 @@ def darcs(*args):
     ds = [path.join("extensions", e) for e in os.listdir("extensions")] + \
          [path.join("projects", p) for p in os.listdir("projects")]
     print "**** OpenEngine"
-    execute("darcs %s --repodir %s" % (cmd, "."))
+    try: execute("darcs %s --repodir %s" % (cmd, "."))
+    except ExecError: pass
     for d in ds:
         if path.isdir(path.join(d, "_darcs")):
             print "**** %s" % d
-            execute("darcs %s --repodir %s" % (cmd, d))
+            try: execute("darcs %s --repodir %s" % (cmd, d))
+            except ExecError: pass
 
 def mkext(name):
     """
@@ -220,8 +225,8 @@ def execute(cmd):
     proc = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
     proc.wait()
     if proc.returncode != 0:
-        error("%s exited with error code %i\n%s"
-              % (cmd, proc.returncode, proc.stderr.read()))
+        raise ExecError("%s exited with error code %i\n%s"
+                        % (cmd, proc.returncode, proc.stderr.read()))
 
 def error(err):
     print err
