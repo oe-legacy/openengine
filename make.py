@@ -13,7 +13,7 @@
 import string, sys, subprocess, os, os.path as path
 
 # reuse the helpers from repo.py
-from dist import printCommands, error, execute, system
+from dist import printCommands, error, execute, system, ExecError
 
 build_dir = path.join(os.getcwd(), "build")
 
@@ -120,4 +120,7 @@ def main():
         sys.exit(1)
 
 if __name__ == '__main__':
-    main()
+    try: main()
+    except ExecError, e:
+        print e
+        sys.exit(1)
