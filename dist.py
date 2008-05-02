@@ -151,7 +151,7 @@ def parse(*args):
             if len(l) == 0 or l[0] == "#":
                 continue
             # validate entry length
-            e = filter(len, l.split(" "))
+            e = filter(len, l.split())
             if len(e) != 3:
                 errors.append("%s(%i): invalid entry." % (file, line))
             # check if the entry path is valid
