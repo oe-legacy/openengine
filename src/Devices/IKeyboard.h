@@ -12,13 +12,13 @@
 
 #include <Devices/Symbols.h>
 #include <Core/IModule.h>
-#include <EventSystem/EventSystem.h>
+#include <Core/Event.h>
 
 namespace OpenEngine {
 namespace Devices {
 
 using OpenEngine::Core::IModule;
-using namespace OpenEngine::EventSystem;
+using OpenEngine::Core::Event;
 
 /**
  * Keyboard Event Argument.
@@ -27,9 +27,11 @@ using namespace OpenEngine::EventSystem;
  * @struct KeyboardEventArg IKeyboard.h Devices/IKeyboard.h
  */
 struct KeyboardEventArg {
-    Key    sym;   //!< Key symbol. @see Symbols.h
-    KeyMod mod;   //!< Key modifier. Possibly or'ed together
-    KeyboardEventArg() : sym(KEY_UNKNOWN), mod(KEY_MOD_NONE) {}
+    enum KeyEventType { UNKNOWN, PRESS, RELEASE };
+    KeyEventType type; //!< Key event type.
+    Key          sym;  //!< Key symbol. @see Symbols.h
+    KeyMod       mod;  //!< Key modifier. Possibly or'ed together
+    KeyboardEventArg() : type(UNKNOWN), sym(KEY_UNKNOWN), mod(KEY_MOD_NONE) {}
 };
 
 /**
@@ -39,10 +41,8 @@ struct KeyboardEventArg {
  */
 class IKeyboard : public virtual IModule {
 public:
-    //! Key-up event list
-    static Event<KeyboardEventArg> keyUpEvent;
-    //! Key-down event list
-    static Event<KeyboardEventArg> keyDownEvent;
+    //! Key event list
+    static Event<KeyboardEventArg> keyEvent;
 
     /**
      * Keyboard constructor.

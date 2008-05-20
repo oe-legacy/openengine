@@ -12,13 +12,13 @@
 
 #include <Devices/Symbols.h>
 #include <Core/IModule.h>
-#include <EventSystem/EventSystem.h>
+#include <Core/Event.h>
 
 namespace OpenEngine {
 namespace Devices {
 
 using OpenEngine::Core::IModule;
-using namespace OpenEngine::EventSystem;
+using OpenEngine::Core::Event;
 
 /**
  * Mouse state.
@@ -57,9 +57,11 @@ struct MouseMovedEventArg {
  * @struct MouseButtonEventArg IMouse.h Devices/IMouse.h
  */
 struct MouseButtonEventArg {
+    enum MouseButtonEventType { UNKNOWN, PRESS, RELEASE };
+    MouseButtonEventType type;  //!< button press type.
     MouseState state;           //!< current mouse state
     MouseButton button;         //!< button that triggered event
-    MouseButtonEventArg() : button(BUTTON_NONE) {}
+    MouseButtonEventArg() : type(UNKNOWN), button(BUTTON_NONE) {}
 };
 
 /**
@@ -71,11 +73,8 @@ class IMouse : public virtual IModule {
 
 public:
 
-    //! Button-up event list
-    static Event<MouseButtonEventArg> mouseUpEvent;
-
-    //! Button-down event list
-    static Event<MouseButtonEventArg> mouseDownEvent;
+    //! Mouse button event list
+    static Event<MouseButtonEventArg> mouseButtonEvent;
 
     //! Mouse movement event list
     static Event<MouseMovedEventArg> mouseMovedEvent;

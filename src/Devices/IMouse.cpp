@@ -12,8 +12,7 @@
 namespace OpenEngine {
 namespace Devices {
 
-Event<MouseButtonEventArg> IMouse::mouseUpEvent;
-Event<MouseButtonEventArg> IMouse::mouseDownEvent;
+Event<MouseButtonEventArg> IMouse::mouseButtonEvent;
 Event<MouseMovedEventArg> IMouse::mouseMovedEvent;
 
 IMouse::IMouse() {}

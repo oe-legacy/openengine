@@ -12,8 +12,7 @@
 namespace OpenEngine {
 namespace Devices {
 
-Event<KeyboardEventArg> IKeyboard::keyUpEvent;
-Event<KeyboardEventArg> IKeyboard::keyDownEvent;
+Event<KeyboardEventArg> IKeyboard::keyEvent;
 
 IKeyboard::IKeyboard() {}
 IKeyboard::~IKeyboard() {}

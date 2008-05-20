@@ -4,7 +4,6 @@ SUBDIRS(
   Core
   Devices
   Display
-  EventSystem
   Geometry
   Logging
   Math
