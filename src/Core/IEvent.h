@@ -29,7 +29,8 @@ namespace Core {
 template <typename EventArg>
 class IEvent {
 public:
-
+    virtual ~IEvent() {};
+    
     /**
      * Attach a listener to the event.
      * All attached listeners will by notified of events. If a
@@ -64,7 +65,7 @@ public:
      * @return Number of attached listeners
      */
     virtual int Size() = 0;
-
+    
 };
 
 } // NS Core

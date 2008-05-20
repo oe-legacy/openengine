@@ -59,7 +59,7 @@ public:
      * @param arg Argument supplied by the triggered event.
      */
     virtual void Handle(EventArg arg) = 0;
-    
+    virtual ~IListener() {};
 };
 
 } // NS EventSystem
