@@ -96,6 +96,116 @@ public:
     }
 
     /**
+     * Set the FOV of the viewing volume.
+     * Defaults to setting the FOV of the decorated viewing
+     * volume.
+     *
+     * @param fov Field of view.
+     */
+    virtual void SetFOV(const float fov) {
+        volume.SetFOV(fov);
+    }
+
+    /**
+     * Get the FOV of the viewing volume.
+     * Defaults to getting the FOV from the decorated viewing
+     * volume.
+     *
+     * @return Field of view.
+     */
+    virtual float GetFOV() {
+        return volume.GetFOV();
+    }
+
+    /**
+     * Set the aspect ratio of the viewing volume.
+     * Defaults to setting the aspect ratio of the decorated viewing
+     * volume.
+     *
+     * @param aspect Aspect ratio.
+     */
+    virtual void SetAspect(const float aspect) {
+        volume.SetAspect(aspect);
+    }
+
+    /**
+     * Get the aspect ratio of the viewing volume.
+     * Defaults to getting the aspect ratio from the decorated viewing
+     * volume.
+     *
+     * @return Aspect ratio.
+     */
+    virtual float GetAspect() {
+        return volume.GetAspect();
+    }
+
+    /**
+     * Set the near clipping plane of the viewing volume.
+     * Defaults to setting the near clipping plane from the decorated viewing
+     * volume.
+     *
+     * @param distNear Distance of near clipping plane.
+     */
+    virtual void SetNear(const float distNear) {
+        volume.SetNear(distNear);
+    }
+
+    /**
+     * Get the near clipping plane of the viewing volume.
+     * Defaults to getting the near clipping plane from the decorated viewing
+     * volume.
+     *
+     * @return Distance of near clipping plane.
+     */
+    virtual float GetNear() {
+        return volume.GetNear();
+    }
+
+    /**
+     * Set the far clipping plane of the viewing volume.
+     * Defaults to setting the far clipping plane from the decorated viewing
+     * volume.
+     *
+     * @param distFar Distance of far clipping plane.
+     */
+    virtual void SetFar(const float distFar) {
+        volume.SetFar(distFar);
+    }
+
+    /**
+     * Get the far clipping plane of the viewing volume.
+     * Defaults to getting the far clipping plane from the decorated viewing
+     * volume.
+     *
+     * @return Distance of far clipping plane.
+     */
+    virtual float GetFar() {
+        return volume.GetFar();
+    }
+
+    /**
+     * Set the projection mode of the viewing volume.
+     * Defaults to setting the projection mode from the decorated viewing
+     * volume.
+     *
+     * @param projectionMode OE_ORTHOGONAL or OE_PERSPECTIVE.
+     */
+    virtual void SetProjectionMode(ProjectionMode projectionMode) {
+        volume.SetProjectionMode(projectionMode);
+    }
+
+    /**
+     * Get the projection mode of the viewing volume.
+     * Defaults to getting the projection mode from the decorated viewing
+     * volume.
+     *
+     * @return projection mode (OE_ORTHOGONAL or OE_PERSPECTIVE).
+     */
+    virtual ProjectionMode GetProjectionMode() {
+        return volume.GetProjectionMode();
+    }
+
+    /**
      * Signal rendering start.
      * Defaults to calling the signal method on the decorated viewing
      * volume.

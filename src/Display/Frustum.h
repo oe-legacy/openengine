@@ -81,13 +81,9 @@ public:
 
     // get / set methods
     virtual void SetFOV(const float fov);
-    virtual float GetFOV() const;
     virtual void SetAspect(const float aspect);
-    virtual float GetAspect() const;
     virtual void SetNear(const float distNear);
-    virtual float GetNear() const;
     virtual void SetFar(const float distFar);
-    virtual float GetFar() const;
 
     // new frustum methods
     virtual IRenderNode* GetFrustumNode();

@@ -43,6 +43,17 @@ public:
     virtual Quaternion<float> GetDirection();
     virtual Matrix<4,4,float> GetViewMatrix();
 
+    virtual void SetFOV(const float fov);
+    virtual float GetFOV();
+    virtual void SetAspect(const float aspect);
+    virtual float GetAspect();
+    virtual void SetNear(const float distNear);
+    virtual float GetNear();
+    virtual void SetFar(const float distFar);
+    virtual float GetFar();
+    virtual void SetProjectionMode(ProjectionMode projectionMode);
+    virtual ProjectionMode GetProjectionMode();
+
     virtual void SignalRendering(const float dt);
 
     virtual bool IsVisible(const Square& square);

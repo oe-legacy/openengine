@@ -30,11 +30,11 @@ Frustum::Frustum(IViewingVolume& volume,
     : IViewingVolumeDecorator(volume),
       visualizeClipping(false)
 {
-   this->fov = fov;
-   this->aspect = aspect;
-   this->distNear = distNear;
-   this->distFar = distFar;
-   
+    IViewingVolumeDecorator::SetFOV(fov);
+    IViewingVolumeDecorator::SetAspect(aspect);
+    IViewingVolumeDecorator::SetNear(distNear);
+    IViewingVolumeDecorator::SetFar(distFar);
+
     // initialize planes.
     for (unsigned int i=0; i<6; i++)
         planes[i] = new Plane(Vector<3,float>(), 0);
@@ -66,17 +66,9 @@ Frustum::~Frustum() {
  * @param fov Field of view.
  */
 void Frustum::SetFOV(const float fov) {
+    IViewingVolumeDecorator::SetFOV(fov);
     UpdateDimensions();
-    this->fov = fov;
-}
-
-/**
- * Get the current field of view.
- *
- * @return Field of view.
- */
-float Frustum::GetFOV() const {
-    return fov;
+    //this->fov = fov;
 }
 
 /**
@@ -85,15 +77,9 @@ float Frustum::GetFOV() const {
  * @param aspect Aspect ratio.
  */
 void Frustum::SetAspect(const float aspect) {
-    this->aspect = aspect;
+    //this->aspect = aspect;
+    IViewingVolumeDecorator::SetAspect(aspect);
     UpdateDimensions();
-}
-
-/**
- * Get the current aspect ratio.
- */
-float Frustum::GetAspect() const {
-    return aspect;
 }
 
 /**
@@ -102,17 +88,9 @@ float Frustum::GetAspect() const {
  * @param distNear Near clipping plane.
  */
 void Frustum::SetNear(const float distNear) {
-    this->distNear = distNear;
+    //this->distNear = distNear;
+    IViewingVolumeDecorator::SetNear(distNear);
     UpdateDimensions();
-}
-
-/**
- * Get the current distance to the near clipping plane.
- *
- * @return Near clipping plane.
- */
-float Frustum::GetNear() const {
-    return distNear;
 }
 
 /**
@@ -121,17 +99,9 @@ float Frustum::GetNear() const {
  * @param distFar Far clipping plane.
  */
 void Frustum::SetFar(float distFar) {
-    this->distFar = distFar;
+    //this->distFar = distFar;
+    IViewingVolumeDecorator::SetFar(distFar);
     UpdateDimensions();
-}
-
-/**
- * Get the current distance to the far clipping plane.
- *
- * @return Far clipping plane.
- */
-float Frustum::GetFar() const {
-    return distFar;
 }
 
 /**

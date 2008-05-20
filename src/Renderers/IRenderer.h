@@ -136,6 +136,13 @@ public:
      * @param size Size of point.
      */
     virtual void DrawPoint(Vector<3,float> point, Vector<3,float> color , float size = 1) = 0;
+
+    /**
+     * Set far clipping plane for renderer. E.g. to specify different far clipping plane for sky box rendering.
+     *
+     * @param farPlane Far clipping plane.
+     */
+    virtual void SetFarPlane(float farPlane) = 0;
 };
 
 } // NS Renderers

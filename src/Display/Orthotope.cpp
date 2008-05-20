@@ -23,11 +23,11 @@ namespace Display {
 	Orthotope::Orthotope(IViewingVolume& volume,
                  const float distNear, const float distFar,
                  const float aspect, const float fov) : IViewingVolumeDecorator(volume) {
-            this->fov = fov;
-            this->aspect = aspect;
-            this->distNear = distNear;
-            this->distFar = distFar;
-            this->projectionMode = OE_ORTHOGONAL;
+                IViewingVolumeDecorator::SetFOV(fov);
+                IViewingVolumeDecorator::SetAspect(aspect);
+                IViewingVolumeDecorator::SetNear(distNear);
+                IViewingVolumeDecorator::SetFar(distFar);
+                IViewingVolumeDecorator::SetProjectionMode(IViewingVolume::OE_ORTHOGONAL);
 	}
 
 /**

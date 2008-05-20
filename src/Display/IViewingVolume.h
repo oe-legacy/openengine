@@ -34,9 +34,10 @@ using namespace OpenEngine::Geometry;
  * @class IViewingVolume IViewingVolume.h Display/IViewingVolume.h
  */
 class IViewingVolume {
-   public:
-      enum ProjectionMode { OE_PERSPECTIVE, OE_ORTHOGONAL };
-    protected:
+public:
+    enum ProjectionMode { OE_PERSPECTIVE, OE_ORTHOGONAL };
+
+protected:
     float fov;                  //!< field of view.
     float aspect;               //!< aspect ratio.
 
@@ -46,15 +47,12 @@ class IViewingVolume {
     float distFar;              //!< far clipping distance.
 
     ProjectionMode projectionMode;
-public:
-   
 
+public:
     /**
      * Default constructor.
      */
-    IViewingVolume() {
-      projectionMode = OE_PERSPECTIVE;
-    }
+    IViewingVolume() : projectionMode(OE_PERSPECTIVE) {}
 
     /**
      * Module destructor.
@@ -128,48 +126,73 @@ public:
      */
     virtual bool IsVisible(const Box& box) = 0;
 
-    
-   // get / set methods
-   virtual void SetFOV(const float fov) {
-            this->fov = fov;
-   }
-   virtual float GetFOV() {
-            return fov;
-   }
-   virtual void SetAspect(const float aspect) {
-            this->aspect = aspect;
-   }
-   virtual float GetAspect() {
-            return aspect;
-   }
-   virtual void SetNear(const float distNear) {
-            this->distNear = distNear;
-   }
-   virtual float GetNear() {
-            return distNear;
-   }
-   virtual void SetFar(const float distFar) {
-      this->distFar = distFar;
-   }
-   virtual float GetFar() {
-            return distFar;
-   }
+    /**
+     * Set the field of view.
+     *
+     * @param fov Field of view.
+     */
+    virtual void SetFOV(const float fov) = 0;
 
-   /**
-   * Set the projection mode
-   *
-   */
-   virtual void SetProjectionMode(ProjectionMode projectionMode) {
-            this->projectionMode = projectionMode;
-   }
+    /**
+     * Get the current field of view.
+     *
+     * @return Field of view.
+     */
+    virtual float GetFOV() = 0;
 
-   /**
-   * Get the projection mode
-   *
-   */
-   virtual ProjectionMode GetProjectionMode() {
-            return projectionMode;
-   }
+    /**
+     * Set the aspect ratio.
+     *
+     * @param aspect Aspect ratio.
+     */
+    virtual void SetAspect(const float aspect) = 0;
+
+    /**
+     * Get the current aspect ratio.
+     */
+    virtual float GetAspect() = 0;
+
+    /**
+     * Set the distance to the near clipping plane.
+     *
+     * @param distNear Near clipping plane.
+     */
+    virtual void SetNear(const float distNear) = 0;
+
+    /**
+     * Get the current distance to the near clipping plane.
+     *
+     * @return Near clipping plane.
+     */
+    virtual float GetNear() = 0;
+
+    /**
+     * Set the distance to the far clipping plane.
+     *
+     * @param distFar Far clipping plane.
+     */
+    virtual void SetFar(const float distFar) = 0;
+
+    /**
+     * Get the current distance to the far clipping plane.
+     *
+     * @return Far clipping plane.
+     */
+    virtual float GetFar() = 0;
+
+    /**
+     * Set the projection mode for the volume.
+     *
+     * @param projectionMode projection mode.
+     */
+    virtual void SetProjectionMode(ProjectionMode projectionMode) = 0;
+
+    /**
+     * Get the projection mode for the volume.
+     *
+     * @return projection mode.
+     */
+    virtual ProjectionMode GetProjectionMode() = 0;
 };
 
 } // NS Display

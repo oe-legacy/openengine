@@ -56,6 +56,46 @@ Matrix<4,4,float> ViewingVolume::GetViewMatrix() {
     return t * m;
 }
 
+void ViewingVolume::SetFOV(const float fov) {
+   this->fov = fov;
+}
+
+float ViewingVolume::GetFOV() {
+   return fov;
+}
+
+void ViewingVolume::SetAspect(const float aspect) {
+   this->aspect = aspect;
+}
+
+float ViewingVolume::GetAspect() {
+   return aspect;
+}
+
+void ViewingVolume::SetNear(const float distNear) {
+   this->distNear = distNear;
+}
+
+float ViewingVolume::GetNear() {
+   return distNear;
+}
+
+void ViewingVolume::SetFar(const float distFar) {
+   this->distFar = distFar;
+}
+
+float ViewingVolume::GetFar() {
+   return distFar;
+}
+
+void ViewingVolume::SetProjectionMode(IViewingVolume::ProjectionMode projectionMode) {
+   this->projectionMode = projectionMode;
+}
+
+IViewingVolume::ProjectionMode ViewingVolume::GetProjectionMode() {
+   return projectionMode;
+}
+
 /**
  * Empty signal handler.
  */
