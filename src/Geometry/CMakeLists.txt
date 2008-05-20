@@ -6,4 +6,5 @@ ADD_LIBRARY(OpenEngine_Geometry
 	    Plane.cpp
 	    Square.cpp
 	    Face.cpp
-	    FaceSet.cpp)
+	    FaceSet.cpp
+	    Material.cpp)

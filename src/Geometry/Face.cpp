@@ -39,8 +39,9 @@ void Face::Copy(const Face& face) {
 		bino[i] = face.bino[i];
     }
   	hardNorm = face.hardNorm;
-    texr = face.texr;
-    shad = face.shad;    
+    mat = face.mat;
+//     texr = face.texr;
+//     shad = face.shad;    
 }
 
 /**

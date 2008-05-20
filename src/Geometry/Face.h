@@ -11,8 +11,9 @@
 #define _FACE_H_
 
 #include <Math/Vector.h>
-#include <Resources/ITextureResource.h>
-#include <Resources/IShaderResource.h>
+//#include <Resources/ITextureResource.h>
+//#include <Resources/IShaderResource.h>
+#include <Geometry/Material.h>
 #include <Math/Math.h>
 #include <boost/serialization/shared_ptr.hpp> // include serialization
                                               // for shared_ptr
@@ -50,12 +51,11 @@ private:
         ar & norm;
         ar & texc;
         ar & hardNorm;
-        ar & texr;
+        ar & mat;
         // members that are not serialized
         // ar & colr;
         // ar & tang;
         // ar & bino;
-        // ar & shad;
     }
 
     Face() {}; // Empty constructor for boost serialize
@@ -69,8 +69,10 @@ public:
     Vector<3,float> bino[3];    //!< binormal
 	Vector<3,float> hardNorm;   //!< normal perpendicular to plane defined by face.
 
-    OpenEngine::Resources::ITextureResourcePtr texr; //!< texture resource
-    OpenEngine::Resources::IShaderResourcePtr  shad; //!< shader resource
+    //    OpenEngine::Resources::ITextureResourcePtr texr; //!< texture resource
+    //    OpenEngine::Resources::IShaderResourcePtr  shad; //!< shader resource
+    
+    MaterialPtr mat;
 
     Face(Vector<3,float> p1, Vector<3,float> p2, Vector<3,float> p3);
     Face(Vector<3,float> p1, Vector<3,float> p2, Vector<3,float> p3,
