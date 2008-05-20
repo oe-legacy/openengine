@@ -26,6 +26,9 @@ void Face::Init() {
     CalcHardNorm();
     // Calculate the binormals and tangents
     CalcTangentSpace();
+
+    // For now we initialize a default material to avoid NULL pointer exceptions
+    mat = MaterialPtr(new Material());
 }
 
 // Shared copy initialization code
