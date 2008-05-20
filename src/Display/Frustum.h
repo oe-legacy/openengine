@@ -43,7 +43,7 @@ private:
         ISceneNode* Clone();
         void Apply(IRenderingView* view);
     };
-
+/*
     float fov;                  //!< field of view.
     float aspect;               //!< aspect ratio.
 
@@ -51,7 +51,7 @@ private:
     // near and far so we don't use them.
     float distNear;             //!< near clipping distance.
     float distFar;              //!< far clipping distance.
-
+*/
     Plane* planes[6];           //!< computed clipping planes.
     FNode* node;                //!< rendering node.
     Vector<3,float> center;     //!< center of frustum.

@@ -28,12 +28,13 @@ Frustum::Frustum(IViewingVolume& volume,
                  const float distNear, const float distFar,
                  const float aspect, const float fov)
     : IViewingVolumeDecorator(volume),
-      fov(fov),
-      aspect(aspect),
-      distNear(distNear),
-      distFar(distFar),
       visualizeClipping(false)
 {
+   this->fov = fov;
+   this->aspect = aspect;
+   this->distNear = distNear;
+   this->distFar = distFar;
+   
     // initialize planes.
     for (unsigned int i=0; i<6; i++)
         planes[i] = new Plane(Vector<3,float>(), 0);

@@ -3,6 +3,7 @@ ADD_LIBRARY(OpenEngine_Display
 	    ViewingVolume.cpp
 	    Camera.cpp
 	    Frustum.cpp
+	    Orthotope.cpp
 	    FollowCamera.cpp
 	    InterpolatedViewingVolume.cpp
 	    )

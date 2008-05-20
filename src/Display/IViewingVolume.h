@@ -34,12 +34,27 @@ using namespace OpenEngine::Geometry;
  * @class IViewingVolume IViewingVolume.h Display/IViewingVolume.h
  */
 class IViewingVolume {
+   public:
+      enum ProjectionMode { OE_PERSPECTIVE, OE_ORTHOGONAL };
+    protected:
+    float fov;                  //!< field of view.
+    float aspect;               //!< aspect ratio.
+
+    // We would have liked to use near/far here but VC++ has defined
+    // near and far so we don't use them.
+    float distNear;             //!< near clipping distance.
+    float distFar;              //!< far clipping distance.
+
+    ProjectionMode projectionMode;
 public:
-    
+   
+
     /**
      * Default constructor.
      */
-    IViewingVolume() {}
+    IViewingVolume() {
+      projectionMode = OE_PERSPECTIVE;
+    }
 
     /**
      * Module destructor.
@@ -113,6 +128,48 @@ public:
      */
     virtual bool IsVisible(const Box& box) = 0;
 
+    
+   // get / set methods
+   virtual void SetFOV(const float fov) {
+            this->fov = fov;
+   }
+   virtual float GetFOV() {
+            return fov;
+   }
+   virtual void SetAspect(const float aspect) {
+            this->aspect = aspect;
+   }
+   virtual float GetAspect() {
+            return aspect;
+   }
+   virtual void SetNear(const float distNear) {
+            this->distNear = distNear;
+   }
+   virtual float GetNear() {
+            return distNear;
+   }
+   virtual void SetFar(const float distFar) {
+      this->distFar = distFar;
+   }
+   virtual float GetFar() {
+            return distFar;
+   }
+
+   /**
+   * Set the projection mode
+   *
+   */
+   virtual void SetProjectionMode(ProjectionMode projectionMode) {
+            this->projectionMode = projectionMode;
+   }
+
+   /**
+   * Get the projection mode
+   *
+   */
+   virtual ProjectionMode GetProjectionMode() {
+            return projectionMode;
+   }
 };
 
 } // NS Display
