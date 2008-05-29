@@ -35,6 +35,11 @@ Frustum::Frustum(IViewingVolume& volume,
     IViewingVolumeDecorator::SetNear(distNear);
     IViewingVolumeDecorator::SetFar(distFar);
 
+    this->fov = GetFOV();
+    this->distFar = GetFar();
+    this->distNear = GetNear();
+    this->aspect = GetAspect();
+
     // initialize planes.
     for (unsigned int i=0; i<6; i++)
         planes[i] = new Plane(Vector<3,float>(), 0);
@@ -66,9 +71,9 @@ Frustum::~Frustum() {
  * @param fov Field of view.
  */
 void Frustum::SetFOV(const float fov) {
+    this->fov = fov;
     IViewingVolumeDecorator::SetFOV(fov);
     UpdateDimensions();
-    //this->fov = fov;
 }
 
 /**
@@ -77,7 +82,7 @@ void Frustum::SetFOV(const float fov) {
  * @param aspect Aspect ratio.
  */
 void Frustum::SetAspect(const float aspect) {
-    //this->aspect = aspect;
+    this->aspect = aspect;
     IViewingVolumeDecorator::SetAspect(aspect);
     UpdateDimensions();
 }
@@ -88,7 +93,7 @@ void Frustum::SetAspect(const float aspect) {
  * @param distNear Near clipping plane.
  */
 void Frustum::SetNear(const float distNear) {
-    //this->distNear = distNear;
+    this->distNear = distNear;
     IViewingVolumeDecorator::SetNear(distNear);
     UpdateDimensions();
 }
@@ -99,7 +104,7 @@ void Frustum::SetNear(const float distNear) {
  * @param distFar Far clipping plane.
  */
 void Frustum::SetFar(float distFar) {
-    //this->distFar = distFar;
+    this->distFar = distFar;
     IViewingVolumeDecorator::SetFar(distFar);
     UpdateDimensions();
 }
@@ -124,6 +129,7 @@ IRenderNode* Frustum::GetFrustumNode() {
 void Frustum::SignalRendering(const float dt) {
     // update the volume first as we depend on its structure.
     volume.SignalRendering(dt);
+    //    UpdateDimensions();
     UpdatePlanes();
     // clear the visible tests
     visible.clear();
