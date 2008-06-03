@@ -6,6 +6,9 @@ ADD_LIBRARY(OpenEngine_Scene
   CollectedGeometryTransformer.cpp
   TransformationNode.cpp
   DotVisitor.cpp
+  LightNode.cpp
+  DirectionalLightNode.cpp
+  PointLightNode.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Scene)
