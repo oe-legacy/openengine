@@ -31,7 +31,7 @@ using std::list;
  */
 template <typename EventArg>
 class Event : public IEvent<EventArg> {
-private:
+protected:
     //! list of listeners
     list<IListener<EventArg>*> ls;
 
