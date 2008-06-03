@@ -26,6 +26,8 @@ class SceneNode;
 class GeometryNode;
 class TransformationNode;
 class TerrainNode;
+class PointLightNode;
+class DirectionalLightNode;
 
 // generated forward declarations
 @OE_VISITOR_HEADER_DECLARATION_EXPANSION@
@@ -61,6 +63,8 @@ public:
     virtual void VisitTransformationNode(TransformationNode* node);
     virtual void VisitRenderStateNode(RenderStateNode* node);
     virtual void VisitRenderNode(IRenderNode* node);
+    virtual void VisitPointLightNode(PointLightNode* node);
+    virtual void VisitDirectionalLightNode(DirectionalLightNode* node);
 
 // generated visit declerations
 @OE_VISITOR_HEADER_EXPANSION@

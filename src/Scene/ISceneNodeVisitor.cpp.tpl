@@ -13,6 +13,8 @@
 #include <Scene/SceneNode.h>
 #include <Scene/GeometryNode.h>
 #include <Scene/TransformationNode.h>
+#include <Scene/PointLightNode.h>
+#include <Scene/DirectionalLightNode.h>
 #include <Renderers/RenderStateNode.h>
 #include <Renderers/IRenderNode.h>
 
@@ -71,6 +73,15 @@ namespace Scene {
     void ISceneNodeVisitor::VisitRenderNode(IRenderNode* node) {
         DefaultVisitNode(node);
     }
+    //! @see VisitSceneNode
+    void ISceneNodeVisitor::VisitPointLightNode(PointLightNode* node) { 
+        DefaultVisitNode(node); 
+    }
+    //! @see  VisitSceneNode
+    void ISceneNodeVisitor::VisitDirectionalLightNode(DirectionalLightNode* node) { 
+        DefaultVisitNode(node); 
+    }
+
 
 // generated default visit implementations
 @OE_VISITOR_IMPL_EXPANSION@

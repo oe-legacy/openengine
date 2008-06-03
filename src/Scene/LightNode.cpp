@@ -25,7 +25,8 @@ LightNode::~LightNode() {
 
 //! Accept of visitors
 void LightNode::Accept(ISceneNodeVisitor& v) { 
-    v.VisitLightNode(this);
+    //    v.VisitLightNode(this);
+    // commented out as we really don't wanna visit lightnode
 }
 
 
