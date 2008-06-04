@@ -9,6 +9,7 @@ ADD_LIBRARY(OpenEngine_Scene
   LightNode.cpp
   DirectionalLightNode.cpp
   PointLightNode.cpp
+  SpotLightNode.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Scene)
