@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <Core/IModule.h>
+#include <Core/Event.h>
 #include <Scene/ISceneNode.h>
 #include <Geometry/Line.h>
 #include <Geometry/Face.h>
@@ -21,6 +22,7 @@ namespace OpenEngine {
 namespace Renderers {
 
 using OpenEngine::Core::IModule;
+using OpenEngine::Core::Event;
 using OpenEngine::Scene::ISceneNode;
 using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
@@ -28,7 +30,16 @@ using OpenEngine::Math::Vector;
 using namespace std;
 
 // Forward declaration
+class IRenderer;
 class IRenderingView;
+
+/**
+ *
+ */
+struct RenderingEventArg {
+    IRenderer& renderer;
+    float dt;
+};
 
 /**
  * Renderer interface. This engine module is responsible for
@@ -41,12 +52,22 @@ class IRenderingView;
 class IRenderer : public virtual IModule {
 protected:
     //! list of rendering views
-    list<IRenderingView*> vRenderingView;
+    //list<IRenderingView*> vRenderingView;
 
     //! root node of the rendering scene
     ISceneNode* root;
 
 public:
+
+    /**
+     * Rendering phases.
+     */
+    Event<RenderingEventArg> initialize;
+    Event<RenderingEventArg> preProcess;
+    Event<RenderingEventArg> process;
+    Event<RenderingEventArg> postProcess;
+    Event<RenderingEventArg> deinitialize;
+
     /**
      * Default constructor.
      */
@@ -84,33 +105,6 @@ public:
     }
 
     /**
-     * Add a RenderingView to the renderer.
-     *
-     * @param view pointer to a IRenderingView instance
-     */
-    void AddRenderingView(IRenderingView* view){
-        vRenderingView.push_back(view);
-    }
-
-    /**
-     * Remove a RenderingView from the renderer.
-     *
-     * @param view pointer to IRenderingView instance to be removed
-     */
-    void RemoveRenderingView(IRenderingView* view) {
-        vRenderingView.remove(view);
-    }
-
-    /**
-     * Get number of RenderingView's
-     *
-     * @return int number of RenderingViews
-     */
-    int NumberOfRenderingViews() {
-        return vRenderingView.size();
-    }
-
-    /**
      * Draw a face (wire framed).
      *
      * @param face Face to draw.
@@ -138,11 +132,22 @@ public:
     virtual void DrawPoint(Vector<3,float> point, Vector<3,float> color , float size = 1) = 0;
 
     /**
-     * Set far clipping plane for renderer. E.g. to specify different far clipping plane for sky box rendering.
+     * Set far clipping plane for rendering.
+     * This specifies a different far clipping plane then for the
+     * active viewing volume, allowing sky box rendering.
      *
      * @param farPlane Far clipping plane.
      */
     virtual void SetFarPlane(float farPlane) = 0;
+
+    /**
+     * Get the current far clipping plane for rendering.
+     * If it is not set 0 is returned.
+     *
+     * @return farPlane Far clipping plane.
+     */
+    virtual float GetFarPlane() = 0;
+
 };
 
 } // NS Renderers

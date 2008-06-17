@@ -262,11 +262,6 @@ void GameEngine::Start(IGameFactory* factory) {
     // Call setup to add all other modules and do other setup.
     bool start = factory->SetupEngine(*this);
 
-    // Check the renderer state and add it as the last module to the engine
-    if (renderer->NumberOfRenderingViews() == 0) {
-        logger.error << "No rendering views have been supplied to renderer." << logger.end;
-        fail = true;
-    }
     if (renderer->GetSceneRoot() == NULL) {
         logger.error << "No rendering scene has been supplied to renderer." << logger.end;
         fail = true;

@@ -7,4 +7,5 @@ ADD_LIBRARY(OpenEngine_Geometry
 	    Square.cpp
 	    Face.cpp
 	    FaceSet.cpp
-	    Material.cpp)
+	    Material.cpp
+	    VertexArray.cpp)

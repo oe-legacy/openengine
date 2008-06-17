@@ -12,6 +12,7 @@
 #include <Scene/ISceneNodeVisitor.h>
 #include <Scene/SceneNode.h>
 #include <Scene/GeometryNode.h>
+#include <Scene/VertexArrayNode.h>
 #include <Scene/TransformationNode.h>
 #include <Scene/PointLightNode.h>
 #include <Scene/SpotLightNode.h>
@@ -60,6 +61,10 @@ namespace Scene {
     }
     //! @see VisitSceneNode
     void ISceneNodeVisitor::VisitGeometryNode(GeometryNode* node) {
+        DefaultVisitNode(node);
+    }
+    //! @see VisitSceneNode
+    void ISceneNodeVisitor::VisitVertexArrayNode(VertexArrayNode* node) {
         DefaultVisitNode(node);
     }
     //! @see VisitSceneNode

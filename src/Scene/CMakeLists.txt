@@ -5,6 +5,8 @@ ADD_LIBRARY(OpenEngine_Scene
   GeometryNode.cpp
   CollectedGeometryTransformer.cpp
   TransformationNode.cpp
+  VertexArrayNode.cpp
+  VertexArrayTransformer.cpp
   DotVisitor.cpp
   LightNode.cpp
   DirectionalLightNode.cpp

@@ -24,8 +24,8 @@ namespace Scene {
 class ISceneNode;
 class SceneNode;
 class GeometryNode;
+class VertexArrayNode;
 class TransformationNode;
-class TerrainNode;
 class PointLightNode;
 class DirectionalLightNode;
 class SpotLightNode;
@@ -61,6 +61,7 @@ public:
     // visitor on sub nodes.
     virtual void VisitSceneNode(SceneNode* node);
     virtual void VisitGeometryNode(GeometryNode* node);
+    virtual void VisitVertexArrayNode(VertexArrayNode* node);
     virtual void VisitTransformationNode(TransformationNode* node);
     virtual void VisitRenderStateNode(RenderStateNode* node);
     virtual void VisitRenderNode(IRenderNode* node);

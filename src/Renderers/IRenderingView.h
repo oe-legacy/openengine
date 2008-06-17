@@ -10,6 +10,7 @@
 #ifndef _INTERFACE_RENDERING_VIEW_H_
 #define _INTERFACE_RENDERING_VIEW_H_
 
+#include <Core/IListener.h>
 #include <Scene/ISceneNodeVisitor.h>
 #include <Display/Viewport.h>
 #include <Math/Vector.h>
@@ -19,6 +20,7 @@
 namespace OpenEngine {
 namespace Renderers {
 
+using OpenEngine::Core::IListener;
 using OpenEngine::Scene::ISceneNodeVisitor;
 using OpenEngine::Display::Viewport;
 using OpenEngine::Math::Vector;
@@ -41,10 +43,18 @@ class OpenEngine::Scene::GeometryNode;
  * @see IRenderer
  * @see ISceneNodeVisitor
  */
-class IRenderingView : public ISceneNodeVisitor {
+class IRenderingView : public ISceneNodeVisitor, public IListener<RenderingEventArg> {
 protected:
 
     Viewport& viewport;         //!< Viewport of this rendering view.
+
+    /**
+     * Render a scene.
+     *
+     * @param renderer Current renderer.
+     * @param root Root of scene to render.
+     */
+    virtual void Render(IRenderer* renderer, ISceneNode* root) = 0;
 
 public:
 
@@ -76,13 +86,11 @@ public:
      */
     virtual IRenderer* GetRenderer() = 0;
 
+
     /**
-     * Render a scene.
-     *
-     * @param renderer Current renderer.
-     * @param root Root of scene to render.
+     * Processing hook
      */
-    virtual void Render(IRenderer* renderer, ISceneNode* root) = 0;
+    virtual void Handle(RenderingEventArg arg) = 0;
 
 };
 
