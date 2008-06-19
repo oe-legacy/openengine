@@ -38,22 +38,24 @@ void VertexArrayTransformer::VisitGeometryNode(GeometryNode* node) {
     // Create VertexArrayNode
     VertexArrayNode* vaNode = new VertexArrayNode();
 
-    // Clone sub node pointers
+    // Move sub nodes to the new VA node
+    list<ISceneNode*> sn = node->subNodes;
+    node->RemoveAllNodes();
     list<ISceneNode*>::iterator itr;
-    for(itr = node->subNodes.begin(); itr!=node->subNodes.end(); itr++){
+    for (itr = sn.begin(); itr != sn.end(); itr++)
         vaNode->AddNode(*itr);
-    }
 
     // We only process the geometry if it contains a face set
     FaceSet* faces = node->GetFaceSet();
     if (faces != NULL) {
 
-        // Run through all faces and group them by materials
         FaceSet*    fs;
         FacePtr     f;
         MaterialPtr m;
         std::map<MaterialPtr, FaceSet*>   fmap;
         std::map<MaterialPtr, FaceSet*>::iterator imap;
+
+        // Run through all faces and group them by materials
         for (FaceList::iterator itr = faces->begin(); itr != faces->end(); itr++) {
             // Get the face and material
             f = *itr;
@@ -77,8 +79,10 @@ void VertexArrayTransformer::VisitGeometryNode(GeometryNode* node) {
         // material we create a vertex array for each face set and add it
         // to the vertex array node.
         for (imap = fmap.begin(); imap != fmap.end(); imap++) {
-            VertexArray* va = new VertexArray(*(*imap).second);
+            fs = imap->second;
+            VertexArray* va = new VertexArray(*fs);
             vaNode->AddVertexArray(*va);
+            delete fs;
         }
     }
 
@@ -86,7 +90,7 @@ void VertexArrayTransformer::VisitGeometryNode(GeometryNode* node) {
     node->GetParent()->ReplaceNode(node,vaNode);
 
     // Continue the transformation on all the VA-nodes children
-    //vaNode->Accept(*this);
+    vaNode->Accept(*this);
 
 }
 
