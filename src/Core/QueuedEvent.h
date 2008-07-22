@@ -68,7 +68,7 @@ public:
         typename list<IListener<EventArg>*>::iterator l;
         for (e = eq.begin(); e != eq.end(); e++)
             for (l = ls.begin(); l != ls.end(); l++)
-                (*l)->Handle(l);
+                (*l)->Handle(*e);
         eq.clear();
     }
 
