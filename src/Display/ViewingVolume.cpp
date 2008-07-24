@@ -18,7 +18,12 @@ namespace Display {
  * identity which should amount to looking along the negative
  * z-axis with the y-axis as up.
  */
-ViewingVolume::ViewingVolume() {
+ViewingVolume::ViewingVolume() :
+    projectionMode(OE_PERSPECTIVE),
+    distNear(10),
+    distFar(300),
+    aspect(4.0/3.0),
+    fov(PI/4.0) {
 
 }
 

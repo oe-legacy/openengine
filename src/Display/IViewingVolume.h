@@ -37,23 +37,6 @@ class IViewingVolume {
 public:
     enum ProjectionMode { OE_PERSPECTIVE, OE_ORTHOGONAL };
 
-protected:
-    float fov;                  //!< field of view.
-    float aspect;               //!< aspect ratio.
-
-    // We would have liked to use near/far here but VC++ has defined
-    // near and far so we don't use them.
-    float distNear;             //!< near clipping distance.
-    float distFar;              //!< far clipping distance.
-
-    ProjectionMode projectionMode;
-
-public:
-    /**
-     * Default constructor.
-     */
-    IViewingVolume() : projectionMode(OE_PERSPECTIVE) {}
-
     /**
      * Module destructor.
      */

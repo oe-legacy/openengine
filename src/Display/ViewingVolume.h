@@ -26,11 +26,18 @@ class ViewingVolume : public IViewingVolume {
 
 protected:
 
-    //! position vector
-    Vector<3,float> position;
+    Vector<3,float> position;    //!< position vector
+    Quaternion<float> direction; //!< direction quaternion
 
-    //! direction quaternion
-    Quaternion<float> direction;
+    float fov;                   //!< field of view.
+    float aspect;                //!< aspect ratio.
+
+    // We would have liked to use near/far here but VC++ has defined
+    // near and far so we don't use them.
+    float distNear;              //!< near clipping distance.
+    float distFar;               //!< far clipping distance.
+
+    ProjectionMode projectionMode;
 
 public:
 
