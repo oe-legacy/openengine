@@ -43,12 +43,13 @@ def clean(delroot=True):
     """
     clean         -- delete all build files
     """
-    if path.isdir(build_dir):
-        for root, dirs, files in os.walk(build_dir, topdown=False):
-            for name in files:
-                os.remove(path.join(root, name))
-            for name in dirs:
-                os.rmdir(path.join(root, name))
+    if not path.isdir(build_dir):
+        return
+    for root, dirs, files in os.walk(build_dir, topdown=False):
+        for name in files:
+            os.remove(path.join(root, name))
+        for name in dirs:
+            os.rmdir(path.join(root, name))
     if delroot:
         os.rmdir(build_dir)
 
