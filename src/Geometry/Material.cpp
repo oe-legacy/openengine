@@ -18,11 +18,11 @@ using namespace OpenEngine::Math;
 
 // helper function initial material
 void Material::Init() {
-  	ambient = Vector<4,float>(1.0,1.0,1.0,1.0);
-    diffuse = Vector<4,float>(1.0,1.0,1.0,1.0);
-    specular = Vector<4,float>(1.0,1.0,1.0,1.0);
+  	ambient = Vector<4,float>(0.2,0.2,0.2,1.0);
+    diffuse = Vector<4,float>(0.8,0.8,0.8,1.0);
+    specular = Vector<4,float>(0.0,0.0,0.0,1.0);
     emission = Vector<4,float>(0.0,0.0,0.0,1.0);
-    shininess = 0;    
+    shininess = 0.0;    
 }
 
 // initialize default material.
