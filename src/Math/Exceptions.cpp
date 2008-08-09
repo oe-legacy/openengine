@@ -16,9 +16,9 @@ namespace Math {
 using OpenEngine::Utils::Convert;
 
 IndexOutOfBounds::IndexOutOfBounds(int i, int l, int u)
-    : out_of_range("Index " + Convert::int2string(i) +
-                   " not in range: " + Convert::int2string(l) +
-                   " to " + Convert::int2string(u) + ".") {
+    : out_of_range("Index " + Convert::ToString(i) +
+                   " not in range: " + Convert::ToString(l) +
+                   " to " + Convert::ToString(u) + ".") {
 }
 
 } // Math

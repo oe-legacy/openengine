@@ -10,6 +10,7 @@
 #ifndef _CONVERT_
 #define _CONVERT_
 
+#include <sstream>
 #include <string>
 
 namespace OpenEngine {
@@ -24,11 +25,20 @@ using std::string;
  */
 class Convert {
 public:
-    static string int2string(int i);
     static string ToLower(string str);
 
-	template<class T>
-	static string ToString(const T& t);
+    /** 
+     * Generic method for converting something to string
+     * 
+     * @param t Input you want to convert to string
+     * 
+     * @return String representing the input
+     */
+    template<class T> static string ToString(const T& t) {
+        std::stringstream ss;
+	ss << t;
+	return ss.str();
+    }
 };
 
 } // NS Utils
