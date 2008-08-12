@@ -43,6 +43,8 @@ def install(dist):
     """
     install <dist> -- install the distribution <dist>
     """
+    if dist.startswith("proj:"):
+        dist = "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:])
     file = dist.split("/")[-1]
     print "Installing distribution to %s" % file
     urllib.urlretrieve(dist, file)
