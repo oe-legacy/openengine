@@ -1,4 +1,4 @@
-// Platform independent timer
+// Platform independent timer.
 //--------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,15 +7,11 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _TIMER_H_
-#define _TIMER_H_
-
-#include <string>
+#ifndef _OE_TIMER_H_
+#define _OE_TIMER_H_
 
 namespace OpenEngine {
 namespace Utils {
-
-using std::string;
 
 /**
  * Platform independent timer.
@@ -23,26 +19,31 @@ using std::string;
  * @class Timer Timer.h Utils/Timer.h
  */
 class Timer {
-public:
- 
-    /**
-     * Get a time reference.
-     * Is comparible to the GetTickCount() from the Windows API.
-     *
-     * @return Time count
-     */
-    static double GetTime();
+private:
+    //! start and stop time stamps.
+    unsigned long start, stop;
 
-    /**
-     * Get a timestamp as string.
-     *
-     * @return string timestamp
-     */
-    static string GetDateTime();
+public:
+
+    Timer();
+
+    void Start();
+    void Stop();
+    void Reset();
+
+    unsigned long GetElapsedTime() const;
+    unsigned long GetElapsedTimeAndReset();
+
+    unsigned int GetElapsedIntervals(const unsigned int) const;
+    unsigned int GetElapsedIntervalsAndReset(const unsigned int);
+
+    bool IsRunning() const;
+
+    static unsigned long GetTime();
 
 };
 
 } //NS Utils
 } //NS OpenEngine
 
-#endif
+#endif // _OE_TIMER_H_
