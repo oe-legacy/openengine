@@ -18,12 +18,7 @@ namespace Display {
  * identity which should amount to looking along the negative
  * z-axis with the y-axis as up.
  */
-ViewingVolume::ViewingVolume() :
-    projectionMode(OE_PERSPECTIVE),
-    distNear(10),
-    distFar(300),
-    aspect(4.0/3.0),
-    fov(PI/4.0) {
+ViewingVolume::ViewingVolume() {
 
 }
 
@@ -61,44 +56,22 @@ Matrix<4,4,float> ViewingVolume::GetViewMatrix() {
     return t * m;
 }
 
-void ViewingVolume::SetFOV(const float fov) {
-   this->fov = fov;
-}
-
-float ViewingVolume::GetFOV() {
-   return fov;
-}
-
-void ViewingVolume::SetAspect(const float aspect) {
-   this->aspect = aspect;
-}
-
-float ViewingVolume::GetAspect() {
-   return aspect;
-}
-
-void ViewingVolume::SetNear(const float distNear) {
-   this->distNear = distNear;
-}
-
-float ViewingVolume::GetNear() {
-   return distNear;
-}
-
-void ViewingVolume::SetFar(const float distFar) {
-   this->distFar = distFar;
-}
-
-float ViewingVolume::GetFar() {
-   return distFar;
-}
-
-void ViewingVolume::SetProjectionMode(IViewingVolume::ProjectionMode projectionMode) {
-   this->projectionMode = projectionMode;
-}
-
-IViewingVolume::ProjectionMode ViewingVolume::GetProjectionMode() {
-   return projectionMode;
+Matrix<4,4,float> ViewingVolume::GetProjectionMatrix() {
+	// Setup standard values (use Frustum or Orthotope to customize) 
+	float fov = PI/4;
+	float aspect = 4.0/3.0;
+	float distNear = 1;
+	float distFar = 300;
+	
+	float f = 1 / tan( fov / 2 );
+	float a = ( distFar + distNear ) / ( distNear - distFar );
+	float b = (2 * distFar * distNear ) / ( distNear - distFar );
+	Matrix<4,4,float> matrix(f/aspect,	0,	0,	0,
+				 0, 			f, 	0, 	0,
+				 0,			0, 	a,	b,
+				 0,			0,	-1,	0);
+	matrix.Transpose();
+	return matrix;
 }
 
 /**

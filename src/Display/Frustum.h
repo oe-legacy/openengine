@@ -62,6 +62,9 @@ private:
     void UpdateFrame();
 
     void CalculateNearPlane(float& right, float& left, float& top, float& bottom);
+    
+    float distNear, distFar;
+    float fov, aspect;
 
 public:
 
@@ -72,10 +75,15 @@ public:
     virtual ~Frustum();
 
     // get / set methods
+    virtual float GetFOV();
+    virtual float GetAspect();
+    virtual float GetNear();
+    virtual float GetFar();
     virtual void SetFOV(const float fov);
     virtual void SetAspect(const float aspect);
     virtual void SetNear(const float distNear);
     virtual void SetFar(const float distFar);
+    virtual Matrix<4,4,float> GetProjectionMatrix();
 
     // new frustum methods
     virtual IRenderNode* GetFrustumNode();

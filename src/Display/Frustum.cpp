@@ -28,13 +28,8 @@ Frustum::Frustum(IViewingVolume& volume,
                  const float distNear, const float distFar,
                  const float aspect, const float fov)
     : IViewingVolumeDecorator(volume),
-      visualizeClipping(false)
+      visualizeClipping(false), fov(fov), aspect(aspect), distNear(distNear), distFar(distFar) 
 {
-    volume.SetFOV(fov);
-    volume.SetAspect(aspect);
-    volume.SetNear(distNear);
-    volume.SetFar(distFar);
-
     // initialize planes.
     for (unsigned int i=0; i<6; i++)
         planes[i] = new Plane(Vector<3,float>(), 0);
@@ -60,13 +55,63 @@ Frustum::~Frustum() {
         delete planes[i];
 }
 
+
+Matrix<4,4,float> Frustum::GetProjectionMatrix() {
+	float f = 1 / tan( fov / 2 );
+	float a = ( distFar + distNear ) / ( distNear - distFar );
+	float b = (2 * distFar * distNear ) / ( distNear - distFar );
+	Matrix<4,4,float> matrix(f/aspect,	0,	0,	0,
+				 0, 			f, 	0, 	0,
+				 0,			0, 	a,	b,
+				 0,			0,	-1,	0);
+	matrix.Transpose();
+	return matrix;
+}
+
+/**
+ * Get the field of view.
+ *
+ * @return fov Field of view.
+ */
+float Frustum::GetFOV() {
+    return fov;
+}
+
+/**
+ * Get the aspect ratio.
+ *
+ * @return aspect Aspect ratio.
+ */
+float Frustum::GetAspect() {
+    return aspect;
+}
+
+/**
+ * Get the distance to the near clipping plane.
+ *
+ * @return distNear Near clipping plane.
+ */
+float Frustum::GetNear() {
+    return distNear;
+}
+
+/**
+ * Get the distance to the far clipping plane.
+ *
+ * @return distFar Far clipping plane.
+ */
+float Frustum::GetFar() {
+    return distFar;
+}
+
+
 /**
  * Set the field of view.
  *
  * @param fov Field of view.
  */
 void Frustum::SetFOV(const float fov) {
-    volume.SetFOV(fov);
+    this->fov = fov;
     UpdateDimensions();
 }
 
@@ -76,7 +121,7 @@ void Frustum::SetFOV(const float fov) {
  * @param aspect Aspect ratio.
  */
 void Frustum::SetAspect(const float aspect) {
-    volume.SetAspect(aspect);
+    this->aspect = aspect;
     UpdateDimensions();
 }
 
@@ -86,7 +131,7 @@ void Frustum::SetAspect(const float aspect) {
  * @param distNear Near clipping plane.
  */
 void Frustum::SetNear(const float distNear) {
-    volume.SetNear(distNear);
+    this->distNear = distNear;
     UpdateDimensions();
 }
 
@@ -96,7 +141,7 @@ void Frustum::SetNear(const float distNear) {
  * @param distFar Far clipping plane.
  */
 void Frustum::SetFar(float distFar) {
-    volume.SetFar(distFar);
+    this->distFar = distFar;
     UpdateDimensions();
 }
 
@@ -197,13 +242,13 @@ bool Frustum::IsVisible(const Box& box) {
  */
 void Frustum::CalculateNearPlane(float& left, float& right, float& top, float& bottom) {
     float t, ty, tx;
-    t  = GetFOV() * 0.5f;         // half of the angle
+    t  = fov * 0.5f;         // half of the angle
     ty = tan(t);                // unit distance on the y-axis
-    tx = ty * GetAspect();      // unit distance on the x-axis
+    tx = ty * aspect;      // unit distance on the x-axis
     // set the corners
-    right  = tx * GetNear();
+    right  = tx * distNear;
     left   = -right;
-    top    = ty * GetNear();
+    top    = ty * distNear;
     bottom = -top;
 }
 
@@ -248,8 +293,6 @@ void Frustum::UpdatePlanes() {
  * Compute the frustum projection matrix.
  */
 void Frustum::UpdateProjection() {
-    float distFar = GetFar();
-    float distNear = GetNear();
     float left, right, top, bottom;
     CalculateNearPlane(left, right, top, bottom);
 
@@ -273,8 +316,6 @@ void Frustum::UpdateProjection() {
  * Compute the frustum frame.
  */
 void Frustum::UpdateFrame() {
-    float distFar = GetFar();
-    float distNear = GetNear();
     float left, right, top, bottom;
     CalculateNearPlane(left, right, top, bottom);
     

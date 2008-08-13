@@ -131,23 +131,6 @@ public:
      */
     virtual void DrawPoint(Vector<3,float> point, Vector<3,float> color , float size = 1) = 0;
 
-    /**
-     * Set far clipping plane for rendering.
-     * This specifies a different far clipping plane then for the
-     * active viewing volume, allowing sky box rendering.
-     *
-     * @param farPlane Far clipping plane.
-     */
-    virtual void SetFarPlane(float farPlane) = 0;
-
-    /**
-     * Get the current far clipping plane for rendering.
-     * If it is not set 0 is returned.
-     *
-     * @return farPlane Far clipping plane.
-     */
-    virtual float GetFarPlane() = 0;
-
 };
 
 } // NS Renderers

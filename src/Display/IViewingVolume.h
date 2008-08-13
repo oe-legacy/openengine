@@ -35,7 +35,6 @@ using namespace OpenEngine::Geometry;
  */
 class IViewingVolume {
 public:
-    enum ProjectionMode { OE_PERSPECTIVE, OE_ORTHOGONAL };
 
     /**
      * Module destructor.
@@ -77,6 +76,13 @@ public:
      * @return View matrix of viewing volume.
      */
     virtual Matrix<4,4,float> GetViewMatrix() = 0;
+    
+    /**
+     * Get the projection matrix of the viewing volume.
+     *
+     * @return Projection matrix of viewing volume.
+     */
+    virtual Matrix<4,4,float> GetProjectionMatrix() = 0;
 
     /**
      * Signal method called before rendering run.
@@ -108,74 +114,6 @@ public:
      * @return True if part of the box is visible.
      */
     virtual bool IsVisible(const Box& box) = 0;
-
-    /**
-     * Set the field of view.
-     *
-     * @param fov Field of view.
-     */
-    virtual void SetFOV(const float fov) = 0;
-
-    /**
-     * Get the current field of view.
-     *
-     * @return Field of view.
-     */
-    virtual float GetFOV() = 0;
-
-    /**
-     * Set the aspect ratio.
-     *
-     * @param aspect Aspect ratio.
-     */
-    virtual void SetAspect(const float aspect) = 0;
-
-    /**
-     * Get the current aspect ratio.
-     */
-    virtual float GetAspect() = 0;
-
-    /**
-     * Set the distance to the near clipping plane.
-     *
-     * @param distNear Near clipping plane.
-     */
-    virtual void SetNear(const float distNear) = 0;
-
-    /**
-     * Get the current distance to the near clipping plane.
-     *
-     * @return Near clipping plane.
-     */
-    virtual float GetNear() = 0;
-
-    /**
-     * Set the distance to the far clipping plane.
-     *
-     * @param distFar Far clipping plane.
-     */
-    virtual void SetFar(const float distFar) = 0;
-
-    /**
-     * Get the current distance to the far clipping plane.
-     *
-     * @return Far clipping plane.
-     */
-    virtual float GetFar() = 0;
-
-    /**
-     * Set the projection mode for the volume.
-     *
-     * @param projectionMode projection mode.
-     */
-    virtual void SetProjectionMode(ProjectionMode projectionMode) = 0;
-
-    /**
-     * Get the projection mode for the volume.
-     *
-     * @return projection mode.
-     */
-    virtual ProjectionMode GetProjectionMode() = 0;
 };
 
 } // NS Display

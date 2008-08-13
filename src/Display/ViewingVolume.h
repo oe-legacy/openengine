@@ -29,16 +29,6 @@ protected:
     Vector<3,float> position;    //!< position vector
     Quaternion<float> direction; //!< direction quaternion
 
-    float fov;                   //!< field of view.
-    float aspect;                //!< aspect ratio.
-
-    // We would have liked to use near/far here but VC++ has defined
-    // near and far so we don't use them.
-    float distNear;              //!< near clipping distance.
-    float distFar;               //!< far clipping distance.
-
-    ProjectionMode projectionMode;
-
 public:
 
     ViewingVolume();
@@ -49,17 +39,7 @@ public:
     virtual Vector<3,float> GetPosition();
     virtual Quaternion<float> GetDirection();
     virtual Matrix<4,4,float> GetViewMatrix();
-
-    virtual void SetFOV(const float fov);
-    virtual float GetFOV();
-    virtual void SetAspect(const float aspect);
-    virtual float GetAspect();
-    virtual void SetNear(const float distNear);
-    virtual float GetNear();
-    virtual void SetFar(const float distFar);
-    virtual float GetFar();
-    virtual void SetProjectionMode(ProjectionMode projectionMode);
-    virtual ProjectionMode GetProjectionMode();
+    virtual Matrix<4,4,float> GetProjectionMatrix();
 
     virtual void SignalRendering(const float dt);
 
