@@ -13,8 +13,6 @@
 namespace OpenEngine {
 namespace Logging {
 
-using OpenEngine::Utils::Timer;
-
 /**
  * Create a logger wrapping an output stream.
  *
@@ -42,8 +40,11 @@ StreamLogger::~StreamLogger(){
  * @param msg Message to log.
  */
 void StreamLogger::Write(LoggerType type, string msg) {
+    time_t t; time(&t); // get the current time
+    char buf[20]; memset (buf, '0', 20); // this terminates the string
+	strftime (buf, sizeof(buf), "%Y/%m/%d %H:%M:%S", localtime(&t));
     *stream << TypeToString(type) << " ";
-    *stream << Timer::GetDateTime() << ": ";
+    *stream << string(buf) << ": ";
     *stream << msg << std::endl;
 }
 
