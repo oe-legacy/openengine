@@ -194,8 +194,8 @@ def untar(file, dir):
 def unzip(file, dir):
     zip = zipfile.ZipFile(file)
     for n in zip.namelist():
-        if n.endswith('/'):
-            os.mkdir(path.join(dir, n))
+        if n.endswith('/') and not path.isdir(path.join(dir,n)):
+            os.makedirs(path.join(dir, n))
         else:
             out = open(path.join(dir, n), "wb")
             out.write(zip.read(n))
