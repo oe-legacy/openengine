@@ -170,7 +170,7 @@ unsigned long Timer::GetTime() {
 #else
     struct timeval t;
     gettimeofday( &t, NULL );
-    return ( t.tv_sec * 1000.0 + t.tv_usec / 1000.0 );
+    return ( t.tv_sec * 1000 + t.tv_usec / 1000 );
 #endif
 }
 

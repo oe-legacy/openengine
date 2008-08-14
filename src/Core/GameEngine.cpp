@@ -158,10 +158,10 @@ void GameEngine::DeinitModules() {
  */
 void GameEngine::StartGameLoop() {
     list<IModule*>::iterator itr;
-    double time0;               // last time
-    double time1;               // current time
+    unsigned long time0;               // last time
+    unsigned long time1;               // current time
     double timet;               // elapsed tick time
-    float delta;                // elapsed time since last independent run
+    unsigned int delta;                // elapsed time since last independent run
     int loops;
 
     // set starting times
@@ -173,7 +173,7 @@ void GameEngine::StartGameLoop() {
         time1 = Timer::GetTime();
 
         // set the current elapsed time
-        delta = (float) (time1 - time0);
+        delta = time1 - time0;
 
         // if the tick time has elapsed run the dependent modules
         loops = 0;
