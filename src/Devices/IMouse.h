@@ -7,18 +7,18 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _INTERFACE_MOUSE_H_
-#define _INTERFACE_MOUSE_H_
+#ifndef _OE_INTERFACE_MOUSE_H_
+#define _OE_INTERFACE_MOUSE_H_
 
 #include <Devices/Symbols.h>
 #include <Core/IModule.h>
-#include <Core/Event.h>
+#include <Core/IEvent.h>
 
 namespace OpenEngine {
 namespace Devices {
 
 using OpenEngine::Core::IModule;
-using OpenEngine::Core::Event;
+using OpenEngine::Core::IEvent;
 
 /**
  * Mouse state.
@@ -72,25 +72,21 @@ struct MouseButtonEventArg {
 class IMouse : public virtual IModule {
 
 public:
-
-    //! Mouse button event list
-    static Event<MouseButtonEventArg> mouseButtonEvent;
-
-    //! Mouse movement event list
-    static Event<MouseMovedEventArg> mouseMovedEvent;
-
-    /**
-     * Mouse module constructor.
-     */
-    IMouse();
     
     /**
      * Mouse module destructor.
      */
-    virtual ~IMouse();
+    virtual ~IMouse() {};
 
-    //! Test for type membership. @see EModule::IsTypeOf()
-    bool IsTypeOf(const std::type_info& inf);
+    /**
+     * Mouse button event list.
+     */
+    virtual IEvent<MouseButtonEventArg>& MouseButtonEvent() = 0;
+
+    /**
+     * Mouse movement event list.
+     */
+    virtual IEvent<MouseMovedEventArg>& MouseMovedEvent() = 0;
 
     /**
      * Hide the mouse cursor.

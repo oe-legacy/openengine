@@ -1,4 +1,4 @@
-// Interface for handling keyboard input
+// Logging Facilities.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -6,19 +6,13 @@
 // Public License version 2 or any later version. 
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
-
-#include <Devices/IKeyboard.h>
+// Used to get namespace documentation and a cmake library.
 
 namespace OpenEngine {
-namespace Devices {
-
-Event<KeyboardEventArg> IKeyboard::keyEvent;
-
-IKeyboard::IKeyboard() {}
-IKeyboard::~IKeyboard() {}
-bool IKeyboard::IsTypeOf(const std::type_info& inf) { 
-    return typeid(IKeyboard) == inf; 
+    /**
+     * Logging facilities.
+     *
+     * @namespace OpenEngine::Logging
+     */
+    namespace Logging {}
 }
-
-} // NS Devices
-} // NS OpenEngine

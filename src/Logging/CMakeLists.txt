@@ -1,3 +1,9 @@
 ADD_LIBRARY(OpenEngine_Logging
-	    Logger.cpp
-	    StreamLogger.cpp)
+  Logging.cpp
+  ILogger.h
+  LoggerType.h
+  Logger.h
+  Logger.cpp
+  StreamLogger.h
+  StreamLogger.cpp
+)

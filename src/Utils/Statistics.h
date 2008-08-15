@@ -10,12 +10,15 @@
 #ifndef _STATISTICS_H_
 #define _STATISTICS_H_
 
-#include <Core/IModule.h>
+#include <Core/IListener.h>
+#include <Core/EngineEvents.h>
+#include <Utils/Timer.h>
 
 namespace OpenEngine {
 namespace Utils {
 
-using namespace OpenEngine::Core;
+using OpenEngine::Core::IListener;
+using OpenEngine::Core::ProcessEventArg;
 
 /**
  * Statistics module.
@@ -24,11 +27,12 @@ using namespace OpenEngine::Core;
  *
  * @class Statistics Statistics.h Utils/Statistics.h
  */
-class Statistics : public IModule {
+class Statistics : public IListener<ProcessEventArg> {
 private:
-    float interval, elapsed;
+    Timer timer;
+    unsigned int interval;
     int frames;
-    
+
 public:
 
     /**
@@ -36,13 +40,8 @@ public:
      *
      * @param interval Interval of when to print statistic info.
      */
-    Statistics(const float interval);
-
-    // IModule methods
-    bool IsTypeOf(const std::type_info& inf);
-    void Initialize();
-    void Process(const float deltaTime, const float percent);
-    void Deinitialize();
+    Statistics(const unsigned int interval);
+    void Handle(ProcessEventArg arg);
 
 };
 

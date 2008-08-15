@@ -1,4 +1,4 @@
-// Core engine header.
+// Rendering Systems.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -6,12 +6,14 @@
 // Public License version 2 or any later version. 
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
+// Used to get namespace documentation and a cmake library.
 
 namespace OpenEngine {
+
     /**
-     * Core engine components.
+     * Rendering systems.
      *
-     * @namespace OpenEngine::Core
+     * @namespace OpenEngine::Renderers
      */
-    namespace Core {}
+    namespace Renderers {}
 }

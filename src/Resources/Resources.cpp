@@ -1,4 +1,4 @@
-// Logging facilities.
+// Resource Abstractions.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -6,12 +6,13 @@
 // Public License version 2 or any later version. 
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
+// Used to get namespace documentation and a cmake library.
 
 namespace OpenEngine {
     /**
-     * Logging facilities.
+     * Resource abstractions.
      *
-     * @namespace OpenEngine::Logging
+     * @namespace OpenEngine::Resources
      */
-    namespace Logging {}
+    namespace Resources {}
 }

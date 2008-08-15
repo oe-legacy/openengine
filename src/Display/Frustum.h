@@ -63,8 +63,8 @@ private:
 
     void CalculateNearPlane(float& right, float& left, float& top, float& bottom);
     
-    float distNear, distFar;
     float fov, aspect;
+    float distNear, distFar;
 
 public:
 

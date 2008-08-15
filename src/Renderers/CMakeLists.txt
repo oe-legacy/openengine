@@ -1,4 +1,12 @@
 ADD_LIBRARY(OpenEngine_Renderers
-	    RenderStateNode.cpp )
+  Renderers.cpp
+  IRenderer.h
+  IRenderingView.h
+  IRenderNode.h
+  RenderStateNode.h
+  RenderStateNode.cpp
+)
 
-TARGET_LINK_LIBRARIES(OpenEngine_Renderers)
+TARGET_LINK_LIBRARIES(OpenEngine_Renderers
+  OpenEngine_Scene
+)

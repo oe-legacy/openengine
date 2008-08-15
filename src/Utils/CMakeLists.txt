@@ -1,8 +1,10 @@
 ADD_LIBRARY(OpenEngine_Utils
-	    Timer.cpp
-	    Convert.cpp
-	    Statistics.cpp
-	    )
-
-TARGET_LINK_LIBRARIES(OpenEngine_Utils
-		      OpenEngine_Devices)
+  Utils.cpp
+  Timer.h
+  Timer.cpp
+  Convert.h
+  Convert.cpp
+  Statistics.h
+  Statistics.cpp
+  Serialization.h
+)

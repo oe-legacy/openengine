@@ -38,7 +38,10 @@ class IRenderingView;
  */
 struct RenderingEventArg {
     IRenderer& renderer;
-    float dt;
+    unsigned long time;
+    unsigned int approx;
+    RenderingEventArg(IRenderer& renderer, unsigned long time = 0, unsigned int approx = 0)
+        : renderer(renderer), time(time), approx(approx) {}
 };
 
 /**
@@ -50,9 +53,8 @@ struct RenderingEventArg {
  * @class IRenderer IRenderer.h Renderers/IRenderer.h
  */
 class IRenderer : public virtual IModule {
+
 protected:
-    //! list of rendering views
-    //list<IRenderingView*> vRenderingView;
 
     //! root node of the rendering scene
     ISceneNode* root;
@@ -77,11 +79,6 @@ public:
      * Destructor.
      */
     virtual ~IRenderer() {}
-
-    //! @see EModule::IsTypeOf()
-    bool IsTypeOf(const std::type_info& inf) { 
-        return typeid(IRenderer) == inf; 
-    }
 
     /**
      * Set the root node for the rendering scene.

@@ -1,4 +1,4 @@
-// Rendering systems.
+// Display Related Components.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -6,13 +6,13 @@
 // Public License version 2 or any later version. 
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
+// Used to get namespace documentation and a cmake library.
 
 namespace OpenEngine {
-
     /**
-     * Rendering systems.
+     * Display related components.
      *
-     * @namespace OpenEngine::Renderers
+     * @namespace OpenEngine::Display
      */
-    namespace Renderers {}
+    namespace Display {}
 }

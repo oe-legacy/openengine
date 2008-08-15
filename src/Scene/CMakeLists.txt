@@ -1,17 +1,31 @@
-
 ADD_LIBRARY(OpenEngine_Scene
-  SceneNode.cpp
+  Scene.cpp
+  Exceptions.h
+  ISceneNode.h
+  ISceneNodeVisitor.h
   ISceneNodeVisitor.cpp
-  GeometryNode.cpp
   CollectedGeometryTransformer.cpp
-  TransformationNode.cpp
-  VertexArrayNode.cpp
-  VertexArrayTransformer.cpp
-  DotVisitor.cpp
-  LightNode.cpp
+  CollectedGeometryTransformer.h
   DirectionalLightNode.cpp
+  DirectionalLightNode.h
+  DotVisitor.cpp
+  DotVisitor.h
+  GeometryNode.cpp
+  GeometryNode.h
+  LightNode.cpp
+  LightNode.h
   PointLightNode.cpp
+  PointLightNode.h
+  SceneNode.cpp
+  SceneNode.h
   SpotLightNode.cpp
+  SpotLightNode.h
+  TransformationNode.cpp
+  TransformationNode.h
+  VertexArrayNode.cpp
+  VertexArrayNode.h
+  VertexArrayTransformer.cpp
+  VertexArrayTransformer.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Scene)

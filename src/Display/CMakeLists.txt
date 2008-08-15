@@ -1,13 +1,25 @@
 ADD_LIBRARY(OpenEngine_Display
-	    Viewport.cpp
-	    ViewingVolume.cpp
-	    Camera.cpp
-	    Frustum.cpp
-	    Orthotope.cpp
-	    FollowCamera.cpp
-	    InterpolatedViewingVolume.cpp
-	    )
+  Display.cpp
+  IFrame.h
+  IViewingVolume.h
+  IViewingVolumeDecorator.h
+  Viewport.h
+  Viewport.cpp
+  ViewingVolume.h
+  ViewingVolume.cpp
+  Camera.h
+  Camera.cpp
+  Frustum.h
+  Frustum.cpp
+  Orthotope.h
+  Orthotope.cpp
+  FollowCamera.h
+  FollowCamera.cpp
+  InterpolatedViewingVolume.h
+  InterpolatedViewingVolume.cpp
+)
 
 TARGET_LINK_LIBRARIES(OpenEngine_Display
-                      OpenEngine_Core
-                      OpenEngine_Math)
+  OpenEngine_Core
+  OpenEngine_Math
+)

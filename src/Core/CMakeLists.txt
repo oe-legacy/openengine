@@ -1,4 +1,13 @@
 ADD_LIBRARY(OpenEngine_Core
-	    IGameEngine.cpp
-	    GameEngine.cpp
-            IModule.cpp)
+  Core.cpp
+  IEngine.h
+  IEvent.h
+  IListener.h
+  IModule.h
+  Exceptions.h
+  EngineEvents.h
+  QueuedEvent.h
+  StateEvent.h
+  Engine.h
+  Engine.cpp
+)

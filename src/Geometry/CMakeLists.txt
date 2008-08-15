@@ -1,11 +1,23 @@
 ADD_LIBRARY(OpenEngine_Geometry
-	    Geometry.cpp
-	    Box.cpp
-	    Sphere.cpp
-	    Line.cpp
-	    Plane.cpp
-	    Square.cpp
-	    Face.cpp
-	    FaceSet.cpp
-	    Material.cpp
-	    VertexArray.cpp)
+  Geometry.h
+  Geometry.cpp
+  BoundingGeometry.h
+  Box.h
+  Box.cpp
+  Sphere.h
+  Sphere.cpp
+  Line.h
+  Line.cpp
+  Plane.h
+  Plane.cpp
+  Square.h
+  Square.cpp
+  Face.h
+  Face.cpp
+  FaceSet.h
+  FaceSet.cpp
+  Material.h
+  Material.cpp
+  VertexArray.h
+  VertexArray.cpp
+)

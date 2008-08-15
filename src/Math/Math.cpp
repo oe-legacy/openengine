@@ -1,4 +1,4 @@
-// Meta headers.
+// Math extensions and utilities.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -6,12 +6,15 @@
 // Public License version 2 or any later version. 
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
+// Used to get namespace documentation and a cmake library.
 
-namespace OpenEngine {
+namespace OpenEngine { 
+
     /**
-     * Meta headers
+     * Math extensions and utilities.
      *
-     * @namespace OpenEngine::Meta
+     * @namespace OpenEngine::Math
      */
-    namespace Meta {}
+    namespace Math {}
+
 }

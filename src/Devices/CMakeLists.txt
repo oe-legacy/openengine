@@ -1,4 +1,6 @@
 ADD_LIBRARY(OpenEngine_Devices
- IKeyboard.cpp
- IMouse.cpp
+  Devices.cpp
+  IKeyboard.h
+  IMouse.h
+  Symbols.h
 )

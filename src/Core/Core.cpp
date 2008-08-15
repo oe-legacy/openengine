@@ -1,4 +1,4 @@
-// Engine module interface.
+// Core Engine Structures.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -6,26 +6,13 @@
 // Public License version 2 or any later version. 
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
-
-#include <Core/IModule.h>
-#include <Core/IGameEngine.h>
+// Used to get namespace documentation and a cmake library.
 
 namespace OpenEngine {
-namespace Core {
-
-/**
- * Default constructor.
- */
-IModule::IModule() {}
-
-/**
- * Default destructor.
- * Removes module form engine.
- */
-IModule::~IModule() {
-    // Remove from Engine if ever added.
-    OpenEngine::Core::IGameEngine::Instance().RemoveModule(*this);
+    /**
+     * Core engine components.
+     *
+     * @namespace OpenEngine::Core
+     */
+    namespace Core {}
 }
-
-} // NS Core
-} // NS OpenEngine

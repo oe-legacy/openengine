@@ -14,12 +14,6 @@
 #include <Math/Matrix.h>
 
 namespace OpenEngine { 
-
-/**
- * Math extensions and utilities.
- *
- * @namespace OpenEngine::Math
- */
 namespace Math {
 
 const float PI = 3.14159265f;   //!< Circumference of a half unit circle.

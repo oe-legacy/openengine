@@ -15,32 +15,21 @@ namespace Utils {
 
 using namespace OpenEngine::Logging;
 
-    Statistics::Statistics(float interval)
-        : interval(interval),
-          elapsed(0),
-          frames(0) {}
+Statistics::Statistics(unsigned int interval)
+    : interval(interval)
+    , frames(0) {
+    timer.Start();
+}
 
-    bool Statistics::IsTypeOf(const std::type_info& inf) { 
-        return typeid(Statistics) == inf;
+void Statistics::Handle(ProcessEventArg arg) {
+    frames += 1;
+    unsigned long elapsed = timer.GetElapsedTime();
+    if (elapsed > interval) {
+        logger.info << "FPS: " << (double)frames * 1000 / (double)elapsed << logger.end;
+        frames = 0;
+        timer.Reset();
     }
-
-    void Statistics::Initialize() {
-        
-    }
-
-    void Statistics::Process(const float deltaTime, const float percent) {
-        elapsed += deltaTime;
-        frames += 1;
-        if (elapsed > interval) {
-            logger.info << "FPS: " << frames * 1000 / elapsed << logger.end;
-            elapsed = 0;
-            frames = 0;
-        }
-    }
-
-    void Statistics::Deinitialize() {
-
-    }
+}
 
 } // NS Utils
 } // NS OpenEngine

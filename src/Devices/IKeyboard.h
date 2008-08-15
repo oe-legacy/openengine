@@ -7,18 +7,18 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _INTERFACE_KEYBOARD_H_
-#define _INTERFACE_KEYBOARD_H_
+#ifndef _OE_INTERFACE_KEYBOARD_H_
+#define _OE_INTERFACE_KEYBOARD_H_
 
 #include <Devices/Symbols.h>
 #include <Core/IModule.h>
-#include <Core/Event.h>
+#include <Core/IEvent.h>
 
 namespace OpenEngine {
 namespace Devices {
 
 using OpenEngine::Core::IModule;
-using OpenEngine::Core::Event;
+using OpenEngine::Core::IEvent;
 
 /**
  * Keyboard Event Argument.
@@ -41,25 +41,20 @@ struct KeyboardEventArg {
  */
 class IKeyboard : public virtual IModule {
 public:
-    //! Key event list
-    static Event<KeyboardEventArg> keyEvent;
-
-    /**
-     * Keyboard constructor.
-     */
-    IKeyboard();
 
     /**
      * Keyboard destructor.
      */
-    virtual ~IKeyboard();
+    virtual ~IKeyboard() {};
 
-    //! Test for type membership. @see EModule::IsTypeOf()
-    bool IsTypeOf(const std::type_info& inf);
-    
+    /**
+     * Key event list.
+     */
+    virtual IEvent<KeyboardEventArg>& KeyEvent() = 0;
+
 };
 
 } // NS Devices
 } // NS OpenEngine
 
-#endif // _INTERFACE_KEYBOARD_H_
+#endif // _OE_INTERFACE_KEYBOARD_H_

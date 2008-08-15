@@ -52,11 +52,6 @@ public:
      */
     virtual ~IFrame() {};
 
-    //! Test for type membership. @see EModule::IsTypeOf()
-    bool IsTypeOf(const std::type_info& inf) { 
-        return typeid(IFrame) == inf; 
-    }
-
     /**
      * Is this frame focused.
      *
