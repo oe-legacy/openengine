@@ -26,7 +26,7 @@ using std::min;
  */
 InterpolatedViewingVolume::InterpolatedViewingVolume(IViewingVolume& volume, float factor)
     : IViewingVolumeDecorator(volume), factor(factor) {
-
+    timer.Start();
 }
 
 /**
@@ -44,7 +44,7 @@ void InterpolatedViewingVolume::SignalRendering(const float dt) {
     volume.SignalRendering(dt);
 
     // compute the new interpolated direction and position
-    float t = min(1.0f, dt * factor / 1000);
+    float t = min(1.0f, timer.GetElapsedTimeAndReset().AsInt() * factor / 1000000);
     oldDirection = Quaternion<float>(oldDirection, volume.GetDirection(), t);
     oldPosition = oldPosition + ((volume.GetPosition() - oldPosition) * t);
 

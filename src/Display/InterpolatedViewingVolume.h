@@ -12,8 +12,12 @@
 
 #include <Display/IViewingVolumeDecorator.h>
 
+#include <Utils/Timer.h>
+
 namespace OpenEngine {
 namespace Display {
+
+using OpenEngine::Utils::Timer;
 
 /**
  * Interpolated viewing volume.
@@ -30,6 +34,8 @@ private:
 
     //! per second interpolation factor
     float factor;
+
+    Timer timer;
 
 public:
 
