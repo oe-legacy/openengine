@@ -23,9 +23,9 @@ Statistics::Statistics(unsigned int interval)
 
 void Statistics::Handle(ProcessEventArg arg) {
     frames += 1;
-    unsigned long elapsed = timer.GetElapsedTime();
+    unsigned int elapsed = timer.GetElapsedTime().AsInt();
     if (elapsed > interval) {
-        logger.info << "FPS: " << (double)frames * 1000 / (double)elapsed << logger.end;
+        logger.info << "FPS: " << (double)frames * 1000000 / (double)elapsed << logger.end;
         frames = 0;
         timer.Reset();
     }

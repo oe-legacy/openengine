@@ -10,8 +10,12 @@
 #ifndef _OE_ENGINE_EVENTS_H_
 #define _OE_ENGINE_EVENTS_H_
 
+#include <Utils/Timer.h>
+
 namespace OpenEngine {
 namespace Core {
+
+using OpenEngine::Utils::Time;
 
 /**
  * Engine initialization event argument.
@@ -27,9 +31,10 @@ struct DeinitializeEventArg { };
  * Engine process event argument.
  */
 struct ProcessEventArg {
-    unsigned long start; //!< time of engine loop start.
-    unsigned int approx; //!< approximate engine loop time.
-    ProcessEventArg(unsigned long start, unsigned long approx) : start(start), approx(approx) {}
+    Time start;                 //!< time of engine loop start.
+    unsigned int approx;        //!< approximate engine loop time.
+    ProcessEventArg(Time start, unsigned long approx)
+        : start(start), approx(approx) {}
 };
 
 } // NS Core

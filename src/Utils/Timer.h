@@ -10,8 +10,28 @@
 #ifndef _OE_TIMER_H_
 #define _OE_TIMER_H_
 
+#include <stdint.h>
+
 namespace OpenEngine {
 namespace Utils {
+
+struct Time {
+    uint64_t sec;
+    uint32_t usec;
+    Time();
+    Time(const uint32_t usec);
+    Time(const uint64_t sec, const uint32_t usec);
+    void operator+=(const Time t);
+    void operator-=(const Time t);
+    const Time operator+(const Time t) const;
+    const Time operator-(const Time t) const;
+    const Time operator=(const unsigned int i);
+    const bool IsZero() const;
+    const bool IsNonZero() const;
+    const unsigned int AsInt() const;
+    const uint32_t AsInt32() const;
+    const uint64_t AsInt64() const;
+};
 
 /**
  * Platform independent timer.
@@ -21,7 +41,7 @@ namespace Utils {
 class Timer {
 private:
     //! start and stop time stamps.
-    unsigned long start, stop;
+    Time start, stop;
 
 public:
 
@@ -31,15 +51,15 @@ public:
     void Stop();
     void Reset();
 
-    unsigned long GetElapsedTime() const;
-    unsigned long GetElapsedTimeAndReset();
+    Time GetElapsedTime() const;
+    Time GetElapsedTimeAndReset();
 
     unsigned int GetElapsedIntervals(const unsigned int) const;
     unsigned int GetElapsedIntervalsAndReset(const unsigned int);
 
     bool IsRunning() const;
 
-    static unsigned long GetTime();
+    static Time GetTime();
 
 };
 

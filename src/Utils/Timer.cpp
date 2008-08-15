@@ -9,21 +9,102 @@
 
 #include <Utils/Timer.h>
 
+#include <Meta/Time.h>
 #include <Core/Exceptions.h>
+#include <Utils/Convert.h>
+
 #include <stdio.h>
+#include <limits.h>
+#include <stdint.h>
 
 #if defined(_WIN32)
     #include <Windows.h>
     #include <winbase.h>
-    #include <time.h>
-#else
-    #include <sys/time.h>
 #endif
 
 namespace OpenEngine {
 namespace Utils {
 
 using OpenEngine::Core::Exception;
+using OpenEngine::Utils::Convert;
+
+static const unsigned int second = 1000000;
+
+Time::Time() : sec(0), usec(0) {}
+Time::Time(const uint32_t usec) : sec(usec / second), usec(usec % second) {}
+Time::Time(const uint64_t sec, const uint32_t usec) : sec(sec), usec(usec) {}
+
+void Time::operator+=(const Time t) {
+    sec  += t.sec;
+    usec += t.usec;
+    if (usec >= second) {
+        sec++;
+        usec -= second;
+    }
+}
+
+void Time::operator-=(const Time t) {
+    if (sec < t.sec || (sec <= t.sec && usec < t.usec))
+        throw Exception("Attempt to subtract a future time from a past time.");
+    sec  -= t.sec;
+    if (t.usec > usec) {
+        sec--;
+        usec += second - t.usec;
+    } else {
+        usec -= t.usec;
+    }
+}
+
+const Time Time::operator+(const Time t) const {
+    Time s(*this);
+    s += t;
+    return s;
+}
+
+const Time Time::operator-(const Time t) const {
+    Time s(*this);
+    s -= t;
+    return s;
+}
+
+const Time Time::operator=(const unsigned int i) {
+    sec = i / second; usec = i % second;
+    return *this;
+}
+
+const bool Time::IsZero() const {
+    return sec == 0 && usec == 0;
+}
+
+const bool Time::IsNonZero() const {
+    return !IsZero();
+}
+
+const unsigned int Time::AsInt() const {
+    if (sec > UINT_MAX / second - 1)
+        throw Exception("Overflow when converting Time("+
+                        Convert::ToString<uint64_t>(sec)+", "+
+                        Convert::ToString<uint32_t>(usec)+") to unsigned int.");
+    return sec * second + usec;
+}
+
+const uint32_t Time::AsInt32() const {
+    // @todo UINT32_MAX is undefined but is in stdint.h ??
+    // if (sec > UINT32_MAX / 1000000 - 1)
+    //     throw Exception("Overflow when converting Time("+
+    //                     Convert::ToString<uint64_t>(sec)+", "+
+    //                     Convert::ToString<uint32_t>(usec)+") to int.");
+    return sec * second + usec;
+}
+
+const uint64_t Time::AsInt64() const {
+    // @todo UINT64_MAX is undefined but is in stdint.h ??
+    // if (sec > UINT64_MAX / 1000000 - 1)
+    //     throw Exception("Overflow when converting Time("+
+    //                     Convert::ToString<uint64_t>(sec)+", "+
+    //                     Convert::ToString<uint32_t>(usec)+") to an unsigned int.");
+    return sec * second + usec;
+}
 
 /**
  * Construct a time object.
@@ -42,7 +123,7 @@ Timer::Timer()
  */
 void Timer::Start() {
     // increment the start time with the time passed since we stopped
-    if (!stop) return;
+    if (stop.IsZero()) return;
     start += GetTime() - stop;
     stop = 0;
 }
@@ -54,7 +135,7 @@ void Timer::Start() {
  */
 void Timer::Stop() {
     // set the stop time only if we are not stopped already
-    if (!stop) stop = GetTime();
+    if (stop.IsZero()) stop = GetTime();
 }
 
 /**
@@ -68,7 +149,7 @@ void Timer::Reset() {
     // always set new start time and if we are stopped remain so but
     // update the stop time to now.
     start = GetTime();
-    if (stop) stop = start;
+    if (stop.IsNonZero()) stop = start;
 }
 
 /**
@@ -77,11 +158,11 @@ void Timer::Reset() {
  * Start() and now. If not running it is the deference between the
  * call to Start() and Stop().
  *
- * @return Elapsed time in milliseconds
+ * @return Elapsed time in microseconds
  */
-unsigned long Timer::GetElapsedTime() const {
+Time Timer::GetElapsedTime() const {
     // if paused we just return the time passed at the time of pausing
-    return (stop ? stop : GetTime()) - start;
+    return (stop.IsNonZero() ? stop : GetTime()) - start;
 }
 
 /**
@@ -93,11 +174,11 @@ unsigned long Timer::GetElapsedTime() const {
  * but may omit unnecessary calls to \a GetTime().
  * Does not change the running state of the timer.
  *
- * @return Elapsed time in milliseconds
+ * @return Elapsed time in microseconds
  */
-unsigned long Timer::GetElapsedTimeAndReset() {
-    unsigned long now, elapsed;
-    now = stop ? stop : GetTime();
+Time Timer::GetElapsedTimeAndReset() {
+    Time now, elapsed;
+    now = stop.IsNonZero() ? stop : GetTime();
     elapsed = now - start;
     start = now;
     return elapsed;
@@ -110,11 +191,11 @@ unsigned long Timer::GetElapsedTimeAndReset() {
  * GetElapsedTime().
  *
  * @see GetElapsedTime
- * @param interval Interval in milliseconds
+ * @param interval Interval in microseconds
  * @return Number of \a interval occurrences
  */
 unsigned int Timer::GetElapsedIntervals(unsigned int interval) const {
-    return GetElapsedTime() / interval;
+    return GetElapsedTime().AsInt64() / interval;
 }
 
 /**
@@ -124,14 +205,14 @@ unsigned int Timer::GetElapsedIntervals(unsigned int interval) const {
  * useful for keeping track of frame occurrences for components that
  * need a fixed execution schedule.
  *
- * @param interval Interval in milliseconds
+ * @param interval Interval in microseconds
  * @return Number of \a interval occurrences
  */
 unsigned int Timer::GetElapsedIntervalsAndReset(unsigned int interval) {
-    unsigned long now, time;
+    Time now, time;
     unsigned int times;
-    now   = stop ? stop : GetTime();
-    times = (now - start) / interval;
+    now   = stop.IsNonZero() ? stop : GetTime();
+    times = (now - start).AsInt() / interval;
     time  = times * interval;
     start += time;
     return times;
@@ -143,34 +224,47 @@ unsigned int Timer::GetElapsedIntervalsAndReset(unsigned int interval) {
  * @return True if running
  */
 bool Timer::IsRunning() const {
-    return stop == 0;
+    return stop.IsZero();
 }
 
 /**
- * Get the system time in milliseconds.
+ * Get the system time.
  * The definition of what the "current time" is depends on the running
- * system.
+ * system. On most systems it is the time since the UNIX epoch.
  *
- * @todo We need to find some timing methods that are more stable over
- * for cpu scaling and system clocks. For unix type systems we may
+ * @todo We need to check that these timing methods are stable wrt.
+ * to cpu scaling and system clocks. For unix type systems we may
  * wish to use times() together with sysconf to get the ticks per
  * second. On windows we might want to look at timeGetTime,
- * timeBeginPeriod and timeEndPeriod. 
+ * timeBeginPeriod and timeEndPeriod.
  *
- * @return Time in milliseconds
+ * Windows implementation from:
+ * http://www.openasthra.com/c-tidbits/gettimeofday-function-for-windows/
+ *
+ * @return Current time.
  */
-unsigned long Timer::GetTime() {
+Time Timer::GetTime() {
 #if defined(_WIN32)
-    LARGE_INTEGER ticksPerSecond, tick;
-    if (!QueryPerformanceFrequency(&ticksPerSecond))
-        throw Exception("no go QueryPerformance not present");
-    if (!QueryPerformanceCounter(&tick))
-        throw Exception("no go counter not installed");  
-    return ((double)tick.QuadPart/(double)ticksPerSecond.QuadPart)*1000.0;
+    #if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
+        #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
+    #else
+        #define DELTA_EPOCH_IN_MICROSECS  11644473600000000ULL
+    #endif
+    Time tv;
+    FILETIME ft;
+    unsigned __int64 res = 0;
+    GetSystemTimeAsFileTime(&ft);
+    res |= ft.dwHighDateTime;
+    res <<= 32;
+    res |= ft.dwLowDateTime;
+    // converting file time to unix epoch
+    res /= 10;
+    res -= DELTA_EPOCH_IN_MICROSECS; 
+    return Time(res / 1000000UL, res % 1000000UL);
 #else
     struct timeval t;
     gettimeofday( &t, NULL );
-    return ( t.tv_sec * 1000 + t.tv_usec / 1000 );
+    return Time(t.tv_sec, t.tv_usec);
 #endif
 }
 

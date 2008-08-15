@@ -17,6 +17,7 @@
 #include <Geometry/Line.h>
 #include <Geometry/Face.h>
 #include <Math/Vector.h>
+#include <Utils/Timer.h>
 
 namespace OpenEngine {
 namespace Renderers {
@@ -27,6 +28,7 @@ using OpenEngine::Scene::ISceneNode;
 using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
+using OpenEngine::Utils::Time;
 using namespace std;
 
 // Forward declaration
@@ -38,9 +40,9 @@ class IRenderingView;
  */
 struct RenderingEventArg {
     IRenderer& renderer;
-    unsigned long time;
+    Time time;
     unsigned int approx;
-    RenderingEventArg(IRenderer& renderer, unsigned long time = 0, unsigned int approx = 0)
+    RenderingEventArg(IRenderer& renderer, Time time = Time(), unsigned int approx = 0)
         : renderer(renderer), time(time), approx(approx) {}
 };
 

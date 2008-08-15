@@ -14,6 +14,7 @@
 namespace OpenEngine {
 namespace Core {
 
+using OpenEngine::Utils::Time;
 using OpenEngine::Utils::Timer;
 
 /**
@@ -27,7 +28,7 @@ Engine::Engine() : running(false) {
  * Main engine loop.
  */
 void Engine::StartMainLoop() {
-    unsigned long time, _time;
+    Time time, _time;
     unsigned int approx;
     unsigned int count = 10;
     unsigned int index = 0;
@@ -43,6 +44,8 @@ void Engine::StartMainLoop() {
     while (running) {
 
         // calculate the approximate frame time
+        // Note: we assume that the sum of the loops do not overflow
+        // fps of 20 => (frame ~= 50 msec = 50.000 usec) x 10 = 500.000
         approx = 0;
         for (unsigned int i=0; i<count; i++)
             approx += loops[i];
@@ -53,7 +56,7 @@ void Engine::StartMainLoop() {
 
         // save frame time to perform the next approximation
         _time = Timer::GetTime();
-        loops[index] = _time - time;
+        loops[index] = (_time - time).AsInt();
         time = _time;
 
         // update the loop index
