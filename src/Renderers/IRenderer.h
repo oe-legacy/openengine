@@ -12,7 +12,7 @@
 
 #include <vector>
 #include <Core/IModule.h>
-#include <Core/Event.h>
+#include <Core/IEvent.h>
 #include <Scene/ISceneNode.h>
 #include <Geometry/Line.h>
 #include <Geometry/Face.h>
@@ -22,7 +22,7 @@ namespace OpenEngine {
 namespace Renderers {
 
 using OpenEngine::Core::IModule;
-using OpenEngine::Core::Event;
+using OpenEngine::Core::IEvent;
 using OpenEngine::Scene::ISceneNode;
 using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
@@ -46,7 +46,7 @@ struct RenderingEventArg {
 
 /**
  * Renderer interface. This engine module is responsible for
- * rendering the scene as defined in all its RenderingViews.
+ * rendering the scene as defined in all its Rendering Views.
  * The Renderer is the context using the RenderingView as its
  * strategy in terms of GOF (page 315).
  *
@@ -62,13 +62,13 @@ protected:
 public:
 
     /**
-     * Rendering phases.
+     * Event lists for the rendering phases.
      */
-    Event<RenderingEventArg> initialize;
-    Event<RenderingEventArg> preProcess;
-    Event<RenderingEventArg> process;
-    Event<RenderingEventArg> postProcess;
-    Event<RenderingEventArg> deinitialize;
+    virtual IEvent<RenderingEventArg>& InitializeEvent() = 0;
+    virtual IEvent<RenderingEventArg>& PreProcessEvent() = 0;
+    virtual IEvent<RenderingEventArg>& ProcessEvent() = 0;
+    virtual IEvent<RenderingEventArg>& PostProcessEvent() = 0;
+    virtual IEvent<RenderingEventArg>& DeinitializeEvent() = 0;
 
     /**
      * Default constructor.
@@ -86,7 +86,7 @@ public:
      * @param root Scene root node
      * @return Old scene root
      */
-    ISceneNode* SetSceneRoot(ISceneNode* root) {
+    virtual ISceneNode* SetSceneRoot(ISceneNode* root) {
         ISceneNode* old = this->root;
         this->root = root;
         return old;
@@ -97,7 +97,7 @@ public:
      *
      * @return Scene root
      */
-    ISceneNode* GetSceneRoot() {
+    virtual ISceneNode* GetSceneRoot() {
         return root;
     }
 
