@@ -10,7 +10,7 @@
 #ifndef _OE_TIMER_H_
 #define _OE_TIMER_H_
 
-#include <stdint.h>
+#include <Meta/Types.h>
 
 namespace OpenEngine {
 namespace Utils {
