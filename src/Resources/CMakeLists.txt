@@ -16,6 +16,5 @@ ADD_LIBRARY(OpenEngine_Resources
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources
   OpenEngine_Utils
-  optimized ${BOOST_FILESYSTEM_LIB}
-  debug     ${BOOST_FILESYSTEM_LIB_gd}
+  ${BOOST_FILESYSTEM_LIB}
 )
