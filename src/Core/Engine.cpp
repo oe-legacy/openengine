@@ -30,7 +30,7 @@ Engine::Engine() : running(false) {
 void Engine::StartMainLoop() {
     Time time, _time;
     unsigned int approx;
-    unsigned int count = 10;
+    const unsigned int count = 10;
     unsigned int index = 0;
     unsigned int loops[count];
 

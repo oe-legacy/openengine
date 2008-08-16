@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------
 
 #include <Logging/StreamLogger.h>
-#include <Utils/Timer.h>
+#include <Meta/Time.h>
 
 namespace OpenEngine {
 namespace Logging {
