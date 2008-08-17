@@ -22,7 +22,8 @@ namespace Devices {
 
     struct JoystickAxisEventArg {
 	JoystickState state;
-	
+	int axis;
+	int value;
     };
 
  /**
@@ -32,9 +33,11 @@ namespace Devices {
   * @struct JoystickButtonEventArg IJoystick.h Devices/IJoystick.h
   */
  struct JoystickButtonEventArg {
-   JoystickState state; //!< current joystick state
-   JoystickButton button; //!< button that triggered the event
-   JoystickButtonEventArg() : button(JBUTTON_NONE) {}
+     enum JButtonEventType { UNKNOWN, PRESS, RELEASE };
+     JButtonEventType type;
+     JoystickState state; //!< current joystick state
+     JoystickButton button; //!< button that triggered the event
+     JoystickButtonEventArg() : button(JBUTTON_NONE) {}
  };
 
     class IJoystick : public virtual IModule {
