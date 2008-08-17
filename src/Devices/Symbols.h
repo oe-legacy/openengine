@@ -31,6 +31,28 @@ typedef enum {
 } MouseButton;
 
 /**
+ * Joystick buttons.
+ * Enumeration of joystick buttons, can be OR'd together.
+ * Supports 10 buttons
+ *
+ * @enum JoystickButton
+ */
+ typedef enum {
+   JBUTTON_NONE  = 0,
+   JBUTTON_ONE   = 1,
+   JBUTTON_TWO   = 2,
+   JBUTTON_THREE = 4,
+   JBUTTON_FOUR  = 8,
+   JBUTTON_FIVE  = 16,
+   JBUTTON_SIX   = 32,
+   JBUTTON_SEVEN = 64,
+   JBUTTON_EIGHT = 128,
+   JBUTTON_NINE  = 256,
+   JBUTTON_TEN   = 512
+ } JoystickButton;
+
+
+/**
  * Key symbols.
  * What we really want is a mapping of every raw key on the keyboard.
  * To support international keyboards, we use the range 0xA1 - 0xFF
