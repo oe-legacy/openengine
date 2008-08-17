@@ -224,11 +224,11 @@ def printCommands(cmds):
     print "\n".join([f.__doc__.strip() for f,c in cmds])
 
 def execute(cmd):
-    proc = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(cmd, shell=True)
     proc.wait()
     if proc.returncode != 0:
-        raise ExecError("%s exited with error code %i\n%s"
-                        % (cmd, proc.returncode, proc.stderr.read()))
+        raise ExecError("%s exited with error code %i\n"
+                        % (cmd, proc.returncode))
 
 def error(err):
     print err
