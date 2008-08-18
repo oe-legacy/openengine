@@ -60,8 +60,8 @@ Matrix<4,4,float> ViewingVolume::GetProjectionMatrix() {
 	// Setup standard values (use Frustum or Orthotope to customize) 
 	float fov = PI/4;
 	float aspect = 4.0/3.0;
-	float distNear = 1;
-	float distFar = 300;
+	float distNear = 0.01;
+	float distFar = 5000;
 	
 	float f = 1 / tan( fov / 2 );
 	float a = ( distFar + distNear ) / ( distNear - distFar );
