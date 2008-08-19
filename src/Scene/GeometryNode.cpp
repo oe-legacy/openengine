@@ -24,7 +24,7 @@ namespace Scene {
      *
      * @param node Geometry node to copy.
      */
-    GeometryNode::GeometryNode(GeometryNode& node) {
+    GeometryNode::GeometryNode(GeometryNode& node) : SceneNode(node) {
         faces = node.faces;
     }
 

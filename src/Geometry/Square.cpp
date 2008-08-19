@@ -58,7 +58,7 @@ Square::Square(FaceSet& faces) : hsize(0) {
  *
  * @param square Square to copy.
  */
-Square::Square(const Square& square){
+Square::Square(const Square& square) : BoundingGeometry() {
     this->center = square.center;
     this->hsize = square.hsize;
     CalculateSides();

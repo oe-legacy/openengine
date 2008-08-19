@@ -21,7 +21,8 @@ namespace Scene {
      *
      * @param node Node to copy.
      */
-    TransformationNode::TransformationNode(TransformationNode& node) {
+    TransformationNode::TransformationNode(TransformationNode& node)
+        : SceneNode(node), ISceneNodeVisitor() {
         rotation = node.rotation;
         position = node.position;
         scale = scale;

@@ -386,7 +386,8 @@ Frustum::FNode::~FNode() {
 
 }
 
-Frustum::FNode::FNode(FNode& node) : frustum(node.frustum) {
+Frustum::FNode::FNode(FNode& node)
+  : IRenderNode(node), frustum(node.frustum) {
 
 }
 

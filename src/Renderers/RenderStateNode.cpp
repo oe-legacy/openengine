@@ -18,7 +18,7 @@ namespace Renderers {
 RenderStateNode::RenderStateNode() : options(NONE) {
 }
 
-RenderStateNode::RenderStateNode(RenderStateNode& node) {
+RenderStateNode::RenderStateNode(RenderStateNode& node) : SceneNode(node) {
     options = node.options;
 }
 

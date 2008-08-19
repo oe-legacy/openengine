@@ -26,7 +26,7 @@ SceneNode::SceneNode()
  *
  * @param node Node to copy.
  */
-SceneNode::SceneNode(SceneNode& node) {
+SceneNode::SceneNode(SceneNode& node) : ISceneNode(node) {
     // the copy constructor does not copy the sub nodes.
 }
 
