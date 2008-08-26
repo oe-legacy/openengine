@@ -14,7 +14,7 @@ namespace Devices {
  * @struct JoystickState IJoystick.h Devices/IJoystick.h
  */
  struct JoystickState {
-   int axisState[6]; //!<optimized ie made for Logitech Rumblepad
+   int axisState[28]; //!<optimized ie made for Logitech Rumblepad
    JoystickButton buttons; //!< currently activated buttons
  JoystickState() : buttons(JBUTTON_NONE) {}
  };
