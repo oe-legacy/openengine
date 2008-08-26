@@ -21,6 +21,7 @@ def commands():
             (data,    "data"),
             (install, "install"),
             (darcs,   "darcs"),
+            (commit,  "commit"),
             (mkproj,  "mkproj"),
             (mkext,   "mkext"),
             (help,    "help"))
@@ -30,6 +31,16 @@ def update(*args):
     update  [dist] -- default target. update all repositories.
     """
     run_repo(parse(*args)["darcs"])
+
+def commit(*args):
+    """
+    commit [user]  -- commit to the development repositories.
+    """
+    user = None
+    if len(args) > 0 and not args[0].endswith(".dist"):
+        user = args[0]
+        args = args[1:]
+    commit_repo(user, parse(*args)["darcs-dev"])
 
 def data(*args):
     """
@@ -55,7 +66,7 @@ def install(dist):
 
 def darcs(*args):
     """
-    darcs   <cmd>   -- run darcs command on all extensions, projects and openengine
+    darcs   <cmd>  -- run darcs command on all extensions, projects and openengine
     """
     cmd = " ".join(args)
     ds = [path.join("extensions", e) for e in os.listdir("extensions")] + \
@@ -71,19 +82,19 @@ def darcs(*args):
 
 def mkext(name):
     """
-    mkext   <name>  -- create new extension extensions/<name> from the ExampleExtension
+    mkext   <name> -- create new extension extensions/<name> from the ExampleExtension
     """
     mkrepo(name, "extensions", "http://openengine.dk/code/extensions/ExampleExtension")
 
 def mkproj(name):
     """
-    mkproj  <name>  -- create new project projects/<name> from the ExampleProject
+    mkproj  <name> -- create new project projects/<name> from the ExampleProject
     """
     mkrepo(name, "projects", "http://openengine.dk/code/projects/ExampleProject")
 
 def help():
     """
-    help            -- this message
+    help           -- this message
     """
     print "Small script to help working on OpenEngine repositories."
     print "Some useful targets are:"
@@ -100,6 +111,16 @@ def run_repo(repos):
             cmd = "get"
         print "Updating %s from %s" % (relpath(p), r)
         execute("darcs %s %s --repodir %s" % (cmd, r, p))
+
+def commit_repo(user, repos):
+    """
+    push changes to repositories
+    """
+    if user: user = user + "@"
+    else: user = ""
+    for p,r in repos:
+        print "Commiting %s to %s" % (relpath(p), r)
+        execute("darcs push %s%s --repodir %s" % (user, r, p))
 
 def run_data(data):
     """
@@ -141,7 +162,7 @@ def parse(*args):
     # entry dict with types:
     #   darcs : [(path, resource)]
     #   data  : [(sys, path, resource)]
-    entries = { "darcs":[], "data":[] }
+    entries = { "darcs":[], "darcs-dev":[], "data":[] }
     # parse each line in each file
     for file in files:
         f = open(file, "r")
@@ -164,6 +185,9 @@ def parse(*args):
                 p = path.join(os.getcwd(), e[1][1:])
                 if e[0] == "darcs":
                     typ = "darcs"
+                    elm = (p, e[2])
+                elif e[0] == "darcs-dev":
+                    typ = "darcs-dev"
                     elm = (p, e[2])
                 else:
                     typ = "data"
