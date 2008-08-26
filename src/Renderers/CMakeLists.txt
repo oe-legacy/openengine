@@ -5,6 +5,8 @@ ADD_LIBRARY(OpenEngine_Renderers
   IRenderNode.h
   RenderStateNode.h
   RenderStateNode.cpp
+  TextureLoader.h
+  TextureLoader.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Renderers

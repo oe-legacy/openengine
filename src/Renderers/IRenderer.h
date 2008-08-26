@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _INTERFACE_RENDERER_H_
-#define _INTERFACE_RENDERER_H_
+#ifndef _OE_INTERFACE_RENDERER_H_
+#define _OE_INTERFACE_RENDERER_H_
 
 #include <vector>
 #include <Core/IModule.h>
@@ -18,6 +18,7 @@
 #include <Geometry/Face.h>
 #include <Math/Vector.h>
 #include <Utils/Timer.h>
+#include <Resources/ITextureResource.h>
 
 namespace OpenEngine {
 namespace Renderers {
@@ -29,11 +30,10 @@ using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
 using OpenEngine::Utils::Time;
-using namespace std;
+using OpenEngine::Resources::ITextureResourcePtr;
 
-// Forward declaration
-class IRenderer;
-class IRenderingView;
+// forward declerations
+class IRenderer; class IRenderingView;
 
 /**
  *
@@ -104,6 +104,13 @@ public:
     }
 
     /**
+     * Bind or rebind a texture.
+     *
+     * @param texr Texture resource
+     */
+    virtual void BindTexture(ITextureResourcePtr texr) = 0;
+
+    /**
      * Draw a face (wire framed).
      *
      * @param face Face to draw.
@@ -135,4 +142,4 @@ public:
 } // NS Renderers
 } // NS OpenEngine
 
-#endif // _INTERFACE_RENDERER_H_
+#endif // _OE_INTERFACE_RENDERER_H_
