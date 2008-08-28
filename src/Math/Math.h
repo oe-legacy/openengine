@@ -19,6 +19,8 @@ namespace Math {
 const float PI = 3.14159265f;   //!< Circumference of a half unit circle.
 const float EPS = 0.00001f;     //!< Default epsilon value for equality tests.
 
+unsigned int GCD(const unsigned int left, const unsigned int right);
+
 }
 }
 
