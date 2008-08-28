@@ -71,6 +71,46 @@ const Time Time::operator=(const unsigned int i) {
     return *this;
 }
 
+const bool Time::operator<(const Time t) const {
+    if (sec < t.sec)
+        return true;
+    else if (sec == t.sec)
+        return usec < t.usec;
+    return false;
+}
+
+const bool Time::operator>(const Time t) const {
+    return t < *this;
+}
+
+const bool Time::operator==(const Time t) const {
+    return ((sec == t.sec) && (usec == t.usec));
+}
+
+const bool Time::operator!=(const Time t) const {
+    return ((sec != t.sec) || (usec != t.usec));
+}
+
+const bool Time::operator<=(const Time t) const {
+    return ((*this < t) || (*this == t));
+}
+
+const bool Time::operator>=(const Time t) const {
+    return ((*this > t) || (*this == t));
+}
+
+/**
+ * String representation.
+ * Ex. <10 sec, 500000 microsec>
+ *
+ * @return Time as string
+ */
+const std::string Time::ToString() const {
+    std::ostringstream out;
+    out << "<" << sec << " sec, " << usec << " microsec>";
+    return out.str();
+}
+    
 const bool Time::IsZero() const {
     return sec == 0 && usec == 0;
 }
@@ -103,6 +143,14 @@ const uint64_t Time::AsInt64() const {
     //                     Convert::ToString<uint64_t>(sec)+", "+
     //                     Convert::ToString<uint32_t>(usec)+") to an unsigned int.");
     return sec * second + usec;
+}
+
+/**
+ * Stream operator to ease the use of ToString method.
+ */
+std::ostream& operator<<(std::ostream& os, const Time e) {
+    os<<e.ToString();
+    return os;
 }
 
 /**

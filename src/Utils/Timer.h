@@ -11,6 +11,7 @@
 #define _OE_TIMER_H_
 
 #include <Meta/Types.h>
+#include <string>
 
 namespace OpenEngine {
 namespace Utils {
@@ -26,12 +27,21 @@ struct Time {
     const Time operator+(const Time t) const;
     const Time operator-(const Time t) const;
     const Time operator=(const unsigned int i);
+    const bool operator<(const Time t) const;
+    const bool operator>(const Time t) const;
+    const bool operator==(const Time t) const;
+    const bool operator!=(const Time t) const;
+    const bool operator<=(const Time t) const;
+    const bool operator>=(const Time t) const;
     const bool IsZero() const;
     const bool IsNonZero() const;
     const unsigned int AsInt() const;
     const uint32_t AsInt32() const;
     const uint64_t AsInt64() const;
+    const std::string ToString() const;
 };
+
+std::ostream& operator<<(std::ostream& os, const Time e);
 
 /**
  * Platform independent timer.
