@@ -5,6 +5,8 @@ ADD_LIBRARY(OpenEngine_Math
   Exceptions.cpp
   Matrix.h
   Quaternion.h
+  RandomGenerator.h
+  RandomGenerator.cpp
   Vector.h
 )
 
