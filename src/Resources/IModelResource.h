@@ -38,7 +38,7 @@ public:
  *
  * @class IModelResource IModelResource.h Resources/IModelResource.h
  */
-class IModelResource : public IResource {
+class IModelResource : public IResource<ModelChangedEventArg> {
 public:
 
     /**
