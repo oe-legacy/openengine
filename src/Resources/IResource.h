@@ -12,12 +12,16 @@
 #define IRESOURCE_H_
 
 #include <boost/shared_ptr.hpp>
+#include <Core/IEvent.h>
+#include <Core/Event.h>
 #include <list>
 #include <string>
 
 namespace OpenEngine {
 namespace Resources {
 
+using OpenEngine::Core::IEvent;
+using OpenEngine::Core::Event;
 using std::string;
 using std::list;
 
@@ -26,8 +30,16 @@ using std::list;
  *
  * @class IResource IResource.h Resources/IResource.h
  */
+template <class EventType>
 class IResource {
+protected:
+    Event<EventType> changedEvent;
+
 public:
+
+    IEvent<EventType>& ChangedEvent() {
+        return changedEvent;
+    }
 
     /**
      * Load the resource.
@@ -52,7 +64,7 @@ public:
 /**
  * Resource smart pointer.
  */
-typedef boost::shared_ptr<IResource> IResourcePtr;
+//@todo: typedef boost::shared_ptr<IResource> IResourcePtr;
 
 
 /**

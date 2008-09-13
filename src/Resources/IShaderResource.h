@@ -25,6 +25,19 @@ using std::string;
 using std::vector;
 using std::map;
 
+class IShaderResource;
+
+/**
+ * Shader resource smart pointer.
+ */
+typedef boost::shared_ptr<IShaderResource> IShaderResourcePtr;
+
+class ShaderChangedEventArg {
+public:
+    ShaderChangedEventArg() {}
+    IShaderResourcePtr resource;
+};
+
 /**
  * Map of texture names and resources.
  */
@@ -35,7 +48,7 @@ typedef map<string,ITextureResourcePtr> ShaderTextureMap;
  *
  * @class IShaderResource IShaderResource.h Resources/IShaderResource.h
  */
-class IShaderResource : public IResource {
+class IShaderResource : public IResource<ShaderChangedEventArg> {
 protected:
 
     /**
@@ -87,11 +100,6 @@ public:
     virtual int GetAttributeID(const string name) = 0;
 
 };
-
-/**
- * Shader resource smart pointer.
- */
-typedef boost::shared_ptr<IShaderResource> IShaderResourcePtr;
 
 } // NS Resources
 } // NS OpenEngine

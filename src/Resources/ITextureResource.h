@@ -15,12 +15,25 @@
 namespace OpenEngine {
 namespace Resources {
 
+class ITextureResource;
+
+/**
+ * Texture resource smart pointer.
+ */
+typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+
+class TextureChangedEventArg {
+public:
+ TextureChangedEventArg(ITextureResourcePtr resource) : resource(resource) {}
+    ITextureResourcePtr resource;
+};
+
 /**
  * Texture resource interface.
  *
  * @class ITextureResource ITextureResource.h Resources/ITextureResource.h
  */
-class ITextureResource : public IResource {
+class ITextureResource : public IResource<TextureChangedEventArg> {
 public:
 
 	/**
@@ -116,11 +129,6 @@ public:
         ;
     }
 };
-
-/**
- * Texture resource smart pointer.
- */
-typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
 
 } // NS Resources
 } // NS OpenEngine

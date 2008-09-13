@@ -18,7 +18,20 @@ namespace OpenEngine { namespace Scene { class ISceneNode; } }
 namespace OpenEngine {
 namespace Resources {
 
-    using OpenEngine::Scene::ISceneNode;
+using OpenEngine::Scene::ISceneNode;
+
+class IModelResource;
+
+/**
+ * Model resource smart pointer.
+ */
+typedef boost::shared_ptr<IModelResource> IModelResourcePtr;
+
+class ModelChangedEventArg {
+public:
+    ModelChangedEventArg() {}
+    IModelResourcePtr resource;
+};
 
 /**
  * Model resource interface.
@@ -36,11 +49,6 @@ public:
     virtual ISceneNode* GetSceneNode() = 0;
     
 };
-
-/**
- * Model resource smart pointer.
- */
-typedef boost::shared_ptr<IModelResource> IModelResourcePtr;
 
 } // NS Resources
 } // NS OpenEngine
