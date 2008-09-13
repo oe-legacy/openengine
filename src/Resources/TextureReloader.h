@@ -37,10 +37,6 @@ class TextureReloader : public IListener<RenderingEventArg>
     void ListenOn(IEvent<TextureChangedEventArg>& event) {
         event.Attach(queue);
     }
-
-    QueuedEvent<TextureChangedEventArg>& Queue() {
-        return queue;
-    }
 };
 
 #endif // _TEXTURE_RELOADER_
