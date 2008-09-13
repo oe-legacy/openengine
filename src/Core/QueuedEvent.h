@@ -76,7 +76,7 @@ public:
         eq.push_back(arg);
     }
 
-    virtual int Size() {
+    virtual unsigned int Size() {
         return ls.size();
     }
 

@@ -56,7 +56,7 @@ public:
             (*itr)->Handle(arg);
     }
 
-    int Size() {
+    unsigned int Size() {
         return ls.size();
     }
 

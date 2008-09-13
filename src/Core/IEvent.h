@@ -64,7 +64,7 @@ public:
      *
      * @return Number of attached listeners
      */
-    virtual int Size() = 0;
+    virtual unsigned int Size() = 0;
     
 };
 
