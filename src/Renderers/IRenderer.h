@@ -104,11 +104,18 @@ public:
     }
 
     /**
+     * Load and Bind a texture.
+     *
+     * @param texr Texture resource
+     */
+    virtual void LoadTexture(ITextureResourcePtr texr) = 0;
+
+    /**
      * Bind or rebind a texture.
      *
      * @param texr Texture resource
      */
-    virtual void BindTexture(ITextureResourcePtr texr) = 0;
+    virtual void RebindTexture(ITextureResourcePtr texr) = 0;
 
     /**
      * Draw a face (wire framed).

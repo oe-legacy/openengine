@@ -33,6 +33,7 @@ TextureLoader::~TextureLoader() {}
 void TextureLoader::Handle(RenderingEventArg arg) {
     renderer = &arg.renderer;
     renderer->GetSceneRoot()->Accept(*this);
+    renderer = NULL;
 }
 
 /**
@@ -46,7 +47,7 @@ void TextureLoader::VisitGeometryNode(GeometryNode* node) {
     for (FaceList::iterator face = faces->begin(); face != faces->end(); face++) {
         // load face textures if not already loaded
         if ((*face)->mat->texr != NULL && (*face)->mat->texr->GetID() == 0)
-            renderer->BindTexture((*face)->mat->texr);
+            renderer->LoadTexture((*face)->mat->texr);
     }
 }
 
@@ -61,7 +62,7 @@ void TextureLoader::VisitVertexArrayNode(VertexArrayNode* node) {
     for (list<VertexArray*>::iterator itr = vaList.begin(); itr!=vaList.end(); itr++) {
         // Load vertex array texture if not already loaded
         if ((*itr)->mat->texr != NULL && (*itr)->mat->texr->GetID() == 0)
-            renderer->BindTexture((*itr)->mat->texr);
+            renderer->LoadTexture((*itr)->mat->texr);
     }
 }
 
