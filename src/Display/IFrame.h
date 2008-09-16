@@ -64,21 +64,21 @@ public:
      *
      * @return Frame width
      */
-    virtual int GetWidth() const = 0;
+    virtual unsigned int GetWidth() const = 0;
 
     /**
      * Get frame height.
      *
      * @return Frame height
      */
-    virtual int GetHeight() const = 0;
+    virtual unsigned int GetHeight() const = 0;
     
     /**
      * Get frame depth.
      *
      * @return Frame depth
      */
-    virtual int GetDepth() const = 0;
+    virtual unsigned int GetDepth() const = 0;
 
     /**
      * Get frame options
@@ -86,6 +86,13 @@ public:
      * @return Frame options
      */
     virtual FrameOption GetOptions() const = 0;
+
+    /**
+     * Get frame option
+     *
+     * @return bool is the option set
+     */
+    virtual bool GetOption(const FrameOption option) const = 0;
 
     /**
      * Set frame width.
@@ -126,6 +133,14 @@ public:
      * @return options Frame options
      */
     virtual void SetOptions(const FrameOption options) = 0;
+
+    /**
+     * Toggle frame options
+     * Must be supported as long as the module initialization method
+     * has not been invoked.
+     * After initialization the behavior is up to the implementation.
+     */
+    virtual void ToggleOption(const FrameOption option) = 0;
 
     /**
      * Check if an option is set.
