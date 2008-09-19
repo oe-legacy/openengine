@@ -108,8 +108,10 @@ public:
      * @return Element at index \a i
      */
     inline T& operator[](const int i) {
+#if OE_SAFE
         if (i < 0 || i >= N)
             throw IndexOutOfBounds(i,0,N);
+#endif
         return elm[i];
     }
     /**
@@ -212,8 +214,10 @@ public:
      * @return Vector where all elements are divided by \a s
      */
     const Vector<N,float> operator/(const T s) const {
+#if OE_SAFE
         if (s == 0)
             throw DivisionByZero();
+#endif
         Vector<N,float> v;
         for (int i=0; i<N; i++)
             v[i] = (float)elm[i] / s;
@@ -300,8 +304,10 @@ public:
      * @return Vector where all elements are divided by \a s
      */
     void operator/=(const T s) {
+#if OE_SAFE
         if (s == 0)
             throw DivisionByZero();
+#endif
         for (int i=0; i<N; i++)
             elm[i] /= s;
     }
@@ -340,8 +346,10 @@ public:
      */
     void Normalize() {
         float norm = GetLength();
+#if OE_SAFE
         if (norm == 0)
             throw ArithmeticException("Can not normalize the zero vector.");
+#endif
         for (int i=0; i<N; i++)
             if( elm[i] != 0 )
                 elm[i] /= norm;
@@ -466,8 +474,10 @@ public:
      * @return Element at index \a i
      */
     T Get(const int i) const { 
+#if OE_SAFE
         if (i < 0 || i >= N)
             throw IndexOutOfBounds(i,0,N);
+#endif
         return elm[i]; 
     }
     
