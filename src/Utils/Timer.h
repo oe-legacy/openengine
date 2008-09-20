@@ -16,7 +16,8 @@
 namespace OpenEngine {
 namespace Utils {
 
-struct Time {
+class Time {
+public:
     uint64_t sec;
     uint32_t usec;
     Time();

@@ -20,17 +20,18 @@ using OpenEngine::Utils::Time;
 /**
  * Engine initialization event argument.
  */
-struct InitializeEventArg { };
+class InitializeEventArg { };
 
 /**
  * Engine deinitialization event argument.
  */
-struct DeinitializeEventArg { };
+class DeinitializeEventArg { };
 
 /**
  * Engine process event argument.
  */
-struct ProcessEventArg {
+class ProcessEventArg {
+public:
     Time start;                 //!< time of engine loop start.
     unsigned int approx;        //!< approximate engine loop time.
     ProcessEventArg(Time start, unsigned long approx)

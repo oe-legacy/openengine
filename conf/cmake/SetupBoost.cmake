@@ -5,7 +5,7 @@ IF (Boost_FOUND)
    INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
    # Debug mode libraries
-   IF(CMAKE_CXX_FLAGS_DEBUG)
+   IF(CMAKE_BUILD_TYPE MATCHES debug)
      FIND_LIBRARY(BOOST_FILESYSTEM_LIB NAMES
                   boost_filesystem
                   libboost_filesystem-vc80-mt-gd-1_33_1
@@ -24,7 +24,7 @@ IF (Boost_FOUND)
                   )
 
    # Release mode libraries
-   ELSE(CMAKE_CXX_FLAGS_DEBUG)
+   ELSE(CMAKE_BUILD_TYPE MATCHES debug)
      FIND_LIBRARY(BOOST_FILESYSTEM_LIB NAMES
                   boost_filesystem
                   libboost_filesystem-vc80-mt-1_33_1
@@ -41,7 +41,7 @@ IF (Boost_FOUND)
                   ${Boost_INCLUDE_DIRS}
                   ${Boost_INCLUDE_DIRS}/lib
                   )
-   ENDIF(CMAKE_CXX_FLAGS_DEBUG)
+   ENDIF(CMAKE_BUILD_TYPE MATCHES debug)
 
    IF(NOT BOOST_FILESYSTEM_LIB OR NOT BOOST_SERIALIZATION_LIB)
       SET(Boost_FOUND 0)

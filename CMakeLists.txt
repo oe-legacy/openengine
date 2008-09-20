@@ -1,4 +1,10 @@
-cmake_minimum_required(VERSION 2.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+
+# set linking method to support 2.4
+IF(COMMAND cmake_policy)
+    CMAKE_POLICY(SET CMP0003 OLD)
+ENDIF(COMMAND cmake_policy)
+
 
 PROJECT(OpenEngine)
 
