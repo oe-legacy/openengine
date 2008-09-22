@@ -28,6 +28,8 @@ public:
     ITextureResourcePtr resource;
 };
 
+enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE };
+
 /**
  * Texture resource interface.
  *
@@ -55,21 +57,21 @@ public:
      *
      * @return width in pixels.
      */
-	virtual int GetWidth() = 0;
+	virtual unsigned int GetWidth() = 0;
 
     /**
      * Get height in pixels on loaded texture.
      *
      * @return height in pixels.
      */
-	virtual int GetHeight() = 0;
+	virtual unsigned int GetHeight() = 0;
 
     /**
      * Get color depth on loaded texture.
      *
      * @return Color depth in pixels.
      */
-    virtual int GetDepth() = 0;
+    virtual unsigned int GetDepth() = 0;
 
     /**
      * Get pointer to loaded texture.
@@ -78,49 +80,56 @@ public:
      */
     virtual unsigned char* GetData() = 0;
 
+    /**
+     * Get color format of the texture.
+     *
+     * @return ColorFormat representing the way colors are stored
+     */
+    virtual ColorFormat GetColorFormat() = 0;
+
     virtual void Reverse() {
         unsigned int height = this->GetHeight();
-	unsigned int depth = this->GetDepth();
-	unsigned int width = this->GetWidth();
-	unsigned char* data = this->GetData();
+        unsigned int depth = this->GetDepth();
+        unsigned int width = this->GetWidth();
+        unsigned char* data = this->GetData();
         unsigned char temp;
-	int numberOfCharsPerColor = (depth/8);
-	long size = width * height * numberOfCharsPerColor;
-	for (int i=0,j=size-numberOfCharsPerColor; i<j;
-	    i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
-	    for (int index=0; index<numberOfCharsPerColor; index++) {
-	        temp = data[i+index];
+        int numberOfCharsPerColor = (depth/8);
+        long size = width * height * numberOfCharsPerColor;
+        for (int i=0,j=size-numberOfCharsPerColor; i<j;
+             i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
+            for (int index=0; index<numberOfCharsPerColor; index++) {
+                temp = data[i+index];
 		data[i+index] = data[j+index];
 		data[j+index] = temp;
-	    }
-	}
+            }
+        }
     }
 
     virtual void ReverseVertecally() {
         //@todo make an optimized version that does this in one loop
         Reverse();
-	ReverseHorizontally();
+        ReverseHorizontally();
     }
 
     virtual void ReverseHorizontally() {
         unsigned int height = this->GetHeight();
-	unsigned int depth = this->GetDepth();
-	unsigned int width = this->GetWidth();
-	unsigned char* data = this->GetData();
+        unsigned int depth = this->GetDepth();
+        unsigned int width = this->GetWidth();
+        unsigned char* data = this->GetData();
         unsigned char temp;
-	int numberOfCharsPerColor = (depth/8);
-	long size = width * height * numberOfCharsPerColor;
-	for (int lineNumber=0; lineNumber<size;
-	     lineNumber+=width*numberOfCharsPerColor) {
-	    for (int i=0, j=(width-1)*numberOfCharsPerColor; i < j;
-		 i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
-	        for(int index=0; index<numberOfCharsPerColor;index++) {
-		  temp = data[lineNumber+i+index];
-		  data[lineNumber+i+index] = data[lineNumber+j+index];
-		  data[lineNumber+j+index] = temp;
-		}
-	    }
-	}
+        int numberOfCharsPerColor = (depth/8);
+        long size = width * height * numberOfCharsPerColor;
+        for (int lineNumber=0; lineNumber<size;
+             lineNumber+=width*numberOfCharsPerColor) {
+            for (int i=0, j=(width-1)*numberOfCharsPerColor; i < j;
+                 i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
+                for(int index=0; index<numberOfCharsPerColor;index++) {
+                    temp = data[lineNumber+i+index];
+                    data[lineNumber+i+index] = data[lineNumber+j+index];
+                    data[lineNumber+j+index] = temp;
+                }
+            }
+        }
     }
 
     //! Serialization support

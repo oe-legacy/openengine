@@ -1,3 +1,6 @@
+#ifndef _TEXTURE_RELOADER_
+#define _TEXTURE_RELOADER_
+
 #include <Core/IListener.h>
 #include <Core/QueuedEvent.h>
 #include <Renderers/IRenderer.h>
@@ -6,9 +9,6 @@
 using namespace OpenEngine::Core;
 using namespace OpenEngine::Renderers;
 using namespace OpenEngine::Resources;
-
-#ifndef _TEXTURE_RELOADER_
-#define _TEXTURE_RELOADER_
 
 class TextureReloader : public IListener<RenderingEventArg>
 , public IListener<TextureChangedEventArg> {

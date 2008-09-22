@@ -19,7 +19,8 @@ namespace Core {
 class IModule : public virtual IListener<InitializeEventArg>,
                 public virtual IListener<ProcessEventArg>,
                 public virtual IListener<DeinitializeEventArg> {
-
+public:
+    virtual ~IModule() {}
 };
 
 } // NS Core
