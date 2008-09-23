@@ -19,7 +19,19 @@ namespace Display {
  * z-axis with the y-axis as up.
  */
 ViewingVolume::ViewingVolume() {
-
+	// Setup standard values (use Frustum or Orthotope to customize) 
+	float fov = PI/4;
+	float aspect = 4.0/3.0;
+	float distNear = 1;
+	float distFar = 3000;
+	float f = 1 / tan( fov / 2 );
+	float a = ( distFar + distNear ) / ( distNear - distFar );
+	float b = (2 * distFar * distNear ) / ( distNear - distFar );
+	projection = Matrix<4,4,float>(f/aspect,	0,	0,	0,
+                                   0, 			f, 	0, 	0,
+                                   0,			0, 	a,	b,
+                                   0,			0, -1,	0);
+	projection.Transpose();
 }
 
 /**
@@ -57,21 +69,7 @@ Matrix<4,4,float> ViewingVolume::GetViewMatrix() {
 }
 
 Matrix<4,4,float> ViewingVolume::GetProjectionMatrix() {
-	// Setup standard values (use Frustum or Orthotope to customize) 
-	float fov = PI/4;
-	float aspect = 4.0/3.0;
-	float distNear = 0.01;
-	float distFar = 5000;
-	
-	float f = 1 / tan( fov / 2 );
-	float a = ( distFar + distNear ) / ( distNear - distFar );
-	float b = (2 * distFar * distNear ) / ( distNear - distFar );
-	Matrix<4,4,float> matrix(f/aspect,	0,	0,	0,
-				 0, 			f, 	0, 	0,
-				 0,			0, 	a,	b,
-				 0,			0,	-1,	0);
-	matrix.Transpose();
-	return matrix;
+    return projection;
 }
 
 /**

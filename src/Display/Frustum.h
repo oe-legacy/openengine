@@ -70,7 +70,7 @@ public:
 
     // constructor / destructor
     Frustum(IViewingVolume& volume,
-            const float distNear   = 10,  const float distFar = 300,
+            const float distNear   = 1,  const float distFar = 3000,
             const float aspect = 4.0/3.0, const float fov = PI/4.0);
     virtual ~Frustum();
 

@@ -28,6 +28,7 @@ protected:
 
     Vector<3,float> position;    //!< position vector
     Quaternion<float> direction; //!< direction quaternion
+    Matrix<4,4,float> projection; //!< projection matrix
 
 public:
 
