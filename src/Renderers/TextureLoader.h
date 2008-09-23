@@ -11,34 +11,44 @@
 #define _OE_TEXTURE_LOADER_H_
 
 #include <Core/IListener.h>
-#include <Scene/ISceneNodeVisitor.h>
-#include <Renderers/IRenderer.h>
 #include <Resources/ITextureResource.h>
+
+// forward declarations
+namespace OpenEngine {
+namespace Scene { class ISceneNode; }
+namespace Renderers { class IRenderer; }
+}
 
 namespace OpenEngine {
 namespace Renderers {
 
-using OpenEngine::Core::IListener;
-using OpenEngine::Scene::GeometryNode;
-using OpenEngine::Scene::VertexArrayNode;
-using OpenEngine::Scene::ISceneNodeVisitor;
-using OpenEngine::Resources::ITextureResourcePtr;
-
 /**
  * Texture loader.
  *
- * @class TextureLoader TextureLoader.h Renderers/OpenGL/TextureLoader.h
+ * @class TextureLoader TextureLoader.h Renderers/TextureLoader.h
  */
-class TextureLoader : public ISceneNodeVisitor, public IListener<RenderingEventArg> {
-private:
-    IRenderer* renderer;
+class TextureLoader {
 public:
-    TextureLoader();
-    ~TextureLoader();
+    enum ReloadPolicy { RELOAD_ALWAYS, RELOAD_NEVER, RELOAD_DEFAULT };
 
-    virtual void VisitGeometryNode(GeometryNode* node);
-    virtual void VisitVertexArrayNode(VertexArrayNode* node);
-    virtual void Handle(RenderingEventArg arg);
+    TextureLoader(Renderers::IRenderer& renderer);
+    virtual ~TextureLoader();
+
+    void Load(Scene::ISceneNode& node,             ReloadPolicy policy = RELOAD_DEFAULT);
+    void Load(Resources::ITextureResourcePtr texr, ReloadPolicy policy = RELOAD_DEFAULT);
+    void SetDefaultReloadPolicy(ReloadPolicy policy);
+
+private:
+    class InitLoader;
+    class Reloader;
+    class SceneLoader;
+    IRenderer& renderer;
+    Reloader* reloader;
+    InitLoader* initloader;
+    ReloadPolicy defaultpolicy;
+    ReloadPolicy my(ReloadPolicy p) {
+        return (p == RELOAD_DEFAULT) ? defaultpolicy : p;
+    }
 };
 
 } // NS Renderers
