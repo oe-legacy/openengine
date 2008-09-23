@@ -39,9 +39,9 @@ void VertexArrayTransformer::VisitGeometryNode(GeometryNode* node) {
     VertexArrayNode* vaNode = new VertexArrayNode();
 
     // Move sub nodes to the new VA node
-    list<ISceneNode*> sn = node->subNodes;
+    std::list<ISceneNode*> sn = node->subNodes;
     node->RemoveAllNodes();
-    list<ISceneNode*>::iterator itr;
+    std::list<ISceneNode*>::iterator itr;
     for (itr = sn.begin(); itr != sn.end(); itr++)
         vaNode->AddNode(*itr);
 

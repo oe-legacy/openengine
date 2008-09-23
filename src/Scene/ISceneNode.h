@@ -23,8 +23,6 @@ namespace Scene {
 // forward declaration
 class ISceneNodeVisitor;
 
-using std::list;
-
 /**
  * Scene node interface.
  * A scene node is an element in the engine scene graph. It implements
@@ -55,7 +53,7 @@ protected:
 
 public:
     //! List of sub nodes
-    list<ISceneNode*> subNodes;
+    std::list<ISceneNode*> subNodes;
 
     /**
      * Default constructor.

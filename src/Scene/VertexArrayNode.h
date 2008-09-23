@@ -28,9 +28,6 @@ using OpenEngine::Geometry::VertexArray;
  * @class VertexArrayNode VertexArrayNode.h Scene/VertexArrayNode.h
  */
 class VertexArrayNode : public SceneNode {
-private:
-    list<VertexArray*> vaList;
-
 public:
     /**
      * Set constructor.
@@ -49,7 +46,7 @@ public:
      *
      * @return FaceSet pointer.
      */
-    virtual list<VertexArray*> GetVertexArrays();
+    virtual std::list<VertexArray*> GetVertexArrays();
 
     /**
      * Set FaceSet for this Vertex Array Node.
@@ -65,6 +62,8 @@ public:
      */
     virtual void Accept(ISceneNodeVisitor& visitor);
 
+protected:
+    std::list<VertexArray*> vaList;
 };
 
 } // NS Scene

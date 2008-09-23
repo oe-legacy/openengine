@@ -19,7 +19,7 @@ VertexArrayNode::~VertexArrayNode() {
     vaList.clear();
 }
 
-list<VertexArray*> VertexArrayNode::GetVertexArrays(){
+std::list<VertexArray*> VertexArrayNode::GetVertexArrays(){
     return vaList;
 }
 

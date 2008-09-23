@@ -46,7 +46,7 @@ protected:
         QueuedNode(QueueType t, ISceneNode* n) : type(t), node(n) {}
     };
     //! Queued node operations.
-    list<QueuedNode> operationQueue;
+    std::list<QueuedNode> operationQueue;
     //! Height of the accept/visit stack.
     int acceptStack;
 

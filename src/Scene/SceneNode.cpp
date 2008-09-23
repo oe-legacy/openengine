@@ -14,6 +14,8 @@
 namespace OpenEngine {
 namespace Scene {
 
+using std::list;
+
 SceneNode::SceneNode()
     : ISceneNode(),
       acceptStack(0) {

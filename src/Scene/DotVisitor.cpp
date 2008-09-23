@@ -97,7 +97,7 @@ void DotVisitor::VisitNode(ISceneNode* node, map<string,string>& options) {
     dotdata << "]}";
     if (node->subNodes.size() > 0) {
         dotdata << " -> { ";
-        for (list<ISceneNode*>::iterator n = node->subNodes.begin(); 
+        for (std::list<ISceneNode*>::iterator n = node->subNodes.begin(); 
              n != node->subNodes.end(); n++) {
             dotdata << GetId(*n) << "; ";
         }
