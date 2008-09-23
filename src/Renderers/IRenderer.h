@@ -55,13 +55,15 @@ struct RenderingEventArg {
  * @class IRenderer IRenderer.h Renderers/IRenderer.h
  */
 class IRenderer : public virtual IModule {
-
-protected:
-
-    //! root node of the rendering scene
-    ISceneNode* root;
-
 public:
+
+    enum RendererStage {
+        RENDERER_INITIALIZE,
+        RENDERER_PREPROCESS,
+        RENDERER_PROCESS,
+        RENDERER_POSTPROCESS,
+        RENDERER_DEINITIALIZE
+    };
 
     /**
      * Event lists for the rendering phases.
@@ -75,12 +77,19 @@ public:
     /**
      * Default constructor.
      */
-    IRenderer() : root(NULL) {}
+    IRenderer() : root(NULL), stage(RENDERER_INITIALIZE) {}
 
     /**
      * Destructor.
      */
     virtual ~IRenderer() {}
+
+    /**
+     * Get the current renderer stage.
+     */
+    virtual const RendererStage GetCurrentStage() const {
+        return stage;
+    }
 
     /**
      * Set the root node for the rendering scene.
@@ -143,6 +152,11 @@ public:
      * @param size Size of point.
      */
     virtual void DrawPoint(Vector<3,float> point, Vector<3,float> color , float size = 1) = 0;
+
+protected:
+    //! root node of the rendering scene
+    ISceneNode* root;
+    RendererStage stage;
 
 };
 

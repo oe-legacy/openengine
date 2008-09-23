@@ -10,5 +10,8 @@ ADD_LIBRARY(OpenEngine_Renderers
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Renderers
+  OpenEngine_Core
+  OpenEngine_Geometry
+  OpenEngine_Resources
   OpenEngine_Scene
 )
