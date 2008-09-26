@@ -20,6 +20,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 namespace OpenEngine {
 namespace Resources {
@@ -41,9 +42,9 @@ private:
 public:
 
 /**
- * Add shader resource plug-in.
+ * Add a resource plug-in.
  *
- * @param plugin Shader plug-in
+ * @param plugin a resource plug-in
  */
 static void AddPlugin(ResourcePlugin<T>* plugin) {
   plugins.push_back(plugin);
@@ -53,19 +54,11 @@ static void AddPlugin(ResourcePlugin<T>* plugin) {
 /**
  * Create a resource object.
  *
- * @param filename Texture file
- * @return Texture resource
- * @throws ResourceException if the texture format is unsupported or the file does not exist
+ * @param filename name of the file to be loaded
+ * @return pointer to a resource
+ * @throws ResourceException if the file format is unsupported or the file does not exist
  */
   static boost::shared_ptr<T> Create(const string filename) {
-
-  // check if the texture has previously been requested
-    typename map<string, boost::shared_ptr<T> >::iterator res;
-    res = resources.find(filename);
- 
-  if (res != resources.end())
-    return res->second;
-
   // get the file extension
   string ext = Convert::ToLower(File::Extension(filename));
 
@@ -80,7 +73,6 @@ static void AddPlugin(ResourcePlugin<T>* plugin) {
   if (plugin != plugins.end()) {
     string fullname = DirectoryManager::FindFileInPath(filename);
     boost::shared_ptr<T> resource = (*plugin)->CreateResource(fullname);
-    resources[filename] = resource;
     return resource;
   } else
     logger.warning << "Plugin for ." << ext << " not found." << logger.end;
@@ -88,17 +80,10 @@ static void AddPlugin(ResourcePlugin<T>* plugin) {
   throw ResourceException("Unsupported file format: " + filename);
 }
 
-  static void Shutdown() {
-    resources.clear();
-  }
 };
 
   template<class T>
   vector<ResourcePlugin<T>*> ResourceManager<T>::plugins = vector<ResourcePlugin<T>*>();
-
-  template<class T>
-  map<string, boost::shared_ptr<T> > ResourceManager<T>::resources = 
-    map<string, boost::shared_ptr<T> >();
 
 } // NS Resources
 } // NS OpenEngine
