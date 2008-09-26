@@ -1,7 +1,6 @@
 ADD_LIBRARY(OpenEngine_Resources
   Resources.cpp
   IResource.h
-  IResourcePlugin.h
   IModelResource.h
   ITextureResource.h
   IShaderResource.h
