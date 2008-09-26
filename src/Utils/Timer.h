@@ -17,17 +17,21 @@ namespace OpenEngine {
 namespace Utils {
 
 class Time {
+    friend class Timer; // allow Timer to use operator=
+private:
+    /** @todo: should this be removed, it causes things like 
+        Time dt = 1000.0; to parse be the compiler without warnings */
+    const Time operator=(const unsigned int i);
 public:
     uint64_t sec;
     uint32_t usec;
-    Time();
-    Time(const uint32_t usec);
+    explicit Time();
+    explicit Time(const uint32_t usec);
     Time(const uint64_t sec, const uint32_t usec);
     void operator+=(const Time t);
     void operator-=(const Time t);
     const Time operator+(const Time t) const;
     const Time operator-(const Time t) const;
-    const Time operator=(const unsigned int i);
     const bool operator<(const Time t) const;
     const bool operator>(const Time t) const;
     const bool operator==(const Time t) const;
