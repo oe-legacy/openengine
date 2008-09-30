@@ -12,6 +12,8 @@ ADD_LIBRARY(OpenEngine_Scene
   DotVisitor.h
   GeometryNode.cpp
   GeometryNode.h
+  BlendingNode.cpp
+  BlendingNode.h
   LightNode.cpp
   LightNode.h
   PointLightNode.cpp

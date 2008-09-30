@@ -17,6 +17,7 @@
 #include <Scene/PointLightNode.h>
 #include <Scene/SpotLightNode.h>
 #include <Scene/DirectionalLightNode.h>
+#include <Scene/BlendingNode.h>
 #include <Renderers/RenderStateNode.h>
 #include <Renderers/IRenderNode.h>
 
@@ -89,6 +90,10 @@ namespace Scene {
     }
     //! @see  VisitSceneNode
     void ISceneNodeVisitor::VisitSpotLightNode(SpotLightNode* node) { 
+        DefaultVisitNode(node); 
+    }
+    //! @see  VisitSceneNode
+    void ISceneNodeVisitor::VisitBlendingNode(BlendingNode* node) { 
         DefaultVisitNode(node); 
     }
 

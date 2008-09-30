@@ -1,4 +1,4 @@
-// Point light tree node.
+// Light tree node.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -15,20 +15,7 @@ namespace Scene {
 LightNode::LightNode(): active(true), 
         ambient(Vector<4,float>(0.0,0.0,0.0,1.0)),
         diffuse(Vector<4,float>(1.0,1.0,1.0,1.0)),
-        specular(Vector<4,float>(1.0,1.0,1.0,1.0)) {
-    
-}
-
-LightNode::~LightNode() {
-
-}
-
-//! Accept of visitors
-void LightNode::Accept(ISceneNodeVisitor& v) { 
-    //    v.VisitLightNode(this);
-    // commented out as we really don't wanna visit lightnode
-}
-
+        specular(Vector<4,float>(1.0,1.0,1.0,1.0)) {}
 
 } // NS Scene
 } // NS OpenEngine

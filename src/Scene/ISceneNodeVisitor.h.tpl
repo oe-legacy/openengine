@@ -29,6 +29,7 @@ class TransformationNode;
 class PointLightNode;
 class DirectionalLightNode;
 class SpotLightNode;
+class BlendingNode;
 
 // generated forward declarations
 @OE_VISITOR_HEADER_DECLARATION_EXPANSION@
@@ -68,6 +69,7 @@ public:
     virtual void VisitPointLightNode(PointLightNode* node);
     virtual void VisitDirectionalLightNode(DirectionalLightNode* node);
     virtual void VisitSpotLightNode(SpotLightNode* node);
+    virtual void VisitBlendingNode(BlendingNode* node);
 
 // generated visit declarations
 @OE_VISITOR_HEADER_EXPANSION@

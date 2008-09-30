@@ -46,14 +46,14 @@ private:
 
 public:
     LightNode();
-    virtual ~LightNode();
+    virtual ~LightNode() {}
     
     bool active;
     Vector<4,float> ambient, diffuse, specular;
     
     
     //! Accept of visitors
-    void Accept(ISceneNodeVisitor& v);
+    void Accept(ISceneNodeVisitor& v) = 0;
 };
 
 } // NS Scene
