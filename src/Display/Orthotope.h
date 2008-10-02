@@ -33,9 +33,9 @@ public:
      * Orthotope constructor.
      */
     Orthotope(IViewingVolume& volume,
-            const float distNear   = 10,  const float distFar = 300,
-            const float left = -100, const float right = 100,
-            const float bottom = -100, const float top = 100);
+            const float distNear   = 1,    const float distFar = 3000,
+            const float left       = -100, const float right   = 100,
+            const float bottom     = -100, const float top     = 100);
 
     /**
      * Orthotope destructor.

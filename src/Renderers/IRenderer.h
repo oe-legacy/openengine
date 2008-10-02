@@ -20,6 +20,11 @@
 #include <Utils/Timer.h>
 #include <Resources/ITextureResource.h>
 
+// forward declerations
+namespace OpenEngine {
+namespace Display { class IViewingVolume; }
+}
+
 namespace OpenEngine {
 namespace Renderers {
 
@@ -113,6 +118,13 @@ public:
     }
 
     /**
+     * Apply a viewing volume.
+     *
+     * @param volume Viewing volume to apply
+     */
+    virtual void ApplyViewingVolume(Display::IViewingVolume& volume) = 0;
+
+    /**
      * Load and Bind a texture.
      *
      * @param texr Texture resource
@@ -125,6 +137,13 @@ public:
      * @param texr Texture resource
      */
     virtual void RebindTexture(ITextureResourcePtr texr) = 0;
+
+    /**
+     * Draw a face
+     *
+     * @param face Face to draw.
+     */
+    virtual void DrawFace(FacePtr face) = 0;
 
     /**
      * Draw a face (wire framed).
