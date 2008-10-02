@@ -7,4 +7,6 @@ ADD_LIBRARY(OpenEngine_Utils
   Statistics.h
   Statistics.cpp
   Serialization.h
+  EventProfiler.h
+  EventProfiler.cpp
 )
