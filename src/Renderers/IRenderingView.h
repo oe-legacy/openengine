@@ -48,6 +48,8 @@ protected:
 
     Viewport& viewport;         //!< Viewport of this rendering view.
 
+public:
+
     /**
      * Render a scene.
      *
@@ -55,8 +57,6 @@ protected:
      * @param root Root of scene to render.
      */
     virtual void Render(IRenderer* renderer, ISceneNode* root) = 0;
-
-public:
 
     /**
      * Create a rendering view bound to a view port.
@@ -86,6 +86,9 @@ public:
      */
     virtual IRenderer* GetRenderer() = 0;
 
+    virtual void SetBackgroundColor(Vector<4,float> color) = 0;
+
+    virtual Vector<4,float> GetBackgroundColor() = 0;
 
     /**
      * Processing hook

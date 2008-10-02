@@ -32,15 +32,17 @@ public:
      * @enum RenderStateOption
      */
     enum RenderStateOption {
-        NONE                  = 0x00000000,
-        RENDER_WIREFRAMED     = 0x00000001,
-        RENDER_TEXTURES       = 0x00000010,
-        RENDER_SHADERS        = 0x00000100,
-        RENDER_NORMALS        = 0x00001000,
-        RENDER_HARD_NORMAL    = 0x00010000,
-        RENDER_BACKFACES      = 0x00100000,
-        RENDER_BINORMALS      = 0x01000000,
-        RENDER_TANGENTS       = 0x10000000
+        NONE                   = 0,
+        RENDER_WIREFRAMED      = 1<<0,
+        RENDER_TEXTURES        = 1<<1,
+        RENDER_SHADERS         = 1<<2,
+        RENDER_NORMALS         = 1<<3,
+        RENDER_HARD_NORMAL     = 1<<4,
+        RENDER_BACKFACES       = 1<<5,
+        RENDER_BINORMALS       = 1<<6,
+        RENDER_TANGENTS        = 1<<7,
+        RENDER_LIGHTING        = 1<<8,
+        RENDER_WITH_DEPTH_TEST = 1<<9
     };
 
 private:

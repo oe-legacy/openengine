@@ -21,7 +21,7 @@ using namespace OpenEngine::Math;
 // Shared initialization code
 void Face::Init() {
     // Set white as default color
-    colr[0] = colr[1] = colr[2] = colr[3] = Vector<4,float>(1);
+    colr[0] = colr[1] = colr[2] = Vector<4,float>(1);
     // Calculate the face hard normal
     CalcHardNorm();
     // Calculate the binormals and tangents
@@ -43,8 +43,6 @@ void Face::Copy(const Face& face) {
     }
   	hardNorm = face.hardNorm;
     mat = face.mat;
-//     texr = face.texr;
-//     shad = face.shad;    
 }
 
 /**

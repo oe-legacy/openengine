@@ -84,7 +84,7 @@ void RenderStateNode::SetOptions(RenderStateOption options) {
  * @param options option(s) to add.
  */
 void RenderStateNode::AddOptions(RenderStateOption options) {
-    int opt = this->options | (unsigned int)options;
+    unsigned int opt = this->options | (unsigned int)options;
     this->options = (RenderStateOption)opt;
 }
 
