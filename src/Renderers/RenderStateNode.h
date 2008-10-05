@@ -33,20 +33,22 @@ public:
      */
     enum RenderStateOption {
         NONE                   = 0,
-        RENDER_WIREFRAMED      = 1<<0,
-        RENDER_TEXTURES        = 1<<1,
-        RENDER_SHADERS         = 1<<2,
-        RENDER_NORMALS         = 1<<3,
-        RENDER_HARD_NORMAL     = 1<<4,
-        RENDER_BACKFACES       = 1<<5,
-        RENDER_BINORMALS       = 1<<6,
-        RENDER_TANGENTS        = 1<<7,
-        RENDER_LIGHTING        = 1<<8,
-        RENDER_WITH_DEPTH_TEST = 1<<9
+        TEXTURE                = 1<<0,
+        SHADER                 = 1<<1,
+        BACKFACE               = 1<<2,
+        LIGHTING               = 1<<3,
+        DEPTH_TEST             = 1<<4,
+        // DEBUG THINGS
+        WIREFRAME              = 1<<5,
+        SOFT_NORMAL            = 1<<6,
+        HARD_NORMAL            = 1<<7,
+        BINORMAL               = 1<<8,
+        TANGENT                = 1<<9,
     };
 
 private:
-    RenderStateOption options;
+    RenderStateOption enabled;
+    RenderStateOption disabled;
 
 public:
 
@@ -54,22 +56,26 @@ public:
     RenderStateNode();
     //! Copy constructor
     RenderStateNode(RenderStateNode& node);
-    //! Set constructor
-    explicit RenderStateNode(RenderStateOption options);
     //! Destructor
     ~RenderStateNode();
 
     ISceneNode* CloneSelf();
     void Accept(ISceneNodeVisitor& v);
-    bool IsOptionSet(RenderStateOption o);
-    RenderStateOption GetOptions();
-    void SetOptions(RenderStateOption options);
-    void AddOptions(RenderStateOption options);
-    void RemoveOptions(RenderStateOption options);
-    void ToggleOptions(RenderStateOption options);
+    void EnableOption(RenderStateOption options);
+    void DisableOption(RenderStateOption options);
+    void ToggleOption(RenderStateOption options);
+    void Enable(RenderStateOption option);
+    void Disable(RenderStateOption option);
+    RenderStateOption GetEnabled();
+    RenderStateOption GetDisabled();
+    bool IsOptionEnabled(RenderStateOption o);
+    bool IsOptionDisabled(RenderStateOption o);
+    RenderStateNode* GetInverse();
+    std::string ToString();
 };
 
 } //NS Renderers
 } //NS OpenEngine
+
 
 #endif // _RENDER_STATE_NODE_H_

@@ -15,18 +15,12 @@ namespace Renderers {
 /**
  * Default constructor clearing all options
  */
-RenderStateNode::RenderStateNode() : options(NONE) {
+    RenderStateNode::RenderStateNode() : enabled(NONE), disabled(NONE) {
 }
 
 RenderStateNode::RenderStateNode(RenderStateNode& node) : SceneNode(node) {
-    options = node.options;
-}
-
-/**
- * Set constructor
- */
-RenderStateNode::RenderStateNode(RenderStateOption options) {
-    this->options = options;
+    enabled = node.enabled;
+    disabled = node.disabled;
 }
 
 /**
@@ -49,31 +43,41 @@ void RenderStateNode::Accept(ISceneNodeVisitor& v) {
 }
 
 /**
- * Check if an option is set.
+ * Check if an option is enabled.
  *
  * @param o Frame option(s) to check
- * @return True if set
+ * @return True if enabled
  */
-bool RenderStateNode::IsOptionSet(RenderStateOption o) {
-    return (o & GetOptions()) == o;
+bool RenderStateNode::IsOptionEnabled(RenderStateOption o) {
+    return (o & GetEnabled()) == o;
 }
 
 /**
- * Get current options set in this RenderStateNode.
+ * Check if an option is disabled.
+ *
+ * @param o Frame option(s) to check
+ * @return True if disabled
+ */
+bool RenderStateNode::IsOptionDisabled(RenderStateOption o) {
+    return (o & GetDisabled()) == o;
+}
+
+/**
+ * Get current enabled options set in this RenderStateNode.
  *
  * @return RenderStateOption
  */
-RenderStateNode::RenderStateOption RenderStateNode::GetOptions() {
-    return options;
+RenderStateNode::RenderStateOption RenderStateNode::GetEnabled() {
+    return enabled;
 }
 
 /**
- * Overwrites current options with options specified.
+ * Get current disabled options set in this RenderStateNode.
  *
- * @param options new settings for this RenderStateNode
+ * @return RenderStateOption
  */
-void RenderStateNode::SetOptions(RenderStateOption options) {
-    this->options = options;
+RenderStateNode::RenderStateOption RenderStateNode::GetDisabled() {
+    return disabled;
 }
 
 /**
@@ -83,20 +87,31 @@ void RenderStateNode::SetOptions(RenderStateOption options) {
  *
  * @param options option(s) to add.
  */
-void RenderStateNode::AddOptions(RenderStateOption options) {
-    unsigned int opt = this->options | (unsigned int)options;
-    this->options = (RenderStateOption)opt;
+void RenderStateNode::EnableOption(RenderStateOption options) {
+    // removed from disabled
+    unsigned int optDis = disabled & ~((unsigned int)options);
+    disabled = (RenderStateOption)optDis;
+
+    // add to enabled
+    unsigned int optEn = enabled | (unsigned int)options;
+    enabled = (RenderStateOption)optEn;
 }
 
 /**
- * Remove option flags specified by xor'ing them
- * together with whose already specified. 
+ * Add options flag to the already existing,
+ * options specified are or'ed with whose already
+ * set.
  *
- * @param options option(s) to be removed.
+ * @param options option(s) to add.
  */
-void RenderStateNode::RemoveOptions(RenderStateOption options) {
-    int opt = this->options & ~((unsigned int)options);
-    this->options = (RenderStateOption)opt;
+void RenderStateNode::DisableOption(RenderStateOption options) {
+    // removed from enabled
+    unsigned int optEn = enabled & ~((unsigned int)options);
+    enabled = (RenderStateOption)optEn;
+
+    // add to disabled
+    unsigned int optDis = disabled | (unsigned int)options;
+    disabled = (RenderStateOption)optDis;
 }
 
 /**
@@ -104,9 +119,68 @@ void RenderStateNode::RemoveOptions(RenderStateOption options) {
  *
  * @param options Options to turn on/off.
  */
-void RenderStateNode::ToggleOptions(RenderStateOption options) {
-    int opt = this->options ^ (unsigned int)options;
-    this->options = (RenderStateOption)opt;
+void RenderStateNode::ToggleOption(RenderStateOption options) {
+    if (IsOptionEnabled(options))
+        DisableOption(options);
+    else if (IsOptionDisabled(options))
+        EnableOption(options);
+}
+
+RenderStateNode* RenderStateNode::GetInverse() {
+    RenderStateNode* inverse = new RenderStateNode();
+    RenderStateOption inverseDisabled = inverse->enabled;
+    inverse->enabled = inverse->disabled;
+    inverse->disabled = inverseDisabled;
+    return inverse;
+}
+
+std::string RenderStateNode::ToString() {
+    std::string str = "<(";
+    str += "enabled:";
+    if ( IsOptionEnabled(TEXTURE) )
+        str += "TEXTURE,";
+    if ( IsOptionEnabled(SHADER) )
+        str += "SHADER,";
+    if ( IsOptionEnabled(BACKFACE) )
+        str += "BACKFACE,";
+    if ( IsOptionEnabled(LIGHTING) )
+        str += "LIGHTING,";
+    if ( IsOptionEnabled(DEPTH_TEST) )
+        str += "DEPTH_TEST,";
+    if ( IsOptionEnabled(WIREFRAME) )
+        str += "WIREFRAME,";
+    if ( IsOptionEnabled(SOFT_NORMAL) )
+        str += "SOFT_NORMAL,";
+    if ( IsOptionEnabled(HARD_NORMAL) )
+        str += "HARD_NORMAL,";
+    if ( IsOptionEnabled(BINORMAL) )
+        str += "BINORMAL,";
+    if ( IsOptionEnabled(TANGENT) )
+        str += "TANGENT,";
+    str += ") (";
+    str += "disabled:";
+    if ( IsOptionDisabled(TEXTURE) )
+        str += "TEXTURE,";
+    if ( IsOptionDisabled(SHADER) )
+        str += "SHADER,";
+    if ( IsOptionDisabled(BACKFACE) )
+        str += "BACKFACE,";
+    if ( IsOptionDisabled(LIGHTING) )
+        str += "LIGHTING,";
+    if ( IsOptionDisabled(DEPTH_TEST) )
+        str += "DEPTH_TEST,";
+    if ( IsOptionDisabled(WIREFRAME) )
+        str += "WIREFRAME,";
+    if ( IsOptionDisabled(SOFT_NORMAL) )
+        str += "SOFT_NORMAL,";
+    if ( IsOptionDisabled(HARD_NORMAL) )
+        str += "HARD_NORMAL,";
+    if ( IsOptionDisabled(BINORMAL) )
+        str += "BINORMAL,";
+    if ( IsOptionDisabled(TANGENT) )
+        str += "TANGENT,";
+    str += ")>";
+    return str;
 }
 
 } //NS Renderers
