@@ -17,7 +17,6 @@
 #include <Geometry/Face.h>
 #include <Geometry/VertexArray.h>
 #include <Resources/ITextureResource.h>
-#include <Logging/Logger.h>
 #include <list>
 
 namespace OpenEngine {
@@ -66,20 +65,28 @@ public:
         FaceSet* faces = node->GetFaceSet();
         if (faces == NULL) return;
         FaceList::iterator face;
+        ITextureResourcePtr currentTexture;
         for (face = faces->begin(); face != faces->end(); face++) {
             // load face textures if not already loaded
-            if ((*face)->mat->texr != NULL && (*face)->mat->texr->GetID() == 0)
-                loader.Load((*face)->mat->texr, policy);
+            ITextureResourcePtr thisTexture = (*face)->mat->texr;
+            if (thisTexture != NULL && thisTexture != currentTexture) {
+                loader.Load(thisTexture, policy);
+                currentTexture = thisTexture;
+            }
         }
     }
     void VisitVertexArrayNode(VertexArrayNode* node) {
         list<VertexArray*> vaList = node->GetVertexArrays();
         // Iterate through list of Vertex Arrays
         list<VertexArray*>::iterator itr;
+        ITextureResourcePtr currentTexture;
         for (itr = vaList.begin(); itr!=vaList.end(); itr++) {
             // Load vertex array texture if not already loaded
-            if ((*itr)->mat->texr != NULL && (*itr)->mat->texr->GetID() == 0)
-                loader.Load((*itr)->mat->texr, policy);
+            ITextureResourcePtr thisTexture = (*itr)->mat->texr;
+            if (thisTexture != NULL && thisTexture != currentTexture) {
+                loader.Load(thisTexture, policy);
+                currentTexture = thisTexture;
+            }
         }
     }
 };
@@ -94,6 +101,7 @@ public:
     Reloader(IRenderer& renderer)
         : renderer(renderer) {
         queue.Attach(*this);
+        renderer.PreProcessEvent().Attach(*this);
     }
     // run on render pre-process
     void Handle(RenderingEventArg arg) {
