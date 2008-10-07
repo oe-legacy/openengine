@@ -18,7 +18,8 @@ namespace Scene {
      * geometry node.
      */
     CollectedGeometryTransformer::CollectedGeometryTransformer()
-        : faces(NULL) {
+        : faces(NULL)
+        , georoot(NULL) {
 
     }
     
@@ -43,7 +44,24 @@ namespace Scene {
         faces = new FaceSet();
         node.Accept(*this);
         node.DeleteAllNodes();
-        node.AddNode(new GeometryNode(faces));
+        georoot = new GeometryNode(faces);
+        node.AddNode(georoot);
+    }
+
+    /**
+     * Get the geometry node that has contains all the collected faces.
+     * NULL if no transformation has been applied.
+     */
+    GeometryNode* CollectedGeometryTransformer::GetCollectedGeometryNode() const {
+        return georoot;
+    }
+
+    /**
+     * Get the face set that has contains all the collected faces.
+     * NULL if no transformation has been applied.
+     */
+    FaceSet* CollectedGeometryTransformer::GetCollectedFaceSet() const {
+        return faces;
     }
 
     /**
