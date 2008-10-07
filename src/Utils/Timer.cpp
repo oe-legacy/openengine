@@ -43,8 +43,10 @@ void Time::operator+=(const Time t) {
 }
 
 void Time::operator-=(const Time t) {
+#if OE_SAFE
     if (sec < t.sec || (sec <= t.sec && usec < t.usec))
         throw Exception("Attempt to subtract a future time from a past time.");
+#endif
     sec  -= t.sec;
     if (t.usec > usec) {
         sec--;
@@ -120,28 +122,34 @@ const bool Time::IsNonZero() const {
 }
 
 const unsigned int Time::AsInt() const {
+#if OE_SAFE
     if (sec > UINT_MAX / second - 1)
         throw Exception("Overflow when converting Time("+
                         Convert::ToString<uint64_t>(sec)+", "+
                         Convert::ToString<uint32_t>(usec)+") to unsigned int.");
+#endif
     return sec * second + usec;
 }
 
 const uint32_t Time::AsInt32() const {
+#if OE_SAFE
     // @todo UINT32_MAX is undefined but is in stdint.h ??
     // if (sec > UINT32_MAX / 1000000 - 1)
     //     throw Exception("Overflow when converting Time("+
     //                     Convert::ToString<uint64_t>(sec)+", "+
     //                     Convert::ToString<uint32_t>(usec)+") to int.");
+#endif
     return sec * second + usec;
 }
 
 const uint64_t Time::AsInt64() const {
+#if OE_SAFE
     // @todo UINT64_MAX is undefined but is in stdint.h ??
     // if (sec > UINT64_MAX / 1000000 - 1)
     //     throw Exception("Overflow when converting Time("+
     //                     Convert::ToString<uint64_t>(sec)+", "+
     //                     Convert::ToString<uint32_t>(usec)+") to an unsigned int.");
+#endif
     return sec * second + usec;
 }
 
