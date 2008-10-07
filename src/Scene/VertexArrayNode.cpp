@@ -9,21 +9,26 @@
 
 #include <Scene/VertexArrayNode.h>
 
+#include <Geometry/VertexArray.h>
+
 namespace OpenEngine {
 namespace Scene {
 
-VertexArrayNode::VertexArrayNode()  {
+VertexArrayNode::VertexArrayNode() {
 }
     
 VertexArrayNode::~VertexArrayNode() {
+    std::list<VertexArray*>::iterator itr;
+    for (itr=vaList.begin(); itr!=vaList.end(); itr++)
+        delete *itr;
     vaList.clear();
 }
 
-std::list<VertexArray*> VertexArrayNode::GetVertexArrays(){
+std::list<VertexArray*> VertexArrayNode::GetVertexArrays() {
     return vaList;
 }
 
-void VertexArrayNode::AddVertexArray(VertexArray& vertexArray){
+void VertexArrayNode::AddVertexArray(VertexArray& vertexArray) {
     vaList.push_back(&vertexArray);
 }
 
