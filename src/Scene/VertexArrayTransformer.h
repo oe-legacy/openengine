@@ -15,6 +15,13 @@
 namespace OpenEngine {
 namespace Scene {
 
+/**
+ * Vertex Array Transformer.
+ * Destructively transforms all nodes of type \a GeometryNode in a scene
+ * to nodes of type \a VertexArrayNode.
+ *
+ * @class VertexArrayTransformer VertexArrayTransformer.h Scene/VertexArrayTransformer.h
+ */
 class VertexArrayTransformer : public ISceneNodeVisitor{
 public:
     VertexArrayTransformer();

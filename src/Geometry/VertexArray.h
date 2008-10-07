@@ -17,12 +17,17 @@ namespace Geometry {
 
 class FaceSet;
 
+/**
+ * Vertex Array.
+ *
+ * @class VertexArray VertexArray.h Geometry/VertexArray.h
+ */
 class VertexArray {
 private:
-    float* pVertices; // Pointer to vertex array
-    float* pNormals; // Pointer to normal array
-    float* pColors; // Pointer to color array
-    float* pTexCoords; // Pointer to texture coordinate array
+    float* pVertices;           //!< Pointer to vertex array
+    float* pNormals;            //!< Pointer to normal array
+    float* pColors;             //!< Pointer to color array
+    float* pTexCoords;          //!< Pointer to texture coordinate array
 
     int numFaces;
 
@@ -32,7 +37,7 @@ public:
     explicit VertexArray(FaceSet& faces);
     virtual ~VertexArray();
 
-    MaterialPtr mat; //!< texture resource
+    MaterialPtr mat;            //!< Shared material definition
 
     float* GetVertices();
     float* GetNormals();

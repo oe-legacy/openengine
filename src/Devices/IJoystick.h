@@ -23,16 +23,23 @@ namespace Devices {
  * Each axis has a number with a value attached to it, that number
  * is used as entry into the axisState array.
  *
- * @struct JoystickState IJoystick.h Devices/IJoystick.h
+ * @class JoystickState IJoystick.h Devices/IJoystick.h
  */
-struct JoystickState {
+class JoystickState {
+public:
     int axisState[28]; //!<optimized ie made for Logitech Rumblepad
     JoystickButton buttons; //!< currently activated buttons
     JoystickState() : buttons(JBUTTON_NONE) {}
 };
 
-
-struct JoystickAxisEventArg {
+/**
+ * Axis change event argument.
+ * Sent to listeners of the \a JoystickAxisEvent event.
+ *
+ * @class JoystickAxisEventArg IJoystick.h Devices/IJoystick.h
+ */
+class JoystickAxisEventArg {
+public:
 	JoystickState state;
 	int axis;
 	int value;
@@ -40,11 +47,12 @@ struct JoystickAxisEventArg {
 
 /**
  * Joystick button change event argument
- * Sent to handlers listening on joystickUpEvent and joystickDownEvent.
+ * Sent to handlers listening on the \a JoystickButtonEvent event.
  *
- * @struct JoystickButtonEventArg IJoystick.h Devices/IJoystick.h
+ * @class JoystickButtonEventArg IJoystick.h Devices/IJoystick.h
  */
-struct JoystickButtonEventArg {
+class JoystickButtonEventArg {
+public:
     enum JButtonEventType { UNKNOWN, PRESS, RELEASE };
     JButtonEventType type;
     JoystickState state;        //!< current joystick state
@@ -52,6 +60,11 @@ struct JoystickButtonEventArg {
     JoystickButtonEventArg() : button(JBUTTON_NONE) {}
 };
 
+/**
+ * Joystick interface.
+ *
+ * @class IJoystick IJoystick.h Devices/IJoystick.h
+ */
 class IJoystick : public virtual Core::IModule {
 public:
 	virtual ~IJoystick() {};
@@ -59,8 +72,7 @@ public:
 	virtual Core::IEvent<JoystickAxisEventArg>& JoystickAxisEvent() = 0;
 };
 
-}
-}
+} // NS Devices
+} // NS OpenEngine
 
-
-#endif
+#endif // _OE_INTERFACE_JOYSTICK_H_

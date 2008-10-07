@@ -17,9 +17,9 @@ namespace OpenEngine {
 namespace Display {
 
 /**
- * Viewing volume decorator interface.
+ * Orthotope decorator.
  *
- * @class IViewingVolumeDecorator IViewingVolumeDecorator.h Display/IViewingVolumeDecorator.h
+ * @class Orthotope Orthotope.h Display/Orthotope.h
  */
 class Orthotope : public IViewingVolumeDecorator {
 private:

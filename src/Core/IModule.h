@@ -16,6 +16,12 @@
 namespace OpenEngine {
 namespace Core {
 
+/**
+ * Mix-in class for classes that implement an "engine module".
+ * A module is exactly a class the implements the listener interface
+ * on all engine events: \a InitializeEventArg, \a ProcessEventArg and
+ * \a DeinitializeEventArg.
+ */
 class IModule : public virtual IListener<InitializeEventArg>,
                 public virtual IListener<ProcessEventArg>,
                 public virtual IListener<DeinitializeEventArg> {

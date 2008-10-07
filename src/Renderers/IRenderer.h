@@ -41,9 +41,12 @@ using OpenEngine::Resources::ITextureResourcePtr;
 class IRenderer; class IRenderingView;
 
 /**
+ * Event argument for all the rendering phases.
  *
+ * @class RenderingEventArg IRenderer.h Renderers/IRenderer.h
  */
-struct RenderingEventArg {
+class RenderingEventArg {
+public:
     IRenderer& renderer;
     Time time;
     unsigned int approx;
@@ -62,6 +65,15 @@ struct RenderingEventArg {
 class IRenderer : public virtual IModule {
 public:
 
+    /**
+     * Rendering stages/phases.
+     * A renderer will after construction be in the initialization
+     * stage until the InitializeEvent has occurred and all listeners
+     * have been processed. After that the phases will change after
+     * completion of each event. Thus, if \a GetCurrentStage is invoked
+     * by a listener of the \a ProcessEvent the result must be
+     * \a RENDERER_PROCESS.
+     */
     enum RendererStage {
         RENDERER_INITIALIZE,
         RENDERER_PREPROCESS,

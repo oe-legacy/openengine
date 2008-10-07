@@ -20,6 +20,27 @@
 namespace OpenEngine {
 namespace Utils {
 
+/**
+ * Utility to profile system events.
+ * Profiling requires manually specifying which event+listener pairs
+ * to observe. It works by creating an intermediate object that
+ * records information before and after delegating the event to the
+ * original listener.
+ * It can be preferred to configure profiling separate to the "real"
+ * code so it is easy to enable/disable.
+ * @code
+ * // Profiling example:
+ * IEvent<EventArg> event;
+ * IListener<EventArg> list1;
+ * IListener<EventArg> list2;
+ * event.Attach(list1);
+ * event.Attach(list2);
+ * // Inject profiling between the already configured event+listeners
+ * EventProfiler prof;
+ * prof.Profile<EventArg>("Listener 1", event, list1);
+ * prof.Profile<EventArg>("Listener 2", event, list2);
+ * @endcode
+ */
 class EventProfiler {
 private:
 

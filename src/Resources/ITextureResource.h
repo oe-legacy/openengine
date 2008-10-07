@@ -22,6 +22,12 @@ class ITextureResource;
  */
 typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
 
+/**
+ * Texture change event argument.
+ * Contains a pointer to the texture that changed.
+ *
+ * @class TextureChangedEventArg ITextureResource.h Resource/ITextureResource.h
+ */
 class TextureChangedEventArg {
 public:
  TextureChangedEventArg(ITextureResourcePtr resource) : resource(resource) {}

@@ -16,6 +16,16 @@
 namespace OpenEngine {
 namespace Utils {
 
+/**
+ * Time data type.
+ * Provides an interface to a time structure similar to that obtained
+ * by \a gettimeofday.
+ *
+ * @todo We should look at how we can abstract Time and Timer to allow
+ * alternative representation of ``time'', such as vector clocks.
+ *
+ * @class Time Time.h Utils/Timer.h
+ */
 class Time {
     friend class Timer; // allow Timer to use operator=
 private:

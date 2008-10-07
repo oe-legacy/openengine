@@ -27,6 +27,11 @@ class IModelResource;
  */
 typedef boost::shared_ptr<IModelResource> IModelResourcePtr;
 
+/**
+ * Event argument of a model change event.
+ *
+ * @class ModelChangedEventArg IModelResource.h Resource/IModelResource.h
+ */
 class ModelChangedEventArg {
 public:
     ModelChangedEventArg() {}

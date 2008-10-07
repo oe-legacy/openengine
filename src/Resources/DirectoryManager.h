@@ -20,6 +20,11 @@ using namespace std;
 namespace OpenEngine {
 namespace Resources {
 
+/**
+ * Utility for managing file locations.
+ *
+ * @class DirectoryManager DirectoryManager.h Resources/DirectoryManager.h
+ */
 class DirectoryManager {
  private:
     static list<string> paths;
