@@ -33,7 +33,7 @@ protected:
 
 public:
 
-    IEvent<EventType>& ChangedEvent() {
+    virtual IEvent<EventType>& ChangedEvent() {
         return changedEvent;
     }
 
