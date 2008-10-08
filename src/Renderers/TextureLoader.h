@@ -1,4 +1,4 @@
-// Texture loader.
+// Texture loader utility.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -16,7 +16,7 @@
 // forward declarations
 namespace OpenEngine {
 namespace Scene { class ISceneNode; }
-namespace Renderers { class IRenderer; }
+namespace Renderers { class IRenderer; class RenderingEventArg; }
 }
 
 namespace OpenEngine {
@@ -24,18 +24,52 @@ namespace Renderers {
 
 /**
  * Texture loader.
+ * Loads texture data for a renderer.
  *
+ * @code
+ * // Example loading textures from an entire scene and reloading any
+ * // changes before the rendering phase.
+ * TextureLoader texload
+ *     = new TextureLoader(*renderer, TextureLoader::RELOAD_QUEUED);
+ * renderer->PreProcessEvent().Attach(*texload);
+ * texload->Load(scene);
+ * @endcode
+ * 
  * @class TextureLoader TextureLoader.h Renderers/TextureLoader.h
  */
-class TextureLoader {
+class TextureLoader : public Core::IListener<RenderingEventArg> {
 public:
-    enum ReloadPolicy { RELOAD_ALWAYS, RELOAD_NEVER, RELOAD_DEFAULT };
 
-    TextureLoader(Renderers::IRenderer& renderer);
+    /**
+     * Reload policies.
+     * RELOAD_NEVER means that textures will only be loaded if the
+     * have not already been loaded (their id is not zero) and all
+     * change events will be ignored.
+     * RELOAD_IMMEDIATE means that the texture will be reloaded as
+     * soon as a changed event occurs.
+     * RELOAD_QUEUED means that the texture will be reloaded on the
+     * first call to ReloadQueue or event to Handle(RenderingEventArg)
+     * after a change event has occurred.
+     * RELOAD_DEFAULT is not a policy, but can be used to flag
+     * that the load should use whatever the default policy is.
+     */
+    enum ReloadPolicy {
+        RELOAD_NEVER,
+        RELOAD_QUEUED,
+        RELOAD_IMMEDIATE,
+        RELOAD_DEFAULT
+    };
+
+    TextureLoader(Renderers::IRenderer& renderer,
+                  ReloadPolicy policy = RELOAD_NEVER);
     virtual ~TextureLoader();
 
-    void Load(Scene::ISceneNode& node,             ReloadPolicy policy = RELOAD_DEFAULT);
-    void Load(Resources::ITextureResourcePtr texr, ReloadPolicy policy = RELOAD_DEFAULT);
+    void Handle(RenderingEventArg arg);
+    void ReloadQueue();
+    void Load(Scene::ISceneNode& node,
+              ReloadPolicy policy = RELOAD_DEFAULT);
+    void Load(Resources::ITextureResourcePtr texr,
+              ReloadPolicy policy = RELOAD_DEFAULT);
     void SetDefaultReloadPolicy(ReloadPolicy policy);
 
 private:
