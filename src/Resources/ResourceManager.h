@@ -15,7 +15,7 @@
 #include <Resources/Exceptions.h>
 #include <Resources/File.h>
 #include <Utils/Convert.h>
-#include <Resources/ResourcePlugin.h>
+#include <Resources/IResourcePlugin.h>
 #include <Logging/Logger.h>
 #include <string>
 #include <map>
@@ -36,7 +36,7 @@ using namespace std;
 template<class T>
 class ResourceManager {
 private:
-    static vector<ResourcePlugin<T>*> plugins;
+    static vector<IResourcePlugin<T>*> plugins;
     static map<string,  boost::shared_ptr<T> > resources;
 
 public:
@@ -46,7 +46,7 @@ public:
  *
  * @param plugin a resource plug-in
  */
-static void AddPlugin(ResourcePlugin<T>* plugin) {
+static void AddPlugin(IResourcePlugin<T>* plugin) {
   plugins.push_back(plugin);
 }
   
@@ -62,7 +62,7 @@ static void AddPlugin(ResourcePlugin<T>* plugin) {
   // get the file extension
   string ext = Convert::ToLower(File::Extension(filename));
 
-  typename vector< ResourcePlugin<T>* >::iterator plugin;
+  typename vector< IResourcePlugin<T>* >::iterator plugin;
   for (plugin = plugins.begin(); plugin != plugins.end() ; plugin++) {
     if ((*plugin)->AcceptsExtension(ext)) {
       break;
@@ -83,7 +83,7 @@ static void AddPlugin(ResourcePlugin<T>* plugin) {
 };
 
   template<class T>
-  vector<ResourcePlugin<T>*> ResourceManager<T>::plugins = vector<ResourcePlugin<T>*>();
+  vector<IResourcePlugin<T>*> ResourceManager<T>::plugins = vector<IResourcePlugin<T>*>();
 
 } // NS Resources
 } // NS OpenEngine

@@ -1,17 +1,17 @@
-#ifndef _RESOURCE_PLUGIN_
-#define _RESOURCE_PLUGIN_
+#ifndef _RESOURCE_PLUGIN_INTERFACE_
+#define _RESOURCE_PLUGIN_INTERFACE_
 
 #include <string>
 #include <list>
 #include <boost/shared_ptr.hpp>
 
 /**
- * Resources plug-in.
+ * Resources plug-in interface.
  *
  * @class ResourcePlugin
  */
 template<class T>
-class ResourcePlugin {
+class IResourcePlugin {
 public:
     /**
      * Create a new texture resource from a file.
@@ -24,7 +24,7 @@ public:
     /**
      * Default destructor.
      */
-    virtual ~ResourcePlugin() {}
+    virtual ~IResourcePlugin() {}
 
 	/** 
 	 * Checks if this plugin accepts the given extension.
@@ -61,4 +61,4 @@ protected:
 
 };
 
-#endif //_RESOURCE_PLUGIN_
+#endif //_RESOURCE_PLUGIN_INTERFACE_

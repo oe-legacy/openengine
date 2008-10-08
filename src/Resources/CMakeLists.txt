@@ -10,7 +10,7 @@ ADD_LIBRARY(OpenEngine_Resources
   ResourceManager.h
   DirectoryManager.h
   DirectoryManager.cpp
-  ResourcePlugin.h
+  IResourcePlugin.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources
