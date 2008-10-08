@@ -19,11 +19,13 @@
 #include <Geometry/VertexArray.h>
 #include <Resources/ITextureResource.h>
 #include <list>
+#include <set>
 
 namespace OpenEngine {
 namespace Renderers {
 
 using std::list;
+using std::set;
 
 using Core::Exception;
 using Core::IListener;
@@ -32,6 +34,7 @@ using Geometry::FaceList;
 using Geometry::FaceSet;
 using Geometry::VertexArray;
 using Renderers::RenderingEventArg;
+using Resources::ITextureResource;
 using Resources::ITextureResourcePtr;
 using Resources::TextureChangedEventArg;
 using Scene::ISceneNode;
@@ -50,35 +53,35 @@ class TextureLoader::SceneLoader
     : public ISceneNodeVisitor {
     TextureLoader& loader;
     TextureLoader::ReloadPolicy policy;
+    set<ITextureResource*> cache;
 public:
-    virtual ~SceneLoader() { }
     SceneLoader(TextureLoader& loader, TextureLoader::ReloadPolicy policy)
         : loader(loader), policy(policy) {}
+    virtual ~SceneLoader() { }
     void VisitGeometryNode(GeometryNode* node) {
         FaceSet* faces = node->GetFaceSet();
         if (faces == NULL) return;
         FaceList::iterator face;
-        ITextureResourcePtr currentTexture;
         for (face = faces->begin(); face != faces->end(); face++) {
-            // load face textures if not already loaded
-            ITextureResourcePtr thisTexture = (*face)->mat->texr;
-            if (thisTexture != NULL && thisTexture != currentTexture) {
-                loader.Load(thisTexture, policy);
-                currentTexture = thisTexture;
+            // load face textures if not already loaded or in the cache
+            ITextureResourcePtr t = (*face)->mat->texr;
+            if (t != NULL && t->GetID() == 0 &&
+                cache.find(t.get()) == cache.end()) {
+                cache.insert(t.get());
+                loader.Load(t, policy);
             }
         }
     }
     void VisitVertexArrayNode(VertexArrayNode* node) {
         list<VertexArray*> vaList = node->GetVertexArrays();
-        // Iterate through list of Vertex Arrays
         list<VertexArray*>::iterator itr;
-        ITextureResourcePtr currentTexture;
         for (itr = vaList.begin(); itr!=vaList.end(); itr++) {
-            // Load vertex array texture if not already loaded
-            ITextureResourcePtr thisTexture = (*itr)->mat->texr;
-            if (thisTexture != NULL && thisTexture != currentTexture) {
-                loader.Load(thisTexture, policy);
-                currentTexture = thisTexture;
+            // Load vertex array texture if not already loaded or in the cache
+            ITextureResourcePtr t = (*itr)->mat->texr;
+            if (t != NULL && t->GetID() == 0 &&
+                cache.find(t.get()) == cache.end()) {
+                cache.insert(t.get());
+                loader.Load(t, policy);
             }
         }
     }
