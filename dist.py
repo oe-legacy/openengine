@@ -261,6 +261,27 @@ def error(err):
 def system(name):
     return name == "any" or sys.platform.startswith(name)
 
+def cores():
+    try:
+        if system("linux"):
+            count = 0
+            for line in open('/proc/cpuinfo'):
+                if line.startswith("core id"):
+                    count += 1
+            return max(count, 1)
+        # for windows we might want to look at:
+        # http://tgolden.sc.sabren.com/python/wmi.html
+        # but first we need to know that nmake supports jobs
+        # if system("win"):
+        #   count = 0
+        #   server = wmi.WMI("localhost")
+        #     for cpu in server.Win32_Processor():
+        #       count += cpu.NumberOfCores
+        #   return count
+    # if an error occurs simply return one
+    except Exception: pass
+    return 1
+
 def main():
     # check run location
     if not path.isfile(path.join(os.getcwd(), "dist.py")):

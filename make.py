@@ -13,7 +13,7 @@
 import string, sys, subprocess, os, os.path as path
 
 # reuse the helpers from repo.py
-from dist import printCommands, error, execute, system, ExecError
+from dist import printCommands, error, execute, system, ExecError, cores
 
 build_dir = path.join(os.getcwd(), "build")
 
@@ -96,7 +96,7 @@ def sys_exec_make(target):
     if system("win"):
         execute("nmake "+target)
     else:
-        execute("make "+target)
+        execute("make -j %d %s" % (cores(), target))
 
 def main():
     # check run location
