@@ -13,7 +13,7 @@
 #include <Geometry/VertexArray.h>
 #include <Geometry/FaceSet.h>
 #include <Geometry/Material.h>
-#include <map>
+#include <list>
 
 namespace OpenEngine {
 namespace Scene {
@@ -49,37 +49,41 @@ void VertexArrayTransformer::VisitGeometryNode(GeometryNode* node) {
     FaceSet* faces = node->GetFaceSet();
     if (faces != NULL) {
 
-        FaceSet*    fs;
-        FacePtr     f;
-        MaterialPtr m;
-        std::map<MaterialPtr, FaceSet*>   fmap;
-        std::map<MaterialPtr, FaceSet*>::iterator imap;
+        std::list<FaceSet*> flist;
 
         // Run through all faces and group them by materials
-        for (FaceList::iterator itr = faces->begin(); itr != faces->end(); itr++) {
-            // Get the face and material
-            f = *itr;
-            m = f->mat;
+        for (FaceList::iterator itr = faces->begin(); 
+	     itr != faces->end(); itr++) {
+	  
+	  FaceSet* fs = NULL;
+	  FacePtr f = *itr;
 
-            // Check if a faceset for faces with this texture resource already exists
-            imap = fmap.find(m);
-            if (imap == fmap.end()) {
-                // No face set was in the map so we create it.
-                fs = new FaceSet();
-                fmap[m] = fs; 
-            } else {
-                // A face set with the material exists so we use that
-                fs = imap->second;
-            }
-            // Add the face to the correct faceset
-            fs->Add(f);
+	  std::list<FaceSet*>::iterator ilist = flist.begin();
+	  for (;ilist != flist.end(); ilist++) {
+              // Get the face and material
+	      FaceSet* fset = *ilist;
+	      MaterialPtr mat = (*fset->begin())->mat;
+
+              // Check if a faceset for faces
+	      // with this material already exists
+	      if (f->mat->Equals(mat))
+		  fs = fset;
+	  }
+
+	  if (fs == NULL) {
+	      fs = new FaceSet();
+	      flist.push_back(fs);
+	  }
+	  
+	  fs->Add(f);
         }
 
         // Now that all faces has been sorted into face sets with same
         // material we create a vertex array for each face set and add it
         // to the vertex array node.
-        for (imap = fmap.begin(); imap != fmap.end(); imap++) {
-            fs = imap->second;
+	std::list<FaceSet*>::iterator ilist = flist.begin();
+        for (ilist = flist.begin(); ilist != flist.end(); ilist++) {
+	    FaceSet* fs = *ilist;
             VertexArray* va = new VertexArray(*fs);
             vaNode->AddVertexArray(*va);
             delete fs;

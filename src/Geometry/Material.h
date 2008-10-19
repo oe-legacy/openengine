@@ -75,6 +75,8 @@ public:
              Vector<4,float> spec);
 
     virtual ~Material();
+
+    bool Equals(MaterialPtr mat);
 };
 
 } // NS Geometry

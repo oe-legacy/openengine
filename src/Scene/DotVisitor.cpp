@@ -10,6 +10,7 @@
 #include <Scene/DotVisitor.h>
 #include <Scene/GeometryNode.h>
 #include <Scene/SceneNode.h>
+#include <Scene/VertexArrayNode.h>
 
 #include <iostream>
 
@@ -115,6 +116,13 @@ void DotVisitor::VisitGeometryNode(GeometryNode* node) {
     ostringstream label;
     label << "Geometry\\n"
           << "Faces: " << node->GetFaceSet()->Size();
+    VisitNode((ISceneNode*)node, label.str());
+}
+
+void DotVisitor::VisitVertexArrayNode(VertexArrayNode* node) {
+    ostringstream label;
+    label << "Vertex array\\n"
+          << "Vertex arrays: " << node->GetVertexArrays().size();
     VisitNode((ISceneNode*)node, label.str());
 }
 

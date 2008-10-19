@@ -24,6 +24,7 @@ namespace Scene {
 class ISceneNode;
 class SceneNode;
 class GeometryNode;
+class VertexArrayNode;
 
 using std::string;
 using std::ostream;
@@ -71,6 +72,7 @@ public:
 
     void VisitSceneNode(SceneNode* node);
     void VisitGeometryNode(GeometryNode* node);
+    void VisitVertexArrayNode(VertexArrayNode* node);
     void VisitTransformationNode(TransformationNode* node);
 
 };

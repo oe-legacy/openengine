@@ -80,5 +80,16 @@ Material::~Material() {
 
 }
 
+bool Material::Equals(MaterialPtr mat) {
+    if (this->diffuse != mat->diffuse) return false;
+    else if (this->ambient != mat->ambient) return false;
+    else if (this->specular != mat->specular) return false;
+    else if (this->emission != mat->emission) return false;
+    else if (this->shininess != mat->shininess) return false;
+    else if (this->texr != mat->texr) return false;
+    else if (this->shad != mat->shad) return false;
+    return true;
+}
+
 } // NS Geometry
 } // NS OpenEngine
