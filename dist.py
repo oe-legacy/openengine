@@ -269,6 +269,10 @@ def cores():
                 if line.startswith("core id"):
                     count += 1
             return max(count, 1)
+        if system("darwin"):
+            str = subprocess.Popen(["sysctl","hw.ncpu"],stdout=subprocess.PIPE).communicate()[0]
+            count = int(str.split(" ")[1].strip())            
+            return max(count, 1)
         # for windows we might want to look at:
         # http://tgolden.sc.sabren.com/python/wmi.html
         # but first we need to know that nmake supports jobs
