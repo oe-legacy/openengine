@@ -212,7 +212,11 @@ def unpack(type, file, dir):
 
 def untar(file, dir):
     tar = tarfile.open(file)
-    tar.extractall(dir)
+    if sys.version_info[1] < 5:
+        for m in tar:
+            tar.extract(m, dir)
+    else:
+        tar.extractall(dir)
     tar.close()
 
 def unzip(file, dir):
