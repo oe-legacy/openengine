@@ -96,7 +96,7 @@ def sys_exec_make(target):
     if system("win"):
         execute("nmake "+target)
     else:
-        execute("make -j %d %s" % (cores(), target))
+        execute("make --jobs %d %s" % (cores()+1, target))
 
 def main():
     # check run location
