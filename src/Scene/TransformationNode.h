@@ -84,7 +84,7 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<SceneNode>(*this);
+        ar & boost::serialization::base_object<ISceneNode>(*this);
         ar & rotation;
         ar & position;
         ar & accRotation;
