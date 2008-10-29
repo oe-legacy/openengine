@@ -12,11 +12,10 @@
 
 #include <Scene/ISceneNode.h>
 
+// We must include VertexArray for serialization to work proper.
+#include <Geometry/VertexArray.h>
+
 namespace OpenEngine {
-
-// forward declaration
-namespace Geometry { class VertexArray; }
-
 namespace Scene {
 
 /**
