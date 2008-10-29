@@ -54,11 +54,12 @@ using std::map;
  */
 class DotVisitor : public ISceneNodeVisitor {
 protected:
-    ostringstream dotdata;      //!< graph data
-    string id;                  //!< id/name of graph
+    ostringstream dotdata;              //!< graph data
+    string id;                          //!< id/name of graph
     map<size_t,unsigned int> nodeNames; //!< map of defined names
-    unsigned int currentName;   //!< current generated name
+    unsigned int currentName;           //!< current generated name
 
+    const string EscapeString(const string str);
     unsigned int GetId(ISceneNode* node);
     void VisitNode(ISceneNode* node, string label);
     void VisitNode(ISceneNode* node, map<string,string>& options);
@@ -70,10 +71,7 @@ public:
     string String(ISceneNode& node);
     void Write(ISceneNode& node, ostream* out);
 
-    void VisitSceneNode(SceneNode* node);
-    void VisitGeometryNode(GeometryNode* node);
-    void VisitVertexArrayNode(VertexArrayNode* node);
-    void VisitTransformationNode(TransformationNode* node);
+    void DefaultVisitNode(ISceneNode* node);
 
 };
 

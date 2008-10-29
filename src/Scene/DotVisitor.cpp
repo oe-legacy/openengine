@@ -110,26 +110,20 @@ void DotVisitor::VisitNode(ISceneNode* node, map<string,string>& options) {
     node->VisitSubNodes(*this);
 }
 
-void DotVisitor::VisitSceneNode(SceneNode* node) {
-    VisitNode((ISceneNode*)node, "Scene node");
+void DotVisitor::DefaultVisitNode(ISceneNode* node) {
+    VisitNode(node, EscapeString(node->ToString()));
 }
 
-void DotVisitor::VisitGeometryNode(GeometryNode* node) {
-    ostringstream label;
-    label << "Geometry\\n"
-          << "Faces: " << node->GetFaceSet()->Size();
-    VisitNode((ISceneNode*)node, label.str());
-}
-
-void DotVisitor::VisitVertexArrayNode(VertexArrayNode* node) {
-    ostringstream label;
-    label << "Vertex array\\n"
-          << "Vertex arrays: " << node->GetVertexArrays().size();
-    VisitNode((ISceneNode*)node, label.str());
-}
-
-void DotVisitor::VisitTransformationNode(TransformationNode* node) {
-    VisitNode((ISceneNode*)node, "Transformation");
+const string DotVisitor::EscapeString(const string str) {
+    string nstr = "";
+    for (unsigned int i=0; i<str.length(); i++)
+        if (str[i] == '\n') {
+            nstr.push_back('\\');
+            nstr.push_back('n');
+        } else {
+            nstr.push_back(str[i]);
+        }
+    return nstr;
 }
 
 } // NS Modules

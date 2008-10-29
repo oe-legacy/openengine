@@ -10,6 +10,7 @@
 #include <Scene/GeometryNode.h>
 #include <Math/Vector.h>
 #include <Math/Quaternion.h>
+#include <Utils/Convert.h>
 
 namespace OpenEngine {
 namespace Scene {
@@ -78,6 +79,12 @@ FaceSet* GeometryNode::GetFaceSet() {
 void GeometryNode::SetFaceSet(FaceSet* faces){
     delete this->faces;
     this->faces = faces;
+}
+
+const std::string GeometryNode::ToString() const {
+    return GetClassName()
+        + "\nFaces: "
+        + Utils::Convert::ToString(faces->Size());
 }
 
 } //NS Scene

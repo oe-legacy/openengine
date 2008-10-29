@@ -37,6 +37,8 @@ public:
     Geometry::FaceSet* GetFaceSet();
     void SetFaceSet(Geometry::FaceSet* faces);
 
+    const std::string ToString() const;
+
 private:
     Geometry::FaceSet* faces;
 

@@ -27,6 +27,7 @@ namespace Scene {
  */
 class VertexArrayNode : public ISceneNode {
     OE_SCENE_NODE(VertexArrayNode, ISceneNode);
+
 public:
 
     /**
@@ -54,6 +55,8 @@ public:
      * @param faces FaceSet pointer.
      */
     virtual void AddVertexArray(Geometry::VertexArray& va);
+
+    virtual const std::string ToString() const;
 
 private:
     std::list<Geometry::VertexArray*> vaList;

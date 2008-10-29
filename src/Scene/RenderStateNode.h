@@ -58,12 +58,12 @@ public:
     void ToggleOption(RenderStateOption options);
     void Enable(RenderStateOption option);
     void Disable(RenderStateOption option);
-    RenderStateOption GetEnabled();
-    RenderStateOption GetDisabled();
-    bool IsOptionEnabled(RenderStateOption o);
-    bool IsOptionDisabled(RenderStateOption o);
+    RenderStateOption GetEnabled() const;
+    RenderStateOption GetDisabled() const;
+    bool IsOptionEnabled(RenderStateOption o) const;
+    bool IsOptionDisabled(RenderStateOption o) const;
     RenderStateNode* GetInverse();
-    std::string ToString();
+    const std::string ToString() const;
 
 private:
     RenderStateOption enabled;

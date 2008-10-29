@@ -8,8 +8,8 @@
 //--------------------------------------------------------------------
 
 #include <Scene/VertexArrayNode.h>
-
 #include <Geometry/VertexArray.h>
+#include <Utils/Convert.h>
 
 namespace OpenEngine {
 namespace Scene {
@@ -33,6 +33,12 @@ std::list<VertexArray*> VertexArrayNode::GetVertexArrays() {
 
 void VertexArrayNode::AddVertexArray(VertexArray& vertexArray) {
     vaList.push_back(&vertexArray);
+}
+
+const std::string VertexArrayNode::ToString() const {
+    return GetClassName()
+        + "\nArrays: "
+        + Utils::Convert::ToString(vaList.size());
 }
     
 } //NS Scene

@@ -135,6 +135,19 @@ public:
     virtual int GetNumberOfNodes();
 
     /**
+     * Get a string representation of the node.
+     * There is no restriction on the representation. It should
+     * however contain the node name.
+     * If not overwritten \a ToString will return the class name of
+     * the node.
+     * Currently the output is used for the node content in the
+     * \a DotVisitor.
+     *
+     * @return String representation.
+     */
+    virtual const std::string ToString() const;
+
+    /**
      * Clone the scene.
      * This performs a deep copy of the node and recursively clones
      * all sub nodes.

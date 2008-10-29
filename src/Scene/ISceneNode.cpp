@@ -43,6 +43,10 @@ int ISceneNode::GetNumberOfNodes() {
     return subNodes.size();
 }
 
+const string ISceneNode::ToString() const {
+    return this->GetClassName();
+}
+
 /**
  * Increment the accept/visit stack.
  *
