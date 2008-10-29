@@ -8,7 +8,9 @@ namespace Scene {
 // Accept
 #define SCENE_NODE(type)                                        \
 void type::Accept(ISceneNodeVisitor& v) {                       \
-    v.Visit##type(this);                                       \
+    IncAcceptStack();                                           \
+    v.Visit##type(this);                                        \
+    DecAcceptStack();                                           \
 }
 #include "SceneNodes.def"
 #undef SCENE_NODE

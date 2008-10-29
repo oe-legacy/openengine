@@ -206,6 +206,11 @@ private:
     void _RemoveNode(ISceneNode* sub);
     void _DeleteNode(ISceneNode* sub);
 
+    // We currently need to have access to these methods in the definition of
+    // accept in all sub type. Clients should however not use them!
+#define SCENE_NODE(klass) friend class klass;
+#include "SceneNodes.def"
+#undef SCENE_NODE
     void IncAcceptStack();
     void DecAcceptStack();
 

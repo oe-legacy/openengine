@@ -98,11 +98,9 @@ void ISceneNode::DecAcceptStack() {
  * @param visitor Visitor to traverse with.
  */
 void ISceneNode::VisitSubNodes(ISceneNodeVisitor& visitor) {
-    IncAcceptStack();
     list<ISceneNode*>::iterator itr;
     for (itr = subNodes.begin(); itr != subNodes.end(); itr++)
         (*itr)->Accept(visitor);
-    DecAcceptStack();
 }
 
 void ISceneNode::AddNode(ISceneNode* sub) {
