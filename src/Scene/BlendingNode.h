@@ -7,32 +7,22 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _BLENDING_NODE_H_
-#define _BLENDING_NODE_H_
+#ifndef _OE_BLENDING_NODE_H_
+#define _OE_BLENDING_NODE_H_
 
-#include <Scene/SceneNode.h>
-#include <boost/serialization/base_object.hpp>
+#include <Scene/ISceneNode.h>
 
-#include <boost/serialization/export.hpp>
-
-#include <Scene/ISceneNodeVisitor.h>
-#include <Renderers/IRenderer.h>
-#include <Math/Vector.h>
-
-// forward declarations
 namespace OpenEngine {
 namespace Scene {
-
-using namespace OpenEngine::Scene;
-using namespace OpenEngine::Math;
 
 /**
  * Blending node.
  * 
- * 
  * @class BlendingNode BlendingNode.h Scene/BlendingNode.h
  */
-class BlendingNode : public SceneNode {
+class BlendingNode : public ISceneNode {
+    OE_SCENE_NODE(BlendingNode, ISceneNode)
+
 public:
     enum BlendingFactor {
         ZERO, ONE,
@@ -47,9 +37,6 @@ public:
     
     BlendingNode();
     virtual ~BlendingNode() {}
-    
-    //! Accept of visitors
-    void Accept(ISceneNodeVisitor& v);
 
     BlendingFactor GetSource();
     void SetSource(BlendingFactor source);
@@ -67,7 +54,7 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<SceneNode>(*this);
+        ar & boost::serialization::base_object<ISceneNode>(*this);
         ar & source;
         ar & destination;
         ar & equation;
@@ -79,4 +66,4 @@ private:
 
 BOOST_CLASS_EXPORT(OpenEngine::Scene::BlendingNode)
 
-#endif // _BLENDING_NODE_H_
+#endif // _OE_BLENDING_NODE_H_

@@ -7,30 +7,28 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _SPOT_LIGHT_NODE_H_
-#define _SPOT_LIGHT_NODE_H_
+#ifndef _OE_SPOT_LIGHT_NODE_H_
+#define _OE_SPOT_LIGHT_NODE_H_
 
 #include <Scene/LightNode.h>
-#include <boost/serialization/base_object.hpp>
 
-#include <boost/serialization/export.hpp>
-
-#include <Math/Vector.h>
-
-// forward declarations
 namespace OpenEngine {
 namespace Scene {
-
-using namespace OpenEngine::Scene;
-using namespace OpenEngine::Math;
 
 /**
  * Spot Light tree node.
  * 
- * 
  * @class SpotLightNode SpotLightNode.h Scene/SpotLightNode.h
  */
 class SpotLightNode : public LightNode {
+    OE_SCENE_NODE(SpotLightNode, LightNode)
+
+public:
+    float constAtt, linearAtt, quadAtt, cutoff, exponent;
+
+    SpotLightNode();
+    virtual ~SpotLightNode();
+
 private:
     friend class boost::serialization::access;
     template<class Archive>
@@ -44,13 +42,6 @@ private:
         ar & exponent;
    }
 
-public:
-    SpotLightNode();
-    virtual ~SpotLightNode();
-    float constAtt, linearAtt, quadAtt, cutoff, exponent;
-
-    //! Accept of visitors
-    void Accept(ISceneNodeVisitor& v);
 };
 
 } // NS Scene

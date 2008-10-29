@@ -8,53 +8,77 @@
 //--------------------------------------------------------------------
 
 #include <Scene/GeometryNode.h>
-#include <Scene/TransformationNode.h>
-#include <Logging/Logger.h>
+#include <Math/Vector.h>
+#include <Math/Quaternion.h>
 
 namespace OpenEngine {
 namespace Scene {
 
-    GeometryNode::GeometryNode() {
-        faces = new FaceSet();
-    }
+using OpenEngine::Geometry::FaceSet;
+using OpenEngine::Math::Vector;
+using OpenEngine::Math::Quaternion;
 
-    /**
-     * Copy constructor.
-     * Performs a shallow copy.
-     *
-     * @param node Geometry node to copy.
-     */
-    GeometryNode::GeometryNode(GeometryNode& node) : SceneNode(node) {
-        faces = node.faces;
-    }
+/**
+ * Default constructor.
+ * Creates an initial empty face set.
+ */
+GeometryNode::GeometryNode() {
+    faces = new FaceSet();
+}
 
-    GeometryNode::GeometryNode(FaceSet* faces)
-        : faces(faces) {
-
-    }
+/**
+ * Copy constructor.
+ * Copy will contain a new face set (with the same faces).
+ *
+ * @param node Geometry node to copy.
+ */
+GeometryNode::GeometryNode(const GeometryNode& node)
+    : ISceneNode(node)
+{
+    faces = new FaceSet(*node.faces);
+}
     
-    GeometryNode::~GeometryNode() {
-        delete faces;
-    }
+/**
+ * Face set constructor.
+ * The face set will be deleted if replaced by SetFaceSet or upon
+ * destruction of the geometry node.
+ *
+ * @param faces Content of this Geometry Node.
+ */
+GeometryNode::GeometryNode(FaceSet* faces)
+    : faces(faces) {
+    
+}
 
-    ISceneNode* GeometryNode::CloneSelf() {
-        GeometryNode* clone = new GeometryNode(*this);
-        clone->faces = new FaceSet(*faces);
-        return clone;
-    }
+/**
+ * Destructor.
+ * Deletes the contained face set.
+ */    
+GeometryNode::~GeometryNode() {
+    delete faces;
+}
 
-    FaceSet* GeometryNode::GetFaceSet() {
-        return faces;
-    }
+/**
+ * Get faces this Geometry Node contains.
+ * The geometry node retains ownership of the face set.
+ *
+ * @return FaceSet pointer.
+ */
+FaceSet* GeometryNode::GetFaceSet() {
+    return faces;
+}
 
-    void GeometryNode::SetFaceSet(FaceSet* faces){
-        delete this->faces;
-        this->faces = faces;
-    }
-
-    void GeometryNode::Accept(ISceneNodeVisitor& v) {
-        v.VisitGeometryNode(this);
-    }
+/**
+ * Set FaceSet for this geometry node.
+ * This will delete the current face set and bind the new one to
+ * the node.
+ *
+ * @param faces FaceSet pointer.
+ */
+void GeometryNode::SetFaceSet(FaceSet* faces){
+    delete this->faces;
+    this->faces = faces;
+}
 
 } //NS Scene
 } //NS OpenEngine

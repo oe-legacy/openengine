@@ -17,6 +17,8 @@
 namespace OpenEngine {
 namespace Scene {
 
+using std::list;
+
 /**
  * Construct unnamed graph.
  */

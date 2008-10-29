@@ -18,11 +18,6 @@ BlendingNode::BlendingNode() {
     equation = ADD;
 }
 
-//! Accept of visitors
-void BlendingNode::Accept(ISceneNodeVisitor& v) { 
-    v.VisitBlendingNode(this);
-}
-
 BlendingNode::BlendingFactor BlendingNode::GetSource() {
     return source;
 }

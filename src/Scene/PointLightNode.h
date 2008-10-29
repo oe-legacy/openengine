@@ -7,22 +7,13 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _POINT_LIGHT_NODE_H_
-#define _POINT_LIGHT_NODE_H_
+#ifndef _OE_POINT_LIGHT_NODE_H_
+#define _OE_POINT_LIGHT_NODE_H_
 
 #include <Scene/LightNode.h>
-#include <boost/serialization/base_object.hpp>
 
-#include <boost/serialization/export.hpp>
-
-#include <Math/Vector.h>
-
-// forward declarations
 namespace OpenEngine {
 namespace Scene {
-
-using namespace OpenEngine::Scene;
-using namespace OpenEngine::Math;
 
 /**
  * Point Light tree node.
@@ -31,6 +22,14 @@ using namespace OpenEngine::Math;
  * @class PointLightNode PointLightNode.h Scene/PointLightNode.h
  */
 class PointLightNode : public LightNode {
+    OE_SCENE_NODE(PointLightNode, LightNode)
+
+public:
+    float constAtt, linearAtt, quadAtt;
+
+    PointLightNode();
+    virtual ~PointLightNode();
+
 private:
     friend class boost::serialization::access;
     template<class Archive>
@@ -42,13 +41,6 @@ private:
         ar & quadAtt;
     }
 
-public:
-    PointLightNode();
-    virtual ~PointLightNode();
-    float constAtt, linearAtt, quadAtt;
-
-    //! Accept of visitors
-    void Accept(ISceneNodeVisitor& v);
 };
 
 } // NS Scene
@@ -56,4 +48,4 @@ public:
 
 BOOST_CLASS_EXPORT(OpenEngine::Scene::PointLightNode)
 
-#endif // _LIGHT_NODE_H_
+#endif // _OE_LIGHT_NODE_H_

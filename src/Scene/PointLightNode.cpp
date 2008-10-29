@@ -12,9 +12,10 @@
 namespace OpenEngine {
 namespace Scene {
 
-PointLightNode::PointLightNode(): constAtt(1.0),
-                                  linearAtt(0.0),
-                                  quadAtt(0.0)
+PointLightNode::PointLightNode()
+  : constAtt(1.0)
+  , linearAtt(0.0)
+  , quadAtt(0.0)
 {
     
 }
@@ -22,12 +23,6 @@ PointLightNode::PointLightNode(): constAtt(1.0),
 PointLightNode::~PointLightNode() {
 
 }
-
-//! Accept of visitors
-void PointLightNode::Accept(ISceneNodeVisitor& v) { 
-    v.VisitPointLightNode(this);
-}
-
 
 } // NS Scene
 } // NS OpenEngine

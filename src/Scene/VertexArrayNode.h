@@ -10,7 +10,7 @@
 #ifndef _OE_VERTEX_ARRAY_NODE_H_
 #define _OE_VERTEX_ARRAY_NODE_H_
 
-#include <Scene/SceneNode.h>
+#include <Scene/ISceneNode.h>
 
 namespace OpenEngine {
 
@@ -19,16 +19,16 @@ namespace Geometry { class VertexArray; }
 
 namespace Scene {
 
-using OpenEngine::Geometry::VertexArray;
-
 /**
  * Vertex Array node.
  * Acts as a simple wrapper around a list of vertex arrays.
  *
  * @class VertexArrayNode VertexArrayNode.h Scene/VertexArrayNode.h
  */
-class VertexArrayNode : public SceneNode {
+class VertexArrayNode : public ISceneNode {
+    OE_SCENE_NODE(VertexArrayNode, ISceneNode);
 public:
+
     /**
      * Set constructor.
      *
@@ -46,27 +46,31 @@ public:
      *
      * @return FaceSet pointer.
      */
-    virtual std::list<VertexArray*> GetVertexArrays();
+    virtual std::list<Geometry::VertexArray*> GetVertexArrays();
 
     /**
      * Set FaceSet for this Vertex Array Node.
      *
      * @param faces FaceSet pointer.
      */
-    virtual void AddVertexArray(VertexArray& va);
+    virtual void AddVertexArray(Geometry::VertexArray& va);
 
-    /**
-     * Accept a visitor.
-     *
-     * @see ISceneNode::Accept
-     */
-    virtual void Accept(ISceneNodeVisitor& visitor);
+private:
+    std::list<Geometry::VertexArray*> vaList;
 
-protected:
-    std::list<VertexArray*> vaList;
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version) {
+        // serialize base class information
+        ar & boost::serialization::base_object<ISceneNode>(*this);
+        ar & vaList;
+    }
+
 };
 
 } // NS Scene
 } // NS OpenEngine
+
+BOOST_CLASS_EXPORT(OpenEngine::Scene::VertexArrayNode)
 
 #endif // _VERTEX_ARRAY_NODE_H_

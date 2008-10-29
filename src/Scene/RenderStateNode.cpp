@@ -1,4 +1,4 @@
-// Program name and description
+// Rendering state node.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,39 +7,37 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#include <Renderers/RenderStateNode.h>
+#include <Scene/RenderStateNode.h>
 
 namespace OpenEngine {
-namespace Renderers {
+namespace Scene {
 
 /**
- * Default constructor clearing all options
+ * Default constructor.
+ * No options are set and are thus inherieted from ancestoring
+ * RenderStateNodes.
  */
-    RenderStateNode::RenderStateNode() : enabled(NONE), disabled(NONE) {
+RenderStateNode::RenderStateNode()
+    : ISceneNode()
+    , enabled(NONE)
+    , disabled(NONE)
+{
+
 }
 
-RenderStateNode::RenderStateNode(RenderStateNode& node) : SceneNode(node) {
-    enabled = node.enabled;
-    disabled = node.disabled;
+RenderStateNode::RenderStateNode(const RenderStateNode& node)
+    : ISceneNode(node)
+    , enabled(node.enabled)
+    , disabled(node.disabled)
+{
+
 }
 
 /**
  * Destructor
  */
 RenderStateNode::~RenderStateNode() {
-}
 
-ISceneNode* RenderStateNode::CloneSelf() {
-    return new RenderStateNode(*this);
-}
-
-/**
- * Accepting visitor by make callback to the visitor.
- *
- * @see ISceneNode::Accept
- */
-void RenderStateNode::Accept(ISceneNodeVisitor& v) { 
-    v.VisitRenderStateNode(this);
 }
 
 /**
@@ -183,5 +181,5 @@ std::string RenderStateNode::ToString() {
     return str;
 }
 
-} //NS Renderers
+} //NS Scene
 } //NS OpenEngine

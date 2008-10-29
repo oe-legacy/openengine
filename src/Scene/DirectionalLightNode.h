@@ -7,30 +7,27 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _DIRECTIONAL_LIGHT_NODE_H_
-#define _DIRECTIONAL_LIGHT_NODE_H_
+#ifndef _OE_DIRECTIONAL_LIGHT_NODE_H_
+#define _OE_DIRECTIONAL_LIGHT_NODE_H_
 
 #include <Scene/LightNode.h>
-#include <boost/serialization/base_object.hpp>
 
-#include <boost/serialization/export.hpp>
-
-#include <Math/Vector.h>
-
-// forward declarations
 namespace OpenEngine {
 namespace Scene {
-
-using namespace OpenEngine::Scene;
-using namespace OpenEngine::Math;
 
 /**
  * Directional Light tree node.
  * 
- * 
  * @class DirectionalLightNode DirectionalLightNode.h Scene/DirectionalLightNode.h
  */
 class DirectionalLightNode : public LightNode {
+    OE_SCENE_NODE(DirectionalLightNode, LightNode)
+
+public:
+    
+    DirectionalLightNode();
+    virtual ~DirectionalLightNode();
+
 private:
     friend class boost::serialization::access;
     template<class Archive>
@@ -39,12 +36,6 @@ private:
         ar & boost::serialization::base_object<LightNode>(*this);
     }
 
-public:
-    DirectionalLightNode();
-    virtual ~DirectionalLightNode();
-
-    //! Accept of visitors
-    void Accept(ISceneNodeVisitor& v);
 };
 
 } // NS Scene

@@ -30,15 +30,16 @@ namespace Scene {
  */
 class CollectedGeometryTransformer : public ISceneNodeVisitor {
 private:
-    FaceSet *faces;
+    Geometry::FaceSet *faces;
     GeometryNode* georoot;
+
 public:
     CollectedGeometryTransformer();
     ~CollectedGeometryTransformer();
 
     void Transform(ISceneNode &node);
     GeometryNode* GetCollectedGeometryNode() const;
-    FaceSet* GetCollectedFaceSet() const;
+    Geometry::FaceSet* GetCollectedFaceSet() const;
 
     void VisitGeometryNode(GeometryNode *node);
 };

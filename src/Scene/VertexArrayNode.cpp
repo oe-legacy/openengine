@@ -14,7 +14,10 @@
 namespace OpenEngine {
 namespace Scene {
 
-VertexArrayNode::VertexArrayNode() {
+using Geometry::VertexArray;
+
+VertexArrayNode::VertexArrayNode()  {
+
 }
     
 VertexArrayNode::~VertexArrayNode() {
@@ -30,10 +33,6 @@ std::list<VertexArray*> VertexArrayNode::GetVertexArrays() {
 
 void VertexArrayNode::AddVertexArray(VertexArray& vertexArray) {
     vaList.push_back(&vertexArray);
-}
-
-void VertexArrayNode::Accept(ISceneNodeVisitor& v) {
-    v.VisitVertexArrayNode(this);
 }
     
 } //NS Scene

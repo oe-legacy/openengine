@@ -21,8 +21,10 @@ namespace Scene {
      *
      * @param node Node to copy.
      */
-    TransformationNode::TransformationNode(TransformationNode& node)
-        : SceneNode(node), ISceneNodeVisitor() {
+    TransformationNode::TransformationNode(const TransformationNode& node)
+        : ISceneNode(node)
+        , ISceneNodeVisitor()
+    {
         rotation = node.rotation;
         position = node.position;
         scale = scale;
@@ -30,16 +32,6 @@ namespace Scene {
 
     //! Empty destructor.
     TransformationNode::~TransformationNode() {}
-
-    //! Clone node (uses copy constructor)
-    ISceneNode* TransformationNode::CloneSelf() {
-        return new TransformationNode(*this);
-    }
-
-    //! Accept of visitors
-    void TransformationNode::Accept(ISceneNodeVisitor& v) { 
-        v.VisitTransformationNode(this);
-    }
 
     /**
      * Move transformation.

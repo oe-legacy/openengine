@@ -18,10 +18,12 @@
 namespace OpenEngine {
 namespace Scene {
 
-using OpenEngine::Geometry::FaceList;
-using OpenEngine::Geometry::FacePtr;
-using OpenEngine::Geometry::MaterialPtr;
-using OpenEngine::Geometry::VertexArray;
+using std::list;
+using Geometry::FaceSet;
+using Geometry::FaceList;
+using Geometry::FacePtr;
+using Geometry::MaterialPtr;
+using Geometry::VertexArray;
 
 VertexArrayTransformer::VertexArrayTransformer() {
 }

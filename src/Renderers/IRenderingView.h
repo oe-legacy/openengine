@@ -26,9 +26,6 @@ using OpenEngine::Display::Viewport;
 using OpenEngine::Math::Vector;
 using OpenEngine::Renderers::IRenderer;
 
-// Forward declarations.
-class OpenEngine::Scene::GeometryNode;
-
 /**
  * Rendering views are responsible for traversing and drawing the
  * scene in context of the view port it is bound to. This is done by

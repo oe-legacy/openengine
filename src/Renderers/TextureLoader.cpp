@@ -12,6 +12,7 @@
 #include <Core/Exceptions.h>
 #include <Core/QueuedEvent.h>
 #include <Renderers/IRenderer.h>
+#include <Scene/ISceneNodeVisitor.h>
 #include <Scene/GeometryNode.h>
 #include <Scene/VertexArrayNode.h>
 #include <Geometry/FaceSet.h>

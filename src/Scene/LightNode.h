@@ -7,53 +7,42 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _LIGHT_NODE_H_
-#define _LIGHT_NODE_H_
+#ifndef _OE_LIGHT_NODE_H_
+#define _OE_LIGHT_NODE_H_
 
-#include <Scene/SceneNode.h>
-#include <boost/serialization/base_object.hpp>
-
-#include <boost/serialization/export.hpp>
-
-#include <Scene/ISceneNodeVisitor.h>
+#include <Scene/ISceneNode.h>
 #include <Math/Vector.h>
 
-// forward declarations
 namespace OpenEngine {
 namespace Scene {
-
-using namespace OpenEngine::Scene;
-using namespace OpenEngine::Math;
 
 /**
  * Light tree node.
  * 
- * 
  * @class LightNode LightNode.h Scene/LightNode.h
  */
-class LightNode : public SceneNode {
+class LightNode : public ISceneNode {
+    OE_SCENE_NODE(LightNode, ISceneNode)
+
+public:
+    bool active;
+    Math::Vector<4,float> ambient, diffuse, specular;
+
+    LightNode();
+    virtual ~LightNode();
+        
 private:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<SceneNode>(*this);
+        ar & boost::serialization::base_object<ISceneNode>(*this);
         ar & active;
         ar & ambient;
         ar & diffuse;
         ar & specular;
     }
 
-public:
-    LightNode();
-    virtual ~LightNode() {}
-    
-    bool active;
-    Vector<4,float> ambient, diffuse, specular;
-    
-    
-    //! Accept of visitors
-    void Accept(ISceneNodeVisitor& v) = 0;
 };
 
 } // NS Scene
@@ -61,4 +50,4 @@ public:
 
 BOOST_CLASS_EXPORT(OpenEngine::Scene::LightNode)
 
-#endif // _LIGHT_NODE_H_
+#endif // _OE_LIGHT_NODE_H_

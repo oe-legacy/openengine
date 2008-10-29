@@ -7,16 +7,13 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _RENDER_STATE_NODE_H_
-#define _RENDER_STATE_NODE_H_
+#ifndef _OE_RENDER_STATE_NODE_H_
+#define _OE_RENDER_STATE_NODE_H_
 
-#include <Scene/SceneNode.h>
-#include <Scene/ISceneNodeVisitor.h>
+#include <Scene/ISceneNode.h>
 
 namespace OpenEngine {
-namespace Renderers {
-
-using namespace OpenEngine::Scene;
+namespace Scene {
 
 /**
  * Node describing specific rendering state. 
@@ -24,8 +21,11 @@ using namespace OpenEngine::Scene;
  *
  * @class RenderStateNode RenderStateNode.h Scene/RenderStateNode.h
  */
-class RenderStateNode : public SceneNode {
+class RenderStateNode : public ISceneNode {
+    OE_SCENE_NODE(RenderStateNode, ISceneNode)
+
 public:
+
     /**
      * RenderState options.
      *
@@ -46,21 +46,13 @@ public:
         TANGENT                = 1<<9,
     };
 
-private:
-    RenderStateOption enabled;
-    RenderStateOption disabled;
-
-public:
-
     //! Default constructor
     RenderStateNode();
     //! Copy constructor
-    RenderStateNode(RenderStateNode& node);
+    RenderStateNode(const RenderStateNode& node);
     //! Destructor
     ~RenderStateNode();
 
-    ISceneNode* CloneSelf();
-    void Accept(ISceneNodeVisitor& v);
     void EnableOption(RenderStateOption options);
     void DisableOption(RenderStateOption options);
     void ToggleOption(RenderStateOption options);
@@ -72,10 +64,25 @@ public:
     bool IsOptionDisabled(RenderStateOption o);
     RenderStateNode* GetInverse();
     std::string ToString();
+
+private:
+    RenderStateOption enabled;
+    RenderStateOption disabled;
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version) {
+        // serialize base class information
+        ar & boost::serialization::base_object<ISceneNode>(*this);
+        ar & enabled;
+        ar & disabled;
+    }
+
 };
 
-} //NS Renderers
+} //NS Scene
 } //NS OpenEngine
 
+BOOST_CLASS_EXPORT(OpenEngine::Scene::RenderStateNode)
 
-#endif // _RENDER_STATE_NODE_H_
+#endif // _OE_RENDER_STATE_NODE_H_

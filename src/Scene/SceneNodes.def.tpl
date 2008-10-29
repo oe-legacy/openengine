@@ -1,0 +1,13 @@
+@OE_AUTOGEN_HEADER@
+SCENE_NODE(BlendingNode);
+SCENE_NODE(DirectionalLightNode);
+SCENE_NODE(GeometryNode);
+SCENE_NODE(LightNode);
+SCENE_NODE(PointLightNode);
+SCENE_NODE(RenderNode);
+SCENE_NODE(RenderStateNode);
+SCENE_NODE(SceneNode);
+SCENE_NODE(SpotLightNode);
+SCENE_NODE(TransformationNode);
+SCENE_NODE(VertexArrayNode);
+@OE_SCENE_NODE_XMACRO_EXPANSION@

@@ -7,18 +7,15 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _TRANSFORMATION_NODE_H_
-#define _TRANSFORMATION_NODE_H_
+#ifndef _OE_TRANSFORMATION_NODE_H_
+#define _OE_TRANSFORMATION_NODE_H_
 
-#include <Scene/SceneNode.h>
+#include <Scene/ISceneNode.h>
 #include <Scene/ISceneNodeVisitor.h>
 
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 #include <Math/Quaternion.h>
-#include <boost/serialization/base_object.hpp>
-
-#include <boost/serialization/export.hpp>
 
 namespace OpenEngine {
 namespace Scene {
@@ -37,7 +34,33 @@ using OpenEngine::Math::Quaternion;
  *
  * @class TransformationNode TransformationNode.h Scene/TransformationNode.h
  */
-class TransformationNode : public SceneNode, public ISceneNodeVisitor {
+class TransformationNode : public ISceneNode, public ISceneNodeVisitor {
+    OE_SCENE_NODE(TransformationNode, ISceneNode)
+
+public:
+
+    // constructor / destructor
+    TransformationNode();
+    TransformationNode(const TransformationNode& node);
+    virtual ~TransformationNode();
+
+    // ISceneNodeVisitor methods
+    void VisitTransformationNode(TransformationNode* node);
+
+    // New transformation methods
+    void Move(float x, float y, float z);
+    void Rotate(float x, float y, float z);
+    void Scale(float x, float y, float z);
+
+    void SetPosition(Vector<3,float> position);
+    void SetRotation(Quaternion<float> rotation);
+    void SetScale(Matrix<4,4,float> scale);
+
+    Vector<3,float>   GetPosition();
+    Quaternion<float> GetRotation();
+    Matrix<4,4,float> GetScale();
+    Matrix<4,4,float> GetTransformationMatrix();
+    void GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation);
 
 private:
 
@@ -74,36 +97,6 @@ protected:
     //! overwritten visiting method
     virtual void DefaultVisitNode(ISceneNode* node);
 
-    ISceneNode* CloneSelf();
-
-public:
-    
-    // constructor / destructor
-    TransformationNode();
-    TransformationNode(TransformationNode& node);
-    virtual ~TransformationNode();
-
-    // ISceneNode methods
-    void Accept(ISceneNodeVisitor& visitor);
-
-    // ISceneNodeVisitor methods
-    void VisitTransformationNode(TransformationNode* node);
-
-    // New transformation methods
-    void Move(float x, float y, float z);
-    void Rotate(float x, float y, float z);
-    void Scale(float x, float y, float z);
-
-    void SetPosition(Vector<3,float> position);
-    void SetRotation(Quaternion<float> rotation);
-    void SetScale(Matrix<4,4,float> scale);
-
-    Vector<3,float>   GetPosition();
-    Quaternion<float> GetRotation();
-    Matrix<4,4,float> GetScale();
-    Matrix<4,4,float> GetTransformationMatrix();
-    void GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation);
-
 };
 
 } // NS Scene
@@ -111,4 +104,4 @@ public:
 
 BOOST_CLASS_EXPORT(OpenEngine::Scene::TransformationNode)
 
-#endif // _TRANSFORMATION_NODE_H_
+#endif // _OE_TRANSFORMATION_NODE_H_

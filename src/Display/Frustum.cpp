@@ -155,7 +155,7 @@ void Frustum::SetFar(float distFar) {
  *
  * @return Render node of the frustum.
  */
-IRenderNode* Frustum::GetFrustumNode() {
+RenderNode* Frustum::GetFrustumNode() {
     return node;
 }
 
@@ -387,7 +387,9 @@ Frustum::FNode::~FNode() {
 }
 
 Frustum::FNode::FNode(FNode& node)
-  : IRenderNode(node), frustum(node.frustum) {
+  : RenderNode(node)
+  , frustum(node.frustum)
+{
 
 }
 

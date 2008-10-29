@@ -12,11 +12,12 @@
 namespace OpenEngine {
 namespace Scene {
 
-SpotLightNode::SpotLightNode(): constAtt(1.0),
-                                linearAtt(0.0),
-                                quadAtt(0.0),
-                                cutoff(180.0),
-                                exponent(0.0)
+SpotLightNode::SpotLightNode()
+  : constAtt(1.0)
+  , linearAtt(0.0)
+  , quadAtt(0.0)
+  , cutoff(180.0)
+  , exponent(0.0)
 {
     
 }
@@ -24,12 +25,6 @@ SpotLightNode::SpotLightNode(): constAtt(1.0),
 SpotLightNode::~SpotLightNode() {
 
 }
-
-//! Accept of visitors
-void SpotLightNode::Accept(ISceneNodeVisitor& v) { 
-    v.VisitSpotLightNode(this);
-}
-
 
 } // NS Scene
 } // NS OpenEngine

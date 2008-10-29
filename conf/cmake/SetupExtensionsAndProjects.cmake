@@ -87,14 +87,10 @@ FOREACH(SUB_DIR ${EXTENSIONS_SUB_DIRECTORIES})
           ENDIF(OE_DEBUG_CMAKE)
 
 	  # generate header and implementation code
-          SET(OE_VISITOR_HEADER_DECLARATION_EXPANSION
-             "${OE_VISITOR_HEADER_DECLARATION_EXPANSION}class ${SUB_EXP_NODE};\n")
-          SET(OE_VISITOR_HEADER_EXPANSION
-             "${OE_VISITOR_HEADER_EXPANSION}virtual void Visit${SUB_EXP_NODE}(${SUB_EXP_NODE}* node);\n")
-          SET(OE_VISITOR_IMPL_INCLUDE_EXPANSION
-             "${OE_VISITOR_IMPL_INCLUDE_EXPANSION}#include <${SUB_EXP}.h>\n")
-          SET(OE_VISITOR_IMPL_EXPANSION
-             "${OE_VISITOR_IMPL_EXPANSION}//! @see VisitSceneNode\nvoid ISceneNodeVisitor::Visit${SUB_EXP_NODE}(${SUB_EXP_NODE}* node) { DefaultVisitNode(node); }\n")
+	  SET(OE_SCENE_NODE_XMACRO_EXPANSION
+	     "${OE_SCENE_NODE_XMACRO_EXPANSION}SCENE_NODE(${SUB_EXP_NODE})\n")
+          SET(OE_SCENE_NODE_INCLUDE_EXPANSION
+             "${OE_SCENE_NODE_INCLUDE_EXPANSION}#include <${SUB_EXP}.h>\n")
 
         ENDIF(NOT EXP STREQUAL SUB_EXP)
   
@@ -105,18 +101,16 @@ FOREACH(SUB_DIR ${EXTENSIONS_SUB_DIRECTORIES})
   ENDIF(IS_DIRECTORY ${FULL_SUB_DIR})
 ENDFOREACH(SUB_DIR)
 
-# link in generated code
-
-SET(TEMPLATE_FILE_NAME "ISceneNodeVisitor.h.tpl")
+SET(TEMPLATE_FILE_NAME "SceneNodes.def.tpl")
 STRING(CONFIGURE ${OE_AUTOGEN_HEADER_TPL} OE_AUTOGEN_HEADER @ONLY)
-CONFIGURE_FILE(${OE_SOURCE_DIR}/Scene/ISceneNodeVisitor.h.tpl
-               ${OE_SOURCE_DIR}/Scene/ISceneNodeVisitor.h
+CONFIGURE_FILE(${OE_SOURCE_DIR}/Scene/SceneNodes.def.tpl
+               ${OE_SOURCE_DIR}/Scene/SceneNodes.def
                @ONLY)
 
-SET(TEMPLATE_FILE_NAME "ISceneNodeVisitor.cpp.tpl")
+SET(TEMPLATE_FILE_NAME "SceneNodes.h.tpl")
 STRING(CONFIGURE ${OE_AUTOGEN_HEADER_TPL} OE_AUTOGEN_HEADER @ONLY)
-CONFIGURE_FILE(${OE_SOURCE_DIR}/Scene/ISceneNodeVisitor.cpp.tpl
-               ${OE_SOURCE_DIR}/Scene/ISceneNodeVisitor.cpp
+CONFIGURE_FILE(${OE_SOURCE_DIR}/Scene/SceneNodes.h.tpl
+               ${OE_SOURCE_DIR}/Scene/SceneNodes.h
                @ONLY)
 
 # Find all sub directories in the projects directory

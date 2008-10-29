@@ -7,47 +7,36 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _RENDER_NODE_INTERFACE_H_
-#define _RENDER_NODE_INTERFACE_H_
+#ifndef _OE_RENDER_NODE_H_
+#define _OE_RENDER_NODE_H_
 
 #include <Scene/ISceneNode.h>
-#include <Scene/ISceneNodeVisitor.h>
-#include <Scene/SceneNode.h>
 #include <Renderers/IRenderingView.h>
 
 namespace OpenEngine {
-namespace Renderers {
-
-using OpenEngine::Scene::SceneNode;
-using OpenEngine::Scene::ISceneNode;
-using OpenEngine::Scene::ISceneNodeVisitor;
+namespace Scene {
 
 /**
  * Render node.
  * A node that can hold or calculate infomation to be used
  * in the rendering phase of the engine.
  *
- * @class IRenderNode IRenderNode.h Renderers/IRenderNode.h
+ * @class RenderNode RenderNode.h Scene/RenderNode.h
  *
  * @see ISceneNode
  * @see IRenderer
  */
-class IRenderNode : public SceneNode {
+class RenderNode : public ISceneNode {
+    OE_SCENE_NODE(RenderNode, ISceneNode)
+
 public:
     /**
      * Apply the node, called by the renderer
      */
-    virtual void Apply(IRenderingView* view) = 0;
-
-    /**
-     * Forward call to the specefic RenderNode
-     */
-    void Accept(ISceneNodeVisitor& visitor) {
-        visitor.VisitRenderNode(this);
-    }
+    virtual void Apply(Renderers::IRenderingView* view) /* = 0; (prohibited by Clone) */ {}
 };
 
-} // NS Renderers
+} // NS Scene
 } // NS OpenEngine
 
-#endif // _RENDER_NODE_INTERFACE_H_
+#endif // _OE_RENDER_NODE_H_

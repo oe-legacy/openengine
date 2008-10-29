@@ -12,7 +12,7 @@
 
 #include <Display/IViewingVolumeDecorator.h>
 #include <Geometry/Plane.h>
-#include <Renderers/IRenderNode.h>
+#include <Scene/RenderNode.h>
 #include <list>
 
 namespace OpenEngine {
@@ -33,7 +33,7 @@ class Frustum : public IViewingVolumeDecorator {
 private:
 
     //! private render node structure to visualize the frustum.
-    class FNode : public IRenderNode {
+    class FNode : public RenderNode {
     private:
         Frustum& frustum;
     public:
@@ -86,7 +86,7 @@ public:
     virtual Matrix<4,4,float> GetProjectionMatrix();
 
     // new frustum methods
-    virtual IRenderNode* GetFrustumNode();
+    virtual RenderNode* GetFrustumNode();
     void VisualizeClipping(bool on);
 
     // overwritten viewing volume methods

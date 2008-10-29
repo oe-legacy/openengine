@@ -19,18 +19,15 @@ namespace Scene {
  * Light direction is affected by rotation of transformation nodes.
  */
 
-DirectionalLightNode::DirectionalLightNode() {
+DirectionalLightNode::DirectionalLightNode()
+    : LightNode()
+{
+
 }
 
 DirectionalLightNode::~DirectionalLightNode() {
 
 }
-
-//! Accept of visitors
-void DirectionalLightNode::Accept(ISceneNodeVisitor& v) { 
-    v.VisitDirectionalLightNode(this);
-}
-
 
 } // NS Scene
 } // NS OpenEngine

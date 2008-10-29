@@ -28,7 +28,7 @@ using std::ostream;
  * several structures.
  *
  * The objects on which it is used must implement the serialize
- * template method. See Scene/SceneNode.h for a reference
+ * template method. See Scene/GeometryNode.h for a reference
  * implementation.
  *
  * @class Serialization Serialization.h Utils/Serialization.h

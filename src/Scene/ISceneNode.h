@@ -7,15 +7,22 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _INTERFACE_SCENE_NODE_H_
-#define _INTERFACE_SCENE_NODE_H_
+#ifndef _OE_INTERFACE_SCENE_NODE_H_
+#define _OE_INTERFACE_SCENE_NODE_H_
 
 #include <list>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/utility.hpp>
 #include <boost/serialization/list.hpp>
-
 #include <boost/serialization/export.hpp>
+
+#define OE_SCENE_NODE(klass, syper)                     \
+public:                                                 \
+virtual void Accept(ISceneNodeVisitor& v);              \
+virtual ISceneNode* Clone() const;                      \
+virtual const std::string GetClassName() const;         \
+protected:
+
 
 namespace OpenEngine {
 namespace Scene {
@@ -37,73 +44,46 @@ class ISceneNodeVisitor;
  * @see SceneNode
  */
 class ISceneNode {
-
-private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive& ar, const unsigned int version) {
-        ar & subNodes;
-    }
-
-    friend class SceneNode;
-
-protected:
-    //! The parent node
-    ISceneNode* parent;
-
 public:
-    //! List of sub nodes
+    //! List of sub nodes @todo Should be private
     std::list<ISceneNode*> subNodes;
 
     /**
      * Default constructor.
      */      
-    ISceneNode() : parent(NULL) {};
+    ISceneNode();
+    ISceneNode(const ISceneNode& node);
 
     /**
      * Default destructor.
      */
-    virtual ~ISceneNode() {};
+    virtual ~ISceneNode();
 
     /**
      * Get parent node.
      */
-    virtual ISceneNode* GetParent() = 0;
+    virtual ISceneNode* GetParent();
 
     /**
      * Add a sub node.
      *
      * @param sub Sub node
      */
-    virtual void AddNode(ISceneNode* sub) = 0;
+    virtual void AddNode(ISceneNode* sub);
 
     /**
      * Remove a sub node.
      *
      * @param sub Sub node
      */
-    virtual void RemoveNode(ISceneNode* sub) = 0;
+    virtual void RemoveNode(ISceneNode* sub);
 
     /**
      * Visit all sub nodes of the scene node.
      *
      * @param visitor Node visitor
      */
-    virtual void VisitSubNodes(ISceneNodeVisitor& visitor) = 0;
-
-    /**
-     * Accept a visitor.
-     * To perform the visitor operation one must call 
-     * @code visitor.Visit(this); @endcode
-     *
-     * The accept implementation is responsible for traversing the
-     * connected sub nodes if desired.
-     *
-     * @param visitor Node visitor
-     *
-     * @see ISceneNodeVisitor
-     */
-    virtual void Accept(ISceneNodeVisitor& visitor) = 0;
+    virtual void VisitSubNodes(ISceneNodeVisitor& visitor);
 
     /**
      * Delete a sub node.
@@ -114,7 +94,7 @@ public:
      *
      * @param node Sub node.
      */
-    virtual void DeleteNode(ISceneNode* node) = 0;
+    virtual void DeleteNode(ISceneNode* node);
 
     /**
      * Replace a sub node.
@@ -131,21 +111,28 @@ public:
      * @param oldNode Sub node to be replaced (deleted).
      * @param newNode Sub node to be replaced by (added).
      */
-    virtual void ReplaceNode(ISceneNode* oldNode, ISceneNode* newNode) = 0;
+    virtual void ReplaceNode(ISceneNode* oldNode, ISceneNode* newNode);
 
     /**
      * Remove all sub nodes.
      * 
      * Identical to performing RemoveNode(node) for all sub nodes.
      */
-    virtual void RemoveAllNodes() = 0;
+    virtual void RemoveAllNodes();
 
     /**
      * Delete all sub nodes.
      * 
      * Identical to performing DeleteNode(node) for all sub nodes.
      */
-    virtual void DeleteAllNodes() = 0;
+    virtual void DeleteAllNodes();
+
+    /**
+     * Get sub node count.
+     *
+     * @return Number of sub nodes
+     */
+    virtual int GetNumberOfNodes();
 
     /**
      * Clone the scene.
@@ -154,20 +141,72 @@ public:
      *
      * @return Deep clone of the scene
      */
-    virtual ISceneNode* Clone() = 0;
+    virtual ISceneNode* Clone() const = 0;
 
     /**
-     * Get sub node count.
+     * Get the class name of a node as a string literal.
+     * @code
+     * ISceneNode* node = new TransformationNode();
+     * node->GetClassName() // => "TransformationNode"
+     * @endcode
      *
-     * @return Number of sub nodes
+     * @return Node class name
      */
-    virtual int GetNumberOfNodes() = 0;
+    virtual const std::string GetClassName() const = 0;
+
+    /**
+     * Accept a visitor.
+     * To perform the visitor operation one must call 
+     * @code visitor.Visit(this); @endcode
+     *
+     * The accept implementation is responsible for traversing the
+     * connected sub nodes if desired.
+     *
+     * @param visitor Node visitor
+     *
+     * @see ISceneNodeVisitor
+     */
+    virtual void Accept(ISceneNodeVisitor& visitor) = 0;
+
+private:
+
+    //! The parent node
+    ISceneNode* parent;
+
+    //! Queue operation types.
+    enum QueueType { DELETE_OP, REMOVE_OP };
+
+    //! Wrapper for a node queued for later operation.
+    struct QueuedNode {
+        QueueType type;         //!< operation type
+        ISceneNode* node;       //!< client node
+        //! Queue operation constructor.
+        QueuedNode(QueueType t, ISceneNode* n) : type(t), node(n) {}
+    };
+
+    //! Queued node operations.
+    std::list<QueuedNode> operationQueue;
+
+    //! Height of the accept/visit stack.
+    int acceptStack;
+
+    void _RemoveNode(ISceneNode* sub);
+    void _DeleteNode(ISceneNode* sub);
+
+    void IncAcceptStack();
+    void DecAcceptStack();
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        ar & subNodes;
+    }
 };
 
 } // NS Scene
 } // NS OpenEngine
 
+// this could be done for all scene nodes with the SceneNodes.def
 BOOST_CLASS_EXPORT(OpenEngine::Scene::ISceneNode)
 
-
-#endif // _INTERFACE_SCENE_NODE_H_
+#endif // _OE_INTERFACE_SCENE_NODE_H_

@@ -2,8 +2,11 @@ ADD_LIBRARY(OpenEngine_Scene
   Scene.cpp
   Exceptions.h
   ISceneNode.h
+  ISceneNode.cpp
   ISceneNodeVisitor.h
   ISceneNodeVisitor.cpp
+  SceneNodes.h
+  SceneNodes.cpp
   CollectedGeometryTransformer.cpp
   CollectedGeometryTransformer.h
   DirectionalLightNode.cpp
@@ -18,6 +21,9 @@ ADD_LIBRARY(OpenEngine_Scene
   LightNode.h
   PointLightNode.cpp
   PointLightNode.h
+  RenderNode.h
+  RenderStateNode.h
+  RenderStateNode.cpp
   SceneNode.cpp
   SceneNode.h
   SpotLightNode.cpp
@@ -30,4 +36,6 @@ ADD_LIBRARY(OpenEngine_Scene
   VertexArrayTransformer.h
 )
 
-TARGET_LINK_LIBRARIES(OpenEngine_Scene)
+TARGET_LINK_LIBRARIES(OpenEngine_Scene
+  OpenEngine_Core
+)

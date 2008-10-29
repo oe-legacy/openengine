@@ -12,6 +12,8 @@
 namespace OpenEngine {
 namespace Scene {
 
+    using Geometry::FaceSet;
+
     /**
      * Constructs a collected geometry node transformer that collects
      * all face sets in the scene graph and merges them into one
