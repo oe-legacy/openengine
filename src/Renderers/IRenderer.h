@@ -22,7 +22,10 @@
 
 // forward declerations
 namespace OpenEngine {
-namespace Display { class IViewingVolume; }
+    namespace Display {
+        class Viewport;
+        class IViewingVolume;
+    }
 }
 
 namespace OpenEngine {
@@ -94,7 +97,7 @@ public:
     /**
      * Default constructor.
      */
-    IRenderer() : root(NULL), stage(RENDERER_INITIALIZE) {}
+    IRenderer() : stage(RENDERER_INITIALIZE) {}
 
     /**
      * Destructor.
@@ -109,25 +112,28 @@ public:
     }
 
     /**
+     * Get the viewport of the renderer.
+     *
+     * The viewport defines the area that is rendered to and contains
+     * the viewing volume that defines the orientation. 
+     *
+     * @return Rendering viewport
+     */
+    virtual Display::Viewport& GetViewport() const = 0;
+
+    /**
      * Set the root node for the rendering scene.
      *
      * @param root Scene root node
-     * @return Old scene root
      */
-    virtual ISceneNode* SetSceneRoot(ISceneNode* root) {
-        ISceneNode* old = this->root;
-        this->root = root;
-        return old;
-    }
+    virtual void SetSceneRoot(ISceneNode* root) = 0;
 
     /**
      * Get the root node for the rendering scene.
      *
      * @return Scene root
      */
-    virtual ISceneNode* GetSceneRoot() {
-        return root;
-    }
+    virtual ISceneNode* GetSceneRoot() const = 0;
 
     /**
      * Apply a viewing volume.
