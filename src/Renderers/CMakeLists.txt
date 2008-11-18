@@ -1,6 +1,7 @@
 ADD_LIBRARY(OpenEngine_Renderers
   Renderers.cpp
   IRenderer.h
+  IBufferedRenderer.h
   IRenderingView.h
   TextureLoader.h
   TextureLoader.cpp
