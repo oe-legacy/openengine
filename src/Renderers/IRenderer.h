@@ -104,7 +104,7 @@ public:
     /**
      * Get the current renderer stage.
      */
-    virtual const RendererStage GetCurrentStage() const {
+    virtual RendererStage GetCurrentStage() const {
         return stage;
     }
 

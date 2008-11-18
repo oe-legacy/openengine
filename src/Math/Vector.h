@@ -316,7 +316,7 @@ public:
      *
      * @return True if all elements are zero, false otherwise.
      */
-    const bool IsZero() const {
+    bool IsZero() const {
         for (int i=0; i<N; i++)
             if (elm[i] != 0) return false;
         return true;

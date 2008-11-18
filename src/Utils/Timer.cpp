@@ -73,7 +73,7 @@ const Time Time::operator=(const unsigned int i) {
     return *this;
 }
 
-const bool Time::operator<(const Time t) const {
+bool Time::operator<(const Time t) const {
     if (sec < t.sec)
         return true;
     else if (sec == t.sec)
@@ -81,23 +81,23 @@ const bool Time::operator<(const Time t) const {
     return false;
 }
 
-const bool Time::operator>(const Time t) const {
+bool Time::operator>(const Time t) const {
     return t < *this;
 }
 
-const bool Time::operator==(const Time t) const {
+bool Time::operator==(const Time t) const {
     return ((sec == t.sec) && (usec == t.usec));
 }
 
-const bool Time::operator!=(const Time t) const {
+bool Time::operator!=(const Time t) const {
     return ((sec != t.sec) || (usec != t.usec));
 }
 
-const bool Time::operator<=(const Time t) const {
+bool Time::operator<=(const Time t) const {
     return ((*this < t) || (*this == t));
 }
 
-const bool Time::operator>=(const Time t) const {
+bool Time::operator>=(const Time t) const {
     return ((*this > t) || (*this == t));
 }
 
@@ -107,21 +107,21 @@ const bool Time::operator>=(const Time t) const {
  *
  * @return Time as string
  */
-const std::string Time::ToString() const {
+std::string Time::ToString() const {
     std::ostringstream out;
     out << "<" << sec << " sec, " << usec << " microsec>";
     return out.str();
 }
     
-const bool Time::IsZero() const {
+bool Time::IsZero() const {
     return sec == 0 && usec == 0;
 }
 
-const bool Time::IsNonZero() const {
+bool Time::IsNonZero() const {
     return !IsZero();
 }
 
-const unsigned int Time::AsInt() const {
+unsigned int Time::AsInt() const {
 #if OE_SAFE
     if (sec > UINT_MAX / second - 1)
         throw Exception("Overflow when converting Time("+
@@ -131,7 +131,7 @@ const unsigned int Time::AsInt() const {
     return sec * second + usec;
 }
 
-const uint32_t Time::AsInt32() const {
+uint32_t Time::AsInt32() const {
 #if OE_SAFE
     // @todo UINT32_MAX is undefined but is in stdint.h ??
     // if (sec > UINT32_MAX / 1000000 - 1)
@@ -142,7 +142,7 @@ const uint32_t Time::AsInt32() const {
     return sec * second + usec;
 }
 
-const uint64_t Time::AsInt64() const {
+uint64_t Time::AsInt64() const {
 #if OE_SAFE
     // @todo UINT64_MAX is undefined but is in stdint.h ??
     // if (sec > UINT64_MAX / 1000000 - 1)

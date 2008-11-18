@@ -10,6 +10,8 @@
 #include <Logging/StreamLogger.h>
 #include <Meta/Time.h>
 
+#include <string.h>
+
 namespace OpenEngine {
 namespace Logging {
 
