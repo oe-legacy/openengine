@@ -12,6 +12,8 @@ SET(CMAKE_BUILD_TYPE debug)
 
 SET(CMAKE_VERBOSE_MAKEFILE 0)
 
+ENABLE_TESTING()
+
 # Define OpenEngine special directories
 SET(OE_SOURCE_DIR     "${OpenEngine_SOURCE_DIR}/src")
 SET(OE_BUILD_DIR      "${OpenEngine_SOURCE_DIR}/build")

@@ -82,6 +82,6 @@
     (local-set-key [(control c) (control r)]
                    (lambda () (interactive) (oe-compile "run")))
     (local-set-key [(control c) (control t)]
-                   (lambda () (interactive) (oe-compile "test-auto")))
+                   (lambda () (interactive) (oe-compile "test")))
     (local-set-key [(control c) (control f)]
                    (lambda () (interactive) (oe-compile "doc")))))
