@@ -7,6 +7,9 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
+#ifndef _OE_MATH_EXCEPTIONS_H_
+#define _OE_MATH_EXCEPTIONS_H_
+
 #include <Core/Exceptions.h>
 
 namespace OpenEngine {
@@ -56,3 +59,5 @@ public:
 
 } // NS Math
 } // NS OpenEngine
+
+#endif // _OE_MATH_EXCEPTIONS_H_
