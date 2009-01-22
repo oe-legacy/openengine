@@ -19,6 +19,8 @@ build_dir = path.join(os.getcwd(), "build")
 
 def commands():
     return ((build,   "all"),
+            (test,    "test"),
+            (testv,   "testv"),
             (rebuild, "rebuild"),
             (clean,   "clean"),
             (targets, "targets"),
@@ -64,6 +66,18 @@ def doc():
     doc           -- build the doxygen documentation (requires doxygen)
     """
     make("doc")
+
+def test():
+    """
+    test          -- run all tests added to the build system
+    """
+    make("test")
+
+def testv():
+    """
+    testv         -- verbosely run all tests (better error output)
+    """
+    make('test ARGS="-V"')
 
 def help():
     """
