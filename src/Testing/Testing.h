@@ -10,6 +10,14 @@
 #ifndef _OE_TESTING_H_
 #define _OE_TESTING_H_
 
+// This file simple wraps the boost minimal testing macros
+
+#include <boost/test/minimal.hpp>
+
+#define OE_CHECK   BOOST_CHECK
+#define OE_REQUIRE BOOST_REQUIRE
+#define OE_ERROR   BOOST_ERROR
+#define OE_FAIL    BOOST_FAIL
 #define OE_CHECK_THROW(exp, exc)                \
     try { exp; BOOST_ERROR("test "#exp" did not throw "#exc); } catch (exc&) {}
 
