@@ -11,7 +11,7 @@
 #--------------------------------------------------------------------
 
 import string, sys, subprocess, os, os.path as path
-import urllib, zipfile, tarfile
+import urllib, urllib2, zipfile, tarfile
 
 class ExecError(Exception):
     "Exception thrown if execute(cmd) exited with error code != 0"
@@ -58,6 +58,12 @@ def install(dist):
         dist = "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:])
     file = dist.split("/")[-1]
     print "Installing distribution to %s" % file
+
+    req = urllib2.Request(dist)
+    try: urllib2.urlopen(req)
+    except urllib2.URLError, e:
+        error("Could not fetch dist file: %s, error: %s" % (dist,e))
+
     urllib.urlretrieve(dist, file)
     if ask("Would you like to update the distribution repositories"):
         update(file)
