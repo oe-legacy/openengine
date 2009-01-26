@@ -57,12 +57,18 @@ def install(dist):
     if dist.startswith("proj:"):
         dist = "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:])
     file = dist.split("/")[-1]
+
+    if os.path.exists(file):
+        if not ask("The file allready exist do you want to overwrite it",
+                   default=False):
+            error("Aborted install. Please move the existing distribution file and try again.")
     print "Installing distribution to %s" % file
 
     req = urllib2.Request(dist)
     try: urllib2.urlopen(req)
     except urllib2.URLError, e:
         error("Could not fetch dist file: %s, error: %s" % (dist,e))
+
 
     urllib.urlretrieve(dist, file)
     if ask("Would you like to update the distribution repositories"):
@@ -245,10 +251,12 @@ def mkrepo(name, dir, repo):
 def relpath(path):
     return path.replace(os.getcwd(), "")
 
-def ask(msg):
-    a = raw_input("%s [Yn]? " % msg)
+def ask(msg, default=True):
+    a = raw_input("%s [%s]? " % (msg, default and "Yn" or "yN"))
     while True:
-        if a in ("", "y"):
+        if a is "":
+            return default
+        elif a is "y":
             return True
         elif a is "n":
             return False
