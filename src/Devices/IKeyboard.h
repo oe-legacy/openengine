@@ -27,11 +27,10 @@ using OpenEngine::Core::IEvent;
  * @struct KeyboardEventArg IKeyboard.h Devices/IKeyboard.h
  */
 struct KeyboardEventArg {
-    enum KeyEventType { UNKNOWN, PRESS, RELEASE };
-    KeyEventType type; //!< Key event type.
+    ButtonEvent  type; //!< Key event type.
     Key          sym;  //!< Key symbol. @see Symbols.h
     KeyMod       mod;  //!< Key modifier. Possibly or'ed together
-    KeyboardEventArg() : type(UNKNOWN), sym(KEY_UNKNOWN), mod(KEY_MOD_NONE) {}
+    KeyboardEventArg() : type(EVENT_NONE), sym(KEY_UNKNOWN), mod(KEY_MOD_NONE) {}
 };
 
 /**

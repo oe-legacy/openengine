@@ -19,16 +19,32 @@ namespace Devices {
  * Mouse buttons.
  * Enumeration of mouse buttons, can be OR'd together.
  *
+ * @todo This should be moved inside IMouse
  * @enum MouseButton
  */
 typedef enum {
     BUTTON_NONE       = 0,
-    BUTTON_LEFT       = 1,
-    BUTTON_MIDDLE     = 2,
-    BUTTON_RIGHT      = 4,
-    BUTTON_WHEEL_UP   = 8,
-    BUTTON_WHEEL_DOWN = 16
+    BUTTON_LEFT       = 1 << 0,
+    BUTTON_MIDDLE     = 1 << 1,
+    BUTTON_RIGHT      = 1 << 2,
+    BUTTON_WHEEL_UP   = 1 << 3,
+    BUTTON_WHEEL_DOWN = 1 << 4,
+    BUTTON_ANY        = (1 << 5) - 1
 } MouseButton;
+
+/**
+ * Buttons event types.
+ * Can be OR'd together.
+ *
+ * @enum ButtonEvent
+ */
+enum ButtonEvent {
+    EVENT_NONE    = 0,
+    EVENT_PRESS   = 1 << 0,
+    EVENT_RELEASE = 1 << 1,
+    //EVENT_CLICK = 1 << 2,
+    EVENT_ANY     = (1 << 2) - 1
+};
 
 /**
  * Joystick buttons.
@@ -39,16 +55,17 @@ typedef enum {
  */
  typedef enum {
    JBUTTON_NONE  = 0,
-   JBUTTON_ONE   = 1,
-   JBUTTON_TWO   = 2,
-   JBUTTON_THREE = 4,
-   JBUTTON_FOUR  = 8,
-   JBUTTON_FIVE  = 16,
-   JBUTTON_SIX   = 32,
-   JBUTTON_SEVEN = 64,
-   JBUTTON_EIGHT = 128,
-   JBUTTON_NINE  = 256,
-   JBUTTON_TEN   = 512
+   JBUTTON_ONE   = 1 << 0,
+   JBUTTON_TWO   = 1 << 1,
+   JBUTTON_THREE = 1 << 2,
+   JBUTTON_FOUR  = 1 << 3,
+   JBUTTON_FIVE  = 1 << 4,
+   JBUTTON_SIX   = 1 << 5,
+   JBUTTON_SEVEN = 1 << 6,
+   JBUTTON_EIGHT = 1 << 7,
+   JBUTTON_NINE  = 1 << 8,
+   JBUTTON_TEN   = 1 << 9,
+   JBUTTON_ANY   = (1 << 10) - 1
  } JoystickButton;
 
 

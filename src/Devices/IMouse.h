@@ -57,11 +57,10 @@ struct MouseMovedEventArg {
  * @struct MouseButtonEventArg IMouse.h Devices/IMouse.h
  */
 struct MouseButtonEventArg {
-    enum MouseButtonEventType { UNKNOWN, PRESS, RELEASE };
-    MouseButtonEventType type;  //!< button press type.
+    ButtonEvent type;           //!< button event type.
     MouseState state;           //!< current mouse state
     MouseButton button;         //!< button that triggered event
-    MouseButtonEventArg() : type(UNKNOWN), button(BUTTON_NONE) {}
+    MouseButtonEventArg() : type(EVENT_NONE), button(BUTTON_NONE) {}
 };
 
 /**
