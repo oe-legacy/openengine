@@ -68,7 +68,8 @@ def install(dist):
     try: urllib2.urlopen(req)
     except urllib2.URLError, e:
         error("Could not fetch dist file: %s, error: %s" % (dist,e))
-
+    except ValueError, e:
+        pass
 
     urllib.urlretrieve(dist, file)
     if ask("Would you like to update the distribution repositories"):
