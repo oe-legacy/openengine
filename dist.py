@@ -244,10 +244,11 @@ def unzip(file, dir):
 
 def mkrepo(name, dir, repo):
     loc = path.join(dir, name)
+    flags = darcs_version().startswith("2") and "--old-fashioned-inventory" or ""
     print "Creating new repository at: %s" % loc
     execute("darcs get %s --repodir %s" % (repo, loc))
     execute("rm -r %s" % path.join(loc,"_darcs"))
-    execute("darcs init --repodir %s" % loc)
+    execute("darcs init %s --repodir %s" % (flags, loc))
 
 def relpath(path):
     return path.replace(os.getcwd(), "")
@@ -279,6 +280,9 @@ def error(err):
 
 def system(name):
     return name == "any" or sys.platform.startswith(name)
+
+def darcs_version():
+    return subprocess.Popen("darcs --version",shell=True,stdout=subprocess.PIPE).communicate()[0]
 
 def cores():
     try:
