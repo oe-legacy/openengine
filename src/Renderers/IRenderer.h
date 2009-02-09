@@ -81,6 +81,7 @@ public:
      * \a RENDERER_PROCESS.
      */
     enum RendererStage {
+		RENDERER_UNINITIALIZE,
         RENDERER_INITIALIZE,
         RENDERER_PREPROCESS,
         RENDERER_PROCESS,
@@ -100,7 +101,7 @@ public:
     /**
      * Default constructor.
      */
-    IRenderer() : stage(RENDERER_INITIALIZE) {}
+    IRenderer() : stage(RENDERER_UNINITIALIZE) {}
 
     /**
      * Destructor.

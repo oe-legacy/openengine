@@ -247,7 +247,7 @@ void TextureLoader::Load(ITextureResourcePtr texr, ReloadPolicy policy) {
     // Here we must remember to calculate the exact policy as it could
     // change before the actual loading is performed.
     policy = my(policy);
-    if (IRenderer::RENDERER_INITIALIZE == renderer.GetCurrentStage()) {
+    if (IRenderer::RENDERER_UNINITIALIZE == renderer.GetCurrentStage()) {
         // Queue for later loading as no context exists for the renderer.
         initloader->Add(texr, policy);
     } else {
