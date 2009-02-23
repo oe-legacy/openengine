@@ -156,6 +156,10 @@ public:
      */
     virtual void RebindTexture(ITextureResourcePtr texr) = 0;
 
+    virtual void SetBackgroundColor(Vector<4,float> color) = 0;
+
+    virtual Vector<4,float> GetBackgroundColor() = 0;
+
     /**
      * Draw a face
      *
