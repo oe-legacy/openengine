@@ -4,6 +4,7 @@
 #include <Scene/GeometryNode.h>
 #include <Scene/LightNode.h>
 #include <Scene/PointLightNode.h>
+#include <Scene/PropertyNode.h>
 #include <Scene/RenderNode.h>
 #include <Scene/RenderStateNode.h>
 #include <Scene/SceneNode.h>
