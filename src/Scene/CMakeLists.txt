@@ -27,6 +27,8 @@ ADD_LIBRARY(OpenEngine_Scene
   RenderStateNode.cpp
   SceneNode.cpp
   SceneNode.h
+  SearchTool.h
+  SearchTool.cpp
   SpotLightNode.cpp
   SpotLightNode.h
   TransformationNode.cpp
@@ -44,3 +46,5 @@ TARGET_LINK_LIBRARIES(OpenEngine_Scene
   OpenEngine_Geometry
   OpenEngine_Logging
 )
+
+SUBDIRS(tests)
