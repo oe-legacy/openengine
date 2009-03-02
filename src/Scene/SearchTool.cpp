@@ -156,7 +156,7 @@ using std::string;
 
 bool _has_prop(PropertyNode* n, string k, string v) {
     if (n == NULL) return false;
-    map<string,string>::iterator res = n->properties.find(k);
+    std::map<string,string>::iterator res = n->properties.find(k);
     return (res != n->properties.end() && res->second == v);
 }
 
