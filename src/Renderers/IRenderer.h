@@ -58,7 +58,10 @@ public:
 };
 
 /**
- * Renderer interface. This engine module is responsible for
+ * Renderer interface.
+ *
+ * Obsolete description:
+ * This engine module is responsible for
  * rendering the scene as defined in all its Rendering Views.
  * The Renderer is the context using the RenderingView as its
  * strategy in terms of GOF (page 315).
@@ -156,8 +159,19 @@ public:
      */
     virtual void RebindTexture(ITextureResourcePtr texr) = 0;
 
+    /**
+     * Set the global background colour.
+     * This is a product of OpenGL that treats the background colour
+     * special, in that any change will modify the entire background
+     * colour of the GL context.
+     */
     virtual void SetBackgroundColor(Vector<4,float> color) = 0;
 
+    /**
+     * Get the global background colour.
+     * This function is strongly related to OpenGL.
+     * See \a SetBackgroundColor for an explanation.
+     */
     virtual Vector<4,float> GetBackgroundColor() = 0;
 
     /**
