@@ -21,7 +21,7 @@ public:                                                 \
 virtual void Accept(ISceneNodeVisitor& v);              \
 virtual ISceneNode* Clone() const;                      \
 virtual const std::string GetClassName() const;         \
-protected:
+private:
 
 
 namespace OpenEngine {
