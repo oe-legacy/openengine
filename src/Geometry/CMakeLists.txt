@@ -21,3 +21,8 @@ ADD_LIBRARY(OpenEngine_Geometry
   VertexArray.h
   VertexArray.cpp
 )
+
+TARGET_LINK_LIBRARIES(OpenEngine_Geometry
+  OpenEngine_Math
+  OpenEngine_Logging
+)

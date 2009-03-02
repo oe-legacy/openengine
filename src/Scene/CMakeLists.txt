@@ -38,5 +38,8 @@ ADD_LIBRARY(OpenEngine_Scene
 
 TARGET_LINK_LIBRARIES(OpenEngine_Scene
   OpenEngine_Core
+  OpenEngine_Math
   OpenEngine_Utils
+  OpenEngine_Geometry
+  OpenEngine_Logging
 )
