@@ -1,9 +1,23 @@
+## Macro to add scene nodes for an extension.
+## Usage: OE_ADD_SCENE_NODES(MyExtension Scene/Node1 Scene/Node2)
+## Notice that the nodes do not have file endings (.h or .cpp)!
+MACRO(OE_ADD_SCENE_NODES ext)
+  # Nodes are in ${ARGN}
+  FOREACH(NODE ${ARGN})
+    SET(OE_SCENE_NODE_NODES ${OE_SCENE_NODE_NODES} "${OE_CURRENT_EXTENSION_DIR}/${NODE}")
+  ENDFOREACH(NODE)
+  SET(OE_SCENE_NODE_EXTENSIONS ${OE_SCENE_NODE_EXTENSIONS} ${ext})
+ENDMACRO(OE_ADD_SCENE_NODES)
 
-SET(OE_VISITOR_HEADER_EXPANSION "")
-SET(OE_VISITOR_HEADER_DECLARATION_EXPANSION "")
-SET(OE_VISITOR_IMPL_EXPANSION "")
-SET(OE_VISITOR_IMPL_INCLUDE_EXPANSION "")
+## --------------------------------------------------
 
+## Internal special variables (not for use outside this file!)
+SET(OE_SCENE_NODE_NODES "")
+SET(OE_SCENE_NODE_EXTENSIONS "")
+SET(OE_SCENE_NODE_XMACRO_EXPANSION "")
+SET(OE_SCENE_NODE_INCLUDE_EXPANSION "")
+
+## This file is not an auto generated file!
 SET(OE_AUTOGEN_HEADER_TPL 
 "// -------------------------------------------------------------------
 // NOTICE:
@@ -12,6 +26,10 @@ SET(OE_AUTOGEN_HEADER_TPL
 // -------------------------------------------------------------------
 // ALL MODIFICATIONS TO THIS FILE WILL BE LOST NEXT TIME YOU REBUILD.
 // -------------------------------------------------------------------")
+
+## --------------------------------------------------
+## EXTENSION LINKING
+## --------------------------------------------------
 
 # Find all sub directories in the extensions directory
 FILE(GLOB EXTENSIONS_SUB_DIRECTORIES RELATIVE
@@ -34,72 +52,59 @@ FOREACH(SUB_DIR ${EXTENSIONS_SUB_DIRECTORIES})
       SET(OE_CURRENT_EXTENSION_DIR "")
     ENDIF(EXISTS ${SETUP_FILE})
 
-    # Search for visitor expansions
-    SET(EXP_FILE "${FULL_SUB_DIR}/VisitorExpansion.txt")
-    IF(EXISTS ${EXP_FILE})
-
-      IF(OE_DEBUG_CMAKE)
-      MESSAGE(STATUS "Found expansion file ${EXP_FILE}")
-      ENDIF(OE_DEBUG_CMAKE)
-
-      FILE(READ ${EXP_FILE} SUB_VISIT_EXP)
-
-      IF(OE_DEBUG_CMAKE)
-      MESSAGE(STATUS "Expansion file content: ${SUB_VISIT_EXP}")
-      ENDIF(OE_DEBUG_CMAKE)
-
-      IF(SUB_VISIT_EXP)
-        STRING(REPLACE "\n" " " SUB_VISIT_EXP ${SUB_VISIT_EXP})
-
-        IF(OE_DEBUG_CMAKE)
-        MESSAGE(STATUS "Doing line seperation on file expansion file")
-        ENDIF(OE_DEBUG_CMAKE)
-
-      ENDIF(SUB_VISIT_EXP)
-
-      SEPARATE_ARGUMENTS(SUB_VISIT_EXP)
-      FOREACH(SUB_EXP ${SUB_VISIT_EXP})
-
-        IF(OE_DEBUG_CMAKE)
-        MESSAGE(STATUS "Performing sanity checks on line: ${SUB_EXP}")
-        ENDIF(OE_DEBUG_CMAKE)
-
-        # check variables
-        STRING(REGEX MATCH "(([a-zA-Z][a-zA-Z0-9]*/)*[a-zA-Z][a-zA-Z0-9]*)" EXP ${SUB_EXP})
-        STRING(REGEX REPLACE "([a-zA-Z][a-zA-Z0-9]*/)*([a-zA-Z][a-zA-Z0-9]*)" "\\2" SUB_EXP_NODE ${SUB_EXP})
-        FIND_FILE(NODE_HEADER_FILE "${SUB_EXP}.h" ${FULL_SUB_DIR})
-        FIND_FILE(NODE_IMPL_FILE "${SUB_EXP}.cpp" ${FULL_SUB_DIR})
-
-        # check format (Path/SomeNode)
-        IF(NOT EXP STREQUAL SUB_EXP)
-          MESSAGE(SEND_ERROR "Invalid visitor expansion '${SUB_EXP}' in ${SUB_DIR}/VisitorExpansion.txt")
-
-        # check that files exists
-        ELSEIF(NOT NODE_HEADER_FILE)
-          MESSAGE(SEND_ERROR "Could not find expansion node header at ${SUB_DIR}/${SUB_EXP}.h")
-        ELSEIF(NOT NODE_IMPL_FILE)
-          MESSAGE(SEND_ERROR "Could not find expansion node implementation at ${SUB_DIR}/${SUB_EXP}.cpp")
-
-        ELSE(NOT EXP STREQUAL SUB_EXP)
-
-          IF(OE_DEBUG_CMAKE)
-          MESSAGE(STATUS "Generating expansion for: ${SUB_EXP_NODE}")
-          ENDIF(OE_DEBUG_CMAKE)
-
-	  # generate header and implementation code
-	  SET(OE_SCENE_NODE_XMACRO_EXPANSION
-	     "${OE_SCENE_NODE_XMACRO_EXPANSION}SCENE_NODE(${SUB_EXP_NODE})\n")
-          SET(OE_SCENE_NODE_INCLUDE_EXPANSION
-             "${OE_SCENE_NODE_INCLUDE_EXPANSION}#include <${SUB_EXP}.h>\n")
-
-        ENDIF(NOT EXP STREQUAL SUB_EXP)
-  
-      ENDFOREACH(SUB_EXP)
-
-    ENDIF(EXISTS ${EXP_FILE})
-
   ENDIF(IS_DIRECTORY ${FULL_SUB_DIR})
 ENDFOREACH(SUB_DIR)
+
+## --------------------------------------------------
+## SCENE NODE GENERATION
+## --------------------------------------------------
+
+IF(OE_DEBUG_CMAKE)
+  MESSAGE(STATUS "Setting up scene node extensions.")
+ENDIF(OE_DEBUG_CMAKE)
+
+FOREACH(NODE_PATH ${OE_SCENE_NODE_NODES})
+  IF(OE_DEBUG_CMAKE)
+    MESSAGE(STATUS "Performing sanity checks on line: ${NODE_PATH}")
+  ENDIF(OE_DEBUG_CMAKE)
+
+  # check variables
+  STRING(REGEX MATCH   "^([a-zA-Z0-9/]*/Scene/[a-zA-Z][a-zA-Z0-9]*)$"   NODE_CHECK ${NODE_PATH})
+  STRING(REGEX REPLACE "^([a-zA-Z0-9/]*)/([a-zA-Z][a-zA-Z0-9]*)$" "\\1" NODE_DIR   ${NODE_PATH})
+  STRING(REGEX REPLACE "^([a-zA-Z0-9/]*)/([a-zA-Z][a-zA-Z0-9]*)$" "\\2" NODE       ${NODE_PATH})
+  FIND_FILE(NODE_HEAD_FILE "${NODE}.h"   ${NODE_DIR})
+  FIND_FILE(NODE_IMPL_FILE "${NODE}.cpp" ${NODE_DIR})
+
+  # check format (Path/SomeNode)
+  IF(NOT NODE_CHECK STREQUAL NODE_PATH)
+    MESSAGE(SEND_ERROR "Invalid scene node '${NODE_PATH}'. New scene nodes must be located in the 'Scene' sub-directory.")
+
+  # check that files exists
+  ELSEIF(NOT NODE_HEAD_FILE)
+    MESSAGE(SEND_ERROR "Could not find header for ${NODE} at ${NODE_DIR}/${NODE}.h")
+
+  ELSEIF(NOT NODE_IMPL_FILE)
+    MESSAGE(SEND_ERROR "Could not find implementation for ${NODE} at ${NODE_DIR}/${NODE}.cpp")
+
+  ELSE(NOT NODE_CHECK STREQUAL NODE_PATH)
+
+    IF(OE_DEBUG_CMAKE)
+      MESSAGE(STATUS "Generating expansion for: ${NODE}")
+    ENDIF(OE_DEBUG_CMAKE)
+
+    # generate header and implementation code
+    SET(OE_SCENE_NODE_XMACRO_EXPANSION
+      "${OE_SCENE_NODE_XMACRO_EXPANSION}SCENE_NODE(${NODE})\n")
+    SET(OE_SCENE_NODE_INCLUDE_EXPANSION
+      "${OE_SCENE_NODE_INCLUDE_EXPANSION}#include <Scene/${NODE}.h>\n")
+
+  ENDIF(NOT NODE_CHECK STREQUAL NODE_PATH)
+  
+ENDFOREACH(NODE_PATH)
+
+## --------------------------------------------------
+## SCENE NODE TEMPLATE FILE GENERATION
+## --------------------------------------------------
 
 SET(TEMPLATE_FILE_NAME "SceneNodes.def.tpl")
 STRING(CONFIGURE ${OE_AUTOGEN_HEADER_TPL} OE_AUTOGEN_HEADER @ONLY)
@@ -112,6 +117,10 @@ STRING(CONFIGURE ${OE_AUTOGEN_HEADER_TPL} OE_AUTOGEN_HEADER @ONLY)
 CONFIGURE_FILE(${OE_SOURCE_DIR}/Scene/SceneNodes.h.tpl
                ${OE_SOURCE_DIR}/Scene/SceneNodes.h
                @ONLY)
+
+## --------------------------------------------------
+## PROJECT LINKING
+## --------------------------------------------------
 
 # Find all sub directories in the projects directory
 FILE(GLOB PROJECTS_SUB_DIRECTORIES RELATIVE ${OE_PROJECTS_DIR} "${OE_PROJECTS_DIR}/*")
