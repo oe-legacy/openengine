@@ -66,18 +66,18 @@ public:
 
 
 // Macro for defining the set of operation along a single axis
-#define AXIS(type,axis)                                      \
-    type* axis##type(ISceneNode*);                           \
-    type* axis##type(std::list<ISceneNode*>);                \
-    std::list<type*> axis##type##s(ISceneNode*);             \
-    std::list<type*> axis##type##s(std::list<ISceneNode*>);
+#define AXIS(type,axis)                                             \
+    static type* axis##type(ISceneNode*);                           \
+    static type* axis##type(std::list<ISceneNode*>);                \
+    static std::list<type*> axis##type##s(ISceneNode*);             \
+    static std::list<type*> axis##type##s(std::list<ISceneNode*>);
 
 // Macro for defining with-operations along an axis (for key/value filtering)
-#define AXIS_WITH(type,axis)                                                   \
-    type* axis##type##With(std::string, std::string, ISceneNode*);             \
-    type* axis##type##With(std::string, std::string, std::list<ISceneNode*>);  \
-    std::list<type*> axis##type##sWith(std::string, std::string, ISceneNode*); \
-    std::list<type*> axis##type##sWith(std::string, std::string, std::list<ISceneNode*>);
+#define AXIS_WITH(type,axis)                                            \
+    static type* axis##type##With(std::string, std::string, ISceneNode*); \
+    static type* axis##type##With(std::string, std::string, std::list<ISceneNode*>); \
+    static std::list<type*> axis##type##sWith(std::string, std::string, ISceneNode*); \
+    static std::list<type*> axis##type##sWith(std::string, std::string, std::list<ISceneNode*>);
 
 // Create an implementation pr. scene node
 #define SCENE_NODE(type)   \
