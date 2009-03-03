@@ -11,7 +11,6 @@
 #define _COLLECTED_GEOMETRY_TRANSFORMER_H_
 
 #include <Scene/GeometryNode.h>
-#include <Scene/ISceneNodeVisitor.h>
 #include <Geometry/FaceSet.h>
 
 namespace OpenEngine {
@@ -28,7 +27,7 @@ namespace Scene {
  *
  * @class CollectedGeometryTransformer CollectedGeometryTransformer.h Scene/CollectedGeometryTransformer.h
  */
-class CollectedGeometryTransformer : public ISceneNodeVisitor {
+class CollectedGeometryTransformer {
 private:
     OpenEngine::Geometry::FaceSet *faces;
     GeometryNode* georoot;
@@ -40,8 +39,6 @@ public:
     void Transform(ISceneNode &node);
     GeometryNode* GetCollectedGeometryNode() const;
     OpenEngine::Geometry::FaceSet* GetCollectedFaceSet() const;
-
-    void VisitGeometryNode(GeometryNode *node);
 };
 
 } // NS Scene

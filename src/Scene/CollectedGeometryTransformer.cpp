@@ -7,12 +7,15 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#include "CollectedGeometryTransformer.h"
+#include <Scene/CollectedGeometryTransformer.h>
+#include <Scene/SearchTool.h>
+#include <list>
 
 namespace OpenEngine {
 namespace Scene {
 
     using Geometry::FaceSet;
+    using std::list;
 
     /**
      * Constructs a collected geometry node transformer that collects
@@ -43,15 +46,23 @@ namespace Scene {
      * @param node Root node of a scene to build from.
      */
     void CollectedGeometryTransformer::Transform(ISceneNode &node) {
+        // new empty face set
         faces = new FaceSet();
-        node.Accept(*this);
+        // find all descendant geometry nodes
+        list<GeometryNode*> nodes = SearchTool::DescendantGeometryNodes(&node);
+        // for each node add the faces to the new face set
+        list<GeometryNode*>::iterator itr;
+        for (itr = nodes.begin(); itr != nodes.end(); itr++)
+            faces->Add((*itr)->GetFaceSet());
+        // delete all nodes of the root node
         node.DeleteAllNodes();
+        // create and attach a geometry with the collected faces
         georoot = new GeometryNode(faces);
         node.AddNode(georoot);
     }
 
     /**
-     * Get the geometry node that has contains all the collected faces.
+     * Get the geometry node containing all the collected faces.
      * NULL if no transformation has been applied.
      */
     GeometryNode* CollectedGeometryTransformer::GetCollectedGeometryNode() const {
@@ -64,15 +75,6 @@ namespace Scene {
      */
     FaceSet* CollectedGeometryTransformer::GetCollectedFaceSet() const {
         return faces;
-    }
-
-    /**
-     * Build a list of all faces found in the structure.
-     *
-     * @param node Geometry node.
-     */
-    void CollectedGeometryTransformer::VisitGeometryNode(GeometryNode *node){
-        faces->Add(node->GetFaceSet());
     }
     
 } // NS Scene
