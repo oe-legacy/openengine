@@ -156,8 +156,7 @@ using std::string;
 
 bool _has_prop(PropertyNode* n, string k, string v) {
     if (n == NULL) return false;
-    std::map<string,string>::iterator res = n->properties.find(k);
-    return (res != n->properties.end() && res->second == v);
+    return n->GetProperty(k).Match(v);
 }
 
 PropertyNode* SearchTool::ChildPropertyNodeWith(string k, string v, ISceneNode* r) {

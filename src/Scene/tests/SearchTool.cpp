@@ -31,10 +31,10 @@ int test_main(int argc, char* argv[]) {
     SceneNode*    r1 = new SceneNode();
     SceneNode*    r2 = new SceneNode();
     SceneNode*    r3 = new SceneNode();
-    p1->properties["id"] = "1";
-    p2->properties["id"] = "2";
-    p3->properties["id"] = "3";
-    p4->properties["id"] = "4";
+    p1->SetProperty("id", "1");
+    p2->SetProperty("id", "2");
+    p3->SetProperty("id", "3");
+    p4->SetProperty("id", "4");
     s1->AddNode(p1); s1->AddNode(r1); s1->AddNode(p4);
     r1->AddNode(p2);
     p2->AddNode(r2);

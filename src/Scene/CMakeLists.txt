@@ -22,6 +22,7 @@ ADD_LIBRARY(OpenEngine_Scene
   PointLightNode.cpp
   PointLightNode.h
   PropertyNode.h
+  PropertyNode.cpp
   RenderNode.h
   RenderStateNode.h
   RenderStateNode.cpp
