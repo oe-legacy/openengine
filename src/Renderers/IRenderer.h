@@ -208,6 +208,15 @@ public:
      */
     virtual void DrawPoint(Vector<3,float> point, Vector<3,float> color , float size = 1) = 0;
 
+    /**
+     * Draw a sphere.
+     *
+     * @param center Center of sphere.
+     * @param radius Radius of sphere.
+     * @param color  Color of sphere.
+     */
+    virtual void DrawSphere(Vector<3,float> center, float radius, Vector<3,float> color) = 0;
+
 protected:
     //! root node of the rendering scene
     ISceneNode* root;
