@@ -98,12 +98,32 @@ def mkext(name):
     mkext   <name> -- create new extension extensions/<name> from the ExampleExtension
     """
     mkrepo(name, "extensions", "http://openengine.dk/code/extensions/ExampleExtension")
+    filesubst("ExampleExtension", name,
+              "extensions/"+name+"/README.txt",
+              "extensions/"+name+"/CMakeLists.txt")
 
 def mkproj(name):
     """
     mkproj  <name> -- create new project projects/<name> from the ExampleProject
     """
     mkrepo(name, "projects", "http://openengine.dk/code/projects/ExampleProject")
+    filesubst("ExampleProject", name,
+              "projects/"+name+"/README.txt",
+              "projects/"+name+"/CMakeLists.txt",
+              "projects/"+name+"/main.cpp",
+              "projects/"+name+"/ExampleProject.dist")
+    os.rename("projects/"+name+"/ExampleProject.dist",
+              "projects/"+name+"/"+name+".dist")
+    install("projects/"+name+"/"+name+".dist")
+
+def filesubst(k, v, *fs):
+    for f in fs:
+        fd = open(f, 'r')
+        st = fd.read()
+        fd.close()
+        fd = open(f, 'w')
+        fd.write(st.replace(k, v))
+        fd.close()
 
 def help():
     """
