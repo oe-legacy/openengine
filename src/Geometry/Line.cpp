@@ -35,21 +35,6 @@ Line::~Line() {
 }
 
 /**
- * Test a the line intersects with another line
- *
- * @todo We should add an epsilon value to this test.
- *
- * @param line Line to test intersection with.
- * @return True if the line intersects.
- */
-bool Line::Intersects(const Line line) {
-    float distance = this->Distance(line);
-    if (distance == 0)
-        return true;
-    return false;
-}
-
-/**
  * Shortest distance between two lines.
  *
  * @todo When would we not be able to find the distance between two lines?
@@ -57,7 +42,7 @@ bool Line::Intersects(const Line line) {
  * @param line Line to get distance to.
  * @return Distance to line, -1 if not distance could be calculated.
  */
-float Line::Distance(Line line) {
+float Line::Distance(Line line) const {
     Line* slbl = this->ShortestLineBetweenLines(line);
     if (slbl == NULL)
         return -1;
@@ -83,7 +68,7 @@ float Line::Distance(Line line) {
  * @return Shortest line or NULL if no solution exists
  */
 Line* Line::ShortestLineBetweenRays(Vector<3,float> direction1, Vector<3,float> pointOnLine1,
-                                    Vector<3,float> direction2, Vector<3,float> pointOnLine2) {
+                                    Vector<3,float> direction2, Vector<3,float> pointOnLine2) const {
     Vector<3,float> p21 = direction1;
     Vector<3,float> p43 = direction2;
     Vector<3,float> p1 = pointOnLine1;
@@ -127,7 +112,7 @@ Line* Line::ShortestLineBetweenRays(Vector<3,float> direction1, Vector<3,float> 
  * @param pointOnLine Point on the ray path
  * @return Shortest line from line to ray
  */
-Line* Line::ShortestLineBetweenLineAndRay(Vector<3,float> direction, Vector<3,float> pointOnLine) {
+Line* Line::ShortestLineBetweenLineAndRay(Vector<3,float> direction, Vector<3,float> pointOnLine) const {
     return ShortestLineBetweenRays(this->point2 - this->point1, this->point1, direction, pointOnLine);
 }
 
@@ -137,7 +122,7 @@ Line* Line::ShortestLineBetweenLineAndRay(Vector<3,float> direction, Vector<3,fl
  * @param line Line
  * @return Shortest line between the two lines.
  */
-Line* Line::ShortestLineBetweenLines(Line line) {
+Line* Line::ShortestLineBetweenLines(Line line) const {
     return ShortestLineBetweenRays(this->point2 - this->point1, this->point1,
                                    line.point2  - line.point1, line.point1);
 }

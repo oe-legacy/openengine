@@ -10,7 +10,6 @@
 #ifndef _GEOMETRY_LINE_H_
 #define _GEOMETRY_LINE_H_
 
-#include <Geometry/Geometry.h>
 #include <Math/Vector.h>
 
 namespace OpenEngine {
@@ -19,12 +18,14 @@ namespace Geometry {
 using OpenEngine::Math::Vector;
 
 /**
- * Line.
- * A plane is defined by two points in space.
+ * Line.  
+ * Represented by two points. This is identical to a line
+ * segment in mathematics. For an infinite line see Ray.h 
  *
+ * @see Ray 
  * @class Line Line.h Geometry/Line.h
  */
-class Line : public Geometry {
+class Line {
 public:
 
     Vector<3,float> point1;     //!< first endpoint of line
@@ -33,12 +34,11 @@ public:
     Line(Vector<3,float> point1, Vector<3,float> point2);
     ~Line();
 
-    bool Intersects(const Line line);
-    float Distance(Line line);
+    float Distance(Line line) const;
     Line* ShortestLineBetweenRays( Vector<3,float> direction1, Vector<3,float> pointOnLine1,
-                                   Vector<3,float> direction2, Vector<3,float> pointOnLine2 );
-    Line* ShortestLineBetweenLineAndRay( Vector<3,float> direction, Vector<3,float> pointOnLine);
-    Line* ShortestLineBetweenLines( Line line );
+                                   Vector<3,float> direction2, Vector<3,float> pointOnLine2 ) const;
+    Line* ShortestLineBetweenLineAndRay( Vector<3,float> direction, Vector<3,float> pointOnLine) const;
+    Line* ShortestLineBetweenLines( Line line ) const;
 
 };
 

@@ -7,10 +7,9 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _BOUNDING_SQUARE_H_
-#define _BOUNDING_SQUARE_H_
+#ifndef _GEOMETRY_SQUARE_H_
+#define _GEOMETRY_SQUARE_H_
 
-#include <Geometry/BoundingGeometry.h>
 #include <Geometry/Sphere.h>
 #include <Math/Vector.h>
 #include <list>
@@ -19,6 +18,9 @@
 
 namespace OpenEngine {
 namespace Geometry {
+
+//forward declarations
+class Line;
 
 using OpenEngine::Math::Vector;
 using std::list;
@@ -30,7 +32,10 @@ using std::vector;
  *
  * @class Square Square.h Geometry/Square.h
  */
-class Square : public BoundingGeometry {
+class Square {
+
+friend class Tests;
+
 private:
     float hsize;              //!< Half size
     Vector<2,float> center;   //!< Square center
@@ -47,12 +52,6 @@ public:
     float GetSize() const;
     float GetHalfSize() const;
     Vector<2,float> GetCenter() const;
-
-    // intersection tests
-    bool Intersects(const Vector<3,float> point) const;
-    bool Intersects(const Line line) const;
-    bool Intersects(const Plane plane) const;
-
 };
 
 } //NS Common

@@ -7,11 +7,10 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _BOUNDING_SPHERE_H_
-#define _BOUNDING_SPHERE_H_
+#ifndef _GEOMETRY_SPHERE_H_
+#define _GEOMETRY_SPHERE_H_
 
 #include <Geometry/FaceSet.h>
-#include <Geometry/BoundingGeometry.h>
 #include <string>
 
 namespace OpenEngine {
@@ -20,13 +19,13 @@ namespace Geometry {
 using OpenEngine::Math::Vector;
 
 /**
- * Bounding geometry sphere.
+ * geometry sphere.
  *
  * @class Sphere Sphere.h Geometry/Sphere.h
  */
-class Sphere : public BoundingGeometry {
+class Sphere {
 
-friend class Geometry;
+friend class Tests;
     
 private:
     Vector<3,float> center;
@@ -50,12 +49,6 @@ public:
 
     void SetCenter(const Vector<3,float> center);
     
-    bool Intersects(const Vector<3,float> point) const;
-
-    bool Intersects(const Line line) const;
-
-    bool Intersects(const Plane plane) const;
-
 };
 
 } //NS Common

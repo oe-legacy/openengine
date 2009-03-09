@@ -10,7 +10,7 @@
 #ifndef _BOUNDING_GEOMETRY_H_
 #define _BOUNDING_GEOMETRY_H_
 
-#include <Geometry/Geometry.h>
+#include <Geometry/Tests.h>
 #include <Math/Vector.h>
 
 namespace OpenEngine {

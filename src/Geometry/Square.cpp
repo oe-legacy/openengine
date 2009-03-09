@@ -58,7 +58,7 @@ Square::Square(FaceSet& faces) : hsize(0) {
  *
  * @param square Square to copy.
  */
-Square::Square(const Square& square) : BoundingGeometry() {
+Square::Square(const Square& square) {
     this->center = square.center;
     this->hsize = square.hsize;
     CalculateSides();
@@ -109,54 +109,6 @@ float Square::GetHalfSize() const {
  */
 Vector<2,float> Square::GetCenter() const {
     return center;
-}
-
-/**
- * Test if point is contained in the square.
- *
- * @param point Point to test for containment.
- * @return True if contained.
- */
-bool Square::Intersects(const Vector<3,float> point) const {
-    float x, z;
-    x = point.Get(0) - center.Get(0);
-    z = point.Get(2) - center.Get(1);
-    return (fabs(x) <= hsize &&
-            fabs(z) <= hsize);
-}
-
-/**
- * Test if a line intersects with the square.
- * This is also true if the hole line is contained within the square.
- *
- * @param line Line to test for intersection.
- * @return True if intersecting.
- */
-bool Square::Intersects(const Line line) const {
-    // test end points
-    if (this->Intersects(line.point1) ||
-        this->Intersects(line.point2))
-        return true;
-    // project the line to the x-z plane
-    Line l(line);
-    l.point1[1] = 0;
-    l.point2[1] = 0;
-    for (unsigned int i=0; i<sides.size(); i++)
-        if (sides[i]->Intersects(l))
-            return true;
-    return false;
-}
-
-/**
- * Test if a plane intersects with the square.
- *
- * @todo This function is not implemented.
- *
- * @param plane Plane to test for intersection.
- * @return True if intersecting.
- */
-bool Square::Intersects(const Plane plane) const {
-    throw Core::NotImplemented("Square::Intersects(Plane) is not implemented.");
 }
 
 /**

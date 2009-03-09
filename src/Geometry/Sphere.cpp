@@ -117,32 +117,5 @@ void Sphere::SetRadius(const float r) {
     diameter = r * 2;
 }
 
-/**
- * Test if sphere contains a point.
- *
- * @todo Not implemented.
- *
- * @param point Point to test for containment.
- */
-bool Sphere::Intersects(const Vector<3,float> point) const { return false; }
-
-/**
- * Test if sphere intersects with a line.
- *
- * @todo Not implemented.
- *
- * @param line Line to test for intersection.
- */
-bool Sphere::Intersects(const Line line) const { return false; }
-
-/**
- * Test if sphere intersects with a plane.
- *
- * @todo Not implemented.
- *
- * @param plane Plane to test for intersection.
- */
-bool Sphere::Intersects(const Plane plane) const { return false; }
-
 } //NS Geometry
 } //NS OpenEngine

@@ -10,14 +10,10 @@
 #ifndef _GEOMETRY_PLANE_H_
 #define _GEOMETRY_PLANE_H_
 
-#include <Geometry/Geometry.h>
 #include <Math/Vector.h>
 
 namespace OpenEngine {
 namespace Geometry {
-
-// forward declaration
-class Line;
 
 using OpenEngine::Math::Vector;
 
@@ -30,7 +26,7 @@ using OpenEngine::Math::Vector;
  *
  * @class Plane Plane.h Geometry/Plane.h
  */
-class Plane : public Geometry {
+class Plane {
 public:
     Vector<3,float> normal;     //!< normal of the plane [A,B,C]
     float distance;   //!< distance from origin 
@@ -40,8 +36,6 @@ public:
     virtual ~Plane();
 
     void Set(Vector<3,float> normal, float distance);
-
-    Line Intersection(Plane p);
 };
 
 } //NS Common

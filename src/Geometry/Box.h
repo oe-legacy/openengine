@@ -7,11 +7,10 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _BOUNDING_BOX_H_
-#define _BOUNDING_BOX_H_
+#ifndef _GEOMETRY_BOX_H_
+#define _GEOMETRY_BOX_H_
 
 #include <Geometry/FaceSet.h>
-#include <Geometry/BoundingGeometry.h>
 #include <Scene/ISceneNodeVisitor.h>
 #include <Scene/ISceneNode.h>
 #include <Scene/GeometryNode.h>
@@ -27,13 +26,13 @@ using std::vector;
 
 
 /**
- * Bounding geometry box.
+ * Geometry box.
  *
  * @class Box Box.h Geometry/Box.h
  */
-class Box : public BoundingGeometry {
+class Box {
 
-friend class Geometry;
+friend class Tests;
     
 private:
 // private visitor class to collect faces in scene graphs
@@ -84,11 +83,6 @@ public:
     Vector<3,float> GetCorner() const;
     Vector<3,float> GetCorner(const int index) const;
     Vector<3,float> GetCorner(const bool signX, const bool signY, const bool signZ) const;
-
-    bool Intersects(const Vector<3,float> point) const;
-    bool Intersects(const Line line) const;
-    bool Intersects(const Plane plane) const;
-
 };
 
 } //NS Common

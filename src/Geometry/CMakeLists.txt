@@ -1,7 +1,7 @@
 ADD_LIBRARY(OpenEngine_Geometry
-  Geometry.h
-  Geometry.cpp
-  BoundingGeometry.h
+  Tests.h
+  Tests.cpp
+#  BoundingGeometry.h
   Box.h
   Box.cpp
   Sphere.h
