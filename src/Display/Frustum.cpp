@@ -13,8 +13,6 @@
 namespace OpenEngine {
 namespace Display {
 
-using OpenEngine::Geometry::Geometry;
-
 /**
  * Frustum constructor.
  *
