@@ -19,7 +19,7 @@ using OpenEngine::Math::Vector;
 
 /**
  * Line.  
- * Represented by two points. This is identical to a line
+ * Represented by two endpoints. This is identical to a line
  * segment in mathematics. For an infinite line see Ray.h 
  *
  * @see Ray 

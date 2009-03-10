@@ -27,7 +27,7 @@ Tests::Tests() {}
 Tests::~Tests() {}
 
 
-bool Tests::Intersects(const Box&       box1, const Box&       box2) {
+bool Tests::Intersects(const Box& box1, const Box& box2) {
     throw NotImplemented();
 }
 
@@ -36,6 +36,10 @@ bool Tests::Intersects(const Sphere& sphere1, const Sphere& sphere2) {
 }
 
 bool Tests::Intersects(const Square& square1, const Square& square2) {
+    throw NotImplemented();
+}
+
+bool Tests::Intersects(const Plane& plane1, const Plane& plane2) {
     throw NotImplemented();
 }
 
@@ -55,9 +59,10 @@ bool Tests::Intersects(const Line& line1, const Line& line2) {
     return false;
 }
 
-bool Tests::Intersects(const Plane&   plane1, const Plane& plane2) {
+bool Tests::Intersects(const Ray& ray1, const Ray& ray2) {
     throw NotImplemented();
 }
+
 
 /**
  * Check if point is inside box.
@@ -83,6 +88,25 @@ bool Tests::Intersects(const Box& box, const Vector<3,float> point) {
         return true;
     else 
         return false;
+}
+
+bool Tests::Intersects(const Box& box, const Sphere& sphere) {
+    throw NotImplemented();
+}
+
+bool Tests::Intersects(const Box& box, const Square& square) {
+    return (Intersects(square, box.center + box.corner) ||
+            Intersects(square, box.center + box.corner * Vector<3,float>( 1, 1,-1)) ||
+            Intersects(square, box.center + box.corner * Vector<3,float>( 1,-1, 1)) ||
+            Intersects(square, box.center + box.corner * Vector<3,float>( 1,-1,-1)) ||
+            Intersects(square, box.center + box.corner * Vector<3,float>(-1, 1, 1)) ||
+            Intersects(square, box.center + box.corner * Vector<3,float>(-1, 1,-1)) ||
+            Intersects(square, box.center + box.corner * Vector<3,float>(-1,-1, 1)) ||
+            Intersects(square, box.center + box.corner * Vector<3,float>(-1,-1,-1)) );
+}
+
+bool Tests::Intersects(const Box& box, const Plane& plane) {
+    throw NotImplemented();
 }
 
 /**
@@ -152,51 +176,13 @@ bool Tests::Intersects(const Box& box, const Line& line) {
     return true;
 }
 
-bool Tests::Intersects(const Box& box, const Sphere& sphere) {
+bool Tests::Intersects(const Box& box, const Ray& ray) {
     throw NotImplemented();
 }
 
-/**
- *
- */
-bool Tests::Intersects(const Box& box, const Square& square) {
-    return (Intersects(square, box.center + box.corner) ||
-            Intersects(square, box.center + box.corner * Vector<3,float>( 1, 1,-1)) ||
-            Intersects(square, box.center + box.corner * Vector<3,float>( 1,-1, 1)) ||
-            Intersects(square, box.center + box.corner * Vector<3,float>( 1,-1,-1)) ||
-            Intersects(square, box.center + box.corner * Vector<3,float>(-1, 1, 1)) ||
-            Intersects(square, box.center + box.corner * Vector<3,float>(-1, 1,-1)) ||
-            Intersects(square, box.center + box.corner * Vector<3,float>(-1,-1, 1)) ||
-            Intersects(square, box.center + box.corner * Vector<3,float>(-1,-1,-1)) );
-}
-
-bool Tests::Intersects(const Box& box, const Plane& plane) {
-    throw NotImplemented();
-}
 
 bool Tests::Intersects(const Sphere& sphere, const Vector<3,float> point) {
     throw NotImplemented();
-}
-
-/**
- * Test if sphere intersects with a line.
- *
- * Inspired by http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/.
- * 
- * @param line Line to test for intersection.
- */
-bool Tests::Intersects(const Sphere& sphere, const Line line) { 
-    Vector<3,float> dir = (line.point2 - line.point1);
-    float radius = sphere.diameter * 0.5 ;
-
-    float a = dir * dir;
-    float b = 2*(dir * (line.point1 - sphere.center));
-    float c = sphere.center*sphere.center + line.point1*line.point1 
-        - 2*(sphere.center*line.point1) - radius*radius;
-
-    if (b*b-4*a*c < 0)
-        return false; 
-    return true;
 }
 
 bool Tests::Intersects(const Sphere& sphere, const Square& square) {
@@ -216,6 +202,33 @@ bool Tests::Intersects(const Sphere& sphere, const Plane& plane) {
 }
 
 /**
+ * Test if sphere intersects with a line.
+ *
+ * Inspired by http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/.
+ * 
+ * @param sphere Sphere to test for intersection.
+ * @param line Line to test for intersection.
+ */
+bool Tests::Intersects(const Sphere& sphere, const Line& line) { 
+    Vector<3,float> dir = (line.point2 - line.point1);
+    float radius = sphere.diameter * 0.5;
+
+    float a = dir * dir;
+    float b = 2*(dir * (line.point1 - sphere.center));
+    float c = sphere.center*sphere.center + line.point1*line.point1 
+        - 2*(sphere.center*line.point1) - radius*radius;
+
+    if (b*b-4*a*c < 0)
+        return false; 
+    return true;
+}
+
+bool Tests::Intersects(const Sphere& sphere, const Ray& ray) {
+    throw NotImplemented();
+}
+
+
+/**
  * Test if point is contained in the square.
  *
  * @param point Point to test for containment.
@@ -227,6 +240,10 @@ bool Tests::Intersects(const Square& square, const Vector<3,float> point) {
     z = point.Get(2) - square.center.Get(1);
     return (fabs(x) <= square.hsize &&
             fabs(z) <= square.hsize);
+}
+
+bool Tests::Intersects(const Square& square, const Plane& plane) {
+    throw NotImplemented();
 }
 
 /**
@@ -251,7 +268,12 @@ bool Tests::Intersects(const Square& square, const Line& line) {
     return false;
 }
 
-bool Tests::Intersects(const Square& square, const Plane& plane) {
+bool Tests::Intersects(const Square& square, const Ray& ray) {
+    throw NotImplemented();
+}
+
+
+bool Tests::Intersects(const Plane& plane, const Vector<3,float> point) {
     throw NotImplemented();
 }
 
@@ -275,13 +297,28 @@ bool Tests::Intersects(const Plane& plane, const Line& line) {
 //     return Line(point, point + n * 100);
 }
     
+bool Tests::Intersects(const Plane& plane, const Ray& ray) {
+    throw NotImplemented();
+}
+
+
+bool Tests::Intersects(const Line& line, const Vector<3,float> point) {
+    throw NotImplemented();
+}
+
+bool Tests::Intersects(const Line& line, const Ray& ray) {
+    throw NotImplemented();
+}
+
+    
+bool Tests::Intersects(const Ray& ray, const Vector<3,float> point) {
+    throw NotImplemented();
+}
+
+
 // **** inlined methods with arguments reversed ****
 bool Tests::Intersects(const Vector<3,float> point, const Box& box) {
     return Intersects(box, point);
-}
-
-bool Tests::Intersects(const Line& line, const Box& box) {
-    return Intersects(box, line);
 }
 
 bool Tests::Intersects(const Sphere& sphere, const Box& box) {
@@ -289,19 +326,24 @@ bool Tests::Intersects(const Sphere& sphere, const Box& box) {
 }
 
 bool Tests::Intersects(const Square& square, const Box& box) {
-    return Intersects(box, square);    
+    return Intersects(box, square);
 }
 
 bool Tests::Intersects(const Plane& plane, const Box& box) {
     return Intersects(box, plane);
 }
 
-bool Tests::Intersects(const Vector<3,float> point, const Sphere& sphere) {
-    return Intersects(sphere, point);
+bool Tests::Intersects(const Line& line, const Box& box) {
+    return Intersects(box, line);
 }
 
-bool Tests::Intersects(const Line& line, const Sphere& sphere) {
-    return Intersects(sphere, line);
+bool Tests::Intersects(const Ray& ray, const Box& box) {
+    return Intersects(box, ray);
+}
+
+
+bool Tests::Intersects(const Vector<3,float> point, const Sphere& sphere) {
+    return Intersects(sphere, point);
 }
 
 bool Tests::Intersects(const Square& square, const Sphere& sphere) {
@@ -312,20 +354,56 @@ bool Tests::Intersects(const Plane& plane, const Sphere& sphere) {
     return Intersects(sphere, plane);
 }
 
-bool Tests::Intersects(const Vector<3,float> point, const Square& square) {
-    return Intersects(square, point);
+bool Tests::Intersects(const Line& line, const Sphere& sphere) {
+    return Intersects(sphere, line);
 }
 
-bool Tests::Intersects(const Line& line, const Square& square) {
-    return Intersects(square, line);
+bool Tests::Intersects(const Ray& ray, const Sphere& sphere) {
+    return Intersects(sphere, ray);
+}
+
+
+bool Tests::Intersects(const Vector<3,float> point, const Square& square) {
+    return Intersects(square, point);
 }
 
 bool Tests::Intersects(const Plane& plane, const Square& square) {
     return Intersects(square, plane);
 }
 
+bool Tests::Intersects(const Line& line, const Square& square) {
+    return Intersects(square, line);
+}
+
+bool Tests::Intersects(const Ray& ray, const Square& square) {
+    return Intersects(square, ray);
+}
+
+    
+bool Tests::Intersects(const Vector<3,float> point, const Plane& plane) {
+    return Intersects(plane, point);
+}
+
 bool Tests::Intersects(const Line& line, const Plane& plane) {
     return Intersects(plane, line);
+}
+
+bool Tests::Intersects(const Ray& ray, const Plane& plane) {
+    return Intersects(plane, ray);
+}
+
+
+bool Tests::Intersects(const Vector<3,float> point, const Line& line) {
+    return Intersects(line, point);
+}
+
+bool Tests::Intersects(const Ray& ray, const Line& line) {
+    return Intersects(line, ray);
+}
+
+    
+bool Tests::Intersects(const Vector<3,float> point, const Ray& ray) {
+    return Intersects(ray, point);
 }
 
 } // NS Geometry

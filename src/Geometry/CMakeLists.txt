@@ -8,6 +8,8 @@ ADD_LIBRARY(OpenEngine_Geometry
   Sphere.cpp
   Line.h
   Line.cpp
+  Ray.h
+  Ray.cpp
   Plane.h
   Plane.cpp
   Square.h

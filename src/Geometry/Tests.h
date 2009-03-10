@@ -28,6 +28,7 @@ class Box;
 class Sphere;
 class Line;
 class Plane;
+class Ray;
 
 using OpenEngine::Math::Vector;
 
@@ -79,44 +80,64 @@ public:
     static bool Intersects(const Box&       box1, const Box&       box2);
     static bool Intersects(const Sphere& sphere1, const Sphere& sphere2);
     static bool Intersects(const Square& square1, const Square& square2);
-    static bool Intersects(const Line&     line1, const Line&     line2);
     static bool Intersects(const Plane&   plane1, const Plane&   plane2);
-    
+    static bool Intersects(const Line&     line1, const Line&     line2);
+    static bool Intersects(const Ray&       ray1, const Ray&       ray2);
 
     static bool Intersects(const Box& box, const Vector<3,float> point);
-    static bool Intersects(const Box& box, const Line&            line);
     static bool Intersects(const Box& box, const Sphere&        sphere);
     static bool Intersects(const Box& box, const Square&        square);
     static bool Intersects(const Box& box, const Plane&          plane);
+    static bool Intersects(const Box& box, const Line&            line);
+    static bool Intersects(const Box& box, const Ray&              ray);
 
     static bool Intersects(const Sphere& sphere, const Vector<3,float> point);
-    static bool Intersects(const Sphere& sphere, const Line             line);
     static bool Intersects(const Sphere& sphere, const Square&        square);
     static bool Intersects(const Sphere& sphere, const Plane&          plane);
+    static bool Intersects(const Sphere& sphere, const Line&            line);
+    static bool Intersects(const Sphere& sphere, const Ray&              ray);
 
     static bool Intersects(const Square& square, const Vector<3,float> point);
-    static bool Intersects(const Square& square, const Line&            line);
     static bool Intersects(const Square& square, const Plane&          plane);
+    static bool Intersects(const Square& square, const Line&            line);
+    static bool Intersects(const Square& square, const Ray&              ray);
 
-    static bool Intersects(const Plane& plane, const Line& line);
+    static bool Intersects(const Plane& plane, const Vector<3,float> point);
+    static bool Intersects(const Plane& plane, const Line&            line);
+    static bool Intersects(const Plane& plane, const Ray&              ray);
+
+    static bool Intersects(const Line& line, const Vector<3,float> point);
+    static bool Intersects(const Line& line, const Ray&              ray);
+    
+    static bool Intersects(const Ray& ray, const Vector<3,float> point);
 
     // inlined methods with arguments reversed
     static inline bool Intersects(const Vector<3,float> point, const Box& box);
-    static inline bool Intersects(const Line&            line, const Box& box);
     static inline bool Intersects(const Sphere&        sphere, const Box& box);
     static inline bool Intersects(const Square&        square, const Box& box);
     static inline bool Intersects(const Plane&          plane, const Box& box);
+    static inline bool Intersects(const Line&            line, const Box& box);
+    static inline bool Intersects(const Ray&              ray, const Box& box);
 
     static inline bool Intersects(const Vector<3,float> point, const Sphere& sphere);
-    static inline bool Intersects(const Line&            line, const Sphere& sphere);
     static inline bool Intersects(const Square&        square, const Sphere& sphere);
     static inline bool Intersects(const Plane&          plane, const Sphere& sphere);
+    static inline bool Intersects(const Line&            line, const Sphere& sphere);
+    static inline bool Intersects(const Ray&              ray, const Sphere& sphere);
 
     static inline bool Intersects(const Vector<3,float> point, const Square& square);
-    static inline bool Intersects(const Line&            line, const Square& square);
     static inline bool Intersects(const Plane&          plane, const Square& square);
+    static inline bool Intersects(const Line&            line, const Square& square);
+    static inline bool Intersects(const Ray&              ray, const Square& square);
     
-    static inline bool Intersects(const Line& line, const Plane& plane);
+    static inline bool Intersects(const Vector<3,float> point, const Plane& plane);
+    static inline bool Intersects(const Line&            line, const Plane& plane);
+    static inline bool Intersects(const Ray&              ray, const Plane& plane);
+
+    static inline bool Intersects(const Vector<3,float> point, const Line& line);
+    static inline bool Intersects(const Ray&              ray, const Line& line);
+    
+    static inline bool Intersects(const Vector<3,float> point, const Ray& ray);
 };
 
 } // NS Geometry
