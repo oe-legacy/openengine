@@ -193,10 +193,10 @@ void Frustum::VisualizeClipping(const bool visualize) {
 bool Frustum::IsVisible(const Box& box) {
     bool v = true;
     for (int p=0; p<6; p++) {
-        Vector<3,float> vn = box.GetCorner(planes[p]->normal[0]>0,
-                                        planes[p]->normal[1]>0,
-                                        planes[p]->normal[2]>0);
-        if (vn * planes[p]->normal + planes[p]->distance < 0) {
+        Vector<3,float> vn = box.GetCorner(planes[p]->GetNormal()[0]>0,
+                                           planes[p]->GetNormal()[1]>0,
+                                           planes[p]->GetNormal()[2]>0);
+        if (vn * planes[p]->GetNormal() + planes[p]->GetDistance() < 0) {
             v = false; break;
         }
     }
@@ -279,11 +279,11 @@ void Frustum::UpdatePlanes() {
 
     // normalize all the planes
     for (unsigned int i=0; i<6; i++) {
-        float l = planes[i]->normal.GetLength();
-        planes[i]->distance /= l;
-        planes[i]->normal.Normalize();
+        float l = planes[i]->GetNormal().GetLength();
+        planes[i]->SetDistance(planes[i]->GetDistance() / l);
+        planes[i]->Normalize();
         // update the distance from the current position
-        planes[i]->distance -= planes[i]->normal * volume.GetPosition();
+        planes[i]->SetDistance(planes[i]->GetDistance() - planes[i]->GetNormal() * volume.GetPosition());
     }
 }
 
@@ -413,7 +413,7 @@ void Frustum::FNode::Apply(IRenderingView* view) {
     // draw frustum plane normals
     for (unsigned int i=0; i<6; i++) {
         Plane* p = frustum.planes[i];
-        r->DrawLine( Line( - p->distance * p->normal, p->normal * (100 - p->distance)),
+        r->DrawLine( Line( - p->GetDistance() * p->GetNormal(), p->GetNormal() * (100 - p->GetDistance())),
                      Vector<3,float>(1,0,0), 2);
     }
 

@@ -27,15 +27,32 @@ using OpenEngine::Math::Vector;
  * @class Plane Plane.h Geometry/Plane.h
  */
 class Plane {
-public:
-    Vector<3,float> normal;     //!< normal of the plane [A,B,C]
-    float distance;   //!< distance from origin 
 
+friend class Tests;
+
+private:
+    Vector<3,float> normal;     //!< normal of the plane [A,B,C]
+    float distance;             //!< distance from origin 
+    Vector<3,float> point;
+    bool distCached;
+public:
 
     Plane(Vector<3,float> normal, float distance);
+    Plane(Vector<3,float> normal, Vector<3,float> pointOnPlane);
     virtual ~Plane();
 
+    Vector<3,float> GetNormal();
+    void SetNormal(Vector<3,float> normal);
+
+    float GetDistance();
+    void SetDistance(float distance);
+
+    void SetPointOnPlane(Vector<3,float> point);
+    Vector<3,float> GetPointOnPlane();
+     
     void Set(Vector<3,float> normal, float distance);
+
+    void Normalize();
 };
 
 } //NS Common
