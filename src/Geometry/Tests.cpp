@@ -14,6 +14,7 @@
 #include <Geometry/Sphere.h>
 #include <Geometry/Line.h>
 #include <Geometry/Plane.h>
+#include <Geometry/Ray.h>
 
 #include <Core/Exceptions.h>
 
@@ -201,30 +202,29 @@ bool Tests::Intersects(const Sphere& sphere, const Plane& plane) {
     throw NotImplemented();
 }
 
+bool Tests::Intersects(const Sphere& sphere, const Line& line) { 
+    throw NotImplemented();
+}
+
 /**
- * Test if sphere intersects with a line.
+ * Test if sphere intersects with a ray.
  *
  * Inspired by http://local.wasp.uwa.edu.au/~pbourke/geometry/sphereline/.
  * 
  * @param sphere Sphere to test for intersection.
- * @param line Line to test for intersection.
+ * @param ray Ray to test for intersection.
  */
-bool Tests::Intersects(const Sphere& sphere, const Line& line) { 
-    Vector<3,float> dir = (line.point2 - line.point1);
+bool Tests::Intersects(const Sphere& sphere, const Ray& ray) {
     float radius = sphere.diameter * 0.5;
 
-    float a = dir * dir;
-    float b = 2*(dir * (line.point1 - sphere.center));
-    float c = sphere.center*sphere.center + line.point1*line.point1 
-        - 2*(sphere.center*line.point1) - radius*radius;
+    float a = ray.dir * ray.dir;
+    float b = 2*(ray.dir * (ray.point - sphere.center));
+    float c = sphere.center*sphere.center + ray.point*ray.point 
+        - 2*(sphere.center*ray.point) - radius*radius;
 
     if (b*b-4*a*c < 0)
         return false; 
     return true;
-}
-
-bool Tests::Intersects(const Sphere& sphere, const Ray& ray) {
-    throw NotImplemented();
 }
 
 
@@ -297,8 +297,19 @@ bool Tests::Intersects(const Plane& plane, const Line& line) {
 //     return Line(point, point + n * 100);
 }
     
-bool Tests::Intersects(const Plane& plane, const Ray& ray) {
-    throw NotImplemented();
+/*
+ * http://local.wasp.uwa.edu.au/~pbourke/geometry/planeline/
+ * 
+ * @todo if the ray lies on the plane then the function return false.
+ */
+bool Tests::Intersects(const Plane& plane, const Ray& ray, Vector<3,float>* point) {
+    float denom = plane.normal * ray.dir;
+    if (denom == 0.0) 
+        return false;
+    if (!point) return true;
+    float u = (plane.normal * (plane.point-ray.point)) / denom;  
+    *point = ray.point + (ray.dir * u);
+    return true;
 }
 
 
@@ -388,8 +399,8 @@ bool Tests::Intersects(const Line& line, const Plane& plane) {
     return Intersects(plane, line);
 }
 
-bool Tests::Intersects(const Ray& ray, const Plane& plane) {
-    return Intersects(plane, ray);
+bool Tests::Intersects(const Ray& ray, const Plane& plane, Vector<3,float>* point) {
+    return Intersects(plane, ray, point);
 }
 
 

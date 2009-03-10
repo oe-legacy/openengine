@@ -47,7 +47,5 @@ Vector<3,float> Ray::GetDirection() {
     return dir;
 }
 
-
-
 } //NS Geometry
 } //NS OpenEngine
