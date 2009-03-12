@@ -182,10 +182,9 @@ public:
     const Vector<N,T> operator*(const Vector<N,T> v) {
         BOOST_STATIC_ASSERT(M==3 && N==M);
         Vector<N,T> r;
-	r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1) + elm[0][2] * v.Get(2);
-	r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1) + elm[1][2] * v.Get(2);
-	r[2] = elm[2][0] * v.Get(0) + elm[2][1] * v.Get(1) + elm[2][2] * v.Get(2);
-
+        r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1) + elm[0][2] * v.Get(2);
+        r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1) + elm[1][2] * v.Get(2);
+        r[2] = elm[2][0] * v.Get(0) + elm[2][1] * v.Get(1) + elm[2][2] * v.Get(2);
         return r;
     }
 

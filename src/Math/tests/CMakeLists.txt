@@ -1,0 +1,3 @@
+ADD_EXECUTABLE        (Tensors TensorTest.cpp)
+TARGET_LINK_LIBRARIES (Tensors OpenEngine_Math)
+ADD_TEST              (Tensors Tensors)
