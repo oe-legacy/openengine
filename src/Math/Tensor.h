@@ -9,7 +9,7 @@
 
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
-#include "eig3.h"
+//#include "eig3.h"
 
 #include <stdio.h>
 
@@ -199,7 +199,7 @@ public:
         return sum;
     }
 
-
+    
     /**
      * Computes the eigenvectors and eigenvalues of a symmetric 3x3
      * tensor. Get the results using eigenVectors() and eigenValues(). 
@@ -208,7 +208,7 @@ public:
      * @see eigenValues()
      * @see eigenVectors()
      */
-    void eigenVectorsAndValues() {
+    /*void eigenVectorsAndValues() {
         double A[N][M];
         for(int i=0; i<N; i++){
             for(int j=0; j<M; j++){
@@ -223,7 +223,7 @@ public:
         eigen_decomposition(A,V,d);
       
     }
-    
+    */
     /**
      * Calculates the eigen values of the tensor and
      * returns each eigen value as a component in the vector.

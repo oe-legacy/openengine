@@ -9,7 +9,6 @@ ADD_LIBRARY(OpenEngine_Math
   RandomGenerator.cpp
   Vector.h
   Tensor.h
-  eig3.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Math
