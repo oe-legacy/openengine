@@ -175,10 +175,10 @@ TextureLoader::TextureLoader(IRenderer& renderer, ReloadPolicy policy)
     , initloader(new InitLoader(*reloader))
     , defaultpolicy(policy)
 {
-    // If the renderer has not passed the init phases we attach the
+    // If the renderer has not reached the init phases we attach the
     // utility loader so no textures are loaded before a context is
     // ready.
-    if (renderer.GetCurrentStage() == IRenderer::RENDERER_INITIALIZE)
+    if (renderer.GetCurrentStage() == IRenderer::RENDERER_UNINITIALIZE)
         renderer.InitializeEvent().Attach(*initloader);
     // Check that the default policy is not RELOAD_DEFAULT
     if (defaultpolicy == RELOAD_DEFAULT)
