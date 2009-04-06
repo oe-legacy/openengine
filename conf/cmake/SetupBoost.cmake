@@ -28,7 +28,9 @@ IF (Boost_FOUND)
                  boost_system
                  boost_system-mt
                  )
+    IF (BOOST_SYSTEM_LIB)
     SET(BOOST_SERIALIZATION_LIB ${BOOST_SERIALIZATION_LIB} ${BOOST_SYSTEM_LIB})
+    ENDIF (BOOST_SYSTEM_LIB)
 
    # Release mode libraries
    ELSE(CMAKE_BUILD_TYPE MATCHES debug)
@@ -55,7 +57,10 @@ IF (Boost_FOUND)
                  boost_system
                  boost_system-mt
                  )
+    IF (BOOST_SYSTEM_LIB)
     SET(BOOST_SERIALIZATION_LIB ${BOOST_SERIALIZATION_LIB} ${BOOST_SYSTEM_LIB})
+    ENDIF (BOOST_SYSTEM_LIB)
+
 
    ENDIF(CMAKE_BUILD_TYPE MATCHES debug)
 
