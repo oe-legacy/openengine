@@ -15,6 +15,7 @@
 #include <boost/serialization/utility.hpp>
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/export.hpp>
+#include <Meta/BoostSerialization.h>
 
 #define OE_SCENE_NODE(klass, syper)                     \
 public:                                                 \
