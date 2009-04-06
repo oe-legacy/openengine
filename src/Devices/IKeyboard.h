@@ -11,13 +11,11 @@
 #define _OE_INTERFACE_KEYBOARD_H_
 
 #include <Devices/Symbols.h>
-#include <Core/IModule.h>
 #include <Core/IEvent.h>
 
 namespace OpenEngine {
 namespace Devices {
 
-using OpenEngine::Core::IModule;
 using OpenEngine::Core::IEvent;
 
 /**
@@ -38,7 +36,7 @@ struct KeyboardEventArg {
  *
  * @class IKeyboard IKeyboard.h Devices/IKeyboard.h
  */
-class IKeyboard : public virtual IModule {
+class IKeyboard {
 public:
 
     /**

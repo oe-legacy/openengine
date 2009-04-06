@@ -11,7 +11,6 @@
 #define _OE_INTERFACE_JOYSTICK_H_
 
 #include <Devices/Symbols.h>
-#include <Core/IModule.h>
 #include <Core/IEvent.h>
 
 namespace OpenEngine {
@@ -65,7 +64,7 @@ public:
  *
  * @class IJoystick IJoystick.h Devices/IJoystick.h
  */
-class IJoystick : public virtual Core::IModule {
+class IJoystick {
 public:
 	virtual ~IJoystick() {};
 	virtual Core::IEvent<JoystickButtonEventArg>& JoystickButtonEvent() = 0;

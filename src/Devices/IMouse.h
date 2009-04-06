@@ -11,13 +11,11 @@
 #define _OE_INTERFACE_MOUSE_H_
 
 #include <Devices/Symbols.h>
-#include <Core/IModule.h>
 #include <Core/IEvent.h>
 
 namespace OpenEngine {
 namespace Devices {
 
-using OpenEngine::Core::IModule;
 using OpenEngine::Core::IEvent;
 
 /**
@@ -68,7 +66,7 @@ struct MouseButtonEventArg {
  *
  * @class IMouse IMouse.h Devices/IMouse.h
  */
-class IMouse : public virtual IModule {
+class IMouse {
 
 public:
     

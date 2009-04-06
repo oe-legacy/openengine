@@ -1,4 +1,5 @@
 ADD_LIBRARY(OpenEngine_Display
+  IEnvironment.h
   Display.cpp
   IFrame.h
   IViewingVolume.h
