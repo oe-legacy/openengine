@@ -26,8 +26,10 @@ public:
      * Base class for visitor strategy
      */
     template <class NODE>
-    class Strategy {
-    public: virtual void Visit(NODE* node) = 0;
+    class Strategy {        
+    public: 
+        virtual ~Strategy() {}
+        virtual void Visit(NODE* node) = 0;        
     };
 
     StrategyVisitor();
