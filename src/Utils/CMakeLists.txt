@@ -1,5 +1,7 @@
 ADD_LIBRARY(OpenEngine_Utils
   Utils.cpp
+  Limits.h
+  Limits.cpp
   Timer.h
   Timer.cpp
   Convert.h
@@ -10,3 +12,5 @@ ADD_LIBRARY(OpenEngine_Utils
   EventProfiler.h
   EventProfiler.cpp
 )
+
+SUBDIRS(tests)
