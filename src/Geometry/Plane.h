@@ -20,7 +20,8 @@ using OpenEngine::Math::Vector;
 /**
  * Plane.
  * A plane is defined by a point in the plane and a vector
- * perpendicular to the plane.
+ * perpendicular to the plane or by a normal vector and the distance
+ * from origin.
  *
  * The plane equation: Ax + By + Cz + D = 0
  *
@@ -33,12 +34,12 @@ friend class Tests;
 private:
     Vector<3,float> normal;     //!< normal of the plane [A,B,C]
     float distance;             //!< distance from origin 
-    Vector<3,float> point;
-    bool distCached;
+    Vector<3,float> point;      //!< a point in the plane
+
 public:
 
     Plane(Vector<3,float> normal, float distance);
-    Plane(Vector<3,float> normal, Vector<3,float> pointOnPlane);
+    Plane(Vector<3,float> normal, Vector<3,float> point);
     virtual ~Plane();
 
     Vector<3,float> GetNormal();
@@ -51,8 +52,8 @@ public:
     Vector<3,float> GetPointOnPlane();
      
     void Set(Vector<3,float> normal, float distance);
+    void Set(Vector<3,float> normal, Vector<3,float> point);
 
-    void Normalize();
 };
 
 } //NS Common

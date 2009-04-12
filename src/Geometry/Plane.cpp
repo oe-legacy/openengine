@@ -22,11 +22,10 @@ using Core::NotImplemented;
  * @param distance Distance from origin.
  */
 Plane::Plane(Vector<3,float> normal, float distance) 
-    : normal(normal)
-    , point(normal.GetNormalize()*distance)
-    , distCached(true) {}
-
-// }
+    : normal(normal.GetNormalize())
+    , distance(distance) {
+    point = this->normal * this->distance;
+}
 
 /**
  * Plane constructor.
@@ -34,12 +33,14 @@ Plane::Plane(Vector<3,float> normal, float distance)
  * @param normal Vector that is orthogonal (perpendicular) to the plane.
  * @param pointOnPlane a point on the plane.
  */
-Plane::Plane(Vector<3,float> normal, Vector<3,float> pointOnPlane) 
-    : normal(normal)
-    , point(pointOnPlane)
-    , distCached(false) {}
+Plane::Plane(Vector<3,float> normal, Vector<3,float> point)
+    : point(point) {
+    this->normal = normal.GetNormalize();
+    this->distance = fabs(this->normal * point);
+}
 
 Plane::~Plane() {
+
 }
 
 /**
@@ -49,9 +50,19 @@ Plane::~Plane() {
  * @param distance Distance from origin.
  */
 void Plane::Set(Vector<3,float> normal, float distance) {
-    this->normal = normal;
-    this->distance = distance;
-    this->distCached = true;
+    SetNormal(normal);
+    SetDistance(distance);
+}
+
+/**
+ * Set the plane values.
+ *
+ * @param normal Vector that is orthogonal (perpendicular) to the plane.
+ * @param distance A point on the plane.
+ */
+void Plane::Set(Vector<3,float> normal, Vector<3,float> point) {
+    this->normal = normal.GetNormalize();
+    this->distance = fabs(this->normal * point);
 }
 
 /**
@@ -60,7 +71,7 @@ void Plane::Set(Vector<3,float> normal, float distance) {
  * @param normal Vector that is orthogonal (perpendicular) to the plane.
  */
 void Plane::SetNormal(Vector<3,float> normal) {
-    this->normal = normal;
+    this->normal = normal.GetNormalize();
 }
 
 /**
@@ -78,8 +89,7 @@ Vector<3,float> Plane::GetNormal() {
  * some point on plane to distance.
  */
 float Plane::GetDistance() {
-    if (distCached) return distance;
-    throw NotImplemented("Plane conversion from point on plane to distance from origin");
+    return distance;
 }
 
 /**
@@ -91,8 +101,7 @@ float Plane::GetDistance() {
  */
 void Plane::SetDistance(float distance) {
     this->distance = distance;
-    this->distCached = true;
-    this->point = normal.GetNormalize()*distance;
+    point = normal * distance;
 }
 
 /**
@@ -104,7 +113,7 @@ void Plane::SetDistance(float distance) {
  */
 void Plane::SetPointOnPlane(Vector<3,float> point) {
     this->point = point;
-    this->distCached = false;
+    distance = fabs(normal * point);
 }
 
 /**
@@ -113,13 +122,6 @@ void Plane::SetPointOnPlane(Vector<3,float> point) {
 Vector<3,float> Plane::GetPointOnPlane() {
     return point;
 }
-
-/**
- * Normalize the normal vector.
- */
-void Plane::Normalize() {
-    normal.Normalize();
-} 
 
 } //NS Common
 } //NS OpenEngine
