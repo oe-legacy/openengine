@@ -114,7 +114,7 @@ Face::~Face() {
  *
  * @param point Point to test up againt face.
  * @param epsilon Thickness of face [optional]
- * @return Vector of point positions as described above
+ * @return Point position as described above
  */
 int Face::ComparePointPlane(const Vector<3,float>& point, const float epsilon) {
 	if (hardNorm.GetLength() == 0.0f) {
