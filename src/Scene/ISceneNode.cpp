@@ -39,8 +39,16 @@ ISceneNode* ISceneNode::GetParent() {
     return parent;
 }
 
-int ISceneNode::GetNumberOfNodes() {
+unsigned int ISceneNode::GetNumberOfNodes() {
     return subNodes.size();
+}
+
+ISceneNode* ISceneNode::GetNode(unsigned int index) {
+    if (index >= GetNumberOfNodes())
+        return NULL;
+    list<ISceneNode*>::iterator itr;
+    while (index--) itr++;
+    return *itr;
 }
 
 const string ISceneNode::ToString() const {

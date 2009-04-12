@@ -133,7 +133,17 @@ public:
      *
      * @return Number of sub nodes
      */
-    virtual int GetNumberOfNodes();
+    virtual unsigned int GetNumberOfNodes();
+
+    /**
+     * Get a sub node by index.
+     * Defaults to one and returns NULL if the index in question does
+     * not exist.
+     *
+     * @param index Sub node index [default 0]
+     * @return Node at index or NULL if out of bounds
+     */
+    virtual ISceneNode* GetNode(unsigned int index=0);
 
     /**
      * Get a string representation of the node.
