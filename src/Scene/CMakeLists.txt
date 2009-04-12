@@ -32,6 +32,8 @@ ADD_LIBRARY(OpenEngine_Scene
   SearchTool.cpp
   SpotLightNode.cpp
   SpotLightNode.h
+  StrategyVisitor.h
+  StrategyVisitor.cpp
   TransformationNode.cpp
   TransformationNode.h
   VertexArrayNode.cpp
