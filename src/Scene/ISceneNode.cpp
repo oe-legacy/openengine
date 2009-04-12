@@ -46,7 +46,7 @@ unsigned int ISceneNode::GetNumberOfNodes() {
 ISceneNode* ISceneNode::GetNode(unsigned int index) {
     if (index >= GetNumberOfNodes())
         return NULL;
-    list<ISceneNode*>::iterator itr;
+    list<ISceneNode*>::iterator itr = subNodes.begin();
     while (index--) itr++;
     return *itr;
 }
