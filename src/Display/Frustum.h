@@ -48,42 +48,27 @@ private:
     FNode* node;                //!< rendering node.
     Vector<3,float> center;     //!< center of frustum.
     Vector<3,float> frame[32];  //!< computed frame vectors.
-    Matrix<4,4,float> proj;     //!< computed projection matrix.
 
     bool visualizeClipping;          //!< maintain visualizing clipping info
     list< Vector<3,float> > clipped; //!< clipped objects
     list< Vector<3,float> > visible; //!< visible objects
 
     // state change update methods
-    void UpdateDimensions();
     void UpdatePlanes();
-
-    void UpdateProjection();
-    void UpdateFrame();
-
-    void CalculateNearPlane(float& right, float& left, float& top, float& bottom);
+    //void UpdateFrame();
     
-    float fov, aspect;
-    float distNear, distFar;
+    float farClip;
 
 public:
 
     // constructor / destructor
     Frustum(IViewingVolume& volume,
-            const float distNear   = 1,  const float distFar = 3000,
-            const float aspect = 4.0/3.0, const float fov = PI/4.0);
+            const float farClip = 30000);
     virtual ~Frustum();
 
     // get / set methods
-    virtual float GetFOV();
-    virtual float GetAspect();
-    virtual float GetNear();
-    virtual float GetFar();
-    virtual void SetFOV(const float fov);
-    virtual void SetAspect(const float aspect);
-    virtual void SetNear(const float distNear);
-    virtual void SetFar(const float distFar);
-    virtual Matrix<4,4,float> GetProjectionMatrix();
+    virtual float GetFarClippingPlane();
+    virtual void SetFarClippingPlane(const float farClip);
 
     // new frustum methods
     virtual RenderNode* GetFrustumNode();

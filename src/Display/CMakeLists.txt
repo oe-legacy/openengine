@@ -8,12 +8,14 @@ ADD_LIBRARY(OpenEngine_Display
   Viewport.cpp
   ViewingVolume.h
   ViewingVolume.cpp
+  PerspectiveViewingVolume.h
+  PerspectiveViewingVolume.cpp
+  OrthogonalViewingVolume.h
+  OrthogonalViewingVolume.cpp
   Camera.h
   Camera.cpp
   Frustum.h
   Frustum.cpp
-  Orthotope.h
-  Orthotope.cpp
   FollowCamera.h
   FollowCamera.cpp
   InterpolatedViewingVolume.h

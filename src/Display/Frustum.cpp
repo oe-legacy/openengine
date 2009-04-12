@@ -23,10 +23,10 @@ namespace Display {
  * @param fov Field of view [optional]
  */
 Frustum::Frustum(IViewingVolume& volume,
-                 const float distNear, const float distFar,
-                 const float aspect, const float fov)
-    : IViewingVolumeDecorator(volume),
-      visualizeClipping(false), fov(fov), aspect(aspect), distNear(distNear), distFar(distFar) 
+                 const float farClip)
+    : IViewingVolumeDecorator(volume)
+    , visualizeClipping(false)
+    , farClip(farClip) 
 {
     // initialize planes.
     for (unsigned int i=0; i<6; i++)
@@ -36,7 +36,6 @@ Frustum::Frustum(IViewingVolume& volume,
     volume.SignalRendering(0);
 
     // initialize the frustum
-    UpdateDimensions();
     UpdatePlanes();
 
     // create a render node
@@ -53,94 +52,26 @@ Frustum::~Frustum() {
         delete planes[i];
 }
 
-
-Matrix<4,4,float> Frustum::GetProjectionMatrix() {
-	float f = 1 / tan( fov / 2 );
-	float a = ( distFar + distNear ) / ( distNear - distFar );
-	float b = (2 * distFar * distNear ) / ( distNear - distFar );
-	Matrix<4,4,float> matrix(f/aspect,	0,	0,	0,
-				 0, 			f, 	0, 	0,
-				 0,			0, 	a,	b,
-				 0,			0,	-1,	0);
-	matrix.Transpose();
-	return matrix;
-}
-
-/**
- * Get the field of view.
- *
- * @return fov Field of view.
- */
-float Frustum::GetFOV() {
-    return fov;
-}
-
-/**
- * Get the aspect ratio.
- *
- * @return aspect Aspect ratio.
- */
-float Frustum::GetAspect() {
-    return aspect;
-}
-
-/**
- * Get the distance to the near clipping plane.
- *
- * @return distNear Near clipping plane.
- */
-float Frustum::GetNear() {
-    return distNear;
-}
-
 /**
  * Get the distance to the far clipping plane.
+ * This is the clipping plane of the frustum *not* of the
+ * underlying viewing volume.
  *
- * @return distFar Far clipping plane.
+ * @return Far clipping plane.
  */
-float Frustum::GetFar() {
-    return distFar;
-}
-
-
-/**
- * Set the field of view.
- *
- * @param fov Field of view.
- */
-void Frustum::SetFOV(const float fov) {
-    this->fov = fov;
-    UpdateDimensions();
-}
-
-/**
- * Set the aspect ratio.
- *
- * @param aspect Aspect ratio.
- */
-void Frustum::SetAspect(const float aspect) {
-    this->aspect = aspect;
-    UpdateDimensions();
-}
-
-/**
- * Set the distance to the near clipping plane.
- *
- * @param distNear Near clipping plane.
- */
-void Frustum::SetNear(const float distNear) {
-    this->distNear = distNear;
-    UpdateDimensions();
+float Frustum::GetFarClippingPlane() {
+    return farClip;
 }
 
 /**
  * Set the distance to the far clipping plane.
+ * This is the clipping plane of the frustum *not* of the
+ * underlying viewing volume.
  *
- * @param distFar Far clipping plane.
+ * @param Far clipping plane.
  */
-void Frustum::SetFar(float distFar) {
-    this->distFar = distFar;
-    UpdateDimensions();
+void Frustum::SetFarClippingPlane(const float farClip) {
+    this->farClip = farClip;
 }
 
 /**
@@ -163,7 +94,6 @@ RenderNode* Frustum::GetFrustumNode() {
 void Frustum::SignalRendering(const float dt) {
     // update the volume first as we depend on its structure.
     volume.SignalRendering(dt);
-    //    UpdateDimensions();
     UpdatePlanes();
     // clear the visible tests
     visible.clear();
@@ -200,7 +130,8 @@ bool Frustum::IsVisible(const Box& box) {
             v = false; break;
         }
     }
-    if (visualizeClipping && true) {
+
+    if (visualizeClipping) {
         list< Vector<3,float> >* lst = (v) ? &visible : &clipped;
         lst->push_back(box.GetCorner(1,1,1));
         lst->push_back(box.GetCorner(1,1,0));
@@ -231,142 +162,89 @@ bool Frustum::IsVisible(const Box& box) {
 }
 
 /**
- * Calculate the corners of the near clipping plane.
- *
- * @param[out] left Left corner.
- * @param[out] right Right corner.
- * @param[out] top Top corner.
- * @param[out] bottom Bottom corner.
- */
-void Frustum::CalculateNearPlane(float& left, float& right, float& top, float& bottom) {
-    float t, ty, tx;
-    t  = fov * 0.5f;         // half of the angle
-    ty = tan(t);                // unit distance on the y-axis
-    tx = ty * aspect;      // unit distance on the x-axis
-    // set the corners
-    right  = tx * distNear;
-    left   = -right;
-    top    = ty * distNear;
-    bottom = -top;
-}
-
-/**
- * Update the necessary parts of the frustum.
- * Recomputes the frustum based on change variables set by the frustum
- * set-methods.
- */
-void Frustum::UpdateDimensions() {
-    UpdateProjection();
-    UpdateFrame();
-}
-
-/**
  * Compute all the clipping planes of the frustum.
  */
 void Frustum::UpdatePlanes() {
     // get the product of the projection and view matrix.
-    Matrix<4,4,float> mat(proj * volume.GetDirection().GetInverse().GetMatrix().GetExpanded());
+    Matrix<4,4,float> mat(volume.GetProjectionMatrix() * volume.GetDirection().GetInverse().GetMatrix().GetExpanded());
     Vector<3,float> pos(mat(3,0), mat(3,1), mat(3,2));
     Matrix<3,3,float> clip(mat.GetReduced());
 
-    // calculate all the planes
-    planes[0]->Set(pos + clip[0],  mat(0,3));
-    planes[1]->Set(pos - clip[0], -mat(0,3));
-    planes[2]->Set(pos + clip[1],  mat(1,3));
-    planes[3]->Set(pos - clip[1], -mat(1,3));
-    planes[4]->Set(pos + clip[2],  mat(2,3));
-    planes[5]->Set(pos - clip[2], -mat(2,3));
+    // calculate all the planes (normals and distances)
+    Vector<3,float> pn[6];  float pd[6];
+    //pn[0] = pos + clip[0];  pd[0] =  mat(0,3);
+    pn[1] = pos - clip[0];  pd[1] = -mat(0,3);
+    pn[2] = pos + clip[1];  pd[2] =  mat(1,3);
+    pn[3] = pos - clip[1];  pd[3] = -mat(1,3);
+    pn[4] = pos + clip[2];  pd[4] =  mat(2,3);
+    pn[5] = pos - clip[2];  pd[5] = -mat(2,3);
+    for (unsigned int i=1; i<6; i++)
+        planes[i]->Set(pn[i], pd[i] / pn[i].GetLength() - pn[i] * volume.GetPosition());
 
-    // normalize all the planes
-    for (unsigned int i=0; i<6; i++) {
-        float l = planes[i]->GetNormal().GetLength();
-        planes[i]->SetDistance(planes[i]->GetDistance() / l);
-        planes[i]->Normalize();
-        // update the distance from the current position
-        planes[i]->SetDistance(planes[i]->GetDistance() - planes[i]->GetNormal() * volume.GetPosition());
-    }
+    // overwrite the far plane with the frustum's far clipping plane (index 0)
+    planes[0]->Set(volume.GetDirection().RotateVector(Vector<3,float>(0,0,1)),
+                   volume.GetPosition());
+    planes[0]->SetDistance(planes[0]->GetDistance() + farClip);
+
 }
 
-/**
- * Compute the frustum projection matrix.
- */
-void Frustum::UpdateProjection() {
-    float left, right, top, bottom;
-    CalculateNearPlane(left, right, top, bottom);
-
-    float inv_w, inv_h, inv_d;
-    inv_w = 1 / (right - left);
-    inv_h = 1 / (top - bottom);
-    inv_d = 1 / (distFar - distNear);
-
-    // calculate matrix elements
-    proj(0,0) = 2 * distNear * inv_w;
-    proj(0,2) = (right + left) * inv_w;
-    proj(1,1) = 2 * distNear * inv_h;
-    proj(1,2) = (top + bottom) * inv_h;
-    proj(2,2) = - (distFar + distNear) * inv_d;
-    proj(2,3) = -2 * (distFar * distNear) * inv_d;
-    proj(3,2) = -1;
-    proj(3,3) = 0;
-}
-
-/**
- * Compute the frustum frame.
- */
-void Frustum::UpdateFrame() {
-    float left, right, top, bottom;
-    CalculateNearPlane(left, right, top, bottom);
+// /**
+//  * Compute the frustum frame.
+//  */
+// void Frustum::UpdateFrame() {
+//     float left, right, top, bottom;
+//     CalculateNearPlane(left, right, top, bottom);
     
-    // far plane corners
-    float r, fleft, fright, ftop, fbottom, n, f;
-    r = distFar / distNear;
-    fleft   = r * left;
-    fright  = r * right;
-    ftop    = r * top;
-    fbottom = r * bottom;
-    n = -distNear;
-    f = -distFar;
+//     // far plane corners
+//     float r, fleft, fright, ftop, fbottom, n, f;
+//     r = distFar / distNear;
+//     fleft   = r * left;
+//     fright  = r * right;
+//     ftop    = r * top;
+//     fbottom = r * bottom;
+//     n = -distNear;
+//     f = -distFar;
 
-    // near plane
-    frame[0] = Vector<3,float>(left,  top,    n);
-    frame[1] = Vector<3,float>(right, top,    n);
-    frame[2] = Vector<3,float>(right, top,    n);
-    frame[3] = Vector<3,float>(right, bottom, n);
-    frame[4] = Vector<3,float>(right, bottom, n);
-    frame[5] = Vector<3,float>(left,  bottom, n);
-    frame[6] = Vector<3,float>(left,  bottom, n);
-    frame[7] = Vector<3,float>(left,  top,    n);
+//     // near plane
+//     frame[0] = Vector<3,float>(left,  top,    n);
+//     frame[1] = Vector<3,float>(right, top,    n);
+//     frame[2] = Vector<3,float>(right, top,    n);
+//     frame[3] = Vector<3,float>(right, bottom, n);
+//     frame[4] = Vector<3,float>(right, bottom, n);
+//     frame[5] = Vector<3,float>(left,  bottom, n);
+//     frame[6] = Vector<3,float>(left,  bottom, n);
+//     frame[7] = Vector<3,float>(left,  top,    n);
     
-    // far plane
-    frame[8]  = Vector<3,float>(fleft,  ftop,    f);
-    frame[9]  = Vector<3,float>(fright, ftop,    f);
-    frame[10] = Vector<3,float>(fright, ftop,    f);
-    frame[11] = Vector<3,float>(fright, fbottom, f);
-    frame[12] = Vector<3,float>(fright, fbottom, f);
-    frame[13] = Vector<3,float>(fleft,  fbottom, f);
-    frame[14] = Vector<3,float>(fleft,  fbottom, f);
-    frame[15] = Vector<3,float>(fleft,  ftop,    f);
+//     // far plane
+//     frame[8]  = Vector<3,float>(fleft,  ftop,    f);
+//     frame[9]  = Vector<3,float>(fright, ftop,    f);
+//     frame[10] = Vector<3,float>(fright, ftop,    f);
+//     frame[11] = Vector<3,float>(fright, fbottom, f);
+//     frame[12] = Vector<3,float>(fright, fbottom, f);
+//     frame[13] = Vector<3,float>(fleft,  fbottom, f);
+//     frame[14] = Vector<3,float>(fleft,  fbottom, f);
+//     frame[15] = Vector<3,float>(fleft,  ftop,    f);
 
-    // pyramid
-    frame[16] = Vector<3,float>(0,     0,      0);
-    frame[17] = Vector<3,float>(left,  top,    n);
-    frame[18] = Vector<3,float>(0,     0,      0);
-    frame[19] = Vector<3,float>(right, top,    n);
-    frame[20] = Vector<3,float>(0,     0,      0);
-    frame[21] = Vector<3,float>(left,  bottom, n);
-    frame[22] = Vector<3,float>(0,     0,      0);
-    frame[23] = Vector<3,float>(right, bottom, n);
+//     // pyramid
+//     frame[16] = Vector<3,float>(0,     0,      0);
+//     frame[17] = Vector<3,float>(left,  top,    n);
+//     frame[18] = Vector<3,float>(0,     0,      0);
+//     frame[19] = Vector<3,float>(right, top,    n);
+//     frame[20] = Vector<3,float>(0,     0,      0);
+//     frame[21] = Vector<3,float>(left,  bottom, n);
+//     frame[22] = Vector<3,float>(0,     0,      0);
+//     frame[23] = Vector<3,float>(right, bottom, n);
 
-    // box
-    frame[24] = Vector<3,float>(left,   top,     n);
-    frame[25] = Vector<3,float>(fleft,  ftop,    f);
-    frame[26] = Vector<3,float>(right,  top,     n);
-    frame[27] = Vector<3,float>(fright, ftop,    f);
-    frame[28] = Vector<3,float>(left,   bottom,  n);
-    frame[29] = Vector<3,float>(fleft,  fbottom, f);
-    frame[30] = Vector<3,float>(right,  bottom,  n);
-    frame[31] = Vector<3,float>(fright, fbottom, f);
-}
+//     // box
+//     frame[24] = Vector<3,float>(left,   top,     n);
+//     frame[25] = Vector<3,float>(fleft,  ftop,    f);
+//     frame[26] = Vector<3,float>(right,  top,     n);
+//     frame[27] = Vector<3,float>(fright, ftop,    f);
+//     frame[28] = Vector<3,float>(left,   bottom,  n);
+//     frame[29] = Vector<3,float>(fleft,  fbottom, f);
+//     frame[30] = Vector<3,float>(right,  bottom,  n);
+//     frame[31] = Vector<3,float>(fright, fbottom, f);
+// }
 
 /**
  * Frustum rendering node constructor.

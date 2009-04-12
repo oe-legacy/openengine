@@ -17,9 +17,11 @@ namespace Display {
  * Default position is origin (0,0,0) and direction is the
  * identity which should amount to looking along the negative
  * z-axis with the y-axis as up.
+ *
+ * Use PerspectiveViewingVolume or OrthogonalViewingVolume if you wish
+ * to customize the view settings.
  */
 ViewingVolume::ViewingVolume() {
-	// Setup standard values (use Frustum or Orthotope to customize) 
 	float fov = PI/4;
 	float aspect = 4.0/3.0;
 	float distNear = 1;
