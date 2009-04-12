@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE).
 //--------------------------------------------------------------------
 
-#ifndef _MATRIX_H_
-#define _MATRIX_H_
+#ifndef _OE_MATRIX_H_
+#define _OE_MATRIX_H_
 
 #include <string>
 #include <sstream>
@@ -362,4 +362,4 @@ std::ostream& operator<<(std::ostream& os, const Matrix<M,N,T> e) {
 }  // NS OpenEngine
 }  // NS Math
 
-#endif // _MATRIX_H_
+#endif // _OE_MATRIX_H_

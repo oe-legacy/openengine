@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE).
 // --------------------------------------------------------------------
 
-#ifndef _VECTOR_H_
-#define _VECTOR_H_
+#ifndef _OE_VECTOR_H_
+#define _OE_VECTOR_H_
 
 #include <Math/Exceptions.h>
 
@@ -521,4 +521,4 @@ std::ostream& operator<<(std::ostream& os, const Vector<N,T> e) {
 }  // NS OpenEngine
 }  // NS Math
 
-#endif // _VECTOR_H_
+#endif // _OE_VECTOR_H_

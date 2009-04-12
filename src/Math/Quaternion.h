@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE).
 //--------------------------------------------------------------------
 
-#ifndef _QUATERNION_H_
-#define _QUATERNION_H_
+#ifndef _OE_QUATERNION_H_
+#define _OE_QUATERNION_H_
 
 #include <string>
 #include <sstream>
@@ -431,4 +431,4 @@ std::ostream& operator<<(std::ostream& os, const Quaternion<T> e) {
 }  // NS OpenEngine
 }  // NS Math
 
-#endif // _QUATERNION_H_
+#endif // _OE_QUATERNION_H_
