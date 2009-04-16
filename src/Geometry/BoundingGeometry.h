@@ -28,7 +28,7 @@ using OpenEngine::Math::Vector;
  *
  * @class BoundingGeometry BoundingGeometry.h Geometry/BoundingGeometry.h
  */
-class BoundingGeometry : public Geometry {
+class BoundingGeometry {
 public:
 
     /**
