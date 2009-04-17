@@ -51,6 +51,19 @@ ISceneNode* ISceneNode::GetNode(unsigned int index) {
     return *itr;
 }
 
+int ISceneNode::IndexOfNode(ISceneNode* node) {
+    int index = 0;
+    for (list<ISceneNode*>::iterator itr = subNodes.begin();
+         itr != subNodes.end();
+         itr++) {
+        
+        if (*itr == node)
+            return index;
+        index++;            
+    }
+    return -1;
+}
+
 const string ISceneNode::ToString() const {
     return this->GetClassName();
 }

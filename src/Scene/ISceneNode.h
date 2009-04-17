@@ -146,6 +146,14 @@ public:
     virtual ISceneNode* GetNode(unsigned int index=0);
 
     /**
+     * Get index of a node
+     * @paren node Sub node
+     * @return index of node or -1 if it doesn't exist
+     */
+
+    virtual int IndexOfNode(ISceneNode* node);
+
+    /**
      * Get a string representation of the node.
      * There is no restriction on the representation. It should
      * however contain the node name.
