@@ -55,6 +55,7 @@ public:
 
     void EnableOption(RenderStateOption options);
     void DisableOption(RenderStateOption options);
+    void InheritOption(RenderStateOption options);
     void ToggleOption(RenderStateOption options);
     void Enable(RenderStateOption option);
     void Disable(RenderStateOption option);

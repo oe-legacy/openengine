@@ -112,6 +112,12 @@ void RenderStateNode::DisableOption(RenderStateOption options) {
     disabled = (RenderStateOption)optDis;
 }
 
+void RenderStateNode::InheritOption(RenderStateOption options) {
+    // remove from enabled and disabled
+    enabled  = (RenderStateOption) (enabled  & ~((unsigned int)options));
+    disabled = (RenderStateOption) (disabled & ~((unsigned int)options));
+}
+
 /**
  * Toggle specified option.
  *
