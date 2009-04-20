@@ -15,6 +15,7 @@
 #include <ostream>
 #include <boost/static_assert.hpp>
 
+#include <Math/Math.h>
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 
@@ -386,6 +387,49 @@ public:
                  2*x*y+2*w*z,     w*w-x*x+y*y-z*z, 2*y*z-2*w*x,
                  2*x*z-2*w*y,     2*y*z+2*w*x,     w*w-x*x-y*y+z*z);
     }
+
+    /**
+     * Get Euler angles from the quaternion.
+     * 
+     * Implementation taken from:
+     * http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
+     * @return Vector with the x, y and z-angles components.
+     */
+    Vector<3,float> GetEulerAngles() const {
+        Vector<3,float> v;
+        float x = image.Get(0);
+        float y = image.Get(1);
+        float z = image.Get(2);
+        float w = real;
+        float t = x*y + z*w;
+        if (t > 0.5 - EPS) {
+            v[0] = 0;
+            v[1] = 2 * atan2(x,w);
+            v[2] = PI/2;
+            return v;
+        }
+        if (t < -0.5 + EPS) {
+            v[0] = 0;
+            v[1] = -2 * atan2(x,w);
+            v[2] = PI/2;
+            return v;
+        }
+        float xx = x*x;
+        float yy = y*y;
+        float zz = z*z;
+        if (normalized) {
+            v[0] = atan2(2*x*w - 2*y*z, 1 - 2*xx - 2*zz);
+            v[1] = atan2(2*y*w - 2*x*z, 1 - 2*yy - 2*zz);
+            v[2] = asin(2*t);
+            return v;
+        }
+        float ww = w*w;
+        v[0] = atan2(2*x*w - 2*y*z, -xx + yy - zz + ww);
+        v[1] = atan2(2*y*w - 2*x*z,  zz - yy - zz + ww);
+        v[2] = asin(2*t / (xx + yy + zz + ww));
+        return v;
+    }
+
     /**
      * Rotate a vector according to the quaternion.
      *
