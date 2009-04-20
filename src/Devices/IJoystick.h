@@ -42,6 +42,7 @@ public:
 	JoystickState state;
 	int axis;
 	int value;
+ JoystickAxisEventArg() : axis(0), value(0) {}
 };
 
 /**
