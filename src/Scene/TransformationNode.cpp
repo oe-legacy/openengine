@@ -13,7 +13,9 @@ namespace OpenEngine {
 namespace Scene {
 
     //! Empty constructor.
-    TransformationNode::TransformationNode() {}
+    TransformationNode::TransformationNode() : scale(Vector<3,float>(1.0f)) {
+
+    }
 
     /**
      * Copy constructor.
@@ -74,11 +76,9 @@ namespace Scene {
      * @param z scale along local z-axis
      */
     void TransformationNode::Scale(float x, float y, float z) {
-        Matrix<4,4,float> s(x,    0.0f, 0.0f, 0.0f,
-                            0.0f, y,    0.0f, 0.0f,
-                            0.0f, 0.0f, z,    0.0f,
-                            0.0f, 0.0f, 0.0f, 1.0f);
-        scale = scale * s;
+        scale[0] *= x;
+        scale[1] *= y;
+        scale[2] *= z;
     }
 
 
@@ -95,7 +95,7 @@ namespace Scene {
         m(3,0) = position[0];
         m(3,1) = position[1];
         m(3,2) = position[2];
-        return scale * m;
+        return GetScaleMatrix() * m;
     }
 
     /**
@@ -126,12 +126,24 @@ namespace Scene {
     }
 
     /**
+     * Get the scaling vector.
+     *
+     * @return Scaling vector.
+     */
+    Vector<3,float> TransformationNode::GetScale() {
+        return scale;
+    }
+
+    /**
      * Get the scaling matrix.
      *
-     * @return Matrix<4,4,float> determining the scaling.
+     * @return Scaling matrix.
      */
-    Matrix<4,4,float> TransformationNode::GetScale() {
-        return scale;
+    Matrix<4,4,float> TransformationNode::GetScaleMatrix() {
+        return Matrix<4,4,float>(scale[0], 0.0f, 0.0f, 0.0f,
+                                 0.0f, scale[1], 0.0f, 0.0f,
+                                 0.0f, 0.0f, scale[2], 0.0f,
+                                 0.0f, 0.0f, 0.0f, 1.0f);
     }
 
     /**
@@ -144,12 +156,23 @@ namespace Scene {
     }
 
     /**
+     * Set the scaling vector.
+     *
+     * @param scale new scaling.
+     */
+    void TransformationNode::SetScale(Vector<3,float> scale) {
+        this->scale = scale;
+    }
+
+    /**
      * Set the scaling matrix.
      *
      * @param scale new scaling.
      */
     void TransformationNode::SetScale(Matrix<4,4,float> scale) {
-        this->scale = scale;
+        this->scale[0] = scale(0,0);
+        this->scale[1] = scale(1,1);
+        this->scale[2] = scale(2,2);
     }
 
     /**

@@ -54,11 +54,13 @@ public:
 
     void SetPosition(Vector<3,float> position);
     void SetRotation(Quaternion<float> rotation);
+    void SetScale(Vector<3,float> scale);
     void SetScale(Matrix<4,4,float> scale);
 
     Vector<3,float>   GetPosition();
     Quaternion<float> GetRotation();
-    Matrix<4,4,float> GetScale();
+    Vector<3,float>   GetScale();
+    Matrix<4,4,float> GetScaleMatrix();
     Matrix<4,4,float> GetTransformationMatrix();
     void GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation);
 
@@ -78,7 +80,7 @@ private:
 
     //! current scaling factor
     //! @todo - represent the scale as x,y,z. Using a 4x4 matrix is plain wast.
-    Matrix<4,4,float> scale;
+    Vector<3,float> scale;
 	
     friend class boost::serialization::access;
     template<class Archive>
