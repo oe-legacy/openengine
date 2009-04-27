@@ -49,7 +49,7 @@ public:
     }
 
     void Select(T* obj) {
-        if (selection.insert(obj).second())
+        if (selection.insert(obj).second)
             FireChangedEvent();
     }
 
