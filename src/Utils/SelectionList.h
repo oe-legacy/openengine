@@ -37,44 +37,41 @@ public:
 private:
     set<T*> selection;
     Event<ChangedEventArg> changed;
+    inline void FireChangedEvent() {
+        ChangedEventArg arg;
+        arg.selection = selection;
+        changed.Notify(arg);        
+    }
+
 public:
     IEvent<ChangedEventArg>& ChangedEvent() {
         return changed;
     }
 
     void Select(T* obj) {
-        if (selection.insert(obj).second()) {
-            ChangedEventArg arg;
-            arg.selection = selection;
-            changed.Notify(arg);
-        }
+        if (selection.insert(obj).second())
+            FireChangedEvent();
     }
 
     void Select (set<T*> objs) {
         selection.insert(objs.begin(), objs.end());
-        ChangedEventArg arg;
-        arg.selection = selection;
-        changed.Notify(arg);
+        FireChangedEvent();
     }
 
     void DeSelect(T* obj) {
-        if (selection.erase(obj) == 1) {
-            ChangedEventArg arg;
-            arg.selection = selection;
-            changed.Notify(arg);        
-        }
+        if (selection.erase(obj) == 1) 
+            FireChangedEvent();
     }
 
     void DeSelect (set<T*> objs) {
         selection.erase(objs.begin(), objs.end());
-        ChangedEventArg arg;
-        arg.selection = selection;
-        changed.Notify(arg);
+        FireChangedEvent();
     }
 
     void Clear() {
         selection.clear();
-    }
+        FireChangedEvent();
+   }
 
 };
 
