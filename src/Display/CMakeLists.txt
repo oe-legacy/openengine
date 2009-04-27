@@ -27,4 +27,5 @@ ADD_LIBRARY(OpenEngine_Display
 TARGET_LINK_LIBRARIES(OpenEngine_Display
   OpenEngine_Core
   OpenEngine_Math
+  OpenEngine_Geometry
 )
