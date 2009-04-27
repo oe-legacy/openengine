@@ -65,6 +65,9 @@ string DirectoryManager::FindFileInPath(string file) {
 	// file not found in cache, looking it up!
 	list<string> possibles;
 	
+    // check for a global path as well
+    possibles.push_back(file);
+
 	for (list<string>::iterator itr = paths.begin(); itr != paths.end(); itr++) {
 		string p = (*itr) + file;
 		if (fs::exists(p)) {
