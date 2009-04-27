@@ -26,6 +26,13 @@ Sphere::Sphere() : diameter(0) {
 }
 
 /**
+ * Create a sphere with center in [0,0,0] and diameter d;
+ */
+Sphere::Sphere(float d) : diameter(d) {
+
+}
+
+/**
  * Create a positioned sphere with a volume.
  *
  * @param center Center of sphere.

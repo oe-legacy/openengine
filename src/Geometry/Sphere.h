@@ -34,6 +34,8 @@ private:
 public:
     explicit Sphere();
 
+    Sphere(float diameter);
+
     Sphere(Vector<3,float> center, float diameter);
 
     Sphere(FaceSet& faces);
