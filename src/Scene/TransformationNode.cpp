@@ -29,7 +29,7 @@ namespace Scene {
     {
         rotation = node.rotation;
         position = node.position;
-        scale = scale;
+        scale = node.scale;
     }
 
     //! Empty destructor.
@@ -199,8 +199,13 @@ namespace Scene {
 
         // write the result added to this nodes values to the parameters
         accPosition = accRotation.RotateVector(node->position) + accPosition;
+
+        Vector<3,float> rotated = accRotation.RotateVector(node->scale);
+        accScale[0] *= rotated[0];
+        accScale[1] *= rotated[1];
+        accScale[2] *= rotated[2];
+
         accRotation = accRotation * node->rotation;
-        accScale    = accRotation.RotateVector(node->scale) + accScale;
     }
 
     /**
@@ -214,7 +219,7 @@ namespace Scene {
         // reset the accumulators
         accPosition = Vector<3,float>();
         accRotation = Quaternion<float>();
-        accScale    = Vector<3,float>();
+        accScale    = Vector<3,float>(1.0f);
         
         // get the accumulators from the parenting chain
         VisitTransformationNode(this);
@@ -224,7 +229,6 @@ namespace Scene {
         *rotation = accRotation;
         if (scale) *scale = accScale;
     }
-
 
 } // NS Modules
 } // NS OpenEngine
