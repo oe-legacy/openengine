@@ -11,6 +11,7 @@ ADD_LIBRARY(OpenEngine_Utils
   Serialization.h
   EventProfiler.h
   EventProfiler.cpp
+  SelectionList.h
 )
 
 SUBDIRS(tests)
