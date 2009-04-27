@@ -66,7 +66,8 @@ string DirectoryManager::FindFileInPath(string file) {
 	list<string> possibles;
 	
     // check for a global path as well
-    possibles.push_back(file);
+    if (fs::exists(file))
+        possibles.push_back(file);
 
 	for (list<string>::iterator itr = paths.begin(); itr != paths.end(); itr++) {
 		string p = (*itr) + file;
