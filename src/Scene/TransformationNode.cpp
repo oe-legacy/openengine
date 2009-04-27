@@ -200,6 +200,7 @@ namespace Scene {
         // write the result added to this nodes values to the parameters
         accPosition = accRotation.RotateVector(node->position) + accPosition;
         accRotation = accRotation * node->rotation;
+        accScale    = accRotation.RotateVector(node->scale) + accScale;
     }
 
     /**
@@ -209,17 +210,19 @@ namespace Scene {
      *
      * @return Accumulated position vector.
      */
-    void TransformationNode::GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation) {
+    void TransformationNode::GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation, Vector<3,float>* scale) {
         // reset the accumulators
         accPosition = Vector<3,float>();
         accRotation = Quaternion<float>();
-
+        accScale    = Vector<3,float>();
+        
         // get the accumulators from the parenting chain
         VisitTransformationNode(this);
-
+        
         // write in results
         *position = accPosition;
         *rotation = accRotation;
+        if (scale) *scale = accScale;
     }
 
 

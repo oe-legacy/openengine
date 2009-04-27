@@ -62,7 +62,7 @@ public:
     Vector<3,float>   GetScale();
     Matrix<4,4,float> GetScaleMatrix();
     Matrix<4,4,float> GetTransformationMatrix();
-    void GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation);
+    void GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation, Vector<3,float>* scale = NULL);
 
 private:
 
@@ -77,6 +77,9 @@ private:
 
     //! accumulated position from collection traversal
     Vector<3,float> accPosition;
+
+    //! accumulated scale from collection traversal
+    Vector<3,float> accScale;
 
     //! current scaling factor
     //! @todo - represent the scale as x,y,z. Using a 4x4 matrix is plain wast.
