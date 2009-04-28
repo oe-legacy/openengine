@@ -45,7 +45,7 @@ Box::Box(ISceneNode& node) {
     FaceSet* faces = fc.GetFaceSet();
     
     SetFromFaces(*faces);
-    //delete faces;
+    delete faces;
 
 }
    
