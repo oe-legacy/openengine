@@ -90,6 +90,10 @@ public:
         FireChangedEvent();
     }
 
+    int Size() {
+        return selection.size();
+    }
+
     set<T*> GetSelection() {
         return selection;
     }
