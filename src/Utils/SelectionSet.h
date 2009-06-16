@@ -13,6 +13,7 @@
 #include <Core/IEvent.h>
 #include <Core/Event.h>
 #include <set>
+#include <list>
 
 namespace OpenEngine {
 namespace Utils {
@@ -20,6 +21,7 @@ namespace Utils {
 using Core::IEvent;
 using Core::Event;
 using std::set;
+using std::list;
 
 
 /**
@@ -59,6 +61,11 @@ public:
         FireChangedEvent();
     }
 
+    void AddToSelection (list<T*> objs) {
+        selection.insert(objs.begin(), objs.end());
+        FireChangedEvent();
+    }
+
     void Select(T* obj) {
         selection.clear();
         selection.insert(obj);
@@ -66,6 +73,12 @@ public:
     }
 
     void Select (set<T*> objs) {
+        selection.clear();
+        selection.insert(objs.begin(), objs.end());
+        FireChangedEvent();
+    }
+
+    void Select (list<T*> objs) {
         selection.clear();
         selection.insert(objs.begin(), objs.end());
         FireChangedEvent();
