@@ -13,6 +13,7 @@
 #include <Core/Exceptions.h>
 #include <Utils/Convert.h>
 
+#include <cstring>
 #include <stdio.h>
 #include <limits.h>
 
@@ -109,7 +110,14 @@ bool Time::operator>=(const Time t) const {
  */
 std::string Time::ToString() const {
     std::ostringstream out;
-    out << "<" << sec << " sec, " << usec << " microsec>";
+    std::ostringstream micro;
+    micro << usec;
+    std::string str_micro = micro.str();
+    unsigned int zeros = 6 - strlen(str_micro.c_str());
+    out << "<" << sec << " sec, ";
+    while(zeros--)
+        out << "0";
+    out << str_micro << " microsec>";
     return out.str();
 }
     
