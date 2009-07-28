@@ -330,6 +330,14 @@ public:
         return sqrt((float) ((*this) * (*this)));
     }
     /**
+     * Length/modulo squared of vector.
+     *
+     * @return Vector length squared
+     */
+    float GetLengthSquared() const {
+        return (float) ((*this) * (*this));
+    }
+    /**
      * Normalized vector.
      *
      * @return Normalized vector

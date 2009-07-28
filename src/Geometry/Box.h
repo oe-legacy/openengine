@@ -78,6 +78,7 @@ public:
 
     explicit Box(FaceSet& faces);
     explicit Box (ISceneNode& node);
+    explicit Box(Vector<3, float> center, Vector<3, float> relCorner);
     
     Vector<3,float> GetCenter() const;
     Vector<3,float> GetCorner() const;

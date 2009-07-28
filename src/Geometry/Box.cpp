@@ -48,6 +48,25 @@ Box::Box(ISceneNode& node) {
     delete faces;
 
 }
+
+/**
+ * Create a bounding box specified by it's center and the relative
+ * corner.
+ */
+Box::Box(Vector<3, float> center, Vector<3, float> relCorner) : center(center), corner(relCorner){
+    // compute the corners
+    float x = corner[0];
+    float y = corner[1];
+    float z = corner[2];
+    SetCorner(1,1,1, center+Vector<3,float>( x, y, z));
+    SetCorner(1,1,0, center+Vector<3,float>( x, y,-z));
+    SetCorner(1,0,1, center+Vector<3,float>( x,-y, z));
+    SetCorner(1,0,0, center+Vector<3,float>( x,-y,-z));
+    SetCorner(0,1,1, center+Vector<3,float>(-x, y, z));
+    SetCorner(0,1,0, center+Vector<3,float>(-x, y,-z));
+    SetCorner(0,0,1, center+Vector<3,float>(-x,-y, z));
+    SetCorner(0,0,0, center+Vector<3,float>(-x,-y,-z));
+}
    
 void Box::SetFromFaces(FaceSet& faces) {
     if (faces.Size() == 0) return;
