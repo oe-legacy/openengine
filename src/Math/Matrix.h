@@ -179,15 +179,27 @@ public:
     /**
      * Matrix-Vector multiplication. 3*3 matrices only.
      */
-    const Vector<N,T> operator*(const Vector<N,T> v) {
+    const Vector<3,T> operator*(const Vector<3,T> v) {
         BOOST_STATIC_ASSERT(M==3 && N==M);
-        Vector<N,T> r;
+        Vector<3,T> r;
         r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1) + elm[0][2] * v.Get(2);
         r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1) + elm[1][2] * v.Get(2);
         r[2] = elm[2][0] * v.Get(0) + elm[2][1] * v.Get(1) + elm[2][2] * v.Get(2);
         return r;
     }
 
+    /**
+     * Matrix-Vector multiplication of 4*4 matrices.
+     */
+    const Vector<4,T> operator*(const Vector<4,T> v) {
+        BOOST_STATIC_ASSERT(M==4 && N==M);
+        Vector<4,T> r;
+        r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1) + elm[0][2] * v.Get(2) + elm[0][3] * v.Get(3);
+        r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1) + elm[1][2] * v.Get(2) + elm[1][3] * v.Get(3);
+        r[2] = elm[2][0] * v.Get(0) + elm[2][1] * v.Get(1) + elm[2][2] * v.Get(2) + elm[2][3] * v.Get(3);
+        r[3] = elm[3][0] * v.Get(0) + elm[3][1] * v.Get(1) + elm[3][2] * v.Get(2) + elm[3][3] * v.Get(3);
+        return r;
+    }
 
     /**
      * Get matrix row vector.
