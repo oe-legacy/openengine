@@ -70,7 +70,7 @@ void Plane::Set(Vector<3,float> normal, Vector<3,float> point) {
 /**
  * Get the normal value.
  */
-Vector<3,float> Plane::GetNormal() {
+Vector<3,float> Plane::GetNormal() const {
     return normal;
 }
 
@@ -81,14 +81,14 @@ Vector<3,float> Plane::GetNormal() {
  * or a call to SetDistance has been made. Implement conversion from 
  * some point on plane to distance.
  */
-float Plane::GetDistance() {
+float Plane::GetDistance() const {
     return distance;
 }
 
 /**
  * Get some point that lies on the plane.
  */
-Vector<3,float> Plane::GetPointOnPlane() {
+Vector<3,float> Plane::GetPointOnPlane() const {
     return point;
 }
 

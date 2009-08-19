@@ -45,9 +45,9 @@ public:
     void Set(Vector<3,float> normal, float distance);
     void Set(Vector<3,float> normal, Vector<3,float> point);
 
-    Vector<3,float> GetNormal();
-    float GetDistance();
-    Vector<3,float> GetPointOnPlane();
+    Vector<3,float> GetNormal() const;
+    float GetDistance() const;
+    Vector<3,float> GetPointOnPlane() const;
 };
 
 } //NS Common
