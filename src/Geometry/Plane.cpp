@@ -22,23 +22,23 @@ using Core::NotImplemented;
  * @param distance Distance from origin.
  */
 Plane::Plane(Vector<3,float> normal, float distance) 
-    : normal(normal.GetNormalize())
+    : normal(normal)
     , distance(distance) {
-    point = this->normal * this->distance;
+    this->point = Vector<3, float>(distance / normal[0], 0, 0);
 }
 
 /**
  * Plane constructor.
  *
  * @param normal Vector that is orthogonal (perpendicular) to the plane.
- * @param pointOnPlane a point on the plane.
+ * @param point a point on the plane.
  */
 Plane::Plane(Vector<3,float> normal, Vector<3,float> point)
-    : point(point) {
-    this->normal = normal.GetNormalize();
-    this->distance = fabs(this->normal * point);
+    : normal(normal), 
+      point(point) {
+    distance = normal * point;
 }
-
+    
 Plane::~Plane() {
 
 }
@@ -50,28 +50,21 @@ Plane::~Plane() {
  * @param distance Distance from origin.
  */
 void Plane::Set(Vector<3,float> normal, float distance) {
-    SetNormal(normal);
-    SetDistance(distance);
+    this->normal = normal;
+    this->distance = distance;
+    point = Vector<3, float>(distance / normal[0], 0, 0);
 }
 
 /**
  * Set the plane values.
  *
  * @param normal Vector that is orthogonal (perpendicular) to the plane.
- * @param distance A point on the plane.
+ * @param point A point on the plane.
  */
 void Plane::Set(Vector<3,float> normal, Vector<3,float> point) {
-    this->normal = normal.GetNormalize();
-    this->distance = fabs(this->normal * point);
-}
-
-/**
- * Set the normal value.
- *
- * @param normal Vector that is orthogonal (perpendicular) to the plane.
- */
-void Plane::SetNormal(Vector<3,float> normal) {
-    this->normal = normal.GetNormalize();
+    this->normal = normal;
+    this->point = point;
+    distance = normal * point;
 }
 
 /**
@@ -90,30 +83,6 @@ Vector<3,float> Plane::GetNormal() {
  */
 float Plane::GetDistance() {
     return distance;
-}
-
-/**
- * Set the distance to the origin.
- *
- * This overrides any call to SetPointOnPlane.
- *
- * @param distance The distance to the origin 
- */
-void Plane::SetDistance(float distance) {
-    this->distance = distance;
-    point = normal * distance;
-}
-
-/**
- * Set a point on the plane.
- *
- * This overrides any call to SetDistance.
- *
- * @param distance The distance to the origin 
- */
-void Plane::SetPointOnPlane(Vector<3,float> point) {
-    this->point = point;
-    distance = fabs(normal * point);
 }
 
 /**
