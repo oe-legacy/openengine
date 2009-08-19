@@ -10,7 +10,6 @@
 #include <Geometry/Sphere.h>
 #include <Geometry/Face.h>
 #include <Geometry/Line.h>
-#include <Geometry/Plane.h>
 #include <Logging/Logger.h>
 
 namespace OpenEngine {

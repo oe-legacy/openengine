@@ -11,7 +11,6 @@
 #include <Geometry/Face.h>
 #include <Geometry/FaceSet.h>
 #include <Geometry/Line.h>
-#include <Geometry/Plane.h>
 #include <Logging/Logger.h>
 
 namespace OpenEngine {

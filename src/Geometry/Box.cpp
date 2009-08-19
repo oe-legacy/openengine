@@ -10,7 +10,6 @@
 #include <Geometry/Box.h>
 #include <Geometry/Face.h>
 #include <Geometry/Line.h>
-#include <Geometry/Plane.h>
 #include <Core/Exceptions.h>
 
 namespace OpenEngine {
