@@ -17,11 +17,11 @@ using std::list;
 using std::string;
 
 #define SCENE_NODE(type)                                                \
-    type* SearchTool::Child##type(ISceneNode* r) {                      \
+    type* SearchTool::Child##type(ISceneNode* r, bool incl) {           \
         if (r == NULL) return NULL;                                     \
         return Child##type(list<ISceneNode*>(1, r));                    \
     }                                                                   \
-    type* SearchTool::Child##type(list<ISceneNode*> rs) {               \
+    type* SearchTool::Child##type(list<ISceneNode*> rs, bool incl) {    \
         class Finder : public ISceneNodeVisitor {                       \
         public:                                                         \
         type* found;                                                    \
@@ -39,11 +39,11 @@ using std::string;
         }                                                               \
         return NULL;                                                    \
     }                                                                   \
-    list<type*> SearchTool::Child##type##s(ISceneNode* r) {             \
+    list<type*> SearchTool::Child##type##s(ISceneNode* r, bool incl) {  \
         if (r == NULL) return list<type*>();                            \
-        return Child##type##s(list<ISceneNode*>(1, r));                 \
+        return Child##type##s(list<ISceneNode*>(1, r), incl);           \
     }                                                                   \
-    list<type*> SearchTool::Child##type##s(list<ISceneNode*> rs) {      \
+    list<type*> SearchTool::Child##type##s(list<ISceneNode*> rs, bool incl) { \
         class Finder : public ISceneNodeVisitor {                       \
         public:                                                         \
         list<type*> found;                                              \
@@ -56,11 +56,11 @@ using std::string;
             (*itr)->VisitSubNodes(finder);                              \
         return finder.found;                                            \
     }                                                                   \
-    type* SearchTool::Descendant##type(ISceneNode* r) {                 \
+    type* SearchTool::Descendant##type(ISceneNode* r, bool incl) {      \
         if (r == NULL) return NULL;                                     \
-        return Descendant##type(list<ISceneNode*>(1,r));                \
+        return Descendant##type(list<ISceneNode*>(1,r), incl);          \
     }                                                                   \
-    type* SearchTool::Descendant##type(list<ISceneNode*> rs) {          \
+    type* SearchTool::Descendant##type(list<ISceneNode*> rs, bool incl) {\
         class Finder : public ISceneNodeVisitor {                       \
         public:                                                         \
         type* found;                                                    \
@@ -74,17 +74,23 @@ using std::string;
         };                                                              \
         Finder finder;                                                  \
         list<ISceneNode*>::iterator itr;                                \
-        for (itr = rs.begin(); itr != rs.end(); itr++) {                \
-            (*itr)->VisitSubNodes(finder);                              \
-            if (finder.found != NULL) return finder.found;              \
-        }                                                               \
+        if (incl)                                                       \
+            for (itr = rs.begin(); itr != rs.end(); itr++) {            \
+                (*itr)->Accept(finder);                                 \
+                if (finder.found != NULL) return finder.found;          \
+            }                                                           \
+        else                                                            \
+            for (itr = rs.begin(); itr != rs.end(); itr++) {            \
+                (*itr)->VisitSubNodes(finder);                          \
+                if (finder.found != NULL) return finder.found;          \
+            }                                                           \
         return NULL;                                                    \
     }                                                                   \
-    list<type*> SearchTool::Descendant##type##s(ISceneNode* r) {        \
+    list<type*> SearchTool::Descendant##type##s(ISceneNode* r, bool incl) { \
         if (r == NULL) return list<type*>();                            \
-        return Descendant##type##s(list<ISceneNode*>(1,r));             \
+        return Descendant##type##s(list<ISceneNode*>(1,r), incl);       \
     }                                                                   \
-    list<type*> SearchTool::Descendant##type##s(list<ISceneNode*> rs) { \
+    list<type*> SearchTool::Descendant##type##s(list<ISceneNode*> rs, bool incl) { \
         class Finder : public ISceneNodeVisitor {                       \
         public:                                                         \
         list<type*> found;                                              \
@@ -95,15 +101,19 @@ using std::string;
         };                                                              \
         Finder finder;                                                  \
         list<ISceneNode*>::iterator itr;                                \
-        for (itr = rs.begin(); itr != rs.end(); itr++)                  \
-            (*itr)->VisitSubNodes(finder);                              \
+        if (incl)                                                       \
+            for (itr = rs.begin(); itr != rs.end(); itr++)              \
+                (*itr)->Accept(finder);                                 \
+        else                                                            \
+            for (itr = rs.begin(); itr != rs.end(); itr++)              \
+                (*itr)->VisitSubNodes(finder);                          \
         return finder.found;                                            \
     }                                                                   \
-    type* SearchTool::Ancestor##type(ISceneNode* r) {                   \
+    type* SearchTool::Ancestor##type(ISceneNode* r, bool incl) {        \
         if (r == NULL) return NULL;                                     \
-        return Ancestor##type(list<ISceneNode*>(1,r));                  \
+        return Ancestor##type(list<ISceneNode*>(1,r), incl);            \
     }                                                                   \
-    type* SearchTool::Ancestor##type(list<ISceneNode*> rs) {            \
+    type* SearchTool::Ancestor##type(list<ISceneNode*> rs, bool incl) { \
         class Finder : public ISceneNodeVisitor {                       \
         public:                                                         \
         type* found;                                                    \
@@ -118,17 +128,23 @@ using std::string;
         };                                                              \
         Finder finder;                                                  \
         list<ISceneNode*>::iterator itr;                                \
-        for (itr = rs.begin(); itr != rs.end(); itr++) {                \
-            finder.DefaultVisitNode(*itr);                              \
-            if (finder.found != NULL) return finder.found;              \
-        }                                                               \
+        if (incl)                                                       \
+            for (itr = rs.begin(); itr != rs.end(); itr++) {            \
+                (*itr)->Accept(finder);                                 \
+                if (finder.found != NULL) return finder.found;          \
+            }                                                           \
+        else                                                            \
+            for (itr = rs.begin(); itr != rs.end(); itr++) {            \
+                finder.DefaultVisitNode(*itr);                          \
+                if (finder.found != NULL) return finder.found;          \
+            }                                                           \
         return NULL;                                                    \
     }                                                                   \
-    list<type*> SearchTool::Ancestor##type##s(ISceneNode* r) {          \
+    list<type*> SearchTool::Ancestor##type##s(ISceneNode* r, bool incl) { \
         if (r == NULL) return list<type*>();                            \
-        return Ancestor##type##s(list<ISceneNode*>(1,r));               \
+        return Ancestor##type##s(list<ISceneNode*>(1,r), incl);         \
     }                                                                   \
-    list<type*> SearchTool::Ancestor##type##s(list<ISceneNode*> rs) {   \
+    list<type*> SearchTool::Ancestor##type##s(list<ISceneNode*> rs, bool incl) { \
         class Finder : public ISceneNodeVisitor {                       \
         public:                                                         \
         list<type*> found;                                              \
@@ -143,8 +159,12 @@ using std::string;
         };                                                              \
         Finder finder;                                                  \
         list<ISceneNode*>::iterator itr;                                \
-        for (itr = rs.begin(); itr != rs.end(); itr++)                  \
-            finder.DefaultVisitNode(*itr);                              \
+        if (incl)                                                       \
+            for (itr = rs.begin(); itr != rs.end(); itr++)              \
+                (*itr)->Accept(finder);                                 \
+        else                                                            \
+            for (itr = rs.begin(); itr != rs.end(); itr++)              \
+                finder.DefaultVisitNode(*itr);                          \
         return finder.found;                                            \
     }
 #include "SceneNodes.def"

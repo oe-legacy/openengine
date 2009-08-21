@@ -66,11 +66,11 @@ public:
 
 
 // Macro for defining the set of operation along a single axis
-#define AXIS(type,axis)                                             \
-    static type* axis##type(ISceneNode*);                           \
-    static type* axis##type(std::list<ISceneNode*>);                \
-    static std::list<type*> axis##type##s(ISceneNode*);             \
-    static std::list<type*> axis##type##s(std::list<ISceneNode*>);
+#define AXIS(type,axis)                                                                \
+    static type* axis##type(ISceneNode*, bool incl = false);                           \
+    static type* axis##type(std::list<ISceneNode*>, bool incl = false);                \
+    static std::list<type*> axis##type##s(ISceneNode*, bool incl = false);             \
+    static std::list<type*> axis##type##s(std::list<ISceneNode*>, bool incl = false);
 
 // Macro for defining with-operations along an axis (for key/value filtering)
 #define AXIS_WITH(type,axis)                                            \
