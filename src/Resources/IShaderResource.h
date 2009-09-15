@@ -38,10 +38,11 @@ public:
     IShaderResourcePtr resource;
 };
 
-/**
- * Map of texture names and resources.
- */
-typedef map<string,ITextureResourcePtr> ShaderTextureMap;
+    /**
+     * Map of texture names and resources.
+     */
+    typedef map<string,ITextureResourcePtr> ShaderTextureMap;
+    typedef vector<ITextureResourcePtr> TextureList;
 
 /**
  * Shader resource interface.
@@ -51,17 +52,18 @@ typedef map<string,ITextureResourcePtr> ShaderTextureMap;
 class IShaderResource : public IResource<ShaderChangedEventArg> {
 protected:
 
+    vector<string> texNames;
+    TextureList texs;
+
+public:
+
     /**
      * Set a shader attribute.
      *
      * @param name Attribute name.
      * @param value Attribute vector value.
      */
-    virtual void SetAttribute(string name, vector<float> value)=0;
-
-public:
-
-    ShaderTextureMap textures;  //!< shader textures.
+    virtual void SetAttribute(string name, Vector<3, float> value)=0;
 
     /**
      * Apply the shader.
@@ -74,6 +76,31 @@ public:
      * Corresponds to unbind a texture.
      */
     virtual void ReleaseShader()=0;
+
+    /**
+     * Set a shader uniform.
+     *
+     * @param name Uniform name.
+     * @param value Uniform vector value.
+     */
+    virtual void SetUniform(string name, int arg) = 0;
+    virtual void SetUniform(string name, float value)=0;
+    virtual void SetUniform(string name, Vector<2, float> value)=0;
+    virtual void SetUniform(string name, Vector<3, float> value)=0;
+    virtual void SetUniform(string name, Vector<4, float> value)=0;
+
+    /**
+     * Binds a texture to variable with the name in the shader.
+     * @param name Name to bind to.
+     * @param tex Texture to bind.
+     */
+    virtual void SetTexture(string name, ITextureResourcePtr tex) = 0;
+
+    /**
+     * Get the Textures associated with the shader.
+     * @return List of textures.
+     */
+    virtual TextureList GetTextures() = 0;
 
     /**
      * Binds an attribute by id.
