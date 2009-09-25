@@ -32,11 +32,8 @@ Frustum::Frustum(IViewingVolume& volume,
     for (unsigned int i=0; i<6; i++)
         planes[i] = new Plane(Vector<3,float>(1), 0);
 
-    // update the volume first as we depend on its structure.
-    volume.SignalRendering(0);
-
-    // initialize the frustum
-    UpdatePlanes();
+    // update the volume
+    SignalRendering(0);
 
     // create a render node
     node = new FNode(*this);
