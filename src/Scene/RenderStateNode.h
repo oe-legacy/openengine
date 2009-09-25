@@ -44,6 +44,7 @@ public:
         HARD_NORMAL            = 1<<7,
         BINORMAL               = 1<<8,
         TANGENT                = 1<<9,
+        COLOR_MATERIAL         = 1<<10,
     };
 
     //! Default constructor

@@ -126,7 +126,8 @@ void RenderStateNode::InheritOption(RenderStateOption options) {
 void RenderStateNode::ToggleOption(RenderStateOption options) {
     if (IsOptionEnabled(options))
         DisableOption(options);
-    else if (IsOptionDisabled(options))
+    else // if (IsOptionDisabled(options))
+         //  - If an option have neither been enabled or disabled, we cant toggle it?
         EnableOption(options);
 }
 
