@@ -10,9 +10,6 @@
 #ifndef _OE_MATH_H_
 #define _OE_MATH_H_
 
-#include <Math/Vector.h>
-#include <Math/Matrix.h>
-
 namespace OpenEngine { 
 namespace Math {
 
