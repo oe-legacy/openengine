@@ -2,6 +2,8 @@ ADD_LIBRARY(OpenEngine_Resources
   Resources.cpp
   IResource.h
   IModelResource.h
+  IFontResource.h
+  IFontTextureResource.h
   ITextureResource.h
   IShaderResource.h
   Exceptions.h
