@@ -10,4 +10,6 @@ ADD_LIBRARY(OpenEngine_Core
   StateEvent.h
   Engine.h
   Engine.cpp
+  Thread.h
+  Thread.cpp
 )
