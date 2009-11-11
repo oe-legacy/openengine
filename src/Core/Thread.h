@@ -12,6 +12,9 @@
 
 #include <pthread.h>
 
+namespace OpenEngine {
+    namespace Core {
+
 class Thread {
 
 
@@ -27,7 +30,12 @@ public:
     
     int Start();
     int Wait();
+
+    static void Sleep(long mills);
     
 };
+
+    }
+}
 
 #endif

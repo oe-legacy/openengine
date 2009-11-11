@@ -12,4 +12,6 @@ ADD_LIBRARY(OpenEngine_Core
   Engine.cpp
   Thread.h
   Thread.cpp
+  Mutex.h
+  Mutex.cpp
 )

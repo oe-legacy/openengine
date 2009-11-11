@@ -8,6 +8,11 @@
  */
 
 #include "Thread.h"
+#include <unistd.h>
+
+namespace OpenEngine {
+    namespace Core {
+
 
 int Thread::Start() {
     
@@ -20,3 +25,10 @@ int Thread::Wait() {
     
 }
 
+
+void Thread::Sleep(long mills) {
+    usleep(mills);
+}
+
+    }
+}
