@@ -24,7 +24,6 @@ namespace Resources {
 #define FONT_STYLE_ITALIC	    0x02
 #define FONT_STYLE_UNDERLINE	0x04
 
-using OpenEngine::Resources::ITextureResourcePtr;
 using OpenEngine::Math::Vector;
 using std::string;
 
