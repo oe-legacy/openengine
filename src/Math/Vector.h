@@ -28,7 +28,7 @@ namespace Math {
  * @param N Number of elements
  * @param T Type of elements
  */
-template <int N, class T>
+template <unsigned int N, class T>
 class Vector {
 private:
     // vector elements
@@ -42,7 +42,7 @@ public:
      * @endcode
      */
     Vector() {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] = 0;
     }
     /**
@@ -54,7 +54,7 @@ public:
      * @param s Scalar value in all indexes
      */
     explicit Vector(const T s) {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] = s;
     }
     /**
@@ -63,7 +63,7 @@ public:
      * @param v Vector to copy
      */
     Vector(const Vector<N,T>& v) {
-        for (int i=0;i<N;i++)
+        for (unsigned int i=0;i<N;i++)
             elm[i] = v.elm[i];
     }
     /**
@@ -72,7 +72,7 @@ public:
      * @param a Array to copy
      */
     explicit Vector(const T a[N]) {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] = a[i];
     }
     /**
@@ -107,9 +107,9 @@ public:
      * @exception IndexOutOfBounds Index is out of bounds.
      * @return Element at index \a i
      */
-    inline T& operator[](const int i) {
+    inline T& operator[](const unsigned int i) {
 #if OE_SAFE
-        if (i < 0 || i >= N)
+        if (i >= N)
             throw IndexOutOfBounds(i,0,N);
 #endif
         return elm[i];
@@ -118,7 +118,7 @@ public:
      * Vector equality.
      */
     bool operator==(const Vector<N,T>& v) const {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             if (elm[i] != v.elm[i])
                 return false;
         return true;
@@ -141,7 +141,7 @@ public:
      */
     const Vector<N,T> operator+(const T s) const {
         Vector<N,T> v;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             v[i] = elm[i] + s;
         return v;
     }
@@ -155,7 +155,7 @@ public:
      */
     const Vector<N,T> operator+(const Vector<N,T>& v) const {
         Vector<N,T> t;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             t[i] = elm[i] + v.elm[i];
         return t;
     }
@@ -169,7 +169,7 @@ public:
      */
     const Vector<N,T> operator-(const T s) const {
         Vector<N,T> v;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             v[i] = elm[i] - s;
         return v;
     }
@@ -183,7 +183,7 @@ public:
      */
     const Vector<N,T> operator-(const Vector<N,T>& v) const {
         Vector<N,T> t;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             t[i] = elm[i] - v.elm[i];
         return t;
     }
@@ -196,7 +196,7 @@ public:
      */
     const Vector<N,T> operator*(const T s) const {
         Vector<N,T> v;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             v[i] = elm[i] * s;
         return v;
     }
@@ -219,7 +219,7 @@ public:
             throw DivisionByZero();
 #endif
         Vector<N,float> v;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             v[i] = (float)elm[i] / s;
         return v;
     }
@@ -243,7 +243,7 @@ public:
      */
     const T operator*(const Vector<N,T>& v) const {
         T s = 0;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             s += elm[i] * v.elm[i];
         return s;
     }
@@ -272,28 +272,28 @@ public:
      * Destructive scalar addition.
      */
     void operator+=(const T s) {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] += s;
     }
     /**
      * Destructive vector addition.
      */
     void operator+=(const Vector<N,T>& v) {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] += v.Get(i);
     }
     /**
      * Destructive scalar multiplication.
      */
     void operator*=(const T s) {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] *= s;
     }
     /**
      * Destructive scalar subtraction.
      */
     void operator-=(const T s) {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] -= s;
     }
     /**
@@ -308,7 +308,7 @@ public:
         if (s == 0)
             throw DivisionByZero();
 #endif
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             elm[i] /= s;
     }
     /**
@@ -317,7 +317,7 @@ public:
      * @return True if all elements are zero, false otherwise.
      */
     bool IsZero() const {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             if (elm[i] != 0) return false;
         return true;
     }
@@ -358,7 +358,7 @@ public:
         if (norm == 0)
             throw ArithmeticException("Can not normalize the zero vector.");
 #endif
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             if( elm[i] != 0 )
                 elm[i] /= norm;
     }
@@ -376,7 +376,7 @@ public:
      */
     T Max() const {
         T m = elm[0];
-        for (int i=1; i<N; i++)
+        for (unsigned int i=1; i<N; i++)
             if (elm[i] > m) m = elm[i];
         return m;
     }
@@ -385,25 +385,25 @@ public:
      */
     T Min() const {
         T m = elm[0];
-        for (int i=1; i<N; i++)
+        for (unsigned int i=1; i<N; i++)
             if (elm[i] < m) m = elm[i];
         return m;
     }
     /**
      * Index of maximum element value.
      */
-    int MaxIndex() const {
-        int m = 0;
-        for (int i=1; i<N; i++)
+    unsigned int MaxIndex() const {
+      unsigned int m = 0;
+        for (unsigned int i=1; i<N; i++)
             if (elm[i] > elm[m]) m = i;
         return m;
     }
     /**
      * Index of minimum element value.
      */
-    int MinIndex() const {
+    unsigned int MinIndex() const {
         int m = 0;
-        for (int i=1; i<N; i++)
+        for (unsigned int i=1; i<N; i++)
             if (elm[i] < elm[m]) m = i;
         return m;
     }
@@ -414,7 +414,7 @@ public:
      */
     T Sum() const {
         T s = 0;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             s += elm[i];
         return s;
     }
@@ -425,7 +425,7 @@ public:
      */
     Vector<N,int> ToInt() const {
         Vector<N,int> v;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             v[i] = (int)elm[i];
         return v;
     }
@@ -436,7 +436,7 @@ public:
      */
     Vector<N,float> ToFloat() const {
         Vector<N,float> v;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             v[i] = (float)elm[i];
         return v;
     }
@@ -447,7 +447,7 @@ public:
      */
     Vector<N,double> ToDouble() const {
         Vector<N,double> v;
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             v[i] = (double)elm[i];
         return v;
     }
@@ -457,7 +457,7 @@ public:
      * @param a Array to populate
      */
     void ToArray(T a[N]) const {
-        for (int i=0; i<N; i++)
+        for (unsigned int i=0; i<N; i++)
             a[i] = elm[i];
     }
     /**
@@ -469,7 +469,7 @@ public:
     std::string ToString() const {
         std::ostringstream out;
         out << "[";
-        for (int i=0;i<N-1;i++)
+        for (unsigned int i=0;i<N-1;i++)
             out << elm[i] << ", ";
         out << elm[N-1] << "]";
         return out.str();
@@ -481,9 +481,9 @@ public:
      * @exception IndexOutOfBounds Index is out of bounds.
      * @return Element at index \a i
      */
-    T Get(const int i) const { 
+    T Get(const unsigned int i) const { 
 #if OE_SAFE
-        if (i < 0 || i >= N)
+        if (i >= N)
             throw IndexOutOfBounds(i,0,N);
 #endif
         return elm[i]; 
@@ -502,7 +502,7 @@ public:
  *
  * @see Vector::operator+
  */
-template <int N, class T>
+template <unsigned int N, class T>
 const Vector<N,T> operator+(const T s, const Vector<N,T>& e) {
     return e + s;
 }
@@ -512,7 +512,7 @@ const Vector<N,T> operator+(const T s, const Vector<N,T>& e) {
  *
  * @see Vector::operator*
  */
-template <int N, class T>
+template <unsigned int N, class T>
 const Vector<N,T> operator*(const T s, const Vector<N,T>& e) {
     return e * s;
 }
@@ -520,7 +520,7 @@ const Vector<N,T> operator*(const T s, const Vector<N,T>& e) {
 /**
  * Stream operator to ease the use of ToString method.
  */
-template <int N, class T>
+template <unsigned int N, class T>
 std::ostream& operator<<(std::ostream& os, const Vector<N,T> e) {
     os<<e.ToString();
     return os;

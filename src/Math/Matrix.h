@@ -27,7 +27,7 @@ namespace Math {
  * @param N Number of columns
  * @param T Type of elements
  */
-template <int M, int N, class T>
+template <unsigned int M, unsigned int N, class T>
 class Matrix {
 private:
     // matrix elements
@@ -43,8 +43,8 @@ public:
      * @endcode
      */
     Matrix() {
-        for (int i=0; i<M; i++)
-            for (int j=0; j<N; j++)
+        for (unsigned int i=0; i<M; i++)
+            for (unsigned int j=0; j<N; j++)
                 elm[i][j] = (i==j)?(T)1:(T)0;
     }
     /**
@@ -56,8 +56,8 @@ public:
      * @param s Scalar value in all indexes
      */
     explicit Matrix(const T s) {
-        for (int i=0; i<M; i++)
-            for (int j=0; j<N; j++)
+        for (unsigned int i=0; i<M; i++)
+            for (unsigned int j=0; j<N; j++)
                 elm[i][j] = s;
     }
     /**
@@ -66,8 +66,8 @@ public:
      * @param m Matrix to copy
      */
     Matrix(const Matrix<M,N,T>& m) {
-        for (int i=0; i<M; i++)
-            for (int j=0; j<N; j++)
+        for (unsigned int i=0; i<M; i++)
+            for (unsigned int j=0; j<N; j++)
                 elm[i][j] = m.elm[i][j];
     }
     /**
@@ -76,8 +76,8 @@ public:
      * @param a Array to create from
      */
     explicit Matrix(const T a[M*N]) {
-        for (int i=0; i<M; i++)
-            for (int j=0; j<N; j++)
+        for (unsigned int i=0; i<M; i++)
+            for (unsigned int j=0; j<N; j++)
                 elm[i][j] = a[i*N + j];
     }
     /**
@@ -132,11 +132,13 @@ public:
      * @param j Column index
      * @return Element at index \a (i,j)
      */
-    T& operator()(const int i, const int j) {
-        if (i < 0 || i >= M)
+    T& operator()(const unsigned int i, const unsigned int j) {
+#if OE_SAFE
+        if (i >= M)
             throw IndexOutOfBounds(i,0,M);
-        if (j < 0 || j >= N)
+        if (j >= N)
             throw IndexOutOfBounds(j,0,N);
+#endif
         return elm[i][j];
     }
     /**
@@ -144,8 +146,8 @@ public:
      * True if all index element are identical.
      */
     bool operator==(const Matrix<M,N,T>& m) const {
-        for (int i=0; i<M; i++)
-            for (int j=0; j<N; j++)
+        for (unsigned int i=0; i<M; i++)
+            for (unsigned int j=0; j<N; j++)
                 if (elm[i][j] != m.elm[i][j])
                     return false;
         return true;
@@ -166,10 +168,10 @@ public:
      */
     Matrix<M,M,T> operator*(const Matrix<N,M,T> m) {
         Matrix<M,M,T> r;
-        for (int i=0; i<M; i++) 
-            for (int j=0; j<M; j++) {
+        for (unsigned int i=0; i<M; i++) 
+            for (unsigned int j=0; j<M; j++) {
                 T s = 0;
-                for (int t=0; t<N; t++)
+                for (unsigned int t=0; t<N; t++)
                     s += elm[i][t] * m.elm[t][j];
                 r.elm[i][j] = s;
             }
@@ -212,7 +214,7 @@ public:
      * @param i Row index
      * @return Row vector
      */
-    Vector<N,T> operator[](const int i) {
+    Vector<N,T> operator[](const unsigned int i) {
         return this->GetRow(i);
     }
     /**
@@ -221,7 +223,7 @@ public:
      * @param i Row index
      * @return Row vector
      */
-    Vector<N,T> GetRow(const int i) {
+    Vector<N,T> GetRow(const unsigned int i) {
         return Vector<N,T>(elm[i]);
     }
     /**
@@ -230,7 +232,7 @@ public:
      * @param j Column index
      * @return Column vector
      */
-    Vector<M,T> GetColumn(const int j) {
+    Vector<M,T> GetColumn(const unsigned int j) {
         Vector<M,T> v;
         for (int i=0; i<M; i++)
             v[i] = elm[i][j];
@@ -245,7 +247,7 @@ public:
     T Trace() {
         BOOST_STATIC_ASSERT(N==M);
         T t = 0;
-        for (int i=0; i<M; i++)
+        for (unsigned int i=0; i<M; i++)
             t += elm[i][i];
         return t;
     }
@@ -257,8 +259,8 @@ public:
     void Transpose() {
         BOOST_STATIC_ASSERT(M==N);
         T tmp;
-        for (int i=1; i<M; i++)
-            for (int j=0; j<i; j++) {
+        for (unsigned int i=1; i<M; i++)
+            for (unsigned int j=0; j<i; j++) {
                 tmp = elm[i][j];
                 elm[i][j] = elm[j][i];
                 elm[j][i] = tmp;
@@ -288,8 +290,8 @@ public:
      */
     Matrix<M+1,N+1,T> GetExpanded() {
         Matrix<M+1,N+1,T> m;
-        for (int i=0; i < M; i++)
-            for (int j=0; j < N; j++)
+        for (unsigned int i=0; i < M; i++)
+            for (unsigned int j=0; j < N; j++)
                 m(i,j) = elm[i][j];
         return m;
     }
@@ -305,8 +307,8 @@ public:
      */
     Matrix<M-1,N-1,T> GetReduced() {
         Matrix<M-1,N-1,T> m;
-        for (int i=0; i < M-1; i++)
-            for (int j=0; j < N-1; j++)
+        for (unsigned int i=0; i < M-1; i++)
+            for (unsigned int j=0; j < N-1; j++)
                 m(i,j) = elm[i][j];
         return m;
     }
@@ -316,8 +318,8 @@ public:
      * @param a Array to populate
      */
     void ToArray(T a[M*N]) const {
-        for (int i=0; i<M; i++)
-            for (int j=0; j<N; j++)
+        for (unsigned int i=0; i<M; i++)
+            for (unsigned int j=0; j<N; j++)
                 a[i*N + j] = elm[i][j];
     }
     /**
@@ -329,14 +331,14 @@ public:
     std::string ToString() const {
         std::ostringstream out;
         out << "[";
-        for (int i=0; i<M-1; i++) {
+        for (unsigned int i=0; i<M-1; i++) {
             out << "(";
-            for (int j=0; j<N-1; j++)
+            for (unsigned int j=0; j<N-1; j++)
                 out << elm[i][j] << ", ";
             out << elm[i][N-1] << "), ";
         }
         out << "(";
-        for (int j=0; j<N-1; j++)
+        for (unsigned int j=0; j<N-1; j++)
             out << elm[M-1][j] << ", ";
         out << elm[M-1][N-1] << ")]";
         return out.str();
@@ -365,7 +367,7 @@ public:
 /**
  * Stream operator to ease the use of ToString method.
  */
-template <int M, int N, class T>
+template <unsigned int M, unsigned int N, class T>
 std::ostream& operator<<(std::ostream& os, const Matrix<M,N,T> e) {
     os<<e.ToString();
     return os;
