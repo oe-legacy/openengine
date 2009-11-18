@@ -20,7 +20,7 @@ class Thread {
 
 private:
     pthread_t thread;
-	static void *thread_func(void *d){((Thread *)d)->Run();}
+    static void* thread_func(void *d){((Thread *)d)->Run(); return 0;}
 
     
 public:
