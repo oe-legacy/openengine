@@ -13,6 +13,7 @@
 #include <Geometry/Material.h>
 #include <boost/serialization/utility.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/extended_type_info.hpp>
 
 namespace OpenEngine {
 namespace Geometry {
