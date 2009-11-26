@@ -204,6 +204,19 @@ public:
     }
 
     /**
+     * Scalar mult
+     */
+
+    const Matrix<M,N,T> operator*(const T s) {
+        Matrix<M,M,T> r;
+        for (unsigned int i=0; i<M; i++) 
+            for (unsigned int j=0; j<M; j++) {
+                r.elm[i][j] = s*elm[i][j];
+            }
+        return r;
+    }
+
+    /**
      * Get matrix row vector.
      * @code
      * Matrix<2,2,int> m(1,2, 3,4);   // [(1, 2), (3, 4)]
@@ -276,6 +289,89 @@ public:
 			     elm[0][1],elm[1][1],elm[2][1],
 			     elm[0][2],elm[1][2],elm[2][2]);
     }
+
+    /**
+     * Returns the determinant of a matrix.
+     * Copied from:
+     *     http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm     
+     * look at ?    
+     *     http://www.google.com/codesearch/p?hl=en&sa=N&cd=3&ct=rc#xrFFuTdR3w0/tulip-2.0.2/library/tulip/include/tulip/cxx/Matrix.cxx&q=matrix%20inverse%20lang:c%2B%2B&l=13
+     */
+    T GetDeterminant() const {
+
+        switch (N) {
+        case 2:
+            return elm[0][0] * elm[1][1] - elm[1][0] * elm[0][1];
+            break;
+        case 3:
+            return elm[0][0] * (elm[1][1]*elm[2][2] - elm[1][2] * elm[2][1])
+                - elm[0][1] * (elm[1][0]*elm[2][2] - elm[1][2] * elm[2][0])
+                + elm[0][2] * (elm[1][0]*elm[2][1] - elm[1][1] * elm[2][0]) ;
+            break;
+        case 4:
+
+            T value;
+            value =
+                elm[0][3] * elm[1][2] * elm[2][1] * elm[3][0]-elm[0][2] * elm[1][3] * elm[2][1] * elm[3][0]-elm[0][3] * elm[1][1] * elm[2][2] * elm[3][0]+elm[0][1] * elm[1][3]    * elm[2][2] * elm[3][0]+
+                elm[0][2] * elm[1][1] * elm[2][3] * elm[3][0]-elm[0][1] * elm[1][2] * elm[2][3] * elm[3][0]-elm[0][3] * elm[1][2] * elm[2][0] * elm[3][1]+elm[0][2] * elm[1][3]    * elm[2][0] * elm[3][1]+
+                elm[0][3] * elm[1][0] * elm[2][2] * elm[3][1]-elm[0][0] * elm[1][3] * elm[2][2] * elm[3][1]-elm[0][2] * elm[1][0] * elm[2][3] * elm[3][1]+elm[0][0] * elm[1][2]    * elm[2][3] * elm[3][1]+
+                elm[0][3] * elm[1][1] * elm[2][0] * elm[3][2]-elm[0][1] * elm[1][3] * elm[2][0] * elm[3][2]-elm[0][3] * elm[1][0] * elm[2][1] * elm[3][2]+elm[0][0] * elm[1][3]    * elm[2][1] * elm[3][2]+
+                elm[0][1] * elm[1][0] * elm[2][3] * elm[3][2]-elm[0][0] * elm[1][1] * elm[2][3] * elm[3][2]-elm[0][2] * elm[1][1] * elm[2][0] * elm[3][3]+elm[0][1] * elm[1][2]    * elm[2][0] * elm[3][3]+
+                elm[0][2] * elm[1][0] * elm[2][1] * elm[3][3]-elm[0][0] * elm[1][2] * elm[2][1] * elm[3][3]-elm[0][1] * elm[1][0] * elm[2][2] * elm[3][3]+elm[0][0] * elm[1][1]    * elm[2][2] * elm[3][3];
+            return value;
+   
+
+        default:
+            throw 42;
+        }
+    }
+
+
+    Matrix<N,M,T> GetInverse() {
+        //BOOST_STATIC_ASSERT(M==3&&N==3);
+        
+        T d = GetDeterminant();
+        
+        
+        Matrix<M,N,T> b;
+
+        switch (N) {
+        case 3:
+
+            b(0,0) = elm[1][1]*elm[2][2] - elm[1][2]*elm[2][1];
+            b(0,1) = elm[0][2]*elm[2][1] - elm[0][1]*elm[2][2];
+            b(0,2) = elm[0][1]*elm[1][2] - elm[0][2]*elm[1][1];
+
+            b(1,0) = elm[1][2]*elm[2][0] - elm[1][0]*elm[2][2];
+            b(1,1) = elm[0][0]*elm[2][2] - elm[0][2]*elm[2][0];
+            b(1,2) = elm[0][2]*elm[1][0] - elm[0][0]*elm[1][2];
+
+            b(2,0) = elm[1][0]*elm[2][1] - elm[1][1]*elm[2][0];
+            b(2,1) = elm[0][1]*elm[2][0] - elm[0][0]*elm[2][1];
+            b(2,2) = elm[0][0]*elm[1][1] - elm[0][1]*elm[1][0];
+        case 4:
+            b(0,0) = elm[1][2]*elm[2][3]*elm[3][1] - elm[1][3]*elm[2][2]*elm[3][1] + elm[1][3]*elm[2][1]*elm[3][2] - elm[1][1]*elm[2][3]*elm[3][2] - elm[1][2]*elm[2][1]*elm[3][3] + elm[1][1]*elm[2][2]*elm[3][3];
+            b(0,1) = elm[0][3]*elm[2][2]*elm[3][1] - elm[0][2]*elm[2][3]*elm[3][1] - elm[0][3]*elm[2][1]*elm[3][2] + elm[0][1]*elm[2][3]*elm[3][2] + elm[0][2]*elm[2][1]*elm[3][3] - elm[0][1]*elm[2][2]*elm[3][3];
+            b(0,2) = elm[0][2]*elm[1][3]*elm[3][1] - elm[0][3]*elm[1][2]*elm[3][1] + elm[0][3]*elm[1][1]*elm[3][2] - elm[0][1]*elm[1][3]*elm[3][2] - elm[0][2]*elm[1][1]*elm[3][3] + elm[0][1]*elm[1][2]*elm[3][3];
+            b(0,3) = elm[0][3]*elm[1][2]*elm[2][1] - elm[0][2]*elm[1][3]*elm[2][1] - elm[0][3]*elm[1][1]*elm[2][2] + elm[0][1]*elm[1][3]*elm[2][2] + elm[0][2]*elm[1][1]*elm[2][3] - elm[0][1]*elm[1][2]*elm[2][3];
+            b(1,0) = elm[1][3]*elm[2][2]*elm[3][0] - elm[1][2]*elm[2][3]*elm[3][0] - elm[1][3]*elm[2][0]*elm[3][2] + elm[1][0]*elm[2][3]*elm[3][2] + elm[1][2]*elm[2][0]*elm[3][3] - elm[1][0]*elm[2][2]*elm[3][3];
+            b(1,1) = elm[0][2]*elm[2][3]*elm[3][0] - elm[0][3]*elm[2][2]*elm[3][0] + elm[0][3]*elm[2][0]*elm[3][2] - elm[0][0]*elm[2][3]*elm[3][2] - elm[0][2]*elm[2][0]*elm[3][3] + elm[0][0]*elm[2][2]*elm[3][3];
+            b(1,2) = elm[0][3]*elm[1][2]*elm[3][0] - elm[0][2]*elm[1][3]*elm[3][0] - elm[0][3]*elm[1][0]*elm[3][2] + elm[0][0]*elm[1][3]*elm[3][2] + elm[0][2]*elm[1][0]*elm[3][3] - elm[0][0]*elm[1][2]*elm[3][3];
+            b(1,3) = elm[0][2]*elm[1][3]*elm[2][0] - elm[0][3]*elm[1][2]*elm[2][0] + elm[0][3]*elm[1][0]*elm[2][2] - elm[0][0]*elm[1][3]*elm[2][2] - elm[0][2]*elm[1][0]*elm[2][3] + elm[0][0]*elm[1][2]*elm[2][3];
+            b(2,0) = elm[1][1]*elm[2][3]*elm[3][0] - elm[1][3]*elm[2][1]*elm[3][0] + elm[1][3]*elm[2][0]*elm[3][1] - elm[1][0]*elm[2][3]*elm[3][1] - elm[1][1]*elm[2][0]*elm[3][3] + elm[1][0]*elm[2][1]*elm[3][3];
+            b(2,1) = elm[0][3]*elm[2][1]*elm[3][0] - elm[0][1]*elm[2][3]*elm[3][0] - elm[0][3]*elm[2][0]*elm[3][1] + elm[0][0]*elm[2][3]*elm[3][1] + elm[0][1]*elm[2][0]*elm[3][3] - elm[0][0]*elm[2][1]*elm[3][3];
+            b(2,2) = elm[0][1]*elm[1][3]*elm[3][0] - elm[0][3]*elm[1][1]*elm[3][0] + elm[0][3]*elm[1][0]*elm[3][1] - elm[0][0]*elm[1][3]*elm[3][1] - elm[0][1]*elm[1][0]*elm[3][3] + elm[0][0]*elm[1][1]*elm[3][3];
+            b(2,3) = elm[0][3]*elm[1][1]*elm[2][0] - elm[0][1]*elm[1][3]*elm[2][0] - elm[0][3]*elm[1][0]*elm[2][1] + elm[0][0]*elm[1][3]*elm[2][1] + elm[0][1]*elm[1][0]*elm[2][3] - elm[0][0]*elm[1][1]*elm[2][3];
+            b(3,0) = elm[1][2]*elm[2][1]*elm[3][0] - elm[1][1]*elm[2][2]*elm[3][0] - elm[1][2]*elm[2][0]*elm[3][1] + elm[1][0]*elm[2][2]*elm[3][1] + elm[1][1]*elm[2][0]*elm[3][2] - elm[1][0]*elm[2][1]*elm[3][2];
+            b(3,1) = elm[0][1]*elm[2][2]*elm[3][0] - elm[0][2]*elm[2][1]*elm[3][0] + elm[0][2]*elm[2][0]*elm[3][1] - elm[0][0]*elm[2][2]*elm[3][1] - elm[0][1]*elm[2][0]*elm[3][2] + elm[0][0]*elm[2][1]*elm[3][2];
+            b(3,2) = elm[0][2]*elm[1][1]*elm[3][0] - elm[0][1]*elm[1][2]*elm[3][0] - elm[0][2]*elm[1][0]*elm[3][1] + elm[0][0]*elm[1][2]*elm[3][1] + elm[0][1]*elm[1][0]*elm[3][2] - elm[0][0]*elm[1][1]*elm[3][2];
+            b(3,3) = elm[0][1]*elm[1][2]*elm[2][0] - elm[0][2]*elm[1][1]*elm[2][0] + elm[0][2]*elm[1][0]*elm[2][1] - elm[0][0]*elm[1][2]*elm[2][1] - elm[0][1]*elm[1][0]*elm[2][2] + elm[0][0]*elm[1][1]*elm[2][2];
+            
+        }
+        return b * (1.0/d);
+    }
+    
+
     /**
      * Get a matrix expanded by one column and one row.
      * The column and row will consist of zero elements and a one in
