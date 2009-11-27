@@ -343,7 +343,7 @@ public:
      * @return Normalized vector
      */
     Vector<N,float> GetNormalize() const {
-        Vector<N,float> v(this->Get(0),this->Get(1),this->Get(2));
+        Vector<N,float> v (*this);
         v.Normalize();
         return v;
     }
@@ -468,6 +468,7 @@ public:
      */
     std::string ToString() const {
         std::ostringstream out;
+        //out.width(6);
         out << "[";
         for (unsigned int i=0;i<N-1;i++)
             out << elm[i] << ", ";
