@@ -33,8 +33,14 @@ using std::list;
  * @tparam EventArg Argument type of the event.
  * @see IListener
  */
+    
+    class IReleaseAble {
+    public:
+        virtual void Release() =0;
+    };
+
 template <typename EventArg>
-class LockedQueuedEvent : public IEvent<EventArg>, public IListener<EventArg> {
+class LockedQueuedEvent : public IEvent<EventArg>, public IListener<EventArg>, public IReleaseAble {
 protected:
     //! list of listeners
     list<IListener<EventArg>*> ls;
