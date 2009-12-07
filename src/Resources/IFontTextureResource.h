@@ -14,12 +14,14 @@
 #define _I_FONT_TEXTURE_RESOURCE_H_
 
 #include <Resources/ITextureResource.h>
+#include <Math/Vector.h>
 #include <string>
 
 namespace OpenEngine {
 namespace Resources {
 
-using namespace std;
+using std::string;
+using Math::Vector;
 
 class IFontTextureResource;
 typedef boost::shared_ptr<IFontTextureResource> IFontTextureResourcePtr;
@@ -51,6 +53,18 @@ public:
      * @return the string that was rendered into the texture.
      **/
     virtual string GetText() = 0;
+    /**
+     * Set the text of the font texture.
+     *
+     * @param text the string that should be rendered into the texture.
+     **/
+    virtual void SetBackground(Vector<4,float> color) = 0;
+    /**
+     * Get the text of the font texture.
+     *
+     * @return the string that was rendered into the texture.
+     **/
+    virtual Vector<4,float> GetBackground() = 0;
 };
 
 } //NS Resources

@@ -64,20 +64,31 @@ public:
 class IFontResource : public IResource<FontChangedEventArg> {
 public:
     /**
-     * Create a new IFontTextureResource. The texture will be bound to this
-     * Font and will be re-rendered by the Font each time either the
-     * text of the IFontTexture changes or the Font is updated.
+     * Create a new IFontTextureResource of dynamic size. The texture
+     * will be bound to this Font and will be re-rendered by the Font
+     * each time either the text of the IFontTexture changes or the
+     * Font is updated.
      * 
      * @return a smart pointer to the new IFontTextureResource.
      **/
     virtual IFontTextureResourcePtr CreateFontTexture() = 0;
+    /**
+     * Create a new IFontTextureResource of fixed size. The texture
+     * will be bound to this Font and will be re-rendered by the Font
+     * each time either the text of the IFontTexture changes or the
+     * Font is updated.
+     * 
+     * @param fixed_width the width of the texture.
+     * @param fixed_height the height of the texture.
+     * @return a smart pointer to the new IFontTextureResource.
+     **/
     virtual IFontTextureResourcePtr CreateFontTexture(int fixed_width, int fixed_height) = 0;
-    virtual void SetPointSize(int ptsize) = 0;
-    virtual int GetPointSize() = 0;
-    virtual void SetFontStyle(int style) = 0;
-    virtual int GetFontStyle() = 0;
-    virtual void SetFontColor(Vector<3,float> colr) = 0;
-    virtual Vector<3,float> GetFontColor() = 0;
+    virtual void SetSize(int ptsize) = 0;
+    virtual int GetSize() = 0;
+    virtual void SetStyle(int style) = 0;
+    virtual int GetStyle() = 0;
+    virtual void SetColor(Vector<3,float> colr) = 0;
+    virtual Vector<3,float> GetColor() = 0;
 };
 
 } // NS Resources
