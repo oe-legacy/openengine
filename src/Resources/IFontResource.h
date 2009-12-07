@@ -71,6 +71,7 @@ public:
      * @return a smart pointer to the new IFontTextureResource.
      **/
     virtual IFontTextureResourcePtr CreateFontTexture() = 0;
+    virtual IFontTextureResourcePtr CreateFontTexture(int fixed_width, int fixed_height) = 0;
     virtual void SetPointSize(int ptsize) = 0;
     virtual int GetPointSize() = 0;
     virtual void SetFontStyle(int style) = 0;
