@@ -3,11 +3,11 @@
 # Helper script to manage OpenEngine distributions.
 # For usage information run ./dist.py help
 # -------------------------------------------------------------------
-# Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
-# 
-# This program is free software; It is covered by the GNU General 
-# Public License version 2 or any later version. 
-# See the GNU General Public License for more details (see LICENSE). 
+# Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
+#
+# This program is free software; It is covered by the GNU General
+# Public License version 2 or any later version.
+# See the GNU General Public License for more details (see LICENSE).
 #--------------------------------------------------------------------
 
 import string, sys, subprocess, os, os.path as path
@@ -24,13 +24,14 @@ def commands():
             (commit,  "commit"),
             (mkproj,  "mkproj"),
             (mkext,   "mkext"),
-            (help,    "help"))
+            (usage,    "help"))
 
 def update(*args):
     """
     update  [dist] -- default target. update all repositories.
     """
-    run_repo(parse(*args)["darcs"])
+    dists = get_dists(*args)    
+    run_repo(parse(*dists)["darcs"])
 
 def commit(*args):
     """
@@ -40,7 +41,8 @@ def commit(*args):
     if len(args) > 0 and not args[0].endswith(".dist"):
         user = args[0]
         args = args[1:]
-    commit_repo(user, parse(*args)["darcs-dev"])
+    dists = get_dists(*args)    
+    commit_repo(user, parse(*dists)["darcs-dev"])
 
 def data(*args):
     """
@@ -125,7 +127,7 @@ def filesubst(k, v, *fs):
         fd.write(st.replace(k, v))
         fd.close()
 
-def help():
+def usage():
     """
     help           -- this message
     """
@@ -172,6 +174,38 @@ def run_data(data):
         f, h = urllib.urlretrieve(res, file)
         unpack(h.gettype(), file, dir)
 
+def get_dists(*args):
+    """
+    Find all dists refered in args
+    """
+    ds = parse(*args)['dist']
+    dists = get_dists_helper(ds,[])
+    #print dists
+    return dists
+
+def get_dists_helper(ds,dists):
+    for dir, dist in ds:
+        fp = path.join(dir,dist.split("/")[-1])
+        if fp not in dists:
+            if not path.isfile(fp):
+                print "== Download the dist to tmp!"
+                req = urllib2.Request(dist)
+                try: urllib2.urlopen(req)
+                except urllib2.URLError, e:
+                    error("Could not fetch dist file: %s, error: %s" % (dist,e))
+                except ValueError, e:
+                    pass
+                tmpfld = "tmp"
+                if not path.isdir(tmpfld):
+                   os.makedirs(tmpfld)                
+                file = path.join(tmpfld,dist.split("/")[-1])
+                urllib.urlretrieve(dist, file)
+                dists.append( file )
+            else:
+                dists.append( fp )
+                get_dists_helper(parse(fp)['dist'], dists)                
+    return dists
+
 def parse(*args):
     """
     Parse a list of distribution files.
@@ -195,7 +229,7 @@ def parse(*args):
     # entry dict with types:
     #   darcs : [(path, resource)]
     #   data  : [(sys, path, resource)]
-    entries = { "darcs":[], "darcs-dev":[], "data":[] }
+    entries = { "darcs":[], "darcs-dev":[], "data":[], "dist":[]}
     # parse each line in each file
     for file in files:
         f = open(file, "r")
@@ -221,6 +255,9 @@ def parse(*args):
                     elm = (p, e[2])
                 elif e[0] == "darcs-dev":
                     typ = "darcs-dev"
+                    elm = (p, e[2])
+                elif e[0] == "dist":
+                    typ = "dist"
                     elm = (p, e[2])
                 else:
                     typ = "data"
@@ -314,7 +351,7 @@ def cores():
             return max(count, 1)
         if system("darwin"):
             str = subprocess.Popen(["sysctl","hw.ncpu"],stdout=subprocess.PIPE).communicate()[0]
-            count = int(str.split(" ")[1].strip())            
+            count = int(str.split(" ")[1].strip())
             return max(count, 1)
         # for windows we might want to look at:
         # http://tgolden.sc.sabren.com/python/wmi.html
