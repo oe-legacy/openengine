@@ -31,7 +31,8 @@ def update(*args):
     update  [dist] -- default target. update all repositories.
     """
     dists = get_dists(*args)    
-    run_repo(parse(*dists)["darcs"])
+    run_repo(parse(*dists)["darcs"]) # run all dists
+    run_repo(parse(*args)["darcs"]) # run rest
 
 def commit(*args):
     """
@@ -42,7 +43,8 @@ def commit(*args):
         user = args[0]
         args = args[1:]
     dists = get_dists(*args)    
-    commit_repo(user, parse(*dists)["darcs-dev"])
+    commit_repo(user, parse(*dists)["darcs-dev"]) # run dist
+    commit_repo(user, parse(*args)["darcs-dev"]) # run rest
 
 def data(*args):
     """
@@ -52,28 +54,48 @@ def data(*args):
     if d: run_data(d)
     else: print "Found no data entries for platform %s." % sys.platform
 
+def add_to_default(folder,url):
+    default = "default.dist"
+    absfld = path.join(os.getcwd(),folder)
+    found = False
+    if os.path.exists(default):
+        es = parse(default)
+        for (fld,u) in es['dist']:
+            if fld == absfld:
+                found = True
+                print "This project is already installed!"                    
+    if not found:
+        f = open(default,"a")
+        f.write("dist /%s %s\n" % (folder, url))
+        f.close()
+            
+    
 def install(dist):
     """
     install <dist> -- install the distribution <dist>
     """
     if dist.startswith("proj:"):
-        dist = "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:])
-    file = dist.split("/")[-1]
+        add_to_default("projects/%s" % (dist[5:]),
+                       "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:]))
+        file = "default.dist"
+    else:
+        file = dist.split("/")[-1]
 
-    if os.path.exists(file):
-        if not ask("The file allready exist do you want to overwrite it",
-                   default=False):
-            error("Aborted install. Please move the existing distribution file and try again.")
-    print "Installing distribution to %s" % file
+        if os.path.exists(file):
+            if not ask("The file allready exist do you want to overwrite it",
+                       default=False):
+                error("Aborted install. Please move the existing distribution file and try again.")
+        print "Installing distribution to %s" % file
 
-    req = urllib2.Request(dist)
-    try: urllib2.urlopen(req)
-    except urllib2.URLError, e:
-        error("Could not fetch dist file: %s, error: %s" % (dist,e))
-    except ValueError, e:
-        pass
+        req = urllib2.Request(dist)
+        try: urllib2.urlopen(req)
+        except urllib2.URLError, e:
+            error("Could not fetch dist file: %s, error: %s" % (dist,e))
+        except ValueError, e:
+            pass
 
-    urllib.urlretrieve(dist, file)
+        urllib.urlretrieve(dist, file)
+    
     if ask("Would you like to update the distribution repositories"):
         update(file)
     if ask("Would you like to fetch the distribution data"):
