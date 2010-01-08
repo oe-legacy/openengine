@@ -30,8 +30,9 @@ def update(*args):
     """
     update  [dist] -- default target. update all repositories.
     """
-    dists = get_dists(*args)    
-    run_repo(parse(*dists)["darcs"]) # run all dists
+    dists = get_dists(*args)
+    if dists:
+        run_repo(parse(*dists)["darcs"]) # run all dists
     run_repo(parse(*args)["darcs"]) # run rest
 
 def commit(*args):
@@ -43,7 +44,8 @@ def commit(*args):
         user = args[0]
         args = args[1:]
     dists = get_dists(*args)    
-    commit_repo(user, parse(*dists)["darcs-dev"]) # run dist
+    if dists:
+        commit_repo(user, parse(*dists)["darcs-dev"]) # run dist
     commit_repo(user, parse(*args)["darcs-dev"]) # run rest
 
 def data(*args):
