@@ -13,7 +13,7 @@
 #include <pthread.h>
 
 namespace OpenEngine {
-    namespace Core {
+namespace Core {
 
 class Thread {
 
@@ -35,7 +35,7 @@ public:
     
 };
 
-    }
+}
 }
 
 #endif

@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 namespace OpenEngine {
-    namespace Core {
+namespace Core {
 
 
 int Thread::Start() {
@@ -30,5 +30,5 @@ void Thread::Sleep(long mills) {
     usleep(mills);
 }
 
-    }
+}
 }
