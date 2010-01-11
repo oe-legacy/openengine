@@ -52,6 +52,11 @@ def data(*args):
     """
     data    [dist] -- fetch all data and libraries for your platform.
     """
+    dists = get_dists(*args)
+    if dists:
+        d = [ (p, r) for s, p, r in parse(*dists)["data"] if system(s)]
+        if d: run_data(d)
+        else: print "Found no data entries for platform %s." % sys.platform
     d = [ (p, r) for s, p, r in parse(*args)["data"] if system(s)]
     if d: run_data(d)
     else: print "Found no data entries for platform %s." % sys.platform
