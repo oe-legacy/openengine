@@ -39,6 +39,7 @@ using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
 using OpenEngine::Utils::Time;
 using OpenEngine::Resources::ITextureResourcePtr;
+using OpenEngine::Resources::ITextureResource;
 
 // forward declerations
 class IRenderer; class IRenderingView;
@@ -152,6 +153,7 @@ public:
      * @param texr Texture resource
      */
     virtual void LoadTexture(ITextureResourcePtr texr) = 0;
+    virtual void LoadTexture(ITextureResource* texr) = 0;
 
     /**
      * Bind or rebind a texture.
@@ -159,6 +161,7 @@ public:
      * @param texr Texture resource
      */
     virtual void RebindTexture(ITextureResourcePtr texr) = 0;
+    virtual void RebindTexture(ITextureResource* texr) = 0;
 
     /**
      * Set the global background colour.

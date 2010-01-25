@@ -30,8 +30,8 @@ typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
  */
 class TextureChangedEventArg {
 public:
- TextureChangedEventArg(ITextureResourcePtr resource) : resource(resource) {}
-    ITextureResourcePtr resource;
+ TextureChangedEventArg(ITextureResource* resource) : resource(resource) {}
+    ITextureResource* resource;
 };
 
 enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE };
