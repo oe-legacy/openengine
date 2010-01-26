@@ -15,24 +15,7 @@
 namespace OpenEngine {
 namespace Resources {
 
-class ITextureResource;
-
-/**
- * Texture resource smart pointer.
- */
-typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
-
-/**
- * Texture change event argument.
- * Contains a pointer to the texture that changed.
- *
- * @class TextureChangedEventArg ITextureResource.h Resource/ITextureResource.h
- */
-class TextureChangedEventArg {
-public:
- TextureChangedEventArg(ITextureResource* resource) : resource(resource) {}
-    ITextureResource* resource;
-};
+class TextureChangedEventArg;
 
 enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE };
 
@@ -143,6 +126,30 @@ public:
     void serialize(Archive& ar, const unsigned int version) {
         ;
     }
+};
+
+/**
+ * Texture resource smart pointer.
+ */
+typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+
+/**
+ * Texture change event argument.
+ * Contains a pointer to the texture that changed.
+ *
+ * @class TextureChangedEventArg ITextureResource.h Resource/ITextureResource.h
+ */
+class TextureChangedEventArg {
+public:
+    ITextureResource* resource;
+    unsigned int xOffset, yOffset, width, height;
+    TextureChangedEventArg(ITextureResource* resource) : resource(resource) {
+        xOffset = yOffset = 0;
+        width = resource->GetWidth();
+        height = resource->GetHeight();
+    }
+    TextureChangedEventArg(ITextureResource* resource, unsigned int x, unsigned int y, unsigned int w, unsigned int h) 
+        : resource(resource), xOffset(x), yOffset(y), width(w), height(h) {}
 };
 
 } // NS Resources
