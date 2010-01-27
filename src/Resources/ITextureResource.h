@@ -25,6 +25,8 @@ enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE };
  * @class ITextureResource ITextureResource.h Resources/ITextureResource.h
  */
 class ITextureResource : public IResource<TextureChangedEventArg> {
+protected:
+    unsigned char channels;
 public:
 
 	/**
@@ -56,11 +58,13 @@ public:
 	virtual unsigned int GetHeight() = 0;
 
     /**
-     * Get color depth on loaded texture.
+     * Get number of channels in the texture.
      *
-     * @return Color depth in pixels.
+     * @return Channels the number of channels.
      */
-    virtual unsigned int GetDepth() = 0;
+    inline unsigned char GetChannels() const {
+        return channels;
+    }
 
     /**
      * Get pointer to loaded texture.
@@ -78,18 +82,16 @@ public:
 
     virtual void Reverse() {
         unsigned int height = this->GetHeight();
-        unsigned int depth = this->GetDepth();
         unsigned int width = this->GetWidth();
         unsigned char* data = this->GetData();
         unsigned char temp;
-        int numberOfCharsPerColor = (depth/8);
-        long size = width * height * numberOfCharsPerColor;
-        for (int i=0,j=size-numberOfCharsPerColor; i<j;
-             i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
-            for (int index=0; index<numberOfCharsPerColor; index++) {
+        long size = width * height * channels;
+        for (int i = 0, j = size-channels; i < j;
+             i += channels, j -= channels) {
+            for (int index = 0; index < channels; index++) {
                 temp = data[i+index];
-		data[i+index] = data[j+index];
-		data[j+index] = temp;
+                data[i+index] = data[j+index];
+                data[j+index] = temp;
             }
         }
     }
@@ -102,17 +104,15 @@ public:
 
     virtual void ReverseHorizontally() {
         unsigned int height = this->GetHeight();
-        unsigned int depth = this->GetDepth();
         unsigned int width = this->GetWidth();
         unsigned char* data = this->GetData();
         unsigned char temp;
-        int numberOfCharsPerColor = (depth/8);
-        long size = width * height * numberOfCharsPerColor;
+        long size = width * height * channels;
         for (int lineNumber=0; lineNumber<size;
-             lineNumber+=width*numberOfCharsPerColor) {
-            for (int i=0, j=(width-1)*numberOfCharsPerColor; i < j;
-                 i+=numberOfCharsPerColor, j-=numberOfCharsPerColor) {
-                for(int index=0; index<numberOfCharsPerColor;index++) {
+             lineNumber+=width*channels) {
+            for (int i=0, j=(width-1)*channels; i < j;
+                 i+=channels, j-=channels) {
+                for(int index=0; index<channels;index++) {
                     temp = data[lineNumber+i+index];
                     data[lineNumber+i+index] = data[lineNumber+j+index];
                     data[lineNumber+j+index] = temp;
