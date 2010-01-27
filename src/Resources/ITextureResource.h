@@ -26,36 +26,49 @@ enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE };
  */
 class ITextureResource : public IResource<TextureChangedEventArg> {
 protected:
+    unsigned int id;
+    unsigned int width, height;
     unsigned char channels;
+    unsigned char* data;
+    ColorFormat format;
 public:
+    ITextureResource() {
+        id = width = height = channels = 0;
+        data = NULL;
+    }
+    
+    virtual ~ITextureResource() {
+        //        if (data)
+            delete [] data;
+    }
 
 	/**
      * Get texture id.
      *
      * @return Texture id.
      */
-    virtual int GetID() = 0;
+    inline unsigned int GetID() { return id; }
 	
     /**
      * Set texture id.
      *
      * @param id Texture id.
      */
-    virtual void SetID(int id) = 0;
+    inline void SetID(int id) { this->id = id; }
 
     /**
      * Get width in pixels on loaded texture.
      *
      * @return width in pixels.
      */
-	virtual unsigned int GetWidth() = 0;
+	inline unsigned int GetWidth() { return width; }
 
     /**
      * Get height in pixels on loaded texture.
      *
      * @return height in pixels.
      */
-	virtual unsigned int GetHeight() = 0;
+	inline unsigned int GetHeight() { return height; }
 
     /**
      * Get number of channels in the texture.
@@ -71,14 +84,26 @@ public:
      *
      * @return Char pointer to loaded data.
      */
-    virtual unsigned char* GetData() = 0;
+    inline unsigned char* GetData() { return data; }
 
+    /**
+     * Unloads the texture data, but leaves the other texture info
+     * intact.
+     */
+    virtual void Unload() {
+        if (data) {
+            delete[] data;
+            data = NULL;
+        }
+    }
+        
+        
     /**
      * Get color format of the texture.
      *
      * @return ColorFormat representing the way colors are stored
      */
-    virtual ColorFormat GetColorFormat() = 0;
+    inline ColorFormat GetColorFormat() { return format; }
 
     virtual void Reverse() {
         unsigned int height = this->GetHeight();
