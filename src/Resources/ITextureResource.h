@@ -38,7 +38,7 @@ public:
     }
     
     virtual ~ITextureResource() {
-        //        if (data)
+        if (data)
             delete [] data;
     }
 

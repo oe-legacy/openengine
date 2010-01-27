@@ -18,13 +18,16 @@
 #include <Geometry/Face.h>
 #include <Math/Vector.h>
 #include <Utils/Timer.h>
-#include <Resources/ITextureResource.h>
 
 // forward declerations
 namespace OpenEngine {
     namespace Display {
         class Viewport;
         class IViewingVolume;
+    }
+    namespace Resources{
+        class ITextureResource;
+        typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
     }
 }
 

@@ -11,10 +11,18 @@
 #define _MATERIAL_H_
 
 #include <Math/Vector.h>
-#include <Resources/ITextureResource.h>
-#include <Resources/IShaderResource.h>
 #include <boost/serialization/shared_ptr.hpp> // include serialization
                                               // for shared_ptr
+// forward declerations
+namespace OpenEngine {
+    namespace Resources{
+        class IShaderResource;
+        typedef boost::shared_ptr<IShaderResource> IShaderResourcePtr;
+        class ITextureResource;
+        typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+    }
+}
+
 namespace OpenEngine {
 namespace Geometry {
 

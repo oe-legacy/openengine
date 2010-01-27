@@ -11,7 +11,6 @@
 #define _I_SHADER_RESOURCE_H_
 
 #include <Resources/IResource.h>
-#include <Resources/ITextureResource.h>
 #include <Math/Vector.h>
 #include <string>
 #include <vector>
@@ -19,6 +18,10 @@
 
 namespace OpenEngine {
 namespace Resources {
+
+// Forward declerations
+class ITextureResource;
+typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
 
 using OpenEngine::Math::Vector;
 using std::string;

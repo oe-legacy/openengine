@@ -11,7 +11,14 @@
 #define _OE_INTERFACE_BUFFERED_RENDERER_H_
 
 #include <Renderers/IRenderer.h>
-#include <Resources/ITextureResource.h>
+
+// forward declerations
+namespace OpenEngine {
+    namespace Resources{
+        class ITextureResource;
+        typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+    }
+}
 
 namespace OpenEngine {
 namespace Renderers {

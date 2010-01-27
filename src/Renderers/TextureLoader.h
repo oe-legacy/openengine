@@ -11,12 +11,17 @@
 #define _OE_TEXTURE_LOADER_H_
 
 #include <Core/IListener.h>
-#include <Resources/ITextureResource.h>
+#include <boost/serialization/shared_ptr.hpp> // include serialization
+                                              // for shared_ptr
 
 // forward declarations
 namespace OpenEngine {
-namespace Scene { class ISceneNode; }
-namespace Renderers { class IRenderer; class RenderingEventArg; }
+    namespace Scene { class ISceneNode; }
+    namespace Renderers { class IRenderer; class RenderingEventArg; }
+    namespace Resources{
+        class ITextureResource;
+        typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+    }
 }
 
 namespace OpenEngine {
