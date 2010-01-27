@@ -41,30 +41,26 @@ typedef boost::shared_ptr<IFontTextureResource> IFontTextureResourcePtr;
 class IFontTextureResource : public ITextureResource {
 public:
     virtual ~IFontTextureResource() {}
+    // /**
+    //  * Set the clear color of the font texture.
+    //  *
+    //  * @param color the clear color in an RGBA float vector.
+    //  **/
+    // virtual void SetClearColor(Vector<4,float> color) = 0;
+
+    // /**
+    //  * Get the current clear color of the font texture.
+    //  *
+    //  * @return the current clear color in an RGBA float vector.
+    //  **/
+    // virtual Vector<4,float> GetClearColor() = 0;
+
     /**
-     * Set the text of the font texture.
+     * Clear the font texture to a specific color.
      *
-     * @param text the string that should be rendered into the texture.
+     * @param color the clear color given in an RGBA float vector.
      **/
-    virtual void SetText(string text) = 0;
-    /**
-     * Get the text of the font texture.
-     *
-     * @return the string that was rendered into the texture.
-     **/
-    virtual string GetText() = 0;
-    /**
-     * Set the text of the font texture.
-     *
-     * @param text the string that should be rendered into the texture.
-     **/
-    virtual void SetBackground(Vector<4,float> color) = 0;
-    /**
-     * Get the text of the font texture.
-     *
-     * @return the string that was rendered into the texture.
-     **/
-    virtual Vector<4,float> GetBackground() = 0;
+    virtual void Clear(Vector<4,float> color) = 0;
 };
 
 } //NS Resources
