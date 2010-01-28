@@ -25,6 +25,7 @@ def commands():
             (clean,   "clean"),
             (targets, "targets"),
             (doc,     "doc"),
+            (etags,   "etags"),
             (help,    "help"),
             (make,    None))
 
@@ -79,6 +80,17 @@ def testv():
     """
     make('test ARGS="-V"')
 
+def etags():
+    """
+    etags         -- generate build/TAGS file for emacs (*nix only)
+    """
+    prepare()
+    execute("find src extensions projects \
+             \\( -name *.h -o -name *.cpp \\) \
+             -not -path */_darcs/* \
+             | xargs etags -o %s/TAGS"
+            % (build_dir))
+
 def help():
     """
     help          -- this message
@@ -91,14 +103,17 @@ def make(target):
     """
     <other>       -- forwarded to make in the build directory
     """
-    if not path.isdir(build_dir):
-        os.mkdir(build_dir)
+    prepare()
     owd = os.getcwd()
     os.chdir(build_dir)
     if not path.isfile(path.join(build_dir, "Makefile")):
         sys_exec_cmake()
     sys_exec_make(target)
     os.chdir(owd)
+
+def prepare():
+    if not path.isdir(build_dir):
+        os.mkdir(build_dir)
 
 def sys_exec_cmake():
     if system("win"):

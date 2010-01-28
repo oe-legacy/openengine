@@ -76,6 +76,14 @@
         ;; default to ordinary compile
         (call-interactively 'compile))))
 
+(defun oe-generate-tags ()
+  "Generate a TAGS file for Emacs and add it to the tags table."
+  (interactive)
+  (let ((make-path (oe-find-make-path (path-parent (buffer-file-name)))))
+    (when make-path
+      (oe-compile "etags")
+      (add-to-list 'tags-table-list (concat make-path "/build")))))
+
 (add-hook 'c++-mode-hook
   (lambda ()
     (local-set-key [(control c) (control v)] 'oe-compile)
