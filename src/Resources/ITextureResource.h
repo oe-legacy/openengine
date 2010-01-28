@@ -166,14 +166,14 @@ typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
  */
 class TextureChangedEventArg {
 public:
-    ITextureResource* resource;
+    ITextureResourcePtr resource;
     unsigned int xOffset, yOffset, width, height;
-    TextureChangedEventArg(ITextureResource* resource) : resource(resource) {
+    TextureChangedEventArg(ITextureResourcePtr resource) : resource(resource) {
         xOffset = yOffset = 0;
         width = resource->GetWidth();
         height = resource->GetHeight();
     }
-    TextureChangedEventArg(ITextureResource* resource, unsigned int x, unsigned int y, unsigned int w, unsigned int h) 
+    TextureChangedEventArg(ITextureResourcePtr resource, unsigned int x, unsigned int y, unsigned int w, unsigned int h) 
         : resource(resource), xOffset(x), yOffset(y), width(w), height(h) {}
 };
 
