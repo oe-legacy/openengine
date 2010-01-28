@@ -163,8 +163,8 @@ public:
      *
      * @param texr Texture resource
      */
-    virtual void RebindTexture(ITextureResourcePtr texr) = 0;
-    virtual void RebindTexture(ITextureResource* texr) = 0;
+    virtual void RebindTexture(ITextureResourcePtr texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
+    virtual void RebindTexture(ITextureResource* texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
 
     /**
      * Set the global background colour.

@@ -113,7 +113,11 @@ public:
     // This call can come through the queue or directly from the
     // texture depending on the reload policy it was loaded with.
     void Handle(TextureChangedEventArg arg) {
-        renderer.LoadTexture(arg.resource);
+        renderer.RebindTexture(arg.resource, 
+                               arg.xOffset,
+                               arg.yOffset,
+                               arg.width,
+                               arg.height);
     }
     // Add a texture depending on the reload policy.
     // In both cases we first remove any reference to this loader
