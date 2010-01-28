@@ -22,10 +22,11 @@ namespace OpenEngine {
             ColorFormat format;
             unsigned char* data;
             bool mipmapping;
+            unsigned int apiType;
 
         public:
             ITexture() {
-                id = channels = 0;
+                id = channels = apiType = 0;
                 data = NULL;
                 mipmapping = true;
             }
