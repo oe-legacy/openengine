@@ -11,51 +11,28 @@
 #define _I_TEXTURE_RESOURCE_H_
 
 #include <Resources/IResource.h>
+#include <Resources/ITexture.h>
 
 namespace OpenEngine {
 namespace Resources {
 
 class TextureChangedEventArg;
 
-enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE };
-
 /**
  * Texture resource interface.
  *
  * @class ITextureResource ITextureResource.h Resources/ITextureResource.h
  */
-class ITextureResource : public IResource<TextureChangedEventArg> {
+class ITextureResource : public IResource<TextureChangedEventArg> 
+                       , public ITexture {
 protected:
-    unsigned int id;
     unsigned int width, height;
-    unsigned char channels;
-    unsigned char* data;
-    ColorFormat format;
 public:
-    ITextureResource() {
-        id = width = height = channels = 0;
-        data = NULL;
+    ITextureResource()
+        : ITexture() {
+        width = height = 0;
     }
     
-    virtual ~ITextureResource() {
-        if (data)
-            delete [] data;
-    }
-
-	/**
-     * Get texture id.
-     *
-     * @return Texture id.
-     */
-    inline unsigned int GetID() { return id; }
-	
-    /**
-     * Set texture id.
-     *
-     * @param id Texture id.
-     */
-    inline void SetID(int id) { this->id = id; }
-
     /**
      * Get width in pixels on loaded texture.
      *
@@ -71,40 +48,16 @@ public:
 	inline unsigned int GetHeight() { return height; }
 
     /**
-     * Get number of channels in the texture.
-     *
-     * @return Channels the number of channels.
-     */
-    inline unsigned char GetChannels() const {
-        return channels;
-    }
-
-    /**
-     * Get pointer to loaded texture.
-     *
-     * @return Char pointer to loaded data.
-     */
-    inline unsigned char* GetData() { return data; }
-
-    /**
      * Unloads the texture data, but leaves the other texture info
      * intact.
      */
     virtual void Unload() {
-        if (data) {
-            delete[] data;
-            data = NULL;
+        if (this->data) {
+            delete [] this->data;
+            this->data = NULL;
         }
     }
         
-        
-    /**
-     * Get color format of the texture.
-     *
-     * @return ColorFormat representing the way colors are stored
-     */
-    inline ColorFormat GetColorFormat() { return format; }
-
     virtual void Reverse() {
         unsigned int height = this->GetHeight();
         unsigned int width = this->GetWidth();
