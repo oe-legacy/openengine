@@ -43,8 +43,8 @@ typedef boost::shared_ptr<IFontTextureResource> IFontTextureResourcePtr;
  */
 class FontChangedEventArg {
 public:
-    FontChangedEventArg(IFontResource* font): font(font) {}
-    IFontResource* font;
+    FontChangedEventArg(IFontResourcePtr font): font(font) {}
+    IFontResourcePtr font;
 };
 
 /**

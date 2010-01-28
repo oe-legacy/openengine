@@ -40,6 +40,7 @@ typedef boost::shared_ptr<IFontTextureResource> IFontTextureResourcePtr;
  */
 class IFontTextureResource : public ITextureResource {
 public:
+    IFontTextureResource() : ITextureResource() {}
     virtual ~IFontTextureResource() {}
     // /**
     //  * Set the clear color of the font texture.
