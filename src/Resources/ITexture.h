@@ -28,7 +28,7 @@ namespace OpenEngine {
 
         public:
             ITexture() {
-                id = channels = 0;
+                id = channels = apiType = 0;
                 data = NULL;
                 mipmapping = true;
                 type = OE_UBYTE;
@@ -132,16 +132,16 @@ namespace OpenEngine {
              *
              * return The api type.
              */
-            inline int GetAPIFormat() const{
-                return apiType;
+            inline int GetAPIColorFormat() const{
+                return apiColorFormat;
             }
 
             /**
              * Set the api format. This should be done prior to
              * applying the texture to have any effect.
              */
-            inline void SetAPIFormat(const int format){
-                apiFormat = format;
+            inline void SetAPIColorFormat(const unsigned int format){
+                apiColorFormat = format;
             }
 
             /**
