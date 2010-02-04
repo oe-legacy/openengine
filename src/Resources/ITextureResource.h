@@ -58,6 +58,27 @@ public:
         }
     }
         
+    /*
+    virtual void Bind(Renderers::IRenderer& render){
+        if (apiType == 0) 
+            apiType = render.GetAPIType((T*) this->data);
+        if (apiFormat == 0) 
+            apiFormat = render.GetAPIFormat(format);
+        render.LoadTexture(this);
+    }
+    */
+
+    /*
+    virtual void Update(Renderers::IRenderer& render, unsigned int x, unsigned int y, unsigned int w, unsigned int h){
+        // Check that the texture has been loaded. If no then bind
+        // instead of rebind.
+        if (this->id == 0)
+            Bind(render);
+        else
+            render.RebindTexture(this, x, y, w, h);
+    }
+    */
+    
     virtual void Reverse() {
         unsigned int height = this->GetHeight();
         unsigned int width = this->GetWidth();

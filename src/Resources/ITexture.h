@@ -10,24 +10,28 @@
 #ifndef _I_TEXTURE_H_
 #define _I_TEXTURE_H_
 
+#include <Meta/OEMeta.h>
+//#include <Renderers/IRenderer.h>
+
 namespace OpenEngine {
     namespace Resources {
-
-        enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE };
 
         class ITexture {
         protected:
             unsigned int id;
             unsigned char channels;
+            OEType type;
             ColorFormat format;
             unsigned char* data;
             bool mipmapping;
+            unsigned int apiType;
 
         public:
             ITexture() {
                 id = channels = 0;
                 data = NULL;
                 mipmapping = true;
+                type = OE_UBYTE;
             }
 
             virtual ~ITexture() {
@@ -98,6 +102,66 @@ namespace OpenEngine {
             inline bool UseMipmapping() const {
                 return mipmapping;
             }
+
+            /**
+             * Returns the textures type relative to the graphics api
+             * after the texture has been applied.
+             *
+             * ex: In OpenGL ITexture<float>.GetType returns GL_FLOAT.
+             *
+             * return The api type.
+             */
+            inline int GetAPIType() const{
+                return apiType;
+            }
+
+            /**
+             * Set the api type. This should be done prior to applying
+             * the texture to have any effect.
+             */
+            inline void SetAPIType(const int type){
+                apiType = type;
+            }
+
+            /**
+             * Returns the textures format relative to the graphics
+             * api after the texture has been applied.
+             *
+             * ex: If the format of the texture is OE_LUMINANCE then
+             * with an OpenGL renderer this will return GL_LUMINANCE.
+             *
+             * return The api type.
+             */
+            inline int GetAPIFormat() const{
+                return apiType;
+            }
+
+            /**
+             * Set the api format. This should be done prior to
+             * applying the texture to have any effect.
+             */
+            inline void SetAPIFormat(const int format){
+                apiFormat = format;
+            }
+
+            /**
+             * Bind the texture to the renderer.
+             *
+             * If you want your texture to be of a type not supported
+             * by the Renderer's GetAPIType method, then you should
+             * override this method and implement your own.
+            virtual void Bind(Renderers::IRenderer& render) = 0;
+             */
+
+            /**
+             * Rebind the texture to the renderer, uploading any
+             * changes made within the reactangle.
+             *
+             * If you want your texture to be of a type not supported
+             * by the Renderer's GetAPIType method, then you should
+             * override this method and implement your own.
+            virtual void Update(Renderers::IRenderer& render, unsigned int x, unsigned int y, unsigned int w, unsigned int h) = 0;
+             */
 
         };
 
