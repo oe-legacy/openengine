@@ -61,19 +61,19 @@ def data(*args):
     if d: run_data(d)
     else: print "Found no data entries for platform %s." % sys.platform
 
-def add_to_default(folder,url):
+def add_to_default(distfile,url):
     default = "default.dist"
-    absfld = path.join(os.getcwd(),folder)
+    absfile = path.join(os.getcwd(),distfile)
     found = False
     if os.path.exists(default):
         es = parse(default)
-        for (fld,u) in es['dist']:
-            if fld == absfld:
+        for (fil,u) in es['dist']:
+            if fil == absfile:
                 found = True
                 print "This project is already installed!"                    
     if not found:
         f = open(default,"a")
-        f.write("dist /%s %s\n" % (folder, url))
+        f.write("dist /%s %s\n" % (distfile, url))
         f.close()
             
     
@@ -82,7 +82,7 @@ def install(dist):
     install <dist> -- install the distribution <dist>
     """
     if dist.startswith("proj:"):
-        add_to_default("projects/%s" % (dist[5:]),
+        add_to_default("projects/%s/%s.dist" % (dist[5:],dist[5:]),
                        "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:]))
         file = "default.dist"
     else:
@@ -213,8 +213,8 @@ def get_dists(*args):
     return dists
 
 def get_dists_helper(ds,dists):
-    for dir, dist in ds:
-        fp = path.join(dir,dist.split("/")[-1])
+    for distfile, dist in ds:
+        fp = distfile #path.join(dir,dist.split("/")[-1])
         if fp not in dists:
             if not path.isfile(fp):
                 print "== Download the dist to tmp!"
