@@ -12,6 +12,7 @@
 
 #include <Scene/ISceneNode.h>
 #include <map>
+#include <string>
 
 namespace OpenEngine {
 namespace Scene {

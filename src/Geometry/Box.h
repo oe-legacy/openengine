@@ -63,14 +63,6 @@ private:
     void SetCorner(const bool x, const bool y, const bool z, Vector<3,float> c);
     void SetFromFaces(FaceSet& faces);
     
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version)
-    {
-        ar & center;
-        ar & corner;
-        ar & corners;
-    }
 
 
 public:

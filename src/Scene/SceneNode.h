@@ -29,19 +29,12 @@ public:
     virtual ~SceneNode();
 
 private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<ISceneNode>(*this);
-    }
-
+    
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::SceneNode);
 
 
 #endif // _SCENE_NODE_H_

@@ -13,9 +13,6 @@
 #include <Scene/ISceneNode.h>
 #include <Geometry/FaceSet.h>
 
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/export.hpp>
-
 namespace OpenEngine {
 namespace Scene {
 
@@ -42,19 +39,11 @@ public:
 private:
     Geometry::FaceSet* faces;
 
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<ISceneNode>(*this);
-        ar & faces;
-    }
 
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::GeometryNode)
 
 #endif // _OE_GEOMETRY_NODE_H_

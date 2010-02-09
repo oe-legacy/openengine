@@ -34,8 +34,7 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<Light>(*this);
-        ar & boost::serialization::base_object<ISceneNode>(*this);
+        ar & boost::serialization::base_object<LightNode>(*this);
     }
 
 };
@@ -43,6 +42,5 @@ private:
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::DirectionalLightNode)
 
 #endif // _DIRECTIONAL_LIGHT_NODE_H_

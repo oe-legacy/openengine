@@ -8,6 +8,7 @@
 //--------------------------------------------------------------------
 
 #include <Scene/RenderStateNode.h>
+#include <string>
 
 namespace OpenEngine {
 namespace Scene {

@@ -11,9 +11,6 @@
 #define _OE_VERTEX_ARRAY_H_
 
 #include <Geometry/Material.h>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/extended_type_info.hpp>
 
 namespace OpenEngine {
 namespace Geometry {
@@ -50,23 +47,10 @@ private:
 
     void Init();
 
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        ar & numFaces;
-        for (int i=0; i<numFaces; i++) {
-            ar & pVertices[i];
-            ar & pNormals[i];
-            ar & pColors[i];
-            ar & pTexCoords[i];
-        }
-    }
 
 };
 
 } // NS Geometry
 } // NS OpenEngine
-
-BOOST_CLASS_EXPORT(OpenEngine::Geometry::VertexArray)
 
 #endif // _VERTEX_ARRAY_H_

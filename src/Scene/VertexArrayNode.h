@@ -60,19 +60,12 @@ public:
 private:
     std::list<Geometry::VertexArray*> vaList;
 
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<ISceneNode>(*this);
-        ar & vaList;
-    }
 
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::VertexArrayNode)
+
 
 #endif // _VERTEX_ARRAY_NODE_H_

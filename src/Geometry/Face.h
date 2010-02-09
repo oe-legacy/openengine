@@ -13,8 +13,7 @@
 #include <Math/Vector.h>
 #include <Geometry/Material.h>
 #include <Math/Math.h>
-#include <boost/serialization/shared_ptr.hpp> // include serialization
-                                              // for shared_ptr
+
 namespace OpenEngine {
 namespace Geometry {
 
@@ -35,19 +34,8 @@ class Face {
 private:
     void Init();
     void Copy(const Face& face);
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive& ar, const unsigned int version) {
-        ar & vert;
-        ar & norm;
-        ar & texc;
-        ar & hardNorm;
-        ar & mat;
-        ar & colr;
-        // bino and tang, are recalculated on load time.
-    }
 
-    Face() {}; // Empty constructor for boost serialize
+    Face() {}; // Empty constructor for serialize
 
 public:
     Vector<3,float> vert[3];    //!< vertex vectors

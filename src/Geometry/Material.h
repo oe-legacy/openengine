@@ -11,8 +11,8 @@
 #define _MATERIAL_H_
 
 #include <Math/Vector.h>
-#include <boost/serialization/shared_ptr.hpp> // include serialization
-                                              // for shared_ptr
+#include <boost/shared_ptr.hpp>
+
 // forward declerations
 namespace OpenEngine {
     namespace Resources{
@@ -43,18 +43,6 @@ class Material {
 private:
     void Copy(const Material& mat);
 
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive& ar, const unsigned int version) {
-        ar & diffuse;
-        ar & ambient;
-        ar & specular;
-        ar & shininess;
-        ar & emission;
-        ar & texr;
-        // members that are not serialized
-        // ar & shad;
-    }
     
     void Init();
 

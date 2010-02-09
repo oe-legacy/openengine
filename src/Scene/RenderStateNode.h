@@ -73,20 +73,11 @@ private:
     RenderStateOption enabled;
     RenderStateOption disabled;
 
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<ISceneNode>(*this);
-        ar & enabled;
-        ar & disabled;
-    }
 
 };
 
 } //NS Scene
 } //NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::RenderStateNode)
 
 #endif // _OE_RENDER_STATE_NODE_H_

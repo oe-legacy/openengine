@@ -1,4 +1,4 @@
-// Positional light node.
+// Light tree node.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,40 +7,40 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _OE_POINT_LIGHT_NODE_H_
-#define _OE_POINT_LIGHT_NODE_H_
+#ifndef _OE_LIGHT_NODE_H_
+#define _OE_LIGHT_NODE_H_
 
-#include <Geometry/Light.h>
 #include <Scene/ISceneNode.h>
+#include <Math/Vector.h>
 
 namespace OpenEngine {
 namespace Scene {
 
-using Geometry::Light;
-
 /**
- * Point Light tree node.
+ * Light tree node.
  * 
- * 
- * @class PointLightNode PointLightNode.h Scene/PointLightNode.h
+ * @class LightNode LightNode.h Scene/LightNode.h
  */
-class PointLightNode : public Light, public ISceneNode {
-    OE_SCENE_NODE(PointLightNode, ISceneNode)
+class LightNode : public ISceneNode {
+    OE_SCENE_NODE(LightNode, ISceneNode)
+
 public:
-    float constAtt, linearAtt, quadAtt;
+    bool active;
+    Math::Vector<4,float> ambient, diffuse, specular;
 
-    PointLightNode();
-    virtual ~PointLightNode();
-
+    LightNode();
+    virtual ~LightNode();
+        
 private:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<LightNode>(*this);
-        ar & constAtt;
-        ar & linearAtt;
-        ar & quadAtt;
+        ar & boost::serialization::base_object<ISceneNode>(*this);
+        ar & active;
+        ar & ambient;
+        ar & diffuse;
+        ar & specular;
     }
 
 };
@@ -48,6 +48,6 @@ private:
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::PointLightNode)
+BOOST_CLASS_EXPORT(OpenEngine::Scene::LightNode)
 
 #endif // _OE_LIGHT_NODE_H_

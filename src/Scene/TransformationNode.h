@@ -85,17 +85,6 @@ private:
     //! @todo - represent the scale as x,y,z. Using a 4x4 matrix is plain wast.
     Vector<3,float> scale;
 	
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<ISceneNode>(*this);
-        ar & rotation;
-        ar & position;
-        ar & accRotation;
-        ar & accPosition;
-        ar & scale;
-    }
 
 protected:
 
@@ -106,7 +95,5 @@ protected:
 
 } // NS Scene
 } // NS OpenEngine
-
-BOOST_CLASS_EXPORT(OpenEngine::Scene::TransformationNode)
 
 #endif // _OE_TRANSFORMATION_NODE_H_

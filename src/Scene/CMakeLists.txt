@@ -50,7 +50,6 @@ TARGET_LINK_LIBRARIES(OpenEngine_Scene
   OpenEngine_Logging
   # link to all libraries that have added extensions to the scene
   ${OE_SCENE_NODE_EXTENSIONS}
-  ${BOOST_SERIALIZATION_LIB}
 )
 
 SUBDIRS(tests)

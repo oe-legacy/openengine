@@ -36,19 +36,19 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<Light>(*this);
-        ar & boost::serialization::base_object<ISceneNode>(*this);
+        ar & boost::serialization::base_object<LightNode>(*this);
         ar & constAtt;
         ar & linearAtt;
         ar & quadAtt;
         ar & cutoff;
         ar & exponent;
    }
+
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::SpotLightNode)
+
 
 #endif // _SPOT_LIGHT_NODE_H_

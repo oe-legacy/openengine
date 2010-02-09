@@ -11,12 +11,6 @@
 #define _OE_INTERFACE_SCENE_NODE_H_
 
 #include <list>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/serialization/extended_type_info.hpp>
-#include <boost/serialization/export.hpp>
-#include <Meta/BoostSerialization.h>
 
 #define OE_SCENE_NODE(klass, syper)                     \
 public:                                                 \
@@ -234,17 +228,10 @@ private:
     void IncAcceptStack();
     void DecAcceptStack();
 
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive& ar, const unsigned int version) {
-        ar & subNodes;
-    }
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-// this could be done for all scene nodes with the SceneNodes.def
-BOOST_CLASS_EXPORT(OpenEngine::Scene::ISceneNode)
 
 #endif // _OE_INTERFACE_SCENE_NODE_H_
