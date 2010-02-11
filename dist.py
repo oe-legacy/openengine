@@ -86,22 +86,22 @@ def install(dist):
                        "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:]))
         file = "default.dist"
     else:
-        file = dist.split("/")[-1]
+        file = dist #.split("/")[-1]
+        add_to_default(dist,"http://err")
+        # if os.path.exists(file):
+        #     if not ask("The file allready exist do you want to overwrite it",
+        #                default=False):
+        #         error("Aborted install. Please move the existing distribution file and try again.")
+        # print "Installing distribution to %s" % file
 
-        if os.path.exists(file):
-            if not ask("The file allready exist do you want to overwrite it",
-                       default=False):
-                error("Aborted install. Please move the existing distribution file and try again.")
-        print "Installing distribution to %s" % file
+        # req = urllib2.Request(dist)
+        # try: urllib2.urlopen(req)
+        # except urllib2.URLError, e:
+        #     error("Could not fetch dist file: %s, error: %s" % (dist,e))
+        # except ValueError, e:
+        #     pass
 
-        req = urllib2.Request(dist)
-        try: urllib2.urlopen(req)
-        except urllib2.URLError, e:
-            error("Could not fetch dist file: %s, error: %s" % (dist,e))
-        except ValueError, e:
-            pass
-
-        urllib.urlretrieve(dist, file)
+        # urllib.urlretrieve(dist, file)
     
     if ask("Would you like to update the distribution repositories"):
         update(file)
