@@ -19,13 +19,13 @@ int test_main(int argc, char* argv[]) {
     r1->EnableOption(RenderStateNode::TEXTURE);
     r1->EnableOption(RenderStateNode::BACKFACE);
 
-    RenderStateNode* intersect = r1->GetIntersection(*current);
+    RenderStateNode* difference = r1->GetDifference(*current);
     // should be only lighing
-    cout << "Options: " <<intersect->GetEnabled() << endl;
+    cout << "Options: " <<difference->GetEnabled() << endl;
 
-    OE_CHECK(true == intersect->IsOptionEnabled(RenderStateNode::BACKFACE));
-    OE_CHECK(false == intersect->IsOptionEnabled(RenderStateNode::SHADER));
-    OE_CHECK(false == intersect->IsOptionEnabled(RenderStateNode::TEXTURE));
+    OE_CHECK(true == difference->IsOptionEnabled(RenderStateNode::BACKFACE));
+    OE_CHECK(false == difference->IsOptionEnabled(RenderStateNode::SHADER));
+    OE_CHECK(false == difference->IsOptionEnabled(RenderStateNode::TEXTURE));
     
 
     return 0;

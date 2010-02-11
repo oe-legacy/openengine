@@ -131,21 +131,51 @@ void RenderStateNode::ToggleOption(RenderStateOption options) {
         EnableOption(options);
 }
 
-RenderStateNode* RenderStateNode::GetInverse() {
-    RenderStateNode* inverse = new RenderStateNode(*this);
-    RenderStateOption inverseDisabled = inverse->enabled;
-    inverse->enabled = inverse->disabled;
-    inverse->disabled = inverseDisabled;
+/**
+ * Get a render state node with the inverse options.
+ *
+ * Thus an explicate enabled option becomes an explicate disabled
+ * option. Inherited options remain unchanged (i.e., implicit).
+ *
+ * Ownership of the created node is transferred to the caller.
+ *
+ * @return New inverted render state node (plus ownership)
+ */
+RenderStateNode* RenderStateNode::GetInverse() const {
+    RenderStateNode* inverse = new RenderStateNode();
+    inverse->enabled  = this->disabled;
+    inverse->disabled = this->enabled;
     return inverse;
 }
 
-RenderStateNode* RenderStateNode::GetIntersection(RenderStateNode& node) const {
-    RenderStateNode* intersect = new RenderStateNode();
+/**
+ * Destructively invert the options of the render state node.
+ *
+ * Thus an explicate enabled option becomes an explicate disabled
+ * option. Inherited options remain unchanged (i.e., implicit).
+ */
+void RenderStateNode::Invert() {
+    RenderStateOption tmp = this->enabled;
+    this->enabled  = this->disabled;
+    this->disabled = tmp;
+}
 
-    intersect->enabled = RenderStateOption((enabled ^ node.enabled) & enabled);
-    intersect->disabled = RenderStateOption((disabled ^ node.disabled) & disabled);
-
-    return intersect;
+/**
+ * Get the difference in options between \a this node and \a other
+ * node (i.e., \a this - \a other).
+ *
+ * Creates a new node with every explicitly enabled or disabled
+ * option from \a this, except if it is also set in \a other.
+ *
+ * Ownership of the new node is transferred to the caller.
+ *
+ * @return New difference render state node (plus ownership)
+ */
+RenderStateNode* RenderStateNode::GetDifference(RenderStateNode& other) const {
+    RenderStateNode* diff = new RenderStateNode();
+    diff->enabled  = RenderStateOption(enabled  & ~other.enabled);
+    diff->disabled = RenderStateOption(disabled & ~other.disabled);
+    return diff;
 }
 
 

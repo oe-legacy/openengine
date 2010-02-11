@@ -64,8 +64,9 @@ public:
     RenderStateOption GetDisabled() const;
     bool IsOptionEnabled(RenderStateOption o) const;
     bool IsOptionDisabled(RenderStateOption o) const;
-    RenderStateNode* GetInverse();
-    RenderStateNode* GetIntersection(RenderStateNode& node) const;
+    void Invert();
+    RenderStateNode* GetInverse() const;
+    RenderStateNode* GetDifference(RenderStateNode& other) const;
     const std::string ToString() const;
 
 private:
