@@ -9,3 +9,7 @@ ADD_TEST              (PropertyNode PropertyNode)
 ADD_EXECUTABLE        (TestVisitorStrategies TestVisitorStrategies.cpp)
 TARGET_LINK_LIBRARIES (TestVisitorStrategies OpenEngine_Scene)
 ADD_TEST              (TestVisitorStrategies TestVisitorStrategies)
+
+ADD_EXECUTABLE        (TestRenderStateNode TestRenderStateNode.cpp)
+TARGET_LINK_LIBRARIES (TestRenderStateNode OpenEngine_Scene)
+ADD_TEST              (TestRenderStateNode TestRenderStateNode)

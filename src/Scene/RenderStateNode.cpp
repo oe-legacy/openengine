@@ -139,6 +139,16 @@ RenderStateNode* RenderStateNode::GetInverse() {
     return inverse;
 }
 
+RenderStateNode* RenderStateNode::GetIntersection(RenderStateNode& node) const {
+    RenderStateNode* intersect = new RenderStateNode();
+
+    intersect->enabled = RenderStateOption((enabled ^ node.enabled) & enabled);
+    intersect->disabled = RenderStateOption((disabled ^ node.disabled) & disabled);
+
+    return intersect;
+}
+
+
 const std::string RenderStateNode::ToString() const {
     std::string str(GetClassName());
     if (enabled != NONE) {
