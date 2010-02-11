@@ -132,7 +132,7 @@ void RenderStateNode::ToggleOption(RenderStateOption options) {
 }
 
 RenderStateNode* RenderStateNode::GetInverse() {
-    RenderStateNode* inverse = new RenderStateNode();
+    RenderStateNode* inverse = new RenderStateNode(*this);
     RenderStateOption inverseDisabled = inverse->enabled;
     inverse->enabled = inverse->disabled;
     inverse->disabled = inverseDisabled;
