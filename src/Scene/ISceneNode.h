@@ -21,6 +21,11 @@ private:
 
 
 namespace OpenEngine {
+    namespace Resources {
+        class IArchiveWriter;
+        class IArchiveReader;
+    }
+
 namespace Scene {
 
 // forward declaration
@@ -194,6 +199,9 @@ public:
      * @see ISceneNodeVisitor
      */
     virtual void Accept(ISceneNodeVisitor& visitor) = 0;
+
+    virtual void Serialize(Resources::IArchiveWriter& w);
+    virtual void Deserialize(Resources::IArchiveReader& r);
 
 private:
 

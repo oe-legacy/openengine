@@ -18,11 +18,10 @@ ADD_LIBRARY(OpenEngine_Resources
   DirectoryManager.h
   DirectoryManager.cpp
   IResourcePlugin.h
-  IDataBlock.h
-  DataBlock.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources
   OpenEngine_Utils
   ${BOOST_FILESYSTEM_LIB}
 )
+SUBDIRS(tests)

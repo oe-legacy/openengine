@@ -8,6 +8,8 @@
 //--------------------------------------------------------------------
 
 #include <Scene/TransformationNode.h>
+#include <Resources/IArchiveWriter.h>
+#include <Resources/IArchiveReader.h>
 
 namespace OpenEngine {
 namespace Scene {
@@ -229,6 +231,24 @@ namespace Scene {
         *rotation = accRotation;
         if (scale) *scale = accScale;
     }
+
+    /**
+     * Serialize a transformation node.
+     */    
+    void TransformationNode::Serialize(Resources::IArchiveWriter& w) {
+        w.WriteQuaternion<float>("rotation",rotation);
+        w.WriteVector<3,float>("position",position);
+        w.WriteVector<3,float>("scale",scale);
+    }
+    /**
+     * Deserialize a transformation node.
+     */    
+    void TransformationNode::Deserialize(Resources::IArchiveReader& r) {
+        rotation = r.ReadQuaternion<float>("rotation");
+        position = r.ReadVector<3,float>("position");
+        scale = r.ReadVector<3,float>("scale");
+    }
+
 
 } // NS Modules
 } // NS OpenEngine

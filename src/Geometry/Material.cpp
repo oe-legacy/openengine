@@ -9,6 +9,12 @@
 
 #include <Geometry/Material.h>
 #include <Logging/Logger.h>
+#include <Resources/IArchiveWriter.h>
+#include <Resources/IArchiveReader.h>
+#include <Resources/ITextureResource.h>
+
+#include <boost/shared_ptr.hpp>
+
 
 namespace OpenEngine {
 namespace Geometry {
@@ -89,6 +95,24 @@ bool Material::Equals(MaterialPtr mat) {
     else if (this->texr != mat->texr) return false;
     else if (this->shad != mat->shad) return false;
     return true;
+}
+
+void Material::Serialize(Resources::IArchiveWriter& w) {
+    w.WriteVector<4,float>("diffuse",diffuse);
+    w.WriteVector<4,float>("ambient",ambient);
+    w.WriteVector<4,float>("specular",specular);
+    w.WriteVector<4,float>("emission",emission);
+    w.WriteFloat("shininess",shininess);
+    w.WriteObjectPtr("texr",texr);
+}
+
+void Material::Deserialize(Resources::IArchiveReader& r) {
+    diffuse = r.ReadVector<4,float>("diffuse");
+    ambient = r.ReadVector<4,float>("ambient");
+    specular = r.ReadVector<4,float>("specular");
+    emission = r.ReadVector<4,float>("emission");
+    shininess = r.ReadFloat("shininess");
+    texr = boost::static_pointer_cast<ITextureResource>(r.ReadObjectPtr("texr"));
 }
 
 } // NS Geometry

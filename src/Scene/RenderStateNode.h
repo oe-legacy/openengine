@@ -13,6 +13,10 @@
 #include <Scene/ISceneNode.h>
 
 namespace OpenEngine {
+    namespace Resources {
+        class IArchiveWriter;
+        class IArchiveReader;
+    }
 namespace Scene {
 
 /**
@@ -58,8 +62,6 @@ public:
     void DisableOption(RenderStateOption options);
     void InheritOption(RenderStateOption options);
     void ToggleOption(RenderStateOption options);
-    void Enable(RenderStateOption option);
-    void Disable(RenderStateOption option);
     RenderStateOption GetEnabled() const;
     RenderStateOption GetDisabled() const;
     bool IsOptionEnabled(RenderStateOption o) const;
@@ -68,6 +70,9 @@ public:
     RenderStateNode* GetInverse() const;
     RenderStateNode* GetDifference(RenderStateNode& other) const;
     const std::string ToString() const;
+
+    void Serialize(Resources::IArchiveWriter& w);
+    void Deserialize(Resources::IArchiveReader& r);
 
 private:
     RenderStateOption enabled;

@@ -1,21 +1,28 @@
 // Geometry node.
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
-// 
-// This program is free software; It is covered by the GNU General 
-// Public License version 2 or any later version. 
-// See the GNU General Public License for more details (see LICENSE). 
+// Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
+//
+// This program is free software; It is covered by the GNU General
+// Public License version 2 or any later version.
+// See the GNU General Public License for more details (see LICENSE).
 //--------------------------------------------------------------------
 
 #include <Scene/GeometryNode.h>
 #include <Math/Vector.h>
 #include <Math/Quaternion.h>
 #include <Utils/Convert.h>
+#include <Resources/IArchiveWriter.h>
+#include <Resources/IArchiveReader.h>
+#include <Resources/ISerializable.h>
+#include <Resources/ITextureResource.h>
+
+#include <boost/shared_ptr.hpp>
+
 
 namespace OpenEngine {
 namespace Scene {
 
-using OpenEngine::Geometry::FaceSet;
+using namespace Geometry;
 using OpenEngine::Math::Vector;
 using OpenEngine::Math::Quaternion;
 
@@ -38,7 +45,7 @@ GeometryNode::GeometryNode(const GeometryNode& node)
 {
     faces = new FaceSet(*node.faces);
 }
-    
+
 /**
  * Face set constructor.
  * The face set will be deleted if replaced by SetFaceSet or upon
@@ -48,13 +55,13 @@ GeometryNode::GeometryNode(const GeometryNode& node)
  */
 GeometryNode::GeometryNode(FaceSet* faces)
     : faces(faces) {
-    
+
 }
 
 /**
  * Destructor.
  * Deletes the contained face set.
- */    
+ */
 GeometryNode::~GeometryNode() {
     delete faces;
 }
@@ -85,6 +92,37 @@ const std::string GeometryNode::ToString() const {
     return GetClassName()
         + "\nFaces: "
         + Utils::Convert::ToString(faces->Size());
+}
+
+void GeometryNode::Serialize(Resources::IArchiveWriter& w) {
+    w.WriteInt("length",faces->Size());
+    for (FaceList::iterator itr = faces->begin();
+         itr != faces->end();
+         itr++) {
+        FacePtr p = *itr;
+        w.WriteArray("vert", p->vert, 3);
+        w.WriteArray("norm", p->norm, 3);
+        w.WriteArray("texc", p->texc, 3);
+        w.WriteArray("colr", p->colr, 3);
+
+        w.WriteObjectPtr("material",p->mat);
+    }
+
+}
+
+void GeometryNode::Deserialize(Resources::IArchiveReader& r) {
+    size_t len = r.ReadInt("length");
+    while(len--) {
+        Vector<3,float> v[3], n[3];
+        r.ReadArray("vert", v, 3);
+        r.ReadArray("norm", n, 3);
+        FacePtr p(new Face(v[0], v[1], v[2], n[0], n[1], n[2]));
+        r.ReadArray("texc", p->texc, 3);
+        r.ReadArray("colr", p->colr, 3);
+
+        p->mat = boost::static_pointer_cast<Material>(r.ReadObjectPtr("material"));
+        faces->Add(p);
+    }
 }
 
 } //NS Scene

@@ -1,10 +1,10 @@
 // Geometry node.
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
-// 
-// This program is free software; It is covered by the GNU General 
-// Public License version 2 or any later version. 
-// See the GNU General Public License for more details (see LICENSE). 
+// Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
+//
+// This program is free software; It is covered by the GNU General
+// Public License version 2 or any later version.
+// See the GNU General Public License for more details (see LICENSE).
 //--------------------------------------------------------------------
 
 #ifndef _OE_GEOMETRY_NODE_H_
@@ -14,6 +14,10 @@
 #include <Geometry/FaceSet.h>
 
 namespace OpenEngine {
+    namespace Resources {
+        class IArchiveWriter;
+        class IArchiveReader;
+    }
 namespace Scene {
 
 /**
@@ -35,6 +39,9 @@ public:
     void SetFaceSet(Geometry::FaceSet* faces);
 
     const std::string ToString() const;
+
+    void Serialize(Resources::IArchiveWriter& w);
+    void Deserialize(Resources::IArchiveReader& r);
 
 private:
     Geometry::FaceSet* faces;

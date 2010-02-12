@@ -18,6 +18,10 @@
 #include <Math/Quaternion.h>
 
 namespace OpenEngine {
+    namespace Resources {
+        class IArchiveWriter;
+        class IArchiveReader;
+    }
 namespace Scene {
 
 using OpenEngine::Math::Vector;
@@ -62,8 +66,13 @@ public:
     Vector<3,float>   GetScale();
     Matrix<4,4,float> GetScaleMatrix();
     Matrix<4,4,float> GetTransformationMatrix();
-    void GetAccumulatedTransformations(Vector<3,float>* position, Quaternion<float>* rotation, Vector<3,float>* scale = NULL);
+    void GetAccumulatedTransformations(Vector<3,float>* position, 
+                                       Quaternion<float>* rotation, 
+                                       Vector<3,float>* scale = NULL);
 
+    void Serialize(Resources::IArchiveWriter& w);
+    void Deserialize(Resources::IArchiveReader& r);
+    
 private:
 
     //! current rotation quaternion

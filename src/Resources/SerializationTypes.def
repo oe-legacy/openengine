@@ -1,0 +1,5 @@
+
+S_TYPE (int, Int)
+S_TYPE (float, Float)
+S_TYPE (double, Double)
+

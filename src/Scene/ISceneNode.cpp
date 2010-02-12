@@ -1,14 +1,15 @@
-// 
+//
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
-// 
-// This program is free software; It is covered by the GNU General 
-// Public License version 2 or any later version. 
-// See the GNU General Public License for more details (see LICENSE). 
+// Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
+//
+// This program is free software; It is covered by the GNU General
+// Public License version 2 or any later version.
+// See the GNU General Public License for more details (see LICENSE).
 //--------------------------------------------------------------------
 
 #include <Scene/ISceneNode.h>
 #include <Scene/Exceptions.h>
+
 
 namespace OpenEngine {
 namespace Scene {
@@ -18,7 +19,7 @@ using std::list;
 ISceneNode::ISceneNode()
     : parent(NULL)
     , acceptStack(0) {
-    
+
 }
 
 ISceneNode::ISceneNode(const ISceneNode& node)
@@ -34,7 +35,7 @@ ISceneNode::~ISceneNode() {
         delete *itr;
     subNodes.clear();
 }
-    
+
 ISceneNode* ISceneNode::GetParent() {
     return parent;
 }
@@ -56,10 +57,10 @@ int ISceneNode::IndexOfNode(ISceneNode* node) {
     for (list<ISceneNode*>::iterator itr = subNodes.begin();
          itr != subNodes.end();
          itr++) {
-        
+
         if (*itr == node)
             return index;
-        index++;            
+        index++;
     }
     return -1;
 }
@@ -94,7 +95,7 @@ void ISceneNode::IncAcceptStack() {
  */
 void ISceneNode::DecAcceptStack() {
     // if the accept stack is exhausted perform actions on all nodes
-    // that were queued 
+    // that were queued
     if (--acceptStack == 0) {
         list<QueuedNode>::iterator q;
         for (q = operationQueue.begin(); q != operationQueue.end(); q++) {
@@ -201,6 +202,13 @@ void ISceneNode::DeleteAllNodes() {
     }
     if (node) DeleteNode(node);
 }
+
+void ISceneNode::Serialize(Resources::IArchiveWriter& w) {
+}
+
+void ISceneNode::Deserialize(Resources::IArchiveReader& r) {
+}
+
 
 } // NS Scene
 } // NS OpenEngine

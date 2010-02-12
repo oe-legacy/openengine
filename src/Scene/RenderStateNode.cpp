@@ -1,13 +1,15 @@
 // Rendering state node.
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
-// 
-// This program is free software; It is covered by the GNU General 
-// Public License version 2 or any later version. 
-// See the GNU General Public License for more details (see LICENSE). 
+// Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
+//
+// This program is free software; It is covered by the GNU General
+// Public License version 2 or any later version.
+// See the GNU General Public License for more details (see LICENSE).
 //--------------------------------------------------------------------
 
 #include <Scene/RenderStateNode.h>
+#include <Resources/IArchiveWriter.h>
+#include <Resources/IArchiveReader.h>
 #include <string>
 
 namespace OpenEngine {
@@ -231,6 +233,16 @@ const std::string RenderStateNode::ToString() const {
         str[str.length()-1] = ' ';
     }
     return str;
+}
+
+void RenderStateNode::Serialize(Resources::IArchiveWriter& w) {
+    w.WriteInt("enabled",enabled);
+    w.WriteInt("disabled",disabled);
+}
+
+void RenderStateNode::Deserialize(Resources::IArchiveReader& r) {
+    enabled = (RenderStateOption)r.ReadInt("enabled");
+    disabled = (RenderStateOption)r.ReadInt("disabled");
 }
 
 } //NS Scene

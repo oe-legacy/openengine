@@ -1,3 +1,14 @@
+## Macro to add serializeable objects for an extension.
+
+SET(OE_SERIALIZABLE_OBJECTS "")
+
+MACRO(OE_ADD_SERIALIZABLE_OBJECTS ext)
+  # Nodes are in ${ARGN}
+  FOREACH(NODE ${ARGN})
+    SET(OE_SERIALIZABLE_OBJECTS ${OE_SERIALIZABLE_OBJECTS} "${NODE}")
+  ENDFOREACH(NODE)
+ENDMACRO(OE_ADD_SERIALIZABLE_OBJECTS)
+
 ## Macro to add scene nodes for an extension.
 ## Usage: OE_ADD_SCENE_NODES(MyExtension Scene/Node1 Scene/Node2)
 ## Notice that the nodes do not have file endings (.h or .cpp)!
@@ -120,6 +131,37 @@ STRING(CONFIGURE ${OE_AUTOGEN_HEADER_TPL} OE_AUTOGEN_HEADER @ONLY)
 CONFIGURE_FILE(${OE_SOURCE_DIR}/Scene/SceneNodes.h.tpl
                ${OE_SOURCE_DIR}/Scene/SceneNodes.h
                @ONLY)
+
+## --
+
+SET(OE_SERIALIZABLE_OBJECTS_XMACRO_EXPANSION "")
+SET(OE_SERIALIZABLE_OBJECTS_INCLUDE_EXPANSION "")
+
+FOREACH(OBJECT ${OE_SERIALIZABLE_OBJECTS})
+  STRING(REGEX REPLACE "^([a-zA-Z0-9/]*)/([a-zA-Z][a-zA-Z0-9]*)$" "\\1" NAMESPACE   ${OBJECT})
+  STRING(REGEX REPLACE "^([a-zA-Z0-9/]*)/([a-zA-Z][a-zA-Z0-9]*)$" "\\2" CLASS       ${OBJECT})
+  SET(OE_SERIALIZABLE_OBJECTS_XMACRO_EXPANSION
+    "${OE_SERIALIZABLE_OBJECTS_XMACRO_EXPANSION}S_OBJECT(${NAMESPACE},${CLASS})\n")
+  SET(OE_SERIALIZABLE_OBJECTS_INCLUDE_EXPANSION
+    "${OE_SERIALIZABLE_OBJECTS_INCLUDE_EXPANSION}#include <${NAMESPACE}/${CLASS}.h>\n")
+ENDFOREACH(OBJECT)
+
+## -------------------------------------------------
+## SERIALIZATION TEMPLATE GENERATION
+## -------------------------------------------------
+
+SET(TEMPLATE_FILE_NAME "SerializableObjects.def.tpl")
+STRING(CONFIGURE ${OE_AUTOGEN_HEADER_TPL} OE_AUTOGEN_HEADER @ONLY)
+CONFIGURE_FILE(${OE_SOURCE_DIR}/Resources/SerializableObjects.def.tpl
+               ${OE_SOURCE_DIR}/Resources/SerializableObjects.def
+               @ONLY)
+
+SET(TEMPLATE_FILE_NAME "SerializableObjects.h.tpl")
+STRING(CONFIGURE ${OE_AUTOGEN_HEADER_TPL} OE_AUTOGEN_HEADER @ONLY)
+CONFIGURE_FILE(${OE_SOURCE_DIR}/Resources/SerializableObjects.h.tpl
+               ${OE_SOURCE_DIR}/Resources/SerializableObjects.h
+               @ONLY)
+
 
 ## --------------------------------------------------
 ## PROJECT LINKING
