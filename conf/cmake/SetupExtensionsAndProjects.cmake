@@ -1,12 +1,14 @@
 ## Macro to add serializeable objects for an extension.
-
+## Usage: OE_ADD_SERIALIZABLE_OBJECTS(MyExtension Namespace/Object1 Namespace/Object2)
+## Notice that the objects do not have file endings (.h or .cpp)!
 SET(OE_SERIALIZABLE_OBJECTS "")
-
+SET(OE_SERIALIZABLE_OBJECT_EXTENSIONS "")
 MACRO(OE_ADD_SERIALIZABLE_OBJECTS ext)
   # Nodes are in ${ARGN}
   FOREACH(NODE ${ARGN})
     SET(OE_SERIALIZABLE_OBJECTS ${OE_SERIALIZABLE_OBJECTS} "${NODE}")
   ENDFOREACH(NODE)
+  SET(OE_SERIALIZABLE_OBJECT_EXTENSIONS ${OE_SERIALIZABLE_OBJECT_EXTENSIONS} ${ext})
 ENDMACRO(OE_ADD_SERIALIZABLE_OBJECTS)
 
 ## Macro to add scene nodes for an extension.
