@@ -10,6 +10,7 @@
 #ifndef _OE_INTERFACE_SCENE_NODE_H_
 #define _OE_INTERFACE_SCENE_NODE_H_
 
+#include <string>
 #include <list>
 
 #define OE_SCENE_NODE(klass, syper)                     \
