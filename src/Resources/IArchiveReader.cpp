@@ -61,7 +61,7 @@ ISerializable* IArchiveReader::ReadObject(string key) {
             obj = new ns::klass();          \
             break;                 
 #include <Resources/SerializableObjects.def>
-#undef S_OBJECT;
+#undef S_OBJECT
         default:
             throw Exception("Unknown class in ReadObject");
         };
@@ -90,7 +90,7 @@ shared_ptr<ISerializable> IArchiveReader::ReadObjectPtr(string key) {
             obj.reset(new ns::klass());     \
             break;                 
 #include <Resources/SerializableObjects.def>
-#undef S_OBJECT;
+#undef S_OBJECT
         default:
             throw Exception("Unknown class in ReadObjectPtr");
         };
