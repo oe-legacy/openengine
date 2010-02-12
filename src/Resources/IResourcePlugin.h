@@ -1,9 +1,21 @@
+// Program name and description
+// -------------------------------------------------------------------
+// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// 
+// This program is free software; It is covered by the GNU General 
+// Public License version 2 or any later version. 
+// See the GNU General Public License for more details (see LICENSE). 
+//--------------------------------------------------------------------
+
 #ifndef _RESOURCE_PLUGIN_INTERFACE_
 #define _RESOURCE_PLUGIN_INTERFACE_
 
 #include <string>
 #include <list>
 #include <boost/shared_ptr.hpp>
+
+namespace OpenEngine {
+    namespace Resources {
 
 /**
  * Resources plug-in interface.
@@ -60,5 +72,8 @@ protected:
 	}
 
 };
+
+    }
+}
 
 #endif //_RESOURCE_PLUGIN_INTERFACE_
