@@ -177,7 +177,6 @@ public:
             }
         return r;
     }
-
     /**
      * Matrix-Vector multiplication. 3*3 matrices only.
      */
@@ -189,7 +188,6 @@ public:
         r[2] = elm[2][0] * v.Get(0) + elm[2][1] * v.Get(1) + elm[2][2] * v.Get(2);
         return r;
     }
-
     /**
      * Matrix-Vector multiplication of 4*4 matrices.
      */
@@ -202,11 +200,9 @@ public:
         r[3] = elm[3][0] * v.Get(0) + elm[3][1] * v.Get(1) + elm[3][2] * v.Get(2) + elm[3][3] * v.Get(3);
         return r;
     }
-
     /**
      * Scalar mult
      */
-
     const Matrix<M,N,T> operator*(const T s) {
         Matrix<M,M,T> r;
         for (unsigned int i=0; i<M; i++) 
@@ -215,7 +211,6 @@ public:
             }
         return r;
     }
-
     /**
      * Get matrix row vector.
      * @code
@@ -229,6 +224,15 @@ public:
      */
     Vector<N,T> operator[](const unsigned int i) {
         return this->GetRow(i);
+    }
+    /**
+     * Set matrix row vector.
+     *
+     * @param i Row index
+     * @param r Row vector
+     */
+    void SetRow(const unsigned int i, const Vector<N,T> r) {
+        r.ToArray(elm[i]);
     }
     /**
      * Get matrix row vector.
