@@ -123,18 +123,23 @@ void test_Quaternion_read(IArchiveReader& r) {
 
 
 void test_scene_write(IArchiveWriter& w) {
-    SceneNode node,n1,n2,n3;
-    TransformationNode tn;
+    SceneNode* node = new SceneNode();
+    SceneNode* n1 = new SceneNode();
+    SceneNode* n2 = new SceneNode();
+    SceneNode* n3 = new SceneNode();
+
+    TransformationNode* tn = new TransformationNode();
     
-    tn.SetPosition(Vector<3,float>(1,2,3));
+    tn->SetPosition(Vector<3,float>(1,2,3));
 
-    node.AddNode(&n1);
-    node.AddNode(&n2);
-    n1.AddNode(&n3);
-    n3.AddNode(&tn);
+    node->AddNode(n1);
+    node->AddNode(n2);
+    n1->AddNode(n3);
+    n3->AddNode(tn);
 
-    w.WriteScene("root",&node);
+    w.WriteScene("root", node);
 
+    delete node;
 }
 
 void test_scene_read(IArchiveReader& r) {
