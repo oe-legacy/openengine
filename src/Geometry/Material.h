@@ -45,6 +45,8 @@ typedef boost::shared_ptr<Material> MaterialPtr;
   * @class Material Material.h Geometry/Material.h
  */
 class Material : public Resources::ISerializable {
+    OE_SERIALIZABLE_OBJECT(Material)
+
 private:
     void Copy(const Material& mat);
 
@@ -78,8 +80,6 @@ public:
     virtual ~Material();
 
     bool Equals(MaterialPtr mat);
-
-    unsigned int GetSerialzationTag();
 
     void Serialize(Resources::IArchiveWriter& w);
     void Deserialize(Resources::IArchiveReader& r);

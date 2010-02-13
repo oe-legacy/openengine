@@ -11,6 +11,16 @@
 #ifndef _OE_I_SERIALIZABLE_H_
 #define _OE_I_SERIALIZABLE_H_
 
+/**
+ * Serializable object header macro.
+ * This should be the first line in the definition of a serializable
+ * object definition.
+ */
+#define OE_SERIALIZABLE_OBJECT(klass)           \
+public:                                         \
+virtual unsigned int GetSerialzationTag();      \
+private:
+
 #include <Resources/IArchiveWriter.h>
 #include <Resources/IArchiveReader.h>
 
