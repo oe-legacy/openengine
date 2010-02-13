@@ -80,7 +80,4 @@ public:
 } // NS Resources
 } // NS OpenEngine
 
-#undef WRITE_PRIM
-#undef READ_PRIM
-
 #endif // _OE_STREAM_ARCHIVE_H_

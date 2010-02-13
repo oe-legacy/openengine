@@ -18,7 +18,7 @@
 
 #include <string>
 #include <sstream>
-
+#include <map>
 
 #include <Resources/Serialization.h>
 #include <boost/shared_ptr.hpp>
