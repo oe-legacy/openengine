@@ -52,8 +52,18 @@ public:
     virtual std::string ReadString (std::string key) = 0;
 
     virtual Scene::ISceneNode* ReadScene(std::string key) = 0;
-    ISerializable* ReadObject(std::string key);
-    boost::shared_ptr<ISerializable> ReadObjectPtr(std::string key);
+
+    template <class T>
+    T* ReadObject(std::string key) {
+        return static_cast<T*>(ReadObject_(key));
+    }
+    ISerializable* ReadObject_(std::string key);
+
+    template <class T>
+    boost::shared_ptr<T> ReadObjectPtr(std::string key) {
+        return boost::static_pointer_cast<T>(ReadObjectPtr_(key));
+    }
+    boost::shared_ptr<ISerializable> ReadObjectPtr_(std::string key);
     // 
 
     template <class T>

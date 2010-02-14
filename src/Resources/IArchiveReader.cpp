@@ -45,7 +45,7 @@ using namespace boost;
 #undef S_TYPE
 
 
-ISerializable* IArchiveReader::ReadObject(string key) {
+ISerializable* IArchiveReader::ReadObject_(string key) {
     size_t s = Begin(key);
     if (s != 0)
         throw Exception("Invalid size in ReadObject");
@@ -74,7 +74,7 @@ ISerializable* IArchiveReader::ReadObject(string key) {
     return obj;
 }
 
-shared_ptr<ISerializable> IArchiveReader::ReadObjectPtr(string key) {
+shared_ptr<ISerializable> IArchiveReader::ReadObjectPtr_(string key) {
     size_t s = Begin(key);
     if (s != 0)
         throw Exception("Invalid size in ReadObject");
