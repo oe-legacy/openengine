@@ -13,8 +13,15 @@
 #include <Math/Vector.h>
 #include <Geometry/Material.h>
 #include <Math/Math.h>
+#include <Resources/ISerializable.h>
 
 namespace OpenEngine {
+
+namespace Resources {
+    class IArchiveWriter;
+    class IArchiveReader;
+}
+
 namespace Geometry {
 
 using namespace OpenEngine::Math;
@@ -30,14 +37,16 @@ typedef boost::shared_ptr<Face> FacePtr;
  *
  * @class Face FaceSet.h Geometry/FaceSet.h
  */
-class Face {
+class Face : public ISerializable {
+    OE_SERIALIZABLE_OBJECT(Face)
+
 private:
     void Init();
     void Copy(const Face& face);
 
+public:
     Face() {}; // Empty constructor for serialize
 
-public:
     Vector<3,float> vert[3];    //!< vertex vectors
     Vector<3,float> norm[3];    //!< normal vectors
     Vector<2,float> texc[3];    //!< texture coordinates
@@ -71,6 +80,9 @@ public:
     bool Verify();
 	void Scale(float s);
     std::string ToString();
+
+    void Serialize(Resources::IArchiveWriter& w);
+    void Deserialize(Resources::IArchiveReader& r);
 };
 
 } // NS Geometry

@@ -12,11 +12,15 @@
 #include <math.h>
 #include <Math/Math.h>
 
+#include <Resources/IArchiveWriter.h>
+#include <Resources/IArchiveReader.h>
+
 namespace OpenEngine {
 namespace Geometry {
 
 using namespace std;
-using namespace OpenEngine::Math;
+using namespace Math;
+using namespace Resources;
 
 // Shared initialization code
 void Face::Init() {
@@ -392,6 +396,23 @@ std::string Face::ToString() {
     str += " norm[2]: " + norm[2].ToString() + "\n";
     str += " hardNorm: " + hardNorm.ToString();
     return str;
+}
+
+void Face::Serialize(IArchiveWriter& w) {
+    w.WriteArray("vert", vert, 3);
+    w.WriteArray("norm", norm, 3);
+    w.WriteArray("texc", texc, 3);
+    w.WriteArray("colr", colr, 3);
+    w.WriteObjectPtr("material", mat);
+}
+
+void Face::Deserialize(IArchiveReader& r) {
+    r.ReadArray("vert", vert, 3);
+    r.ReadArray("norm", norm, 3);
+    r.ReadArray("texc", texc, 3);
+    r.ReadArray("colr", colr, 3);
+    Init();
+    mat = r.ReadObjectPtr<Material>("material");
 }
 
 } // NS Geometry

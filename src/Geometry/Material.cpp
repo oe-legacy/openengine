@@ -112,7 +112,7 @@ void Material::Deserialize(Resources::IArchiveReader& r) {
     specular = r.ReadVector<4,float>("specular");
     emission = r.ReadVector<4,float>("emission");
     shininess = r.ReadFloat("shininess");
-    texr = boost::static_pointer_cast<ITextureResource>(r.ReadObjectPtr("texr"));
+    texr = r.ReadObjectPtr<ITextureResource>("texr");
 }
 
 } // NS Geometry

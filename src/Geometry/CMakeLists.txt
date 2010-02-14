@@ -32,4 +32,5 @@ ADD_LIBRARY(OpenEngine_Geometry
 TARGET_LINK_LIBRARIES(OpenEngine_Geometry
   OpenEngine_Math
   OpenEngine_Logging
+  OpenEngine_Resources
 )

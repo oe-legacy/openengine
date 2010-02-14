@@ -48,6 +48,7 @@ TARGET_LINK_LIBRARIES(OpenEngine_Scene
   OpenEngine_Utils
   OpenEngine_Geometry
   OpenEngine_Logging
+  OpenEngine_Resources
   # link to all libraries that have added extensions to the scene
   ${OE_SCENE_NODE_EXTENSIONS}
 )

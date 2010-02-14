@@ -99,30 +99,14 @@ void GeometryNode::Serialize(Resources::IArchiveWriter& w) {
     for (FaceList::iterator itr = faces->begin();
          itr != faces->end();
          itr++) {
-        FacePtr p = *itr;
-        w.WriteArray("vert", p->vert, 3);
-        w.WriteArray("norm", p->norm, 3);
-        w.WriteArray("texc", p->texc, 3);
-        w.WriteArray("colr", p->colr, 3);
-
-        w.WriteObjectPtr("material",p->mat);
+        w.WriteObjectPtr("face", *itr);
     }
-
 }
 
 void GeometryNode::Deserialize(Resources::IArchiveReader& r) {
     size_t len = r.ReadInt("length");
-    while(len--) {
-        Vector<3,float> v[3], n[3];
-        r.ReadArray("vert", v, 3);
-        r.ReadArray("norm", n, 3);
-        FacePtr p(new Face(v[0], v[1], v[2], n[0], n[1], n[2]));
-        r.ReadArray("texc", p->texc, 3);
-        r.ReadArray("colr", p->colr, 3);
-
-        p->mat = boost::static_pointer_cast<Material>(r.ReadObjectPtr("material"));
-        faces->Add(p);
-    }
+    while (len--)
+        faces->Add(r.ReadObjectPtr<Face>("face"));
 }
 
 } //NS Scene
