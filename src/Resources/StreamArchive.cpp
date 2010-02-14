@@ -94,7 +94,6 @@ ISceneNode* StreamArchiveReader::ReadNode() {
         throw Exception("Unknown node tag in ReadScene");
         break;
     }
-    node->Deserialize(*this);
     // Read children...
     unsigned int size = Begin(CHILD_KEY);
 
@@ -103,6 +102,8 @@ ISceneNode* StreamArchiveReader::ReadNode() {
     }
 
     End(CHILD_KEY);
+
+    node->Deserialize(*this);
     return node;
 
 }
@@ -148,10 +149,10 @@ public:
     void Visit##type(type* node) {                      \
         w._Write(node->GetClassName());                 \
         w.WriteInt(TAG_KEY,NODE_##type);                \
-        node->Serialize(w);                             \
         w.Begin(CHILD_KEY,node->GetNumberOfNodes());    \
         node->VisitSubNodes(*this);                     \
         w.End(CHILD_KEY);                               \
+        node->Serialize(w);                             \
 }
 
 
@@ -211,5 +212,3 @@ void StreamArchiveWriter::WriteString(string key, string str) {
 
 } // NS Resources
 } // NS OpenEngine
-
-
