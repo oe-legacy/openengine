@@ -13,7 +13,7 @@
 #ifndef _I_FONT_TEXTURE_RESOURCE_H_
 #define _I_FONT_TEXTURE_RESOURCE_H_
 
-#include <Resources/ITextureResource.h>
+#include <Resources/Texture2D.h>
 #include <Math/Vector.h>
 #include <string>
 
@@ -38,9 +38,9 @@ typedef boost::shared_ptr<IFontTextureResource> IFontTextureResourcePtr;
  *
  * @class IFontTextureResource IFontTextureResource.h Resources/IFontTextureResource.h
  */
-class IFontTextureResource : public ITextureResource {
+class IFontTextureResource : public Texture2D<unsigned char> {
 public:
-    IFontTextureResource() : ITextureResource() {}
+    IFontTextureResource() : Texture2D<unsigned char>() {}
     virtual ~IFontTextureResource() {}
     // /**
     //  * Set the clear color of the font texture.

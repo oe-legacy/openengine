@@ -18,8 +18,8 @@ namespace OpenEngine {
     namespace Resources{
         class IShaderResource;
         typedef boost::shared_ptr<IShaderResource> IShaderResourcePtr;
-        class ITextureResource;
-        typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+        class ITexture2D;
+        typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
     }
 }
 
@@ -73,7 +73,7 @@ public:
 
 //     float indexOfRefraction;     //!< reflective color
     
-    OpenEngine::Resources::ITextureResourcePtr texr; //!< texture resource
+    OpenEngine::Resources::ITexture2DPtr texr; //!< texture resource
     OpenEngine::Resources::IShaderResourcePtr  shad; //!< shader resource
 
     Material(); 

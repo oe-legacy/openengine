@@ -10,34 +10,54 @@
 #ifndef _I_TEXTURE_H_
 #define _I_TEXTURE_H_
 
-#include <Meta/OEMeta.h>
-//#include <Renderers/IRenderer.h>
+#include <Resources/ResourceFormats.h>
+#include <Renderers/IRenderer.h>
 
 namespace OpenEngine {
     namespace Resources {
 
+        /**
+         * Basic texture interface.
+         *
+         * @class TTexture2D Texture2D.h Resources/Texture2D.h
+         */
         class ITexture {
         protected:
             unsigned int id;
             unsigned char channels;
-            OEType type;
+            Type type;
             ColorFormat format;
-            unsigned char* data;
+            void* data;
             bool mipmapping;
-            unsigned int apiType;
+
+            /**
+             * Sets up the textures type dependent on the template
+             * parameter.
+             */
+            template <class T> void SetupType(){
+                if (typeid(T) == typeid(unsigned char))
+                    this->type = UBYTE;
+                else if (typeid(T) == typeid(char))
+                    this->type = BYTE;
+                else if (typeid(T) == typeid(unsigned int))
+                    this->type = UINT;
+                else if (typeid(T) == typeid(int))
+                    this->type = INT;
+                else if (typeid(T) == typeid(float))
+                    this->type = FLOAT;
+                else 
+                    this->type = NOTYPE;
+            }
 
         public:
             ITexture() {
-                id = channels = apiType = 0;
+                id = channels = 0;
                 data = NULL;
                 mipmapping = true;
-                type = OE_UBYTE;
+                type = NOTYPE;
             }
 
-            virtual ~ITexture() {
-                if (data)
-                    delete [] data;
-            }
+            virtual ~ITexture() {}
 
             /**
              * Get texture id.
@@ -67,21 +87,31 @@ namespace OpenEngine {
              *
              * @return Char pointer to loaded data.
              */
-            inline void* GetVoidDataPtr() { return (void*) data; }
+            inline void* GetVoidDataPtr() { return data; }
 
             /**
-             * Get pointer to loaded texture.
+             * Get the type of the texture.
              *
-             * @return Char pointer to loaded data.
+             * @return OEType the type of the texture.
              */
-            inline unsigned char* GetData() { return data; }
-            
+            inline Type GetType() { return type; }
+
+            /**
+             * Set the type of the texture.
+             */
+            virtual void SetType(Type t) { type = t; }
+
             /**
              * Get color format of the texture.
              *
              * @return ColorFormat representing the way colors are stored
              */
             inline ColorFormat GetColorFormat() { return format; }
+
+            /**
+             * Set color format of the texture.
+             */
+            virtual void SetColorFormat(ColorFormat f) { format = f; }
 
             /**
              * Set wether mipmapping should be enabled or disabled.
@@ -102,66 +132,6 @@ namespace OpenEngine {
             inline bool UseMipmapping() const {
                 return mipmapping;
             }
-
-            /**
-             * Returns the textures type relative to the graphics api
-             * after the texture has been applied.
-             *
-             * ex: In OpenGL ITexture<float>.GetType returns GL_FLOAT.
-             *
-             * return The api type.
-             */
-            inline int GetAPIType() const{
-                return apiType;
-            }
-
-            /**
-             * Set the api type. This should be done prior to applying
-             * the texture to have any effect.
-             */
-            inline void SetAPIType(const int type){
-                apiType = type;
-            }
-
-            /**
-             * Returns the textures format relative to the graphics
-             * api after the texture has been applied.
-             *
-             * ex: If the format of the texture is OE_LUMINANCE then
-             * with an OpenGL renderer this will return GL_LUMINANCE.
-             *
-             * return The api type.
-             */
-            inline int GetAPIColorFormat() const{
-                return apiColorFormat;
-            }
-
-            /**
-             * Set the api format. This should be done prior to
-             * applying the texture to have any effect.
-             */
-            inline void SetAPIColorFormat(const unsigned int format){
-                apiColorFormat = format;
-            }
-
-            /**
-             * Bind the texture to the renderer.
-             *
-             * If you want your texture to be of a type not supported
-             * by the Renderer's GetAPIType method, then you should
-             * override this method and implement your own.
-            virtual void Bind(Renderers::IRenderer& render) = 0;
-             */
-
-            /**
-             * Rebind the texture to the renderer, uploading any
-             * changes made within the reactangle.
-             *
-             * If you want your texture to be of a type not supported
-             * by the Renderer's GetAPIType method, then you should
-             * override this method and implement your own.
-            virtual void Update(Renderers::IRenderer& render, unsigned int x, unsigned int y, unsigned int w, unsigned int h) = 0;
-             */
 
         };
 

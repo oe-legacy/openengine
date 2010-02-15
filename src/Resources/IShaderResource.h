@@ -20,8 +20,8 @@ namespace OpenEngine {
 namespace Resources {
 
 // Forward declerations
-class ITextureResource;
-typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+class ITexture2D;
+typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
 
 using OpenEngine::Math::Vector;
 using std::string;
@@ -41,11 +41,11 @@ public:
     IShaderResourcePtr resource;
 };
 
-    /**
-     * Map of texture names and resources.
-     */
-    typedef map<string,ITextureResourcePtr> ShaderTextureMap;
-    typedef vector<ITextureResourcePtr> TextureList;
+/**
+ * Map of texture names and resources.
+ */
+typedef map<string,ITexture2DPtr> ShaderTextureMap;
+typedef vector<ITexture2DPtr> TextureList;
 
 /**
  * Shader resource interface.
@@ -59,14 +59,6 @@ protected:
     TextureList texs;
 
 public:
-
-    /**
-     * Set a shader attribute.
-     *
-     * @param name Attribute name.
-     * @param value Attribute vector value.
-     */
-    virtual void SetAttribute(string name, Vector<3, float> value)=0;
 
     /**
      * Apply the shader.
@@ -97,13 +89,21 @@ public:
      * @param name Name to bind to.
      * @param tex Texture to bind.
      */
-    virtual void SetTexture(string name, ITextureResourcePtr tex) = 0;
+    virtual void SetTexture(string name, ITexture2DPtr tex) = 0;
 
     /**
      * Get the Textures associated with the shader.
      * @return List of textures.
      */
     virtual TextureList GetTextures() = 0;
+
+    /**
+     * Set a shader attribute.
+     *
+     * @param name Attribute name.
+     * @param value Attribute vector value.
+     */
+    virtual void SetAttribute(string name, Vector<3, float> value)=0;
 
     /**
      * Binds an attribute by id.

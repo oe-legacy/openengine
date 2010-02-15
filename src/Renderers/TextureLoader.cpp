@@ -18,7 +18,8 @@
 #include <Geometry/FaceSet.h>
 #include <Geometry/Face.h>
 #include <Geometry/VertexArray.h>
-#include <Resources/ITextureResource.h>
+#include <Resources/ITexture2D.h>
+#include <Resources/ITexture3D.h>
 #include <list>
 #include <set>
 
@@ -35,9 +36,12 @@ using Geometry::FaceList;
 using Geometry::FaceSet;
 using Geometry::VertexArray;
 using Renderers::RenderingEventArg;
-using Resources::ITextureResource;
-using Resources::ITextureResourcePtr;
-using Resources::TextureChangedEventArg;
+using Resources::ITexture2D;
+using Resources::ITexture2DPtr;
+using Resources::Texture2DChangedEventArg;
+using Resources::ITexture3D;
+using Resources::ITexture3DPtr;
+using Resources::Texture3DChangedEventArg;
 using Scene::ISceneNode;
 using Scene::ISceneNodeVisitor;
 using Scene::GeometryNode;
@@ -46,7 +50,7 @@ using Scene::VertexArrayNode;
 /**
  * Utility class to find textures in a scene.
  * All textures found will be loaded with
- * TextureLoader::Load(ITextureResourcePtr, ReloadPolicy)
+ * TextureLoader::Load(ITexture2DPtr, ReloadPolicy)
  * While searching a cache is used so no texture in the scene is
  * loaded two times.
  */
@@ -54,7 +58,7 @@ class TextureLoader::SceneLoader
     : public ISceneNodeVisitor {
     TextureLoader& loader;
     TextureLoader::ReloadPolicy policy;
-    set<ITextureResource*> cache;
+    set<ITexture2D*> cache;
 public:
     SceneLoader(TextureLoader& loader, TextureLoader::ReloadPolicy policy)
         : loader(loader), policy(policy) {}
@@ -65,7 +69,7 @@ public:
         FaceList::iterator face;
         for (face = faces->begin(); face != faces->end(); face++) {
             // load face textures if not already loaded or in the cache
-            ITextureResourcePtr t = (*face)->mat->texr;
+            ITexture2DPtr t = (*face)->mat->texr;
             if (t != NULL && t->GetID() == 0 &&
                 cache.find(t.get()) == cache.end()) {
                 cache.insert(t.get());
@@ -78,7 +82,7 @@ public:
         list<VertexArray*>::iterator itr;
         for (itr = vaList.begin(); itr!=vaList.end(); itr++) {
             // Load vertex array texture if not already loaded or in the cache
-            ITextureResourcePtr t = (*itr)->mat->texr;
+            ITexture2DPtr t = (*itr)->mat->texr;
             if (t != NULL && t->GetID() == 0 &&
                 cache.find(t.get()) == cache.end()) {
                 cache.insert(t.get());
@@ -92,9 +96,9 @@ public:
  * Utility class to watch for texture change events.
  */
 class TextureLoader::Reloader
-    : public IListener<TextureChangedEventArg> {
+    : public IListener<Texture2DChangedEventArg> {
     IRenderer& renderer;
-    QueuedEvent<TextureChangedEventArg> queue;
+    QueuedEvent<Texture2DChangedEventArg> queue;
 public:
     virtual ~Reloader() { }
     Reloader(IRenderer& renderer)
@@ -112,7 +116,7 @@ public:
     // Rebind a textures that has changed.
     // This call can come through the queue or directly from the
     // texture depending on the reload policy it was loaded with.
-    void Handle(TextureChangedEventArg arg) {
+    void Handle(Texture2DChangedEventArg arg) {
         renderer.RebindTexture(arg.resource, 
                                arg.xOffset,
                                arg.yOffset,
@@ -122,7 +126,7 @@ public:
     // Add a texture depending on the reload policy.
     // In both cases we first remove any reference to this loader
     // so we do not listen multiple times. 
-    void Add(ITextureResourcePtr texr, ReloadPolicy policy) {
+    void Add(ITexture2DPtr texr, ReloadPolicy policy) {
         if (RELOAD_IMMEDIATE == policy) {
             // Reload immediately on texture change.
             texr->ChangedEvent().Detach(*this);
@@ -142,8 +146,8 @@ public:
 class TextureLoader::InitLoader
     : public IListener<RenderingEventArg> {
     struct pair {
-        ITextureResourcePtr t; ReloadPolicy p;
-        pair(ITextureResourcePtr t, ReloadPolicy p)
+        ITexture2DPtr t; ReloadPolicy p;
+        pair(ITexture2DPtr t, ReloadPolicy p)
             : t(t), p(p) {}
     };
     list<pair> queue;
@@ -151,7 +155,7 @@ class TextureLoader::InitLoader
 public:
     InitLoader(Reloader& reloader) : reloader(reloader) { }
     virtual ~InitLoader() {}
-    void Add(ITextureResourcePtr t, ReloadPolicy p) {
+    void Add(ITexture2DPtr t, ReloadPolicy p) {
         queue.push_back(pair(t,p));
     }
     // This is called on the render initialize event. After processing
@@ -247,7 +251,7 @@ void TextureLoader::Load(ISceneNode& node, ReloadPolicy policy) {
  * If no reload policy flag is supplied the default policy will be
  * used (\a RELOAD_NEVER). 
  */
-void TextureLoader::Load(ITextureResourcePtr texr, ReloadPolicy policy) {
+void TextureLoader::Load(ITexture2DPtr texr, ReloadPolicy policy) {
     // Here we must remember to calculate the exact policy as it could
     // change before the actual loading is performed.
     policy = my(policy);

@@ -26,8 +26,10 @@ namespace OpenEngine {
         class IViewingVolume;
     }
     namespace Resources{
-        class ITextureResource;
-        typedef boost::shared_ptr<ITextureResource> ITextureResourcePtr;
+        class ITexture2D;
+        typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
+        class ITexture3D;
+        typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
     }
 }
 
@@ -41,8 +43,8 @@ using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
 using OpenEngine::Utils::Time;
-using OpenEngine::Resources::ITextureResourcePtr;
-using OpenEngine::Resources::ITextureResource;
+using OpenEngine::Resources::ITexture2DPtr;
+using OpenEngine::Resources::ITexture2D;
 
 // forward declerations
 class IRenderer; class IRenderingView;
@@ -155,16 +157,18 @@ public:
      *
      * @param texr Texture resource
      */
-    virtual void LoadTexture(ITextureResourcePtr texr) = 0;
-    virtual void LoadTexture(ITextureResource* texr) = 0;
+    virtual void LoadTexture(ITexture2DPtr texr) = 0;
+    virtual void LoadTexture(ITexture2D* texr) = 0;
 
     /**
-     * Bind or rebind a texture.
+     * Rebinds a texture, uploading any new changes.
+     *
+     * Requires the texture to be loaded if no data pointer is given.
      *
      * @param texr Texture resource
      */
-    virtual void RebindTexture(ITextureResourcePtr texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
-    virtual void RebindTexture(ITextureResource* texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
+    virtual void RebindTexture(ITexture2DPtr texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
+    virtual void RebindTexture(ITexture2D* texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
 
     /**
      * Set the global background colour.
