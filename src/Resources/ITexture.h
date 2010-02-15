@@ -19,7 +19,7 @@ namespace OpenEngine {
         /**
          * Basic texture interface.
          *
-         * @class TTexture2D Texture2D.h Resources/Texture2D.h
+         * @class ITexture ITexture.h Resources/ITexture.h
          */
         class ITexture {
         protected:
@@ -92,7 +92,7 @@ namespace OpenEngine {
             /**
              * Get the type of the texture.
              *
-             * @return OEType the type of the texture.
+             * @return Type the type of the texture.
              */
             inline Type GetType() { return type; }
 
