@@ -496,6 +496,18 @@ public:
         ar & elm;
     }
 
+    /**
+     * Returns the vector as an array
+     *
+     * WARNING: Exposes the internals of the vector, modify elements
+     * at your own peril.
+     *
+     * @return The address of an array.
+     */
+    T* ToArray() {
+        return elm;
+    }
+
 };
 
 /**

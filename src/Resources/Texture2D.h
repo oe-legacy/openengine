@@ -38,6 +38,15 @@ namespace OpenEngine {
                 this->channels = c;
             }
             
+            Texture2D(unsigned int w, unsigned int h, unsigned int c, T* d)
+                : ITexture2D() {
+                SetupType<T>();
+                this->width = w;
+                this->height = h;
+                this->channels = c;
+                this->data = d;
+            }
+
             virtual ~Texture2D() {
                 if (this->data){
                     delete [] (T*) this->data;

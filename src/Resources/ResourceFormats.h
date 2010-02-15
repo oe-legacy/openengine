@@ -25,6 +25,11 @@ namespace OpenEngine {
          */
         enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE, DEPTH, RGBA32F };
 
+        /**
+         * Texture Wrapping options
+         */
+        enum Wrapping {CLAMP, CLAMP_TO_EDGE, REPEAT};
+
     }
 }
         

@@ -27,6 +27,7 @@ namespace OpenEngine {
             unsigned char channels;
             Type type;
             ColorFormat format;
+            Wrapping wrap;
             void* data;
             bool mipmapping;
 
@@ -55,6 +56,7 @@ namespace OpenEngine {
                 data = NULL;
                 mipmapping = true;
                 type = NOTYPE;
+                wrap = REPEAT;
             }
 
             virtual ~ITexture() {}
@@ -118,9 +120,7 @@ namespace OpenEngine {
              *
              * Defaults to ignoring the argument.
              */
-            virtual void SetMipmapping(const bool m){
-                mipmapping = m;
-            }
+            virtual void SetMipmapping(const bool m){ mipmapping = m; }
 
             /**
              * Tells wether mipmapping should be used or not.
@@ -129,9 +129,17 @@ namespace OpenEngine {
              *
              * @ return true if mipmapping is used otherwise false.
              */
-            inline bool UseMipmapping() const {
-                return mipmapping;
-            }
+            inline bool UseMipmapping() const { return mipmapping; }
+
+            /**
+             * Sets the texture wrapping used for this texture
+             */
+            virtual void SetWrapping(Wrapping w) { wrap = w; }
+
+            /**
+             * Returns the texture wrapping used for this texture.
+             */
+            inline Wrapping GetWrapping() { return wrap; }
 
         };
 
