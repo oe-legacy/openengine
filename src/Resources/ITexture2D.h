@@ -62,9 +62,9 @@ namespace OpenEngine {
         };
 
         // Typedef for backwards compatibility
-        //typedef Texture2DChangedEventArg TextureChangedEventArg;
-        //typedef ITexture2D ITextureResource;
-        //typedef boost::shared_ptr<ITexture2D> ITextureResourcePtr;
+        typedef Texture2DChangedEventArg TextureChangedEventArg;
+        typedef ITexture2D ITextureResource;
+        typedef boost::shared_ptr<ITexture2D> ITextureResourcePtr;
 
         /**
          * smart pointers
