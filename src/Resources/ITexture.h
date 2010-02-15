@@ -66,7 +66,7 @@ namespace OpenEngine {
              *
              * @return Texture id.
              */
-            inline unsigned int GetID() { return id; }
+            inline unsigned int GetID() const { return id; }
             
             /**
              * Set texture id.
@@ -80,23 +80,21 @@ namespace OpenEngine {
              *
              * @return Channels the number of channels.
              */
-            inline unsigned char GetChannels() const {
-                return channels;
-            }
+            inline unsigned char GetChannels() const { return channels; }
             
             /**
              * Get pointer to loaded texture.
              *
              * @return Char pointer to loaded data.
              */
-            inline void* GetVoidDataPtr() { return data; }
+            inline void* GetVoidDataPtr() const { return data; }
 
             /**
              * Get the type of the texture.
              *
              * @return Type the type of the texture.
              */
-            inline Type GetType() { return type; }
+            inline Type GetType() const { return type; }
 
             /**
              * Set the type of the texture.
@@ -108,7 +106,7 @@ namespace OpenEngine {
              *
              * @return ColorFormat representing the way colors are stored
              */
-            inline ColorFormat GetColorFormat() { return format; }
+            inline ColorFormat GetColorFormat() const { return format; }
 
             /**
              * Set color format of the texture.
@@ -139,7 +137,7 @@ namespace OpenEngine {
             /**
              * Returns the texture wrapping used for this texture.
              */
-            inline Wrapping GetWrapping() { return wrap; }
+            inline Wrapping GetWrapping() const { return wrap; }
 
         };
 

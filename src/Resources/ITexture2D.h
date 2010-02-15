@@ -24,7 +24,7 @@ namespace OpenEngine {
          * @class ITexture2D ITexture2D.h Resources/ITexture2D.h
          */
         class ITexture2D : public IResource<Texture2DChangedEventArg> 
-                               , public ITexture {
+                         , public ITexture {
         protected:
             unsigned int width, height;
 
@@ -39,14 +39,14 @@ namespace OpenEngine {
              *
              * @return width in pixels.
              */
-            inline unsigned int GetWidth() { return width; }
+            inline unsigned int GetWidth() const { return width; }
 
             /**
              * Get height in pixels on loaded texture.
              *
              * @return height in pixels.
              */
-            inline unsigned int GetHeight() { return height; }
+            inline unsigned int GetHeight() const { return height; }
 
             virtual void Reverse() = 0;
 

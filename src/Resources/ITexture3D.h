@@ -24,7 +24,7 @@ namespace OpenEngine {
          * @class ITexture3D ITexture3D.h Resources/ITexture3D.h
          */
         class ITexture3D : public IResource<Texture3DChangedEventArg> 
-                               , public ITexture {
+                         , public ITexture {
         protected:
             unsigned int width, height, depth;
 
@@ -39,21 +39,21 @@ namespace OpenEngine {
              *
              * @return width in pixels.
              */
-            inline unsigned int GetWidth() { return width; }
+            inline unsigned int GetWidth() const { return width; }
 
             /**
              * Get height in pixels on loaded texture.
              *
              * @return height in pixels.
              */
-            inline unsigned int GetHeight() { return height; }
+            inline unsigned int GetHeight() const { return height; }
 
             /**
              * Get depth in pixels on loaded texture.
              *
              * @return height in pixels.
              */
-            inline unsigned int GetDepth() { return depth; }
+            inline unsigned int GetDepth() const { return depth; }
 
         };
 
