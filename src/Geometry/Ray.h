@@ -35,7 +35,7 @@ private:
     Vector<3,float> dir;     //!< direction of line
 
 public:
-    
+    Ray() {}
     Ray(Vector<3,float> point, Vector<3,float> direction);
     ~Ray();
 

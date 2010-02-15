@@ -289,9 +289,9 @@ public:
      */
     Matrix <M,N,T> GetTranspose() {
         BOOST_STATIC_ASSERT(M==N&&M==3);
-	return Matrix<M,N,T>(elm[0][0],elm[1][0],elm[2][0],
-			     elm[0][1],elm[1][1],elm[2][1],
-			     elm[0][2],elm[1][2],elm[2][2]);
+        return Matrix<M,N,T>(elm[0][0],elm[1][0],elm[2][0],
+                             elm[0][1],elm[1][1],elm[2][1],
+                             elm[0][2],elm[1][2],elm[2][2]);
     }
 
     /**
