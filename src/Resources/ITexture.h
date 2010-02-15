@@ -22,11 +22,10 @@ namespace OpenEngine {
             ColorFormat format;
             unsigned char* data;
             bool mipmapping;
-            unsigned int apiType;
 
         public:
             ITexture() {
-                id = channels = apiType = 0;
+                id = channels = 0;
                 data = NULL;
                 mipmapping = true;
             }
@@ -48,7 +47,7 @@ namespace OpenEngine {
              *
              * @param id Texture id.
              */
-            inline void SetID(int id) { this->id = id; }
+            virtual void SetID(int id) { this->id = id; }
             
             /**
              * Get number of channels in the texture.
@@ -96,7 +95,7 @@ namespace OpenEngine {
              *
              * @ return true if mipmapping is used otherwise false.
              */
-            bool UseMipmapping() const {
+            inline bool UseMipmapping() const {
                 return mipmapping;
             }
 
