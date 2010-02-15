@@ -13,6 +13,11 @@
 #include <Scene/ISceneNode.h>
 
 namespace OpenEngine {
+    namespace Resources {
+        class IArchiveWriter;
+        class IArchiveReader;
+    }
+
 namespace Scene {
 
 /**
@@ -27,6 +32,9 @@ public:
     SceneNode();
     SceneNode(const SceneNode& node);
     virtual ~SceneNode();
+
+    void Serialize(Resources::IArchiveWriter& w);
+    void Deserialize(Resources::IArchiveReader& r);
 
 private:
     

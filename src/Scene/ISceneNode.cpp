@@ -204,9 +204,11 @@ void ISceneNode::DeleteAllNodes() {
 }
 
 void ISceneNode::Serialize(Resources::IArchiveWriter& w) {
+    throw Exception(GetClassName() + " does not implement Serialize." );
 }
 
 void ISceneNode::Deserialize(Resources::IArchiveReader& r) {
+    throw Exception(GetClassName() + " does not implement Deserialize.");
 }
 
 

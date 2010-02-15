@@ -12,6 +12,9 @@
 #include <Geometry/Line.h>
 #include <Core/Exceptions.h>
 
+#include <Resources/IArchiveWriter.h>
+#include <Resources/IArchiveReader.h>
+
 namespace OpenEngine {
 namespace Geometry {
 
@@ -163,6 +166,18 @@ Vector<3,float> Box::GetCorner(const int index) const {
 Vector<3,float> Box::GetCorner(const bool signX, const bool signY, const bool signZ) const {
     return corners[ signX*1 + signY*2 + signZ*4 ];
 }
+
+void Box::Serialize(Resources::IArchiveWriter& w) {
+    w.WriteVector<3,float>("center",center);
+    w.WriteVector<3,float>("corner",corner);
+    w.WriteArray("corners",corners,8);
+}
+void Box::Deserialize(Resources::IArchiveReader& r) {
+    center = r.ReadVector<3,float>("center");
+    corner = r.ReadVector<3,float>("corner");
+    r.ReadArray("corners",corners,8);
+}
+
 
 } //NS Geometry
 } //NS OpenEngine

@@ -18,6 +18,10 @@
 #include <vector>
 
 namespace OpenEngine {
+    namespace Resources {
+        class IArchiveWriter;
+        class IArchiveReader;
+    }
 namespace Geometry {
 
 using OpenEngine::Math::Vector;
@@ -30,7 +34,8 @@ using std::vector;
  *
  * @class Box Box.h Geometry/Box.h
  */
-class Box {
+class Box : public ISerializable {
+    OE_SERIALIZABLE_OBJECT(Box)
 
 friend class Tests;
     
@@ -76,6 +81,10 @@ public:
     Vector<3,float> GetCorner() const;
     Vector<3,float> GetCorner(const int index) const;
     Vector<3,float> GetCorner(const bool signX, const bool signY, const bool signZ) const;
+
+    void Serialize(Resources::IArchiveWriter& w);
+    void Deserialize(Resources::IArchiveReader& r);
+
 };
 
 } //NS Common

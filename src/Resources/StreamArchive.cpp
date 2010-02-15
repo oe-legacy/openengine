@@ -33,6 +33,7 @@ namespace Resources {
         NODE_##node,
 #include <Scene/SceneNodes.def>
 #undef SCENE_NODE
+        NODE_NULL,
         NODE_END
     };
 
@@ -90,6 +91,8 @@ ISceneNode* StreamArchiveReader::ReadNode() {
             break;
 #include <Scene/SceneNodes.def>
 #undef SCENE_NODE
+    case NODE_NULL:
+        return NULL;
     case NODE_END:
         throw Exception("Unknown node tag in ReadScene");
         break;
@@ -195,6 +198,11 @@ void StreamArchiveWriter::End(string key) {
 void StreamArchiveWriter::WriteScene(string key, ISceneNode* node) {
     _Write(key);
     //output << key << " ";
+    if (node == NULL) {
+        _Write("null");
+        WriteInt(TAG_KEY,NODE_NULL);
+        return;
+    }
     node->Accept(*(new SceneWriter(*this)));
     //output << endl;
 }
