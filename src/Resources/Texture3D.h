@@ -50,7 +50,7 @@ namespace OpenEngine {
              */
             virtual void Load() {
                 if (this->data == NULL)
-                    data = new T[this->width * this->height * this->depth];
+                    data = new T[this->width * this->height * this->depth * this->channels];
             }
 
             /**
