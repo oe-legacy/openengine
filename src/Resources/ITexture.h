@@ -11,7 +11,6 @@
 #define _I_TEXTURE_H_
 
 #include <Resources/ResourceFormats.h>
-#include <Renderers/IRenderer.h>
 
 namespace OpenEngine {
     namespace Resources {
@@ -75,6 +74,13 @@ namespace OpenEngine {
              */
             virtual void SetID(int id) { this->id = id; }
             
+            /**
+             * Get the size of each channel on the loaded texture.
+             *
+             * @return Channel size in bytes.
+             */
+            virtual unsigned int GetChannelSize() = 0;
+
             /**
              * Get number of channels in the texture.
              *

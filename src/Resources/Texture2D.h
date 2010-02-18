@@ -76,7 +76,7 @@ namespace OpenEngine {
              *
              * @return Channel size in bytes.
              */
-            unsigned int GetChannelSize() const{
+            unsigned int GetChannelSize(){
                 return sizeof(T);
             }
 
