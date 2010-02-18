@@ -117,7 +117,7 @@ public:
     // This call can come through the queue or directly from the
     // texture depending on the reload policy it was loaded with.
     void Handle(Texture2DChangedEventArg arg) {
-        renderer.RebindTexture(arg.resource, 
+        renderer.RebindTexture(arg.resource.get(), 
                                arg.xOffset,
                                arg.yOffset,
                                arg.width,

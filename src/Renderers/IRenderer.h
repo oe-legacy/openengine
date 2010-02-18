@@ -45,6 +45,8 @@ using OpenEngine::Math::Vector;
 using OpenEngine::Utils::Time;
 using OpenEngine::Resources::ITexture2DPtr;
 using OpenEngine::Resources::ITexture2D;
+using OpenEngine::Resources::ITexture3DPtr;
+using OpenEngine::Resources::ITexture3D;
 
 // forward declerations
 class IRenderer; class IRenderingView;
@@ -159,6 +161,8 @@ public:
      */
     virtual void LoadTexture(ITexture2DPtr texr) = 0;
     virtual void LoadTexture(ITexture2D* texr) = 0;
+    virtual void LoadTexture(ITexture3DPtr texr) = 0;
+    virtual void LoadTexture(ITexture3D* texr) = 0;
 
     /**
      * Rebinds a texture, uploading any new changes.
@@ -169,6 +173,8 @@ public:
      */
     virtual void RebindTexture(ITexture2DPtr texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
     virtual void RebindTexture(ITexture2D* texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
+    virtual void RebindTexture(ITexture3DPtr texr, unsigned int xOffset, unsigned int yOffset, unsigned int zOffset, unsigned int width, unsigned int height, unsigned int depth) = 0;
+    virtual void RebindTexture(ITexture3D* texr, unsigned int xOffset, unsigned int yOffset, unsigned int zOffset, unsigned int width, unsigned int height, unsigned int depth) = 0;
 
     /**
      * Set the global background colour.
