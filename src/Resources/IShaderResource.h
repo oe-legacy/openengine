@@ -55,11 +55,6 @@ typedef vector<ITexture2DPtr> TextureList;
  * @class IShaderResource IShaderResource.h Resources/IShaderResource.h
  */
 class IShaderResource : public IResource<ShaderChangedEventArg> {
-protected:
-
-    vector<string> texNames;
-    TextureList texs;
-
 public:
 
     /**
@@ -91,6 +86,19 @@ public:
     virtual void SetUniform(string name, Vector<4, float> value, bool force = false)=0;
 
     /**
+     * Looks up the uniform with the specified name and fills value
+     * with its data.
+     *
+     * @param name Uniform name.
+     * @param value Value to be filled.
+     */
+    virtual void GetUniform(string name, int &value) = 0;
+    virtual void GetUniform(string name, float &value)=0;
+    virtual void GetUniform(string name, Vector<2, float> &value)=0;
+    virtual void GetUniform(string name, Vector<3, float> &value)=0;
+    virtual void GetUniform(string name, Vector<4, float> &value)=0;
+
+    /**
      * Binds a texture to variable with the name in the shader.
      *
      * @param name Name to bind to.
@@ -100,6 +108,16 @@ public:
      */
     virtual void SetTexture(string name, ITexture2DPtr tex, bool force = false) = 0;
     virtual void SetTexture(string name, ITexture3DPtr tex, bool force = false) = 0;
+
+    /**
+     * Looks up the texture with the specified name and replaces tex
+     * with the shaders texture..
+     *
+     * @param name Texture name.
+     * @param tex Texture to be replaced.
+     */
+    virtual void GetTexture(string name, ITexture2DPtr &tex) = 0;
+    virtual void GetTexture(string name, ITexture3DPtr &tex) = 0;
 
     /**
      * Get the Textures associated with the shader.
