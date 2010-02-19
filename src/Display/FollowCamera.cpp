@@ -40,6 +40,10 @@ FollowCamera::~FollowCamera() {
 void FollowCamera::SetDirection(const Vector<3,float> dir, const Vector<3,float> up) {
     local->SetDirection(dir, up);
 }
+void FollowCamera::Move(const Vector<3,float> direction) {
+    local->Move(direction);
+}
+
 void FollowCamera::Move(const float l, const float t, const float v) {
     local->Move(l,t,v);
 }

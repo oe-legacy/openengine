@@ -69,6 +69,7 @@ public:
 
     // Overwritten camera methods
     virtual void SetDirection(const Vector<3,float> dir, const Vector<3,float> up);
+    virtual void Move(const Vector<3,float> direction);
     virtual void Move(const float l, const float t, const float v);
     virtual void LookAt(const Vector<3,float> point);
     virtual void LookAt(const float x, const float y, const float z);
