@@ -10,10 +10,25 @@
 #ifndef _I_TEXTURE_H_
 #define _I_TEXTURE_H_
 
-#include <Resources/ResourceFormats.h>
+#include <Resources/Types/ResourceTypes.h>
+
+using namespace OpenEngine::Resources::Types;
 
 namespace OpenEngine {
     namespace Resources {
+        
+        /**
+         * Color Format enumeration.
+         */
+        enum ColorFormat { LUMINANCE, DEPTH, 
+                           LUMINANCE_ALPHA, 
+                           RGB, BGR, RGB32F, 
+                           RGBA, BGRA, RGBA32F };
+
+        /**
+         * Texture Wrapping options
+         */
+        enum Wrapping {CLAMP, CLAMP_TO_EDGE, REPEAT};
 
         /**
          * Basic texture interface.
@@ -35,18 +50,7 @@ namespace OpenEngine {
              * parameter.
              */
             template <class T> void SetupType(){
-                if (typeid(T) == typeid(unsigned char))
-                    this->type = UBYTE;
-                else if (typeid(T) == typeid(char))
-                    this->type = BYTE;
-                else if (typeid(T) == typeid(unsigned int))
-                    this->type = UINT;
-                else if (typeid(T) == typeid(int))
-                    this->type = INT;
-                else if (typeid(T) == typeid(float))
-                    this->type = FLOAT;
-                else 
-                    this->type = NOTYPE;
+                this->type = GetResourceType<T>();
             }
 
             /**
