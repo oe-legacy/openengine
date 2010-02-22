@@ -35,8 +35,20 @@ namespace OpenEngine {
                 SetupType<T>();
                 this->width = w;
                 this->height = h;
-                this->height = d;
+                this->depth = d;
                 this->channels = c;
+                this->format = ColorFormatFromChannels(c);
+            }
+
+            Texture2D(unsigned int w, unsigned int h, unsigned int c, T* data)
+                : ITexture2D() {
+                SetupType<T>();
+                this->width = w;
+                this->height = h;
+                this->depth = d;
+                this->channels = c;
+                this->format = ColorFormatFromChannels(c);
+                this->data = data;
             }
             
             virtual ~Texture3D() {

@@ -49,6 +49,20 @@ namespace OpenEngine {
                     this->type = NOTYPE;
             }
 
+            /**
+             * Given a number of channels, the default colorformat is
+             * returned.
+             */
+            ColorFormat ColorFormatFromChannels(unsigned char c){
+                switch(c){
+                case 1: return LUMINANCE;
+                case 2: return LUMINANCE_ALPHA;
+                case 3: return RGB;
+                case 4: return RGBA;
+                }
+                return RGBA;
+            }
+
         public:
             ITexture() {
                 id = channels = 0;

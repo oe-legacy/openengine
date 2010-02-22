@@ -36,6 +36,7 @@ namespace OpenEngine {
                 this->width = w;
                 this->height = h;
                 this->channels = c;
+                this->format = ColorFormatFromChannels(c);
             }
             
             Texture2D(unsigned int w, unsigned int h, unsigned int c, T* d)
@@ -44,6 +45,7 @@ namespace OpenEngine {
                 this->width = w;
                 this->height = h;
                 this->channels = c;
+                this->format = ColorFormatFromChannels(c);
                 this->data = d;
             }
 

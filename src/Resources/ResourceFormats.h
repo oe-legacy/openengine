@@ -23,7 +23,10 @@ namespace OpenEngine {
         /**
          * Color Format enumeration.
          */
-        enum ColorFormat { RGBA, BGRA, RGB, BGR, LUMINANCE, DEPTH, RGBA32F, RGB32F };
+        enum ColorFormat { LUMINANCE, DEPTH, 
+                           LUMINANCE_ALPHA, 
+                           RGB, BGR, RGB32F, 
+                           RGBA, BGRA, RGBA32F };
 
         /**
          * Texture Wrapping options
