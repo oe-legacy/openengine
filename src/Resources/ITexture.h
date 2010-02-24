@@ -20,10 +20,11 @@ namespace OpenEngine {
         /**
          * Color Format enumeration.
          */
-        enum ColorFormat { LUMINANCE, DEPTH, 
-                           LUMINANCE_ALPHA, 
-                           RGB, BGR, RGB32F, 
-                           RGBA, BGRA, RGBA32F };
+        enum ColorFormat { ALPHA, ALPHA_COMPRESSED, 
+                           LUMINANCE, LUMINANCE_COMPRESSED, DEPTH, 
+                           LUMINANCE_ALPHA, LUMINANCE_ALPHA_COMPRESSED, 
+                           RGB, BGR, RGB_COMPRESSED, RGB32F, 
+                           RGBA, BGRA, RGBA_COMPRESSED, RGBA32F };
 
         /**
          * Texture Wrapping options
@@ -44,6 +45,7 @@ namespace OpenEngine {
             Wrapping wrap;
             void* data;
             bool mipmapping;
+            bool compression;
 
             /**
              * Sets up the textures type dependent on the template
@@ -72,6 +74,7 @@ namespace OpenEngine {
                 id = channels = 0;
                 data = NULL;
                 mipmapping = true;
+                compression = false;
                 type = NOTYPE;
                 wrap = REPEAT;
             }
@@ -160,8 +163,25 @@ namespace OpenEngine {
 
             /**
              * Returns the texture wrapping used for this texture.
+             *
+             * @return Wrapping The wrapping used.
              */
             inline Wrapping GetWrapping() const { return wrap; }
+
+            /**
+             * Returns wether or not to use compression.
+             *
+             * @return bool Compression.
+             */
+            inline bool UseCompression() const { return compression; }
+
+            /**
+             * Set wether compression should be used or not if
+             * available.
+             *
+             * @param c Compression.
+             */
+            virtual void SetCompression(bool c) { compression = c; }
 
         };
 
