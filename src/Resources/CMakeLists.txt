@@ -4,7 +4,7 @@ ADD_LIBRARY(OpenEngine_Resources
   IModelResource.h
   IFontResource.h
   IFontTextureResource.h
-  ResourceFormats.h
+  Types/ResourceTypes.h
   ITexture.h
   ITexture2D.h
   Texture2D.h
