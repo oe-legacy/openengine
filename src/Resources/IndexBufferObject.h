@@ -35,13 +35,13 @@ namespace OpenEngine {
          *
          * @TODO Change name to GeometryBatch? IndiceBatch?
          */
-        class RenderBatch {
+        class IndexBatch {
         private:
             GeometryPrimitive prim;
             unsigned int indexOffset;
             unsigned int drawRange;
         public:
-            RenderBatch(GeometryPrimitive prim,
+            IndexBatch(GeometryPrimitive prim,
                     unsigned int offset,
                     unsigned int range)
                 : prim(prim), indexOffset(offset), drawRange(range) {
@@ -62,7 +62,7 @@ namespace OpenEngine {
             inline unsigned int GetDrawingRange() { return drawRange; }
         };
 
-        typedef list<Resources::RenderBatch> RenderBatchList;
+        typedef list<Resources::IndexBatch> IndexBatchList;
         
         class IndexBufferObject : public BufferObject<1, unsigned int> {
         public:

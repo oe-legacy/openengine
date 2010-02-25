@@ -25,12 +25,12 @@ namespace OpenEngine {
             : indexBuffer(indexBuffer), mat(mat), mesh(mesh){ }
 
 
-        void DrawPrimitive::AddRenderBatch(GeometryPrimitive prim){
-            RenderBatch b = RenderBatch(prim, 0, indexBuffer->GetSize());
+        void DrawPrimitive::AddIndexBatch(GeometryPrimitive prim){
+            IndexBatch b = IndexBatch(prim, 0, indexBuffer->GetSize());
             batches.push_back(b);
         }
 
-        void DrawPrimitive::AddRenderBatch(GeometryPrimitive prim, 
+        void DrawPrimitive::AddIndexBatch(GeometryPrimitive prim, 
                                            unsigned int offset, unsigned int range){
 #ifdef OE_SAFE
             unsigned int size = indexBuffer->GetSize();
@@ -39,7 +39,7 @@ namespace OpenEngine {
             if (offset + range > size)
                 throw IndexOutOfBounds(offset + range, 0, size);
 #endif
-            RenderBatch b = RenderBatch(prim, offset, range);
+            IndexBatch b = IndexBatch(prim, offset, range);
             batches.push_back(b);
         }
 

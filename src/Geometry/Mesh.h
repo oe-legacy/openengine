@@ -13,17 +13,15 @@
 #include <Resources/IndexBufferObject.h>
 
 #include <boost/shared_ptr.hpp>
-#include <vector>
+#include <list>
 
-using std::vector;
+using std::list;
 
 namespace OpenEngine {
     namespace Resources {
         class IBufferObject;
         typedef boost::shared_ptr<IBufferObject> IBufferObjectPtr;
-        typedef vector<Resources::IBufferObjectPtr> IBufferObjectList;
-        //class IndexBufferObject;
-        //typedef boost::shared_ptr<IndexBufferObject> IndexBufferObjectPtr;
+        typedef list<Resources::IBufferObjectPtr> IBufferObjectList;
     }
     namespace Geometry{
 
@@ -34,7 +32,7 @@ namespace OpenEngine {
             Resources::IBufferObjectPtr colors;
             Resources::IBufferObjectList texCoords;
 
-            // Move into shader.
+            // Move into shader?
             //map<string, IBufferObjectPtr> vertexAttrib;
 
         public:
@@ -57,6 +55,11 @@ namespace OpenEngine {
              * Get colors.
              */
             inline Resources::IBufferObjectPtr GetColors() { return colors; }
+
+            /**
+             * Get list of texcoords.
+             */
+            inline Resources::IBufferObjectList GetTexCoords() { return texCoords; }
         };
 
         /**
