@@ -22,6 +22,8 @@ ADD_LIBRARY(OpenEngine_Geometry
   Material.cpp
   VertexArray.h
   VertexArray.cpp
+  Mesh.h
+  Mesh.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Geometry

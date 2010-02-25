@@ -40,6 +40,8 @@ ADD_LIBRARY(OpenEngine_Scene
   VertexArrayNode.h
   VertexArrayTransformer.cpp
   VertexArrayTransformer.h
+  ModelNode.h
+  ModelNode.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Scene
