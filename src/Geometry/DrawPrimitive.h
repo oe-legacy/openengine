@@ -19,6 +19,9 @@ namespace OpenEngine {
         class Mesh;
         typedef boost::shared_ptr<Mesh> MeshPtr;
 
+        /**
+         * Geometry primitives.
+         */
         enum GeometryPrimitive {
             GL_POINTS,
             LINES,
@@ -27,6 +30,11 @@ namespace OpenEngine {
             TRIANGLE_STRIP,
             QUADS};
 
+        /**
+         * Draw primitive class, containing the primitive type that
+         * should be used when rendering the mesh with the specified
+         * material.
+         */
         class DrawPrimitive {
         protected:
             GeometryPrimitive prim;
@@ -46,10 +54,29 @@ namespace OpenEngine {
                           MaterialPtr mat,
                           MeshPtr mesh);
 
+            /**
+             * Returns the primitive drawn.
+             */
             inline GeometryPrimitive GetPrimitive() const { return prim; }
+
+            /**
+             * Returns the specified offset into the index buffer.
+             */
             inline unsigned int GetIndexOffset() const { return indexOffset; }
+
+            /**
+             * Returns the number of elements drawn by this draw primitive.
+             */
             inline unsigned int GetDrawingRange() { return drawRange; }
+
+            /**
+             * Returns the material used by this draw primitive.
+             */
             inline MaterialPtr GetMaterial() const { return mat; }
+
+            /**
+             * Returns the mesh used by this draw primitive.
+             */
             inline MeshPtr GetMesh() const { return mesh; }
             
         };

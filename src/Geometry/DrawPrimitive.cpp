@@ -12,8 +12,10 @@
 #include <Geometry/Mesh.h>
 #include <Geometry/Material.h>
 #include <Resources/IndexBufferObject.h>
+#include <Math/Exceptions.h>
 
 using namespace OpenEngine::Resources;
+using namespace OpenEngine::Math;
 
 namespace OpenEngine {
     namespace Geometry {
@@ -23,8 +25,7 @@ namespace OpenEngine {
                                      MeshPtr mesh)
             : prim(prim), mat(mat), mesh(mesh){
             indexOffset = 0;
-            Resources::IndexBufferObjectPtr p = mesh->GetIndexBuffer();
-            drawRange = p->GetSize();
+            drawRange = mesh->GetIndexBuffer()->GetSize();
 
         }
 
@@ -34,6 +35,13 @@ namespace OpenEngine {
                                      MaterialPtr mat,
                                      MeshPtr mesh)
             : prim(prim), indexOffset(offset), drawRange(range), mat(mat), mesh(mesh){
+#ifdef OE_SAFE
+            unsigned int size = mesh->GetIndexBuffer()->GetSize();
+            if (offset > size)
+                throw IndexOutOfBounds(offset, 0, size);
+            if (offset + range > size)
+                throw IndexOutOfBounds(offset + range, 0, size);
+#endif
         }
 
     }

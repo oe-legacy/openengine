@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _MODEL_H_
-#define _MODEL_H_
+#ifndef _OE_MODEL_H_
+#define _OE_MODEL_H_
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
@@ -20,14 +20,39 @@ namespace OpenEngine {
         class DrawPrimitive;
         typedef boost::shared_ptr<DrawPrimitive> DrawPrimitivePtr;
 
+        typedef vector<DrawPrimitivePtr> DrawPrimitiveList;
+
+        /**
+         * Model class. Contains batches of draw primitives.
+         */
         class Model{
         protected:
-            vector<DrawPrimitivePtr> prims;
+            DrawPrimitiveList prims;
 
         public:
             Model();
             Model(DrawPrimitivePtr prim);
-            Model(vector<DrawPrimitivePtr> prims);
+            Model(DrawPrimitiveList prims);
+
+            /**
+             * Add a new draw primitive to the model.
+             */
+            void AddDrawPrimitive(DrawPrimitivePtr prim);
+
+            /**
+             * Get the i'th draw primitive.
+             */
+            void GetDrawPrimitive(unsigned int i);
+
+            /**
+             * Get a list of all draw primitives.
+             */
+            DrawPrimitiveList GetDrawPrimitives();
+
+            /**
+             * Remove the i'th draw primitive.
+             */
+            void RemoveDrawPrimitive(unsigned int i);
             
         };
 
