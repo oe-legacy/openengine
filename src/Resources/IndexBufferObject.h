@@ -11,9 +11,9 @@
 #define _INDEX_BUFFER_OBJECT_H_
 
 #include <Resources/BufferObject.h>
-#include <vector>
+#include <list>
 
-using std::vector;
+using std::list;
 
 namespace OpenEngine {
     namespace Resources {
@@ -29,13 +29,19 @@ namespace OpenEngine {
             TRIANGLE_STRIP,
             QUADS};
 
-        class Indices {
+        /**
+         * RenderBatch contains information about the batch to be
+         * rendered.
+         *
+         * @TODO Change name to GeometryBatch? IndiceBatch?
+         */
+        class RenderBatch {
         private:
             GeometryPrimitive prim;
             unsigned int indexOffset;
             unsigned int drawRange;
         public:
-            Indices(GeometryPrimitive prim,
+            RenderBatch(GeometryPrimitive prim,
                     unsigned int offset,
                     unsigned int range)
                 : prim(prim), indexOffset(offset), drawRange(range) {
@@ -56,7 +62,7 @@ namespace OpenEngine {
             inline unsigned int GetDrawingRange() { return drawRange; }
         };
 
-        typedef vector<Resources::Indices> IndiceList;
+        typedef list<Resources::RenderBatch> RenderBatchList;
         
         class IndexBufferObject : public BufferObject<1, unsigned int> {
         public:

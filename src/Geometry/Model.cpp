@@ -22,7 +22,7 @@ namespace OpenEngine {
             prims.push_back(prim);
         }
         
-        Model::Model(vector<DrawPrimitivePtr> prims){
+        Model::Model(DrawPrimitiveList prims){
             this->prims = prims;
         }
 

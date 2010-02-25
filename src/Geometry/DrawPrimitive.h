@@ -28,7 +28,7 @@ namespace OpenEngine {
         class DrawPrimitive {
         protected:
             Resources::IndexBufferObjectPtr indexBuffer;
-            Resources::IndiceList indices;
+            Resources::RenderBatchList batches;
             MaterialPtr mat;
             MeshPtr mesh;
             
@@ -51,12 +51,37 @@ namespace OpenEngine {
              * Returns the mesh used by this draw primitive.
              */
             inline MeshPtr GetMesh() const { return mesh; }
-            
 
-            void AddPrimitive(Resources::GeometryPrimitive prim);
+            /**
+             * Returns a list of all indice containers.
+             *
+             * @return IndiceList The list.
+             */
+            inline Resources::RenderBatchList GetRenderBatches() const { return batches; }
 
-            void AddPrimitive(Resources::GeometryPrimitive prim, 
-                              unsigned int offset, unsigned int range);
+            /**
+             * Adds a primitive to draw the entire index buffer object
+             * with. Is usually TRIANGLES, which draws the entire mesh
+             * with triangles.
+             *
+             * @param prim The primitive.
+             */
+            void AddRenderBatch(Resources::GeometryPrimitive prim);
+
+            /**
+             * Adds a render batch to be drawn.
+             *
+             * @param prim The primitive.
+             * @param offset The offset into the index buffer.
+             * @param range The number of elements to draw.
+             */
+            void AddRenderBatch(Resources::GeometryPrimitive prim, 
+                                unsigned int offset, unsigned int range);
+
+            /**
+             * Removes the render batch specified by the iterator.
+             */
+            void RemoveRenderBatch(Resources::RenderBatchList::iterator batch);
         };
 
         typedef boost::shared_ptr<DrawPrimitive> DrawPrimitivePtr;

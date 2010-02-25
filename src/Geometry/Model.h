@@ -11,16 +11,16 @@
 #define _OE_MODEL_H_
 
 #include <boost/shared_ptr.hpp>
-#include <vector>
+#include <list>
 
-using std::vector;
+using std::list;
 
 namespace OpenEngine {
     namespace Geometry{
         class DrawPrimitive;
         typedef boost::shared_ptr<DrawPrimitive> DrawPrimitivePtr;
 
-        typedef vector<DrawPrimitivePtr> DrawPrimitiveList;
+        typedef list<DrawPrimitivePtr> DrawPrimitiveList;
 
         /**
          * Model class. Contains batches of draw primitives.
@@ -40,19 +40,16 @@ namespace OpenEngine {
             void AddDrawPrimitive(DrawPrimitivePtr prim);
 
             /**
-             * Get the i'th draw primitive.
-             */
-            void GetDrawPrimitive(unsigned int i);
-
-            /**
              * Get a list of all draw primitives.
              */
-            DrawPrimitiveList GetDrawPrimitives();
+            inline DrawPrimitiveList GetDrawPrimitives() const { return prims; }
 
             /**
-             * Remove the i'th draw primitive.
+             * Removes the draw primitive specified by the iterator.
              */
-            void RemoveDrawPrimitive(unsigned int i);
+            inline void RemoveDrawPrimitive(DrawPrimitiveList::iterator prim){
+                prims.erase(prim);
+            }
             
         };
 

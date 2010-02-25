@@ -30,7 +30,7 @@ namespace Math {
  */
 template <unsigned int N, class T>
 class Vector {
-private:
+protected:
     // vector elements
     T* elm;
     T e[N];
