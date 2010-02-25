@@ -24,6 +24,10 @@ ADD_LIBRARY(OpenEngine_Geometry
   VertexArray.cpp
   Mesh.h
   Mesh.cpp
+  Model.h
+  Model.cpp
+  DrawPrimitive.h
+  DrawPrimitive.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Geometry

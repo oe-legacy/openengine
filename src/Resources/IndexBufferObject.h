@@ -1,6 +1,6 @@
 // Index buffer object.
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -15,32 +15,6 @@
 namespace OpenEngine {
     namespace Resources {
         
-        enum GeometryPrimitive {
-            GL_POINTS,
-            LINES,
-            LINE_STRIP,
-            TRIANGLES,
-            TRIANGLE_STRIP,
-            QUADS};
-
-        class Indices {
-        protected:
-            GeometryPrimitive prim;
-            unsigned int offset;
-            unsigned int range;            
-        public:
-            Indices(unsigned int range);
-            Indices(GeometryPrimitive prim,
-                    unsigned int range);
-            Indices(GeometryPrimitive prim,
-                    unsigned int offset,
-                    unsigned int range);
-
-            GeometryPrimitive GetPrimitive() const;
-            unsigned int GetOffset() const;
-            unsigned int GetRange() const;
-        };
-
         class IndexBufferObject : public BufferObject<1, unsigned int> {
         public:
             IndexBufferObject()
@@ -49,7 +23,7 @@ namespace OpenEngine {
         };
         
         /**
-         * Buffer Object interface smart pointer.
+         * Index Buffer Object smart pointer.
          */
         typedef boost::shared_ptr<IndexBufferObject> IndexBufferObjectPtr;
 

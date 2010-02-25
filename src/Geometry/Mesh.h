@@ -10,6 +10,8 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
+#include <Resources/IndexBufferObject.h>
+
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
@@ -19,8 +21,8 @@ namespace OpenEngine {
     namespace Resources {
         class IBufferObject;
         typedef boost::shared_ptr<IBufferObject> IBufferObjectPtr;
-        class IndexBufferObject;
-        typedef boost::shared_ptr<IndexBufferObject> IndexBufferObjectPtr;
+        //class IndexBufferObject;
+        //typedef boost::shared_ptr<IndexBufferObject> IndexBufferObjectPtr;
     }
     namespace Geometry{
 

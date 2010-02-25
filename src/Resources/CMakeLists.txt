@@ -22,7 +22,6 @@ ADD_LIBRARY(OpenEngine_Resources
   BufferObject.h
   BufferObject.cpp
   IndexBufferObject.h
-  IndexBufferObject.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources
