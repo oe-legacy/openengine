@@ -12,6 +12,7 @@
 
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/IResource.h>
+#include <Math/VectorIterator.h>
 
 using namespace OpenEngine::Resources::Types;
 

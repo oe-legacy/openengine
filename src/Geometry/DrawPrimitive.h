@@ -11,6 +11,7 @@
 #define _DRAW_PRIMITIVE_H_
 
 #include <boost/shared_ptr.hpp>
+#include <Resources/IndexBufferObject.h>
 
 namespace OpenEngine {
     namespace Geometry {
@@ -20,55 +21,27 @@ namespace OpenEngine {
         typedef boost::shared_ptr<Mesh> MeshPtr;
 
         /**
-         * Geometry primitives.
-         */
-        enum GeometryPrimitive {
-            GL_POINTS,
-            LINES,
-            LINE_STRIP,
-            TRIANGLES,
-            TRIANGLE_STRIP,
-            QUADS};
-
-        /**
          * Draw primitive class, containing the primitive type that
          * should be used when rendering the mesh with the specified
          * material.
          */
         class DrawPrimitive {
         protected:
-            GeometryPrimitive prim;
-            unsigned int indexOffset;
-            unsigned int drawRange;
+            Resources::IndexBufferObjectPtr indexBuffer;
+            Resources::IndiceList indices;
             MaterialPtr mat;
             MeshPtr mesh;
             
         public:
-            DrawPrimitive(GeometryPrimitive prim,
+            DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
                           MaterialPtr mat,
                           MeshPtr mesh);
             
-            DrawPrimitive(GeometryPrimitive primitive,
-                          unsigned int offset,
-                          unsigned int range,
-                          MaterialPtr mat,
-                          MeshPtr mesh);
-
             /**
-             * Returns the primitive drawn.
+             * Return the index buffer object.
              */
-            inline GeometryPrimitive GetPrimitive() const { return prim; }
-
-            /**
-             * Returns the specified offset into the index buffer.
-             */
-            inline unsigned int GetIndexOffset() const { return indexOffset; }
-
-            /**
-             * Returns the number of elements drawn by this draw primitive.
-             */
-            inline unsigned int GetDrawingRange() { return drawRange; }
-
+            inline Resources::IndexBufferObjectPtr GetIndexBuffer() const { return indexBuffer; }
+            
             /**
              * Returns the material used by this draw primitive.
              */
@@ -79,6 +52,11 @@ namespace OpenEngine {
              */
             inline MeshPtr GetMesh() const { return mesh; }
             
+
+            void AddPrimitive(Resources::GeometryPrimitive prim);
+
+            void AddPrimitive(Resources::GeometryPrimitive prim, 
+                              unsigned int offset, unsigned int range);
         };
 
         typedef boost::shared_ptr<DrawPrimitive> DrawPrimitivePtr;

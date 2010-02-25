@@ -16,40 +16,13 @@ using namespace OpenEngine::Resources;
 namespace OpenEngine {
     namespace Geometry{
 
-        Mesh::Mesh(){
-            size = 0;
-            vertices = IBufferObjectPtr();
-            normals = IBufferObjectPtr();
-            colors = IBufferObjectPtr();
-            texCoords.empty();
+        Mesh::Mesh(Resources::IBufferObjectPtr vertices,
+                   Resources::IBufferObjectPtr normals,
+                   Resources::IBufferObjectList texCoords,
+                   Resources::IBufferObjectPtr colors){
+
         }
-
-        Mesh::Mesh(unsigned int size, 
-                   unsigned int vDim,
-                   unsigned int nDim){
-            this->size = size;
-
-            switch(vDim){
-            case 2:
-                vertices = IBufferObjectPtr(new BufferObject<2, float>(size));
-                break;
-            case 3:
-                vertices = IBufferObjectPtr(new BufferObject<3, float>(size));
-                break;
-            default:
-                vertices = IBufferObjectPtr(new BufferObject<4, float>(size));
-                break;
-            }
-
-            switch(nDim){
-            case 2:
-                normals = IBufferObjectPtr(new BufferObject<2, float>(size));
-                break;
-            default:
-                normals = IBufferObjectPtr(new BufferObject<3, float>(size));
-                break;
-            }
-        }
+        
 
     }
 }

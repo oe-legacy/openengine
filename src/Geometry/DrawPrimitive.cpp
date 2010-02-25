@@ -11,7 +11,6 @@
 
 #include <Geometry/Mesh.h>
 #include <Geometry/Material.h>
-#include <Resources/IndexBufferObject.h>
 #include <Math/Exceptions.h>
 
 using namespace OpenEngine::Resources;
@@ -20,28 +19,28 @@ using namespace OpenEngine::Math;
 namespace OpenEngine {
     namespace Geometry {
 
-        DrawPrimitive::DrawPrimitive(GeometryPrimitive prim,
+        DrawPrimitive::DrawPrimitive(IndexBufferObjectPtr indexBuffer,
                                      MaterialPtr mat,
                                      MeshPtr mesh)
-            : prim(prim), mat(mat), mesh(mesh){
-            indexOffset = 0;
-            drawRange = mesh->GetIndexBuffer()->GetSize();
+            : indexBuffer(indexBuffer), mat(mat), mesh(mesh){ }
 
+
+        void DrawPrimitive::AddPrimitive(GeometryPrimitive prim){
+            Indices i = Indices(prim, 0, indexBuffer->GetSize());
+            indices.push_back(i);
         }
 
-        DrawPrimitive::DrawPrimitive(GeometryPrimitive primitive,
-                                     unsigned int offset,
-                                     unsigned int range,
-                                     MaterialPtr mat,
-                                     MeshPtr mesh)
-            : prim(prim), indexOffset(offset), drawRange(range), mat(mat), mesh(mesh){
+        void DrawPrimitive::AddPrimitive(GeometryPrimitive prim, 
+                                         unsigned int offset, unsigned int range){
 #ifdef OE_SAFE
-            unsigned int size = mesh->GetIndexBuffer()->GetSize();
+            unsigned int size = indexBuffer->GetSize();
             if (offset > size)
                 throw IndexOutOfBounds(offset, 0, size);
             if (offset + range > size)
                 throw IndexOutOfBounds(offset + range, 0, size);
 #endif
+            Indices i = Indices(prim, offset, range);
+            indices.push_back(i);
         }
 
     }

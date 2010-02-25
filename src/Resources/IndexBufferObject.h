@@ -11,9 +11,52 @@
 #define _INDEX_BUFFER_OBJECT_H_
 
 #include <Resources/BufferObject.h>
+#include <vector>
+
+using std::vector;
 
 namespace OpenEngine {
     namespace Resources {
+
+        /**
+         * Geometry primitives.
+         */
+        enum GeometryPrimitive {
+            GL_POINTS,
+            LINES,
+            LINE_STRIP,
+            TRIANGLES,
+            TRIANGLE_STRIP,
+            QUADS};
+
+        class Indices {
+        private:
+            GeometryPrimitive prim;
+            unsigned int indexOffset;
+            unsigned int drawRange;
+        public:
+            Indices(GeometryPrimitive prim,
+                    unsigned int offset,
+                    unsigned int range)
+                : prim(prim), indexOffset(offset), drawRange(range) {
+            }
+            /**
+             * Returns the primitive drawn.
+             */
+            inline GeometryPrimitive GetPrimitive() const { return prim; }
+            
+            /**
+             * Returns the specified offset into the index buffer.
+             */
+            inline unsigned int GetIndexOffset() const { return indexOffset; }
+            
+            /**
+             * Returns the number of elements drawn by this draw primitive.
+             */
+            inline unsigned int GetDrawingRange() { return drawRange; }
+        };
+
+        typedef vector<Resources::Indices> IndiceList;
         
         class IndexBufferObject : public BufferObject<1, unsigned int> {
         public:
