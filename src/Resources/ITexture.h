@@ -12,7 +12,8 @@
 
 #include <Resources/Types/ResourceTypes.h>
 
-using namespace OpenEngine::Resources::Types;
+//@todo warning: removed becasue it causes name clashed with BYTE
+//using namespace OpenEngine::Resources::Types;
 
 namespace OpenEngine {
     namespace Resources {
@@ -40,7 +41,7 @@ namespace OpenEngine {
         protected:
             unsigned int id;
             unsigned char channels;
-            Type type;
+            Types::Type type;
             ColorFormat format;
             Wrapping wrap;
             void* data;
@@ -52,7 +53,7 @@ namespace OpenEngine {
              * parameter.
              */
             template <class T> void SetupType(){
-                this->type = GetResourceType<T>();
+                this->type = Types::GetResourceType<T>();
             }
 
             /**
@@ -75,7 +76,7 @@ namespace OpenEngine {
                 data = NULL;
                 mipmapping = true;
                 compression = true;
-                type = NOTYPE;
+                type = Types::NOTYPE;
                 wrap = REPEAT;
             }
 
@@ -121,12 +122,12 @@ namespace OpenEngine {
              *
              * @return Type the type of the texture.
              */
-            inline Type GetType() const { return type; }
+            inline Types::Type GetType() const { return type; }
 
             /**
              * Set the type of the texture.
              */
-            virtual void SetType(Type t) { type = t; }
+            virtual void SetType(Types::Type t) { type = t; }
 
             /**
              * Get color format of the texture.
