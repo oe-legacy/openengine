@@ -11,6 +11,7 @@
 #define _OE_VECTOR_ITERATOR_H_
 
 #include <Math/Vector.h>
+#include <Logging/Logger.h>
 
 namespace OpenEngine {
     namespace Math {
@@ -18,31 +19,25 @@ namespace OpenEngine {
         template <unsigned int N, class T>
         class VectorIterator : public Vector<N, T> {
         protected:
-            unsigned int size;
             T* begin;
             T* end;
             
-            VectorIterator(unsigned int size, T* end){
-                this->size = size;
-                this->elm = begin;
-                this->begin = end - size * N;
-                this->end = end;
-            }
-
         public:
+            /**
+             * Create the iterator as a subclass for direct access?
+             * Or make it stand alone and overload it's = operator?
+             */
+
             VectorIterator(T* begin, unsigned int size){
-                this->size = size;
                 this->elm = begin;
                 this->begin = begin;
                 this->end = begin + size * N;
             }
 
-            inline VectorIterator<N, T> Begin() const {
-                return VectorIterator<N, T>(begin, size);
-            }
-
-            inline VectorIterator<N, T> End() const {
-                return VectorIterator<N, T>(size, end);
+            VectorIterator(unsigned int size, T* end){
+                this->elm = begin;
+                this->begin = end - size * N;
+                this->end = end;
             }
 
             inline bool HasPrevious() const {
@@ -56,7 +51,7 @@ namespace OpenEngine {
             inline VectorIterator<N, T> operator++() {
 #ifdef OE_SAFE
                 if (!HasNext())
-                    throw IndexOutOfBounds(size, 0, size);
+                    throw Exception("Exceeding the last element in the iterator.");
 #endif
                 this->elm += N;
                 return *this;
@@ -69,7 +64,7 @@ namespace OpenEngine {
             inline VectorIterator<N, T> operator--() {
 #ifdef OE_SAFE
                 if (!HasPrevious())
-                    throw IndexOutOfBounds(size, 0, size);
+                    throw Exception("Subceeding the first element in the iterator.");
 #endif
                 this->elm -= N;
                 return *this;
@@ -84,17 +79,22 @@ namespace OpenEngine {
                     this->elm[i] = other[i];
                 return *this;
             }
-            
-            inline bool operator==(VectorIterator<N, T> other) const {
-                return this->elm == other.elm;
-                /*
-                  begin == other.begin && 
-                  end == other.end;
-                */
+
+            inline VectorIterator<N, T> operator=(VectorIterator<N,T> other) {
+                this->elm = other.elm;
+                this->begin = other.begin;
+                this->end = other.end;
+                return *this;
             }
             
-            // operators that needs implementing != ==
-  
+            inline bool operator==(const VectorIterator<N, T>& other) const {
+                return this->elm == other.elm;
+            }
+            
+            inline bool operator!=(const VectorIterator<N, T>& other) const {
+                return this->elm != other.elm;
+            }
+
         };
 
     }
