@@ -75,18 +75,38 @@ namespace OpenEngine {
             }
 
             /**
-             * Gets the i'th element in a buffer object.
+             * Gets the i'th element in the buffer object.
              */
-            inline VectorIterator<N, T> GetElement(unsigned int i) const {
+            inline Vector<N, T> GetElement(unsigned int i) const {
                 unsigned int index = i * dimension;
                 T* data = this->data;
-                return VectorIterator<N, T>(data + index, N);
+                return Vector<N, T>(data + index);
+            }
+
+            /**
+             * Sets the i'th element in the buffer object to the vector.
+             *
+             * @param value The value to be set to.
+             */
+            inline void SetElement(unsigned int i, Vector<N, T> value){
+                T* data = this->data;
+                data += i * N;
+                for (unsigned int j = 0; j < N; ++j)
+                    data[j] = value[j];
             }
            
+            /**
+             * Returns an iterator referring to the first element in
+             * the buffer object.
+             */
             inline VectorIterator<N, T> Begin() const {
                 return VectorIterator<N, T>((T*)this->data, this->size);
             }
 
+            /**
+             * Returns an iterator referring to the last element in
+             * the buffer object.
+             */
             inline VectorIterator<N, T> End() const {
                 T* data = this->data;
                 return VectorIterator<N, T>(this->size, data + this->size * N);

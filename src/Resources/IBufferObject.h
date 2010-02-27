@@ -32,7 +32,8 @@ namespace OpenEngine {
         enum UpdateMode {STATIC, DYNAMIC};
 
         /**
-         * Basic buffer object interface.
+         * Basic buffer object interface. The buffer object consists
+         * of an array where each element is an N'th dimensional vector.
          *
          * @class IBufferObject IBufferObject.h Resources/IBufferObject.h
          */
