@@ -30,6 +30,8 @@ namespace OpenEngine {
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
         class ITexture3D;
         typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
+        class IBufferObject;
+        typedef boost::shared_ptr<IBufferObject> IBufferObjectPtr;
     }
 }
 
@@ -47,6 +49,7 @@ using OpenEngine::Resources::ITexture2DPtr;
 using OpenEngine::Resources::ITexture2D;
 using OpenEngine::Resources::ITexture3DPtr;
 using OpenEngine::Resources::ITexture3D;
+using OpenEngine::Resources::IBufferObject;
 
 // forward declerations
 class IRenderer; class IRenderingView;
@@ -175,6 +178,13 @@ public:
     virtual void RebindTexture(ITexture2D* texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
     virtual void RebindTexture(ITexture3DPtr texr, unsigned int xOffset, unsigned int yOffset, unsigned int zOffset, unsigned int width, unsigned int height, unsigned int depth) = 0;
     virtual void RebindTexture(ITexture3D* texr, unsigned int xOffset, unsigned int yOffset, unsigned int zOffset, unsigned int width, unsigned int height, unsigned int depth) = 0;
+
+    /**
+     * Bind a buffer object.
+     *
+     * @param bo Buffer objct resource to be bound.
+     */
+    virtual void BindBufferObject(IBufferObject* bo) = 0;
 
     /**
      * Set the global background colour.
