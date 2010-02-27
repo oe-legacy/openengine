@@ -90,9 +90,20 @@ namespace OpenEngine {
             inline bool operator==(const VectorIterator<N, T>& other) const {
                 return this->elm == other.elm;
             }
+
+            inline bool operator==(const Vector<N, T>& other) const {
+                for (unsigned int i=0; i<N; i++)
+                    if (this->elm[i] != other.Get(i))
+                        return false;
+                return true;
+            }
             
             inline bool operator!=(const VectorIterator<N, T>& other) const {
                 return this->elm != other.elm;
+            }
+
+            inline bool operator!=(const Vector<N, T>& other) const {
+                return !(*this == other);
             }
 
         };

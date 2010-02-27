@@ -3,5 +3,6 @@ namespace OpenEngine {
         void testVector();
         void testMatrix();
         void testQuaternion();
+        void testVectorIterator();
     }
 }

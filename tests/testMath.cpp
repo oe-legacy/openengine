@@ -16,6 +16,7 @@
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 #include <Math/Quaternion.h>
+#include <Math/VectorIterator.h>
 
 #include <iostream>
 
@@ -265,4 +266,18 @@ void OpenEngine::Tests::testQuaternion() {
     // @todo: test * operator
     //Quaternion<float> qt = q1*q2;
     //std::cout << qt.ToString() << std::endl;
+}
+
+
+void OpenEngine::Tests::testVectorIterator() {
+    float* array = new float[6];
+    array[0] = 0;
+    array[1] = 0;
+    array[2] = 0;
+    array[3] = 0;
+    array[4] = 0;
+    array[5] = 0;
+
+    VectorIterator<3 ,float> itr(array, 6);
+    BOOST_CHECK(itr == Vector<3, float>(0));
 }
