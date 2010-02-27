@@ -28,7 +28,7 @@ namespace OpenEngine {
          * from a texture.
          */
         enum AccessType {READ, WRITE, COPY};
-        enum DataType {ARRAY, ELEMENT_ARRAY, PIXEL_PACK, PIXEL_UNPACK};
+        enum BufferType {ARRAY, INDEX_ARRAY, PIXEL_PACK, PIXEL_UNPACK};
         enum UpdateMode {STATIC, DYNAMIC};
 
         /**
@@ -43,10 +43,10 @@ namespace OpenEngine {
             void* data;
             unsigned int size, dimension;
             AccessType access;
-            DataType dataType;
+            BufferType bufferType;
             UpdateMode updateMode;
 
-            inline void SetAccessType(DataType type){
+            inline void SetAccessType(BufferType type){
                 switch(type){
                 case PIXEL_PACK:
                     access = COPY;
@@ -63,7 +63,7 @@ namespace OpenEngine {
                 type = NOTYPE;
                 data = NULL;
                 access = WRITE;
-                dataType = ELEMENT_ARRAY;
+                bufferType = ARRAY;
                 updateMode = STATIC;
             }
 
@@ -112,10 +112,10 @@ namespace OpenEngine {
 
             inline AccessType GetAccessType() const { return access; }
 
-            inline DataType GetDataType() const { return dataType; }
+            inline BufferType GetBufferType() const { return bufferType; }
 
-            virtual void SetDataType(DataType type) {
-                dataType = type;
+            virtual void SetBufferType(BufferType type) {
+                bufferType = type;
                 SetAccessType(type);
             }
 

@@ -68,6 +68,7 @@ namespace OpenEngine {
         public:
             IndexBufferObject()
                 : BufferObject<1, unsigned int>() {
+                this->bufferType = INDEX_ARRAY;
             }
         };
         

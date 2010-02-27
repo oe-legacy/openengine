@@ -77,10 +77,19 @@ namespace OpenEngine {
             /**
              * Gets the i'th element in a buffer object.
              */
-            inline Vector<N, T> GetElement(unsigned int i) const {
-                unsigned int index = i * dimension;                
+            inline VectorIterator<N, T> GetElement(unsigned int i) const {
+                unsigned int index = i * dimension;
                 T* data = this->data;
-                return Vector<N, T>(data + index);
+                return VectorIterator<N, T>(data + index, N);
+            }
+           
+            inline VectorIterator<N, T> Begin() const {
+                return VectorIterator<N, T>((T*)this->data, this->size);
+            }
+
+            inline VectorIterator<N, T> End() const {
+                T* data = this->data;
+                return VectorIterator<N, T>(this->size, data + this->size * N);
             }
         };
 
