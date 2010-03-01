@@ -244,6 +244,13 @@ public:
      */
     virtual void DrawSphere(Vector<3,float> center, float radius, Vector<3,float> color) = 0;
 
+    /**
+     * Tests if Buffer Objects are supported.
+     *
+     * @return True if support is found.
+     */
+    virtual bool BufferSupport() = 0;
+
 protected:
     //! root node of the rendering scene
     ISceneNode* root;
