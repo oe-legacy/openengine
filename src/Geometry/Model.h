@@ -23,7 +23,7 @@ namespace OpenEngine {
         typedef list<DrawPrimitivePtr> DrawPrimitiveList;
 
         /**
-         * Model class. Contains batches of draw primitives.
+         * Model class. Contains a list of draw primitives.
          */
         class Model{
         protected:

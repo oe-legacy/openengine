@@ -13,6 +13,9 @@
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/IResource.h>
 #include <Math/VectorIterator.h>
+#include <list>
+
+using std::list;
 
 using namespace OpenEngine::Resources::Types;
 
@@ -130,6 +133,7 @@ namespace OpenEngine {
          * Buffer Object interface smart pointer.
          */
         typedef boost::shared_ptr<IBufferObject> IBufferObjectPtr;
+        typedef list<IBufferObjectPtr > IBufferObjectList;
 
         /**
          * IBufferObjectChangedEventArg

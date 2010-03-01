@@ -25,12 +25,18 @@ namespace OpenEngine {
     }
     namespace Geometry{
 
+        /**
+         * The mesh class contains all of the pr. vertex information
+         * of a mesh.
+         *
+         * All of the information is assumed to be in floats.
+         */
         class Mesh {
         protected:
             Resources::IBufferObjectPtr vertices;
             Resources::IBufferObjectPtr normals;
-            Resources::IBufferObjectPtr colors;
             Resources::IBufferObjectList texCoords;
+            Resources::IBufferObjectPtr colors;
 
             // Move into shader?
             //map<string, IBufferObjectPtr> vertexAttrib;

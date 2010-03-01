@@ -19,29 +19,30 @@ using namespace OpenEngine::Math;
 namespace OpenEngine {
     namespace Geometry {
 
-        DrawPrimitive::DrawPrimitive(IndexBufferObjectPtr indexBuffer,
+        DrawPrimitive::DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+                                     GeometryPrimitive prim,
                                      MaterialPtr mat,
                                      MeshPtr mesh)
-            : indexBuffer(indexBuffer), mat(mat), mesh(mesh){ }
-
-
-        void DrawPrimitive::AddIndexBatch(GeometryPrimitive prim){
-            IndexBatch b = IndexBatch(prim, 0, indexBuffer->GetSize());
-            batches.push_back(b);
+            : indexBuffer(indexBuffer), prim(prim), mat(mat), mesh(mesh) {
+            indexOffset = 0;
+            drawRange = indexBuffer->GetSize();
         }
-
-        void DrawPrimitive::AddIndexBatch(GeometryPrimitive prim, 
-                                           unsigned int offset, unsigned int range){
+        
+        DrawPrimitive::DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+                                     GeometryPrimitive prim,
+                                     MaterialPtr mat,
+                                     MeshPtr mesh,
+                                     unsigned int indexOffset,
+                                     unsigned int drawRange)
+            : indexBuffer(indexBuffer), prim(prim), mat(mat), mesh(mesh),
+              indexOffset(indexOffset), drawRange(drawRange) {
 #ifdef OE_SAFE
             unsigned int size = indexBuffer->GetSize();
-            if (offset > size)
-                throw IndexOutOfBounds(offset, 0, size);
-            if (offset + range > size)
-                throw IndexOutOfBounds(offset + range, 0, size);
+            if (indexOffset > size)
+                throw IndexOutOfBounds(indexOffset, 0, size);
+            if (indexOffset + drawRange > size)
+                throw IndexOutOfBounds(indexOffset + drawRange, 0, size);
 #endif
-            IndexBatch b = IndexBatch(prim, offset, range);
-            batches.push_back(b);
         }
-
     }
 }

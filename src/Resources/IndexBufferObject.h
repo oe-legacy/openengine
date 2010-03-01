@@ -22,7 +22,7 @@ namespace OpenEngine {
          * Geometry primitives.
          */
         enum GeometryPrimitive {
-            GL_POINTS,
+            POINTS,
             LINES,
             LINE_STRIP,
             TRIANGLES,

@@ -1,4 +1,4 @@
-//  Drawing Primitive.
+// Drawing Primitive.
 // -------------------------------------------------------------------
 // Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
@@ -13,12 +13,21 @@
 #include <boost/shared_ptr.hpp>
 #include <Resources/IndexBufferObject.h>
 
+using OpenEngine::Resources::GeometryPrimitive;
+
 namespace OpenEngine {
     namespace Geometry {
         class Material;
         typedef boost::shared_ptr<Material> MaterialPtr;
         class Mesh;
         typedef boost::shared_ptr<Mesh> MeshPtr;
+
+        /**
+         * @TODO rename to GeometryBatch?
+         *
+         * Gather all indice information in a container? Easier to
+         * pass around and constructors will be simpler.
+         */
 
         /**
          * Draw primitive class, containing the primitive type that
@@ -28,14 +37,24 @@ namespace OpenEngine {
         class DrawPrimitive {
         protected:
             Resources::IndexBufferObjectPtr indexBuffer;
-            Resources::IndexBatchList batches;
+            GeometryPrimitive prim;
             MaterialPtr mat;
             MeshPtr mesh;
+            unsigned int indexOffset;
+            unsigned int drawRange;
             
         public:
             DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+                          GeometryPrimitive prim,
                           MaterialPtr mat,
                           MeshPtr mesh);
+
+            DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+                          GeometryPrimitive prim,
+                          MaterialPtr mat,
+                          MeshPtr mesh,
+                          unsigned int indexOffset,
+                          unsigned int drawRange);
             
             /**
              * Return the index buffer object.
@@ -44,7 +63,7 @@ namespace OpenEngine {
             
             /**
              * Returns the material used by this draw primitive.
-             */
+             */ 
             inline MaterialPtr GetMaterial() const { return mat; }
 
             /**
@@ -53,35 +72,23 @@ namespace OpenEngine {
             inline MeshPtr GetMesh() const { return mesh; }
 
             /**
-             * Returns a list of all indice containers.
-             *
-             * @return IndiceList The list.
+             * Returns the primitive drawn.
              */
-            inline Resources::IndexBatchList GetRenderBatches() const { return batches; }
+            inline GeometryPrimitive GetPrimitive() const { return prim; }
+            
+            /**
+             * Returns the specified offset into the index buffer.
+             */
+            inline unsigned int GetIndexOffset() const { return indexOffset; }
+            
+            /**
+             * Returns the number of elements drawn by this draw primitive.
+             */
+            inline unsigned int GetDrawingRange() { return drawRange; }
 
             /**
-             * Adds a primitive to draw the entire index buffer object
-             * with. Is usually TRIANGLES, which draws the entire mesh
-             * with triangles.
-             *
-             * @param prim The primitive.
+             * Iterate over primitives. Like how?
              */
-            void AddIndexBatch(Resources::GeometryPrimitive prim);
-
-            /**
-             * Adds an index batch to be drawn.
-             *
-             * @param prim The primitive.
-             * @param offset The offset into the index buffer.
-             * @param range The number of elements to draw.
-             */
-            void AddIndexBatch(Resources::GeometryPrimitive prim, 
-                                unsigned int offset, unsigned int range);
-
-            /**
-             * Removes the index batch specified by the iterator.
-             */
-            void RemoveIndexBatch(Resources::IndexBatchList::iterator batch);
         };
 
         typedef boost::shared_ptr<DrawPrimitive> DrawPrimitivePtr;

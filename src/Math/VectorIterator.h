@@ -48,6 +48,15 @@ namespace OpenEngine {
                 return this->elm != end;
             }
             
+            inline VectorIterator<N, T> JumpTo(const unsigned int i){
+                this->elm = begin + i * N;
+#ifdef OE_SAFE
+                if (this->elm >= end)
+                    throw Exception("Exceeding the last element in the iterator.");
+#endif
+                return *this;
+            }
+
             inline VectorIterator<N, T> operator++() {
 #ifdef OE_SAFE
                 if (!HasNext())
@@ -74,9 +83,9 @@ namespace OpenEngine {
                 return --(*this);
             }
 
-            inline VectorIterator<N, T> operator=(Vector<N,T> other) {
+            inline VectorIterator<N, T> operator=(const Vector<N,T>& other) {
                 for (unsigned int i = 0; i < N; ++i)
-                    this->elm[i] = other[i];
+                    this->elm[i] = other.Get(i);
                 return *this;
             }
 
