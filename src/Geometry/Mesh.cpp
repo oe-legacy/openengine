@@ -22,11 +22,11 @@ namespace OpenEngine {
                    IBufferObjectPtr colors)
             : vertices(vertices), normals(normals), texCoords(texCoords), colors(colors){
 #ifdef OE_SAFE
-            if (vertices->GetType() != FLOAT)
+            if (vertices != NULL && vertices->GetType() != FLOAT)
                 throw Exception("Vertices not of type float.");
-            if (normals->GetType() != FLOAT)
+            if (normals != NULL && normals->GetType() != FLOAT)
                 throw Exception("Normals not of type float.");
-            if (colors->GetType() != FLOAT)
+            if (colors != NULL && colors->GetType() != FLOAT)
                 throw Exception("Colors not of type float.");
             IBufferObjectList::iterator itr = texCoords.begin();
             while (itr != texCoords.end()){
