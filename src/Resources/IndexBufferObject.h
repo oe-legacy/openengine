@@ -70,6 +70,16 @@ namespace OpenEngine {
                 : BufferObject<1, unsigned int>() {
                 this->bufferType = INDEX_ARRAY;
             }
+
+            IndexBufferObject(unsigned int s)
+                : BufferObject<1, unsigned int>(s) {
+                this->bufferType = INDEX_ARRAY;
+            }
+
+            IndexBufferObject(unsigned int* d, unsigned int s)
+                : BufferObject<1, unsigned int>(d, s) {
+                this->bufferType = INDEX_ARRAY;
+            }
         };
         
         /**

@@ -116,7 +116,9 @@ namespace OpenEngine {
         /**
          * Buffer Object smart pointer.
          */
-        //typedef boost::shared_ptr<BufferObject> BufferObjectPtr;
+        typedef boost::shared_ptr<BufferObject<2, float> > Float2BufferObjectPtr;
+        typedef boost::shared_ptr<BufferObject<3, float> > Float3BufferObjectPtr;
+        typedef boost::shared_ptr<BufferObject<4, float> > Float4BufferObjectPtr;
 
     }
 }
