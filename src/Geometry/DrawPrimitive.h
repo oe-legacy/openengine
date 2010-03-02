@@ -27,6 +27,11 @@ namespace OpenEngine {
          *
          * Gather all indice information in a container? Easier to
          * pass around and constructors will be simpler.
+         * 
+         * Will also make it easy to make DrawElements to the renderer
+         * in case you just want to draw some indice information you
+         * have. (see heightmap that doesn't fit into the Model
+         * abstraction and perhaps other multi model/lod nodes)
          */
 
         /**
