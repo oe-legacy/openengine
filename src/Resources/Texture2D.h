@@ -92,20 +92,41 @@ namespace OpenEngine {
             }
 
             /**
-             * Get a pointer to the specific pixel at (x, y).
+             * Get a pointer to the specific pixel at (x, y). Uses the
+             * wrapping mode specified to handle out of bounds values.
              *
              * return T The pointer to the pixel.
              */
-            inline T* GetPixel(const unsigned int x, const unsigned int y) const{
+            inline T* GetPixel(const int x, const int y) const{
 #ifdef OE_SAFE
                 if (this->data == NULL){
                     throw ResourceException("Cannot get pixel data from null texture.");
                 }
                 // Check bounds
-                if (x > width) throw Math::IndexOutOfBounds(x, 0, width);
-                if (y > height) throw Math::IndexOutOfBounds(y, 0, height);
+                //if (x > width) throw Math::IndexOutOfBounds(x, 0, width);
+                //if (y > height) throw Math::IndexOutOfBounds(y, 0, height);
 #endif
-                unsigned int entry = x + y * width;
+                unsigned int X, Y;
+                switch(this->wrap){
+                case REPEAT:
+                    X = x % width;
+                    Y = y % height;
+                default:
+                    if (x < 0)
+                        X = 0;
+                    else if (width <= (unsigned int)x)
+                        X = width - 1;
+                    else
+                        X = x;
+                    if (y < 0)
+                        Y = 0;
+                    else if (height <= (unsigned int)y)
+                        Y = height - 1;
+                    else
+                        Y = y;
+                }
+                
+                unsigned int entry = X + Y * width;
                 T* data = (T*) this->data;
                 return data + entry * this->channels;
             }
