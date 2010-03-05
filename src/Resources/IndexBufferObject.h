@@ -19,15 +19,16 @@ namespace OpenEngine {
     namespace Resources {
 
         /**
-         * Geometry primitives.
+         * Geometry primitives (just happens to have the same values
+         * as OpenGL...)
          */
         enum GeometryPrimitive {
-            POINTS,
-            LINES,
-            LINE_STRIP,
-            TRIANGLES,
-            TRIANGLE_STRIP,
-            QUADS};
+            POINTS         = 0x0000,
+            LINES          = 0x0001,
+            LINE_STRIP     = 0x0003,
+            TRIANGLES      = 0x0004,
+            TRIANGLE_STRIP = 0x0005,
+            QUADS          = 0x0007};
 
         /**
          * RenderBatch contains information about the batch to be

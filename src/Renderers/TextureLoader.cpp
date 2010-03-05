@@ -15,8 +15,11 @@
 #include <Scene/ISceneNodeVisitor.h>
 #include <Scene/GeometryNode.h>
 #include <Scene/VertexArrayNode.h>
+#include <Scene/ModelNode.h>
 #include <Geometry/FaceSet.h>
 #include <Geometry/Face.h>
+#include <Geometry/Model.h>
+#include <Geometry/DrawPrimitive.h>
 #include <Geometry/VertexArray.h>
 #include <Resources/ITexture2D.h>
 #include <Resources/ITexture3D.h>
@@ -35,6 +38,9 @@ using Core::QueuedEvent;
 using Geometry::FaceList;
 using Geometry::FaceSet;
 using Geometry::VertexArray;
+using Geometry::Model;
+using Geometry::DrawPrimitive;
+using Geometry::DrawPrimitiveList;
 using Renderers::RenderingEventArg;
 using Resources::ITexture2D;
 using Resources::ITexture2DPtr;
@@ -45,6 +51,7 @@ using Resources::Texture3DChangedEventArg;
 using Scene::ISceneNode;
 using Scene::ISceneNodeVisitor;
 using Scene::GeometryNode;
+using Scene::ModelNode;
 using Scene::VertexArrayNode;
 
 /**
@@ -72,6 +79,22 @@ public:
             ITexture2DPtr t = (*face)->mat->texr;
             if (t != NULL && t->GetID() == 0 &&
                 cache.find(t.get()) == cache.end()) {
+                cache.insert(t.get());
+                loader.Load(t, policy);
+            }
+        }
+    }
+
+    void VisitModelNode(ModelNode* node) {
+        Model* model = node->model;
+        DrawPrimitiveList prims = model->GetDrawPrimitives();
+        DrawPrimitiveList::iterator prim = prims.begin();
+        for (; prim != prims.end(); ++prim) {
+            // load face textures if not already loaded or in the cache
+            ITexture2DPtr t = (*prim)->GetMaterial()->texr;
+            if (t != NULL && t->GetID() == 0 &&
+                cache.find(t.get()) == cache.end()) {
+                // logger.info << "load model texture" << logger.end;
                 cache.insert(t.get());
                 loader.Load(t, policy);
             }

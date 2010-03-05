@@ -25,6 +25,9 @@ namespace OpenEngine {
         Model::Model(DrawPrimitiveList prims){
             this->prims = prims;
         }
-
+        void Model::AddDrawPrimitive(DrawPrimitivePtr prim) {
+            prims.push_back(prim);
+        }
+        
     }
 }

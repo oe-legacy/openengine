@@ -11,4 +11,5 @@
 #include <Scene/SpotLightNode.h>
 #include <Scene/TransformationNode.h>
 #include <Scene/VertexArrayNode.h>
+#include <Scene/ModelNode.h>
 @OE_SCENE_NODE_INCLUDE_EXPANSION@
