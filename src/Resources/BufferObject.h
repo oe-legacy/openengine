@@ -79,7 +79,7 @@ namespace OpenEngine {
              */
             inline Vector<N, T> GetElement(unsigned int i) const {
                 unsigned int index = i * dimension;
-                T* data = this->data;
+                T* data = (T*) this->data;
                 return Vector<N, T>(data + index);
             }
 
@@ -108,7 +108,7 @@ namespace OpenEngine {
              * the buffer object.
              */
             inline VectorIterator<N, T> End() const {
-                T* data = this->data;
+                T* data = (T*) this->data;
                 return VectorIterator<N, T>(this->size, data + this->size * N);
             }
         };
