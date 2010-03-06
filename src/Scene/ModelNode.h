@@ -32,6 +32,7 @@ class ModelNode : public ISceneNode {
 public:
     Model* model;
 
+    ModelNode() { model = NULL; }
     ModelNode(Model* model);
     virtual ~ModelNode();
 

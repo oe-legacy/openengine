@@ -89,7 +89,7 @@ namespace OpenEngine {
              * @param value The value to be set to.
              */
             inline void SetElement(unsigned int i, Vector<N, T> value){
-                T* data = this->data;
+                T* data = (T*) this->data;
                 data += i * N;
                 for (unsigned int j = 0; j < N; ++j)
                     data[j] = value[j];
