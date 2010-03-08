@@ -40,21 +40,21 @@ namespace Renderers {
         DrawPrimitiveList prims = model->GetDrawPrimitives();
         DrawPrimitiveList::iterator prim = prims.begin();
         for (; prim != prims.end(); ++prim) {
-            if ((*prim)->GetIndexBuffer())
+            if ((*prim)->GetIndexBuffer() && (*prim)->GetIndexBuffer()->GetID() == 0)
                 r.BindBufferObject((*prim)->GetIndexBuffer().get());
 
             MeshPtr mesh = (*prim)->GetMesh();
-            if (mesh->GetVertices())
+            if (mesh->GetVertices() && mesh->GetVertices()->GetID() == 0)
                 r.BindBufferObject(mesh->GetVertices().get());
-            if (mesh->GetNormals())
+            if (mesh->GetNormals() && mesh->GetNormals()->GetID() == 0)
                 r.BindBufferObject(mesh->GetNormals().get());
-            if (mesh->GetColors()) 
+            if (mesh->GetColors() && mesh->GetColors()->GetID() == 0) 
                 r.BindBufferObject(mesh->GetColors().get());
           
             IBufferObjectList tl = mesh->GetTexCoords();
             IBufferObjectList::iterator texc = tl.begin();
             for (; texc != tl.end(); ++texc) {
-                if (*texc)
+                if (*texc && (*texc)->GetID() == 0)
                     r.BindBufferObject((*texc).get());
             }
         }
