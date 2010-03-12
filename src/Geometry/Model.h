@@ -17,37 +17,36 @@ using std::list;
 
 namespace OpenEngine {
     namespace Geometry{
-        class DrawPrimitive;
-        typedef boost::shared_ptr<DrawPrimitive> DrawPrimitivePtr;
-
-        typedef list<DrawPrimitivePtr> DrawPrimitiveList;
+        class Mesh;
+        typedef boost::shared_ptr<Mesh> MeshPtr;
+        typedef list<MeshPtr> MeshList;
 
         /**
          * Model class. Contains a list of draw primitives.
          */
         class Model{
         protected:
-            DrawPrimitiveList prims;
+            MeshList prims;
 
         public:
             Model();
-            Model(DrawPrimitivePtr prim);
-            Model(DrawPrimitiveList prims);
+            Model(MeshPtr prim);
+            Model(MeshList prims);
 
             /**
              * Add a new draw primitive to the model.
              */
-            void AddDrawPrimitive(DrawPrimitivePtr prim);
+            void AddMesh(MeshPtr prim);
 
             /**
              * Get a list of all draw primitives.
              */
-            inline DrawPrimitiveList GetDrawPrimitives() const { return prims; }
+            inline MeshList GetMeshs() const { return prims; }
 
             /**
              * Removes the draw primitive specified by the iterator.
              */
-            inline void RemoveDrawPrimitive(DrawPrimitiveList::iterator prim){
+            inline void RemoveMesh(MeshList::iterator prim){
                 prims.erase(prim);
             }
             

@@ -1,4 +1,4 @@
-// Drawing Primitive.
+// Mesh.
 // -------------------------------------------------------------------
 // Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,11 +7,15 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _DRAW_PRIMITIVE_H_
-#define _DRAW_PRIMITIVE_H_
+#ifndef _OE_MESH_H_
+#define _OE_MESH_H_
 
 #include <boost/shared_ptr.hpp>
 #include <Resources/DataIndices.h>
+
+#include <list>
+
+using std::list;
 
 using OpenEngine::Resources::GeometryPrimitive;
 
@@ -39,7 +43,7 @@ namespace OpenEngine {
          * should be used when rendering the mesh with the specified
          * material.
          */
-        class DrawPrimitive {
+        class Mesh {
         protected:
             Resources::DataIndicesPtr indexBuffer;
             GeometryPrimitive prim;
@@ -49,12 +53,12 @@ namespace OpenEngine {
             unsigned int drawRange;
             
         public:
-            DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
+            Mesh(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
                           MaterialPtr mat,
                           GeometrySetPtr mesh);
 
-            DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
+            Mesh(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
                           MaterialPtr mat,
                           GeometrySetPtr mesh,
@@ -96,7 +100,8 @@ namespace OpenEngine {
              */
         };
 
-        typedef boost::shared_ptr<DrawPrimitive> DrawPrimitivePtr;
+        typedef boost::shared_ptr<Mesh> MeshPtr;
+        typedef list<MeshPtr> MeshList;
 
     }
 }

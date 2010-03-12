@@ -1,4 +1,4 @@
-//  Drawing Primitive.
+// Mesh.
 // -------------------------------------------------------------------
 // Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,7 +7,7 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#include <Geometry/DrawPrimitive.h>
+#include <Geometry/Mesh.h>
 
 #include <Geometry/GeometrySet.h>
 #include <Geometry/Material.h>
@@ -19,7 +19,7 @@ using namespace OpenEngine::Math;
 namespace OpenEngine {
     namespace Geometry {
 
-        DrawPrimitive::DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
+        Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
                                      MaterialPtr mat,
                                      GeometrySetPtr mesh)
@@ -28,7 +28,7 @@ namespace OpenEngine {
             drawRange = indexBuffer->GetSize();
         }
         
-        DrawPrimitive::DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
+        Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
                                      MaterialPtr mat,
                                      GeometrySetPtr mesh,

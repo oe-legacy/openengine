@@ -11,7 +11,7 @@
 
 #include <Scene/ModelNode.h>
 #include <Geometry/Model.h>
-#include <Geometry/DrawPrimitive.h>
+#include <Geometry/Mesh.h>
 #include <Geometry/GeometrySet.h>
 
 
@@ -37,8 +37,8 @@ namespace Renderers {
     
     void DataBlockBinder::VisitModelNode(ModelNode* node) {
         Model* model = node->model;
-        DrawPrimitiveList prims = model->GetDrawPrimitives();
-        DrawPrimitiveList::iterator prim = prims.begin();
+        MeshList prims = model->GetMeshs();
+        MeshList::iterator prim = prims.begin();
         for (; prim != prims.end(); ++prim) {
             if ((*prim)->GetIndexBuffer() && (*prim)->GetIndexBuffer()->GetID() == 0)
                 r.BindDataBlock((*prim)->GetIndexBuffer().get());

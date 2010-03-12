@@ -26,8 +26,8 @@ ADD_LIBRARY(OpenEngine_Geometry
   GeometrySet.cpp
   Model.h
   Model.cpp
-  DrawPrimitive.h
-  DrawPrimitive.cpp
+  Mesh.h
+  Mesh.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Geometry

@@ -9,7 +9,7 @@
 
 #include <Geometry/Model.h>
 
-#include <Geometry/DrawPrimitive.h>
+#include <Geometry/Mesh.h>
 
 namespace OpenEngine {
     namespace Geometry {
@@ -18,14 +18,14 @@ namespace OpenEngine {
 
         }
 
-        Model::Model(DrawPrimitivePtr prim){
+        Model::Model(MeshPtr prim){
             prims.push_back(prim);
         }
         
-        Model::Model(DrawPrimitiveList prims){
+        Model::Model(MeshList prims){
             this->prims = prims;
         }
-        void Model::AddDrawPrimitive(DrawPrimitivePtr prim) {
+        void Model::AddMesh(MeshPtr prim) {
             prims.push_back(prim);
         }
         

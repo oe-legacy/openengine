@@ -19,7 +19,7 @@
 #include <Geometry/FaceSet.h>
 #include <Geometry/Face.h>
 #include <Geometry/Model.h>
-#include <Geometry/DrawPrimitive.h>
+#include <Geometry/Mesh.h>
 #include <Geometry/VertexArray.h>
 #include <Resources/ITexture2D.h>
 #include <Resources/ITexture3D.h>
@@ -39,8 +39,8 @@ using Geometry::FaceList;
 using Geometry::FaceSet;
 using Geometry::VertexArray;
 using Geometry::Model;
-using Geometry::DrawPrimitive;
-using Geometry::DrawPrimitiveList;
+using Geometry::Mesh;
+using Geometry::MeshList;
 using Renderers::RenderingEventArg;
 using Resources::ITexture2D;
 using Resources::ITexture2DPtr;
@@ -87,8 +87,8 @@ public:
 
     void VisitModelNode(ModelNode* node) {
         Model* model = node->model;
-        DrawPrimitiveList prims = model->GetDrawPrimitives();
-        DrawPrimitiveList::iterator prim = prims.begin();
+        MeshList prims = model->GetMeshs();
+        MeshList::iterator prim = prims.begin();
         for (; prim != prims.end(); ++prim) {
             // load face textures if not already loaded or in the cache
             ITexture2DPtr t = (*prim)->GetMaterial()->texr;
