@@ -1,4 +1,4 @@
-// OpenGL buffer object binder
+// Data Block binder
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,14 +7,14 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _OE_BUFFER_OBJECT_BINDER_H_
-#define _OE_BUFFER_OBJECT_BINDER_H_
+#ifndef _OE_DATA_BLOCK_BINDER_H_
+#define _OE_DATA_BLOCK_BINDER_H_
 
 #include <Renderers/IRenderer.h>
 #include <Scene/ISceneNodeVisitor.h>
 #include <Core/IListener.h>
 
-#include <Renderers/OpenGL/Renderer.h>
+//#include <Renderers/OpenGL/Renderer.h>
 
 namespace OpenEngine {
 
@@ -31,19 +31,21 @@ using Renderers::RenderingEventArg;
 using Renderers::IRenderer;
 using Scene::ModelNode;
 using Scene::ISceneNode;
+using Scene::ISceneNodeVisitor;
 
 /**
- * Bind buffer object in OpenGL
+ * Bind Data blocks
  *
  * @class BufferObjectBinder BufferObjectBinder.h Renderers/OpenGL/BufferObjectBinder.h
  */
-class BufferObjectBinder: public ISceneNodeVisitor, public IListener<RenderingEventArg> {
+class DataBlockBinder: public ISceneNodeVisitor, 
+                       public IListener<RenderingEventArg> {
  private:
     IRenderer& r;
  public:
 
-    BufferObjectBinder(IRenderer& r);
-    virtual ~BufferObjectBinder();
+    DataBlockBinder(IRenderer& r);
+    virtual ~DataBlockBinder();
         
     void Handle(RenderingEventArg arg);
     void VisitModelNode(ModelNode* node);

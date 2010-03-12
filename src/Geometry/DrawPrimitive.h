@@ -11,7 +11,7 @@
 #define _DRAW_PRIMITIVE_H_
 
 #include <boost/shared_ptr.hpp>
-#include <Resources/IndexBufferObject.h>
+#include <Resources/DataIndices.h>
 
 using OpenEngine::Resources::GeometryPrimitive;
 
@@ -41,7 +41,7 @@ namespace OpenEngine {
          */
         class DrawPrimitive {
         protected:
-            Resources::IndexBufferObjectPtr indexBuffer;
+            Resources::DataIndicesPtr indexBuffer;
             GeometryPrimitive prim;
             MaterialPtr mat;
             MeshPtr mesh;
@@ -49,12 +49,12 @@ namespace OpenEngine {
             unsigned int drawRange;
             
         public:
-            DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+            DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
                           MaterialPtr mat,
                           MeshPtr mesh);
 
-            DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+            DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
                           MaterialPtr mat,
                           MeshPtr mesh,
@@ -64,7 +64,7 @@ namespace OpenEngine {
             /**
              * Return the index buffer object.
              */
-            inline Resources::IndexBufferObjectPtr GetIndexBuffer() const { return indexBuffer; }
+            inline Resources::DataIndicesPtr GetIndexBuffer() const { return indexBuffer; }
             
             /**
              * Returns the material used by this draw primitive.

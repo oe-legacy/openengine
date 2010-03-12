@@ -1,4 +1,4 @@
-// OpenGL buffer object binder
+// Data Blockbinder
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,7 +7,7 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#include <Renderers/BufferObjectBinder.h>
+#include <Renderers/DataBlockBinder.h>
 
 #include <Scene/ModelNode.h>
 #include <Geometry/Model.h>
@@ -21,41 +21,41 @@ namespace Renderers {
     using namespace Scene;
     using namespace Geometry;
 
-    BufferObjectBinder::BufferObjectBinder(IRenderer& r)
+    DataBlockBinder::DataBlockBinder(IRenderer& r)
         :r(r) {
         
     }
     
-    BufferObjectBinder::~BufferObjectBinder() {
+    DataBlockBinder::~DataBlockBinder() {
 
     }
         
-    void BufferObjectBinder::Handle(RenderingEventArg arg) {
+    void DataBlockBinder::Handle(RenderingEventArg arg) {
         r = arg.renderer;
         r.GetSceneRoot()->Accept(*this);
     }
     
-    void BufferObjectBinder::VisitModelNode(ModelNode* node) {
+    void DataBlockBinder::VisitModelNode(ModelNode* node) {
         Model* model = node->model;
         DrawPrimitiveList prims = model->GetDrawPrimitives();
         DrawPrimitiveList::iterator prim = prims.begin();
         for (; prim != prims.end(); ++prim) {
             if ((*prim)->GetIndexBuffer() && (*prim)->GetIndexBuffer()->GetID() == 0)
-                r.BindBufferObject((*prim)->GetIndexBuffer().get());
+                r.BindDataBlock((*prim)->GetIndexBuffer().get());
 
             MeshPtr mesh = (*prim)->GetMesh();
             if (mesh->GetVertices() && mesh->GetVertices()->GetID() == 0)
-                r.BindBufferObject(mesh->GetVertices().get());
+                r.BindDataBlock(mesh->GetVertices().get());
             if (mesh->GetNormals() && mesh->GetNormals()->GetID() == 0)
-                r.BindBufferObject(mesh->GetNormals().get());
+                r.BindDataBlock(mesh->GetNormals().get());
             if (mesh->GetColors() && mesh->GetColors()->GetID() == 0) 
-                r.BindBufferObject(mesh->GetColors().get());
+                r.BindDataBlock(mesh->GetColors().get());
           
-            IBufferObjectList tl = mesh->GetTexCoords();
-            IBufferObjectList::iterator texc = tl.begin();
+            IDataBlockList tl = mesh->GetTexCoords();
+            IDataBlockList::iterator texc = tl.begin();
             for (; texc != tl.end(); ++texc) {
                 if (*texc && (*texc)->GetID() == 0)
-                    r.BindBufferObject((*texc).get());
+                    r.BindDataBlock((*texc).get());
             }
         }
         node->VisitSubNodes(*this);

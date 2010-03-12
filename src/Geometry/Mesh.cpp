@@ -9,17 +9,17 @@
 
 #include <Geometry/Mesh.h>
 
-#include <Resources/BufferObject.h>
+#include <Resources/DataBlock.h>
 
 using namespace OpenEngine::Resources;
 
 namespace OpenEngine {
     namespace Geometry{
 
-        Mesh::Mesh(IBufferObjectPtr vertices,
-                   IBufferObjectPtr normals,
-                   IBufferObjectList texCoords,
-                   IBufferObjectPtr colors)
+        Mesh::Mesh(IDataBlockPtr vertices,
+                   IDataBlockPtr normals,
+                   IDataBlockList texCoords,
+                   IDataBlockPtr colors)
             : vertices(vertices), normals(normals), texCoords(texCoords), colors(colors){
 #ifdef OE_SAFE
             if (vertices != NULL && vertices->GetType() != FLOAT)
@@ -28,7 +28,7 @@ namespace OpenEngine {
                 throw Exception("Normals not of type float.");
             if (colors != NULL && colors->GetType() != FLOAT)
                 throw Exception("Colors not of type float.");
-            IBufferObjectList::iterator itr = texCoords.begin();
+            IDataBlockList::iterator itr = texCoords.begin();
             while (itr != texCoords.end()){
                 if ((*itr)->GetType() != FLOAT)
                     throw Exception("Texture coords not of type float.");

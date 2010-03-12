@@ -18,10 +18,9 @@ ADD_LIBRARY(OpenEngine_Resources
   DirectoryManager.h
   DirectoryManager.cpp
   IResourcePlugin.h
-  IBufferObject.h
-  BufferObject.h
-  BufferObject.cpp
-  IndexBufferObject.h
+  IDataBlock.h
+  DataBlock.h
+  DataIndices.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources

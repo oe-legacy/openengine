@@ -1,4 +1,4 @@
-// Buffer object.
+// Data block.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,11 +7,11 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _BUFFER_OBJECT_H_
-#define _BUFFER_OBJECT_H_
+#ifndef _DATA_BLOCK_H_
+#define _DATA_BLOCK_H_
 
-#include <Resources/IBufferObject.h>
-#include <Math/Vector.h>
+#include <Resources/IDataBlock.h>
+#include <Math/VectorList.h>
 
 using namespace OpenEngine::Math;
 
@@ -19,30 +19,30 @@ namespace OpenEngine {
     namespace Resources {
 
         template <unsigned int N, class T>
-        class BufferObject : public IBufferObject {
+        class DataBlock : public IDataBlock {
         public:
-            BufferObject()
-                : IBufferObject() {
+            DataBlock()
+                : IDataBlock() {
                 this->dimension = N;
                 this->type = GetResourceType<T>();
             }
 
-            BufferObject(unsigned int s)
-                : IBufferObject() {
+            DataBlock(unsigned int s)
+                : IDataBlock() {
                 this->dimension = N;
                 this->type = GetResourceType<T>();
                 this->size = s;
             }            
 
-            BufferObject(T* d, unsigned int s)
-                : IBufferObject() {
+            DataBlock(T* d, unsigned int s)
+                : IDataBlock() {
                 this->dimension = N;
                 this->type = GetResourceType<T>();
                 this->data = d;
                 this->size = s;
             }
 
-            ~BufferObject(){
+            ~DataBlock(){
                 if (this->data)
                     delete [] (T*) this->data;
             }
@@ -78,7 +78,7 @@ namespace OpenEngine {
              * Gets the i'th element in the buffer object.
              */
             inline Vector<N, T> GetElement(unsigned int i) const {
-                unsigned int index = i * dimension;
+                unsigned int index = i * N;
                 T* data = (T*) this->data;
                 return Vector<N, T>(data + index);
             }
@@ -116,9 +116,9 @@ namespace OpenEngine {
         /**
          * Buffer Object smart pointer.
          */
-        typedef boost::shared_ptr<BufferObject<2, float> > Float2BufferObjectPtr;
-        typedef boost::shared_ptr<BufferObject<3, float> > Float3BufferObjectPtr;
-        typedef boost::shared_ptr<BufferObject<4, float> > Float4BufferObjectPtr;
+        typedef boost::shared_ptr<DataBlock<2, float> > Float2DataBlockPtr;
+        typedef boost::shared_ptr<DataBlock<3, float> > Float3DataBlockPtr;
+        typedef boost::shared_ptr<DataBlock<4, float> > Float4DataBlockPtr;
 
     }
 }

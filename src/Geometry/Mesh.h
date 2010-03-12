@@ -10,8 +10,6 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
-#include <Resources/IndexBufferObject.h>
-
 #include <boost/shared_ptr.hpp>
 #include <list>
 
@@ -19,9 +17,9 @@ using std::list;
 
 namespace OpenEngine {
     namespace Resources {
-        class IBufferObject;
-        typedef boost::shared_ptr<IBufferObject> IBufferObjectPtr;
-        typedef list<Resources::IBufferObjectPtr> IBufferObjectList;
+        class IDataBlock;
+        typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
+        typedef list<Resources::IDataBlockPtr> IDataBlockList;
     }
     namespace Geometry{
 
@@ -33,39 +31,39 @@ namespace OpenEngine {
          */
         class Mesh {
         protected:
-            Resources::IBufferObjectPtr vertices;
-            Resources::IBufferObjectPtr normals;
-            Resources::IBufferObjectList texCoords;
-            Resources::IBufferObjectPtr colors;
+            Resources::IDataBlockPtr vertices;
+            Resources::IDataBlockPtr normals;
+            Resources::IDataBlockList texCoords;
+            Resources::IDataBlockPtr colors;
 
             // Move into shader?
-            //map<string, IBufferObjectPtr> vertexAttrib;
+            //map<string, IDataBlockPtr> vertexAttrib;
 
         public:
-            Mesh(Resources::IBufferObjectPtr vertices,
-                 Resources::IBufferObjectPtr normals = Resources::IBufferObjectPtr(),
-                 Resources::IBufferObjectList texCoords = Resources::IBufferObjectList(),
-                 Resources::IBufferObjectPtr colors = Resources::IBufferObjectPtr());
+            Mesh(Resources::IDataBlockPtr vertices,
+                 Resources::IDataBlockPtr normals = Resources::IDataBlockPtr(),
+                 Resources::IDataBlockList texCoords = Resources::IDataBlockList(),
+                 Resources::IDataBlockPtr colors = Resources::IDataBlockPtr());
 
             /**
              * Get vertices.
              */
-            inline Resources::IBufferObjectPtr GetVertices() const { return vertices; }
+            inline Resources::IDataBlockPtr GetVertices() const { return vertices; }
 
             /**
              * Get normals.
              */
-            inline Resources::IBufferObjectPtr GetNormals() { return normals; }
+            inline Resources::IDataBlockPtr GetNormals() { return normals; }
 
             /**
              * Get colors.
              */
-            inline Resources::IBufferObjectPtr GetColors() { return colors; }
+            inline Resources::IDataBlockPtr GetColors() { return colors; }
 
             /**
              * Get list of texcoords.
              */
-            inline Resources::IBufferObjectList GetTexCoords() { return texCoords; }
+            inline Resources::IDataBlockList GetTexCoords() { return texCoords; }
         };
 
         /**

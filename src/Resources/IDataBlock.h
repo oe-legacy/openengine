@@ -1,4 +1,4 @@
-// Buffer object interface.
+// Data Block interface.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,12 +7,11 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _I_BUFFER_OBJECT_H_
-#define _I_BUFFER_OBJECT_H_
+#ifndef _I_DATA_BLOCK_H_
+#define _I_DATA_BLOCK_H_
 
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/IResource.h>
-#include <Math/VectorIterator.h>
 #include <list>
 
 using std::list;
@@ -22,14 +21,8 @@ using namespace OpenEngine::Resources::Types;
 namespace OpenEngine {
     namespace Resources {
 
-        class IBufferObjectChangedEventArg;
+        class IDataBlockChangedEventArg;
 
-        /**
-         * Access type derived from dataType? READ will almost
-         * never be used as we would store the data in RAM. WRITE is
-         * default. COPY when using UNPACK since we then want to copy
-         * from a texture.
-         */
         enum AccessType {READ, WRITE, COPY};
         enum BufferType {ARRAY, INDEX_ARRAY, PIXEL_PACK, PIXEL_UNPACK};
         enum UpdateMode {STATIC, DYNAMIC};
@@ -38,9 +31,9 @@ namespace OpenEngine {
          * Basic buffer object interface. The buffer object consists
          * of an array where each element is an N'th dimensional vector.
          *
-         * @class IBufferObject IBufferObject.h Resources/IBufferObject.h
+         * @class IDataBlock IDataBlock.h Resources/IDataBlock.h
          */
-        class IBufferObject : public IResource<IBufferObjectChangedEventArg>{
+        class IDataBlock : public IResource<IDataBlockChangedEventArg>{
         protected:
             unsigned int id;
             Type type;
@@ -62,7 +55,7 @@ namespace OpenEngine {
             }
 
         public:
-            IBufferObject() {
+            IDataBlock() {
                 id = size = dimension = 0;
                 type = NOTYPE;
                 data = NULL;
@@ -132,21 +125,21 @@ namespace OpenEngine {
         /**
          * Buffer Object interface smart pointer.
          */
-        typedef boost::shared_ptr<IBufferObject> IBufferObjectPtr;
-        typedef list<IBufferObjectPtr > IBufferObjectList;
+        typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
+        typedef list<IDataBlockPtr > IDataBlockList;
 
         /**
-         * IBufferObjectChangedEventArg
+         * IDataBlockChangedEventArg
          */
-        class IBufferObjectChangedEventArg {
-            IBufferObjectPtr resource;
+        class IDataBlockChangedEventArg {
+            IDataBlockPtr resource;
             unsigned int start, end;
-            IBufferObjectChangedEventArg(IBufferObjectPtr r) 
+            IDataBlockChangedEventArg(IDataBlockPtr r) 
                 : resource(r) {
                 start = 0;
                 end = r->GetSize();
             }
-            IBufferObjectChangedEventArg(IBufferObjectPtr r, unsigned int s, unsigned int e)
+            IDataBlockChangedEventArg(IDataBlockPtr r, unsigned int s, unsigned int e)
                 : resource(r), start(s), end(e) {}
         };
     }

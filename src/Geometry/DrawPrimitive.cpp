@@ -19,7 +19,7 @@ using namespace OpenEngine::Math;
 namespace OpenEngine {
     namespace Geometry {
 
-        DrawPrimitive::DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+        DrawPrimitive::DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
                                      MaterialPtr mat,
                                      MeshPtr mesh)
@@ -28,7 +28,7 @@ namespace OpenEngine {
             drawRange = indexBuffer->GetSize();
         }
         
-        DrawPrimitive::DrawPrimitive(Resources::IndexBufferObjectPtr indexBuffer,
+        DrawPrimitive::DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
                                      MaterialPtr mat,
                                      MeshPtr mesh,

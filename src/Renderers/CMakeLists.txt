@@ -5,8 +5,8 @@ ADD_LIBRARY(OpenEngine_Renderers
   IRenderingView.h
   TextureLoader.h
   TextureLoader.cpp
-  BufferObjectBinder.h
-  BufferObjectBinder.cpp
+  DataBlockBinder.h
+  DataBlockBinder.cpp
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Renderers

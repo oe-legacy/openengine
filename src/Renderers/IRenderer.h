@@ -30,8 +30,8 @@ namespace OpenEngine {
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
         class ITexture3D;
         typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
-        class IBufferObject;
-        typedef boost::shared_ptr<IBufferObject> IBufferObjectPtr;
+        class IDataBlock;
+        typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
     }
 }
 
@@ -49,7 +49,7 @@ using OpenEngine::Resources::ITexture2DPtr;
 using OpenEngine::Resources::ITexture2D;
 using OpenEngine::Resources::ITexture3DPtr;
 using OpenEngine::Resources::ITexture3D;
-using OpenEngine::Resources::IBufferObject;
+using OpenEngine::Resources::IDataBlock;
 
 // forward declerations
 class IRenderer; class IRenderingView;
@@ -184,7 +184,7 @@ public:
      *
      * @param bo Buffer objct resource to be bound.
      */
-    virtual void BindBufferObject(IBufferObject* bo) = 0;
+    virtual void BindDataBlock(IDataBlock* bo) = 0;
 
     /**
      * Set the global background colour.
