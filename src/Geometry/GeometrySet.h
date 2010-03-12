@@ -1,4 +1,4 @@
-// Mesh.
+// GeometrySet.
 // -------------------------------------------------------------------
 // Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _MESH_H_
-#define _MESH_H_
+#ifndef _GEOMETRY_SET_H_
+#define _GEOMETRY_SET_H_
 
 #include <boost/shared_ptr.hpp>
 #include <list>
@@ -29,7 +29,7 @@ namespace OpenEngine {
          *
          * All of the information is assumed to be in floats.
          */
-        class Mesh {
+        class GeometrySet {
         protected:
             Resources::IDataBlockPtr vertices;
             Resources::IDataBlockPtr normals;
@@ -40,7 +40,7 @@ namespace OpenEngine {
             //map<string, IDataBlockPtr> vertexAttrib;
 
         public:
-            Mesh(Resources::IDataBlockPtr vertices,
+            GeometrySet(Resources::IDataBlockPtr vertices,
                  Resources::IDataBlockPtr normals = Resources::IDataBlockPtr(),
                  Resources::IDataBlockList texCoords = Resources::IDataBlockList(),
                  Resources::IDataBlockPtr colors = Resources::IDataBlockPtr());
@@ -64,12 +64,19 @@ namespace OpenEngine {
              * Get list of texcoords.
              */
             inline Resources::IDataBlockList GetTexCoords() { return texCoords; }
+
+            /**
+             * @TODO
+             * Computation of tangents and binormal from uv.
+             * Creating DataBlocks for visualizing tangent, binormal and normal.
+             */
+
         };
 
         /**
          * Shared pointer
          */
-        typedef boost::shared_ptr<Mesh> MeshPtr;
+        typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;
     }
 }
 

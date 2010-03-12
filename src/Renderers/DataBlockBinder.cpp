@@ -12,7 +12,7 @@
 #include <Scene/ModelNode.h>
 #include <Geometry/Model.h>
 #include <Geometry/DrawPrimitive.h>
-#include <Geometry/Mesh.h>
+#include <Geometry/GeometrySet.h>
 
 
 namespace OpenEngine {
@@ -43,7 +43,7 @@ namespace Renderers {
             if ((*prim)->GetIndexBuffer() && (*prim)->GetIndexBuffer()->GetID() == 0)
                 r.BindDataBlock((*prim)->GetIndexBuffer().get());
 
-            MeshPtr mesh = (*prim)->GetMesh();
+            GeometrySetPtr mesh = (*prim)->GetGeometrySet();
             if (mesh->GetVertices() && mesh->GetVertices()->GetID() == 0)
                 r.BindDataBlock(mesh->GetVertices().get());
             if (mesh->GetNormals() && mesh->GetNormals()->GetID() == 0)

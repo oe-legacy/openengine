@@ -22,8 +22,8 @@ ADD_LIBRARY(OpenEngine_Geometry
   Material.cpp
   VertexArray.h
   VertexArray.cpp
-  Mesh.h
-  Mesh.cpp
+  GeometrySet.h
+  GeometrySet.cpp
   Model.h
   Model.cpp
   DrawPrimitive.h

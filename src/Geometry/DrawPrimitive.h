@@ -19,8 +19,8 @@ namespace OpenEngine {
     namespace Geometry {
         class Material;
         typedef boost::shared_ptr<Material> MaterialPtr;
-        class Mesh;
-        typedef boost::shared_ptr<Mesh> MeshPtr;
+        class GeometrySet;
+        typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;
 
         /**
          * @TODO rename to GeometryBatch?
@@ -44,7 +44,7 @@ namespace OpenEngine {
             Resources::DataIndicesPtr indexBuffer;
             GeometryPrimitive prim;
             MaterialPtr mat;
-            MeshPtr mesh;
+            GeometrySetPtr mesh;
             unsigned int indexOffset;
             unsigned int drawRange;
             
@@ -52,12 +52,12 @@ namespace OpenEngine {
             DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
                           MaterialPtr mat,
-                          MeshPtr mesh);
+                          GeometrySetPtr mesh);
 
             DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
                           MaterialPtr mat,
-                          MeshPtr mesh,
+                          GeometrySetPtr mesh,
                           unsigned int indexOffset,
                           unsigned int drawRange);
             
@@ -74,7 +74,7 @@ namespace OpenEngine {
             /**
              * Returns the mesh used by this draw primitive.
              */
-            inline MeshPtr GetMesh() const { return mesh; }
+            inline GeometrySetPtr GetGeometrySet() const { return mesh; }
 
             /**
              * Returns the primitive drawn.

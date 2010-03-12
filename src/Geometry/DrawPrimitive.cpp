@@ -9,7 +9,7 @@
 
 #include <Geometry/DrawPrimitive.h>
 
-#include <Geometry/Mesh.h>
+#include <Geometry/GeometrySet.h>
 #include <Geometry/Material.h>
 #include <Math/Exceptions.h>
 
@@ -22,7 +22,7 @@ namespace OpenEngine {
         DrawPrimitive::DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
                                      MaterialPtr mat,
-                                     MeshPtr mesh)
+                                     GeometrySetPtr mesh)
             : indexBuffer(indexBuffer), prim(prim), mat(mat), mesh(mesh) {
             indexOffset = 0;
             drawRange = indexBuffer->GetSize();
@@ -31,7 +31,7 @@ namespace OpenEngine {
         DrawPrimitive::DrawPrimitive(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
                                      MaterialPtr mat,
-                                     MeshPtr mesh,
+                                     GeometrySetPtr mesh,
                                      unsigned int indexOffset,
                                      unsigned int drawRange)
             : indexBuffer(indexBuffer), prim(prim), mat(mat), mesh(mesh),
