@@ -36,6 +36,8 @@ namespace OpenEngine {
             Resources::IDataBlockList texCoords;
             Resources::IDataBlockPtr colors;
 
+            Resources::IDataBlockPtr debugNormals;
+
             // Move into shader?
             //map<string, IDataBlockPtr> vertexAttrib;
 
@@ -53,23 +55,22 @@ namespace OpenEngine {
             /**
              * Get normals.
              */
-            inline Resources::IDataBlockPtr GetNormals() { return normals; }
+            inline Resources::IDataBlockPtr GetNormals() const { return normals; }
 
             /**
              * Get colors.
              */
-            inline Resources::IDataBlockPtr GetColors() { return colors; }
+            inline Resources::IDataBlockPtr GetColors() const { return colors; }
 
             /**
              * Get list of texcoords.
              */
-            inline Resources::IDataBlockList GetTexCoords() { return texCoords; }
+            inline Resources::IDataBlockList GetTexCoords() const { return texCoords; }
 
             /**
-             * @TODO
-             * Computation of tangents and binormal from uv.
-             * Creating DataBlocks for visualizing tangent, binormal and normal.
+             * Get a list of lines representing the normals.
              */
+            Resources::IDataBlockPtr GetDebugNormals();
 
         };
 
