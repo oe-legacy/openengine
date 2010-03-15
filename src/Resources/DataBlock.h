@@ -27,19 +27,10 @@ namespace OpenEngine {
                 this->type = GetResourceType<T>();
             }
 
-            DataBlock(unsigned int s)
-                : IDataBlock() {
-                this->dimension = N;
-                this->type = GetResourceType<T>();
-                this->size = s;
-            }            
-
             DataBlock(T* d, unsigned int s)
-                : IDataBlock() {
+                : IDataBlock(d, s) {
                 this->dimension = N;
                 this->type = GetResourceType<T>();
-                this->data = d;
-                this->size = s;
             }
 
             ~DataBlock(){

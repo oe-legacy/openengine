@@ -34,11 +34,6 @@ namespace OpenEngine {
                 this->bufferType = INDEX_ARRAY;
             }
 
-            DataIndices(unsigned int s)
-                : DataBlock<1, unsigned int>(s) {
-                this->bufferType = INDEX_ARRAY;
-            }
-
             DataIndices(unsigned int* d, unsigned int s)
                 : DataBlock<1, unsigned int>(d, s) {
                 this->bufferType = INDEX_ARRAY;

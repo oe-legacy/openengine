@@ -25,7 +25,16 @@ namespace OpenEngine {
 
         enum AccessType {READ, WRITE, COPY};
         enum BufferType {ARRAY, INDEX_ARRAY, PIXEL_PACK, PIXEL_UNPACK};
+        /**
+         * The UpdateMode is a hint to the engine as to how often the
+         * content of the datablock will be changed.
+         *
+         * STATIC means that the datablock will almost never be
+         * updated.
+         * DYNAMIC means that the datablock will often be updated.
+         */
         enum UpdateMode {STATIC, DYNAMIC};
+        enum UnloadPolicy {UNLOAD_EXPLICIT, UNLOAD_AUTOMATIC};
 
         /**
          * Basic buffer object interface. The buffer object consists
@@ -33,8 +42,10 @@ namespace OpenEngine {
          *
          * @class IDataBlock IDataBlock.h Resources/IDataBlock.h
          */
-        class IDataBlock : public IResource<IDataBlockChangedEventArg>{
+        class IDataBlock{
         protected:
+            Event<IDataBlockChangedEventArg> changedEvent;
+            
             unsigned int id;
             Type type;
             void* data;
@@ -42,6 +53,7 @@ namespace OpenEngine {
             AccessType access;
             BufferType bufferType;
             UpdateMode updateMode;
+            UnloadPolicy policy;
 
             inline void SetAccessType(BufferType type){
                 switch(type){
@@ -62,6 +74,18 @@ namespace OpenEngine {
                 access = WRITE;
                 bufferType = ARRAY;
                 updateMode = STATIC;
+                policy = UNLOAD_AUTOMATIC;
+            }
+
+            IDataBlock(void* d, unsigned int s) {
+                id = dimension = 0;
+                size = s;
+                type = NOTYPE;
+                data = d;
+                access = WRITE;
+                bufferType = ARRAY;
+                updateMode = STATIC;
+                policy = UNLOAD_AUTOMATIC;
             }
 
             /**
@@ -107,19 +131,83 @@ namespace OpenEngine {
              */
             inline unsigned int GetDimension() const { return dimension; }
 
+            /**
+             * Unloads the data of the data block, but keeps the
+             * properties for future reference.
+             */
+            virtual void Unload() = 0;
+
+            /**
+             * Sets the default unload policy.
+             *
+             * UNLOAD_AUTOMATIC means that the buffer will be unloaded
+             * when the renderer binds it.
+             * UNLOAD_EXPLICIT means that only an explicit call to
+             * Unload can unload the data.
+             *
+             * The default is UNLOAD_AUTOMATIC.
+             */
+            virtual void SetUnloadPolicy(const UnloadPolicy policy) { this->policy = policy; }
+
+            /**
+             * Gets the active unload policy.
+             *
+             * @return UnloadPolicy The active unload policy.
+             */
+            inline UnloadPolicy GetUnloadPolicy() const { return policy; }
+
             inline AccessType GetAccessType() const { return access; }
 
-            inline BufferType GetBufferType() const { return bufferType; }
-
+            /**
+             * Set the type of the buffer.
+             *
+             * ARRAY means a standard data array.
+             * INDEX_ARRAY means that the data blocks elements should
+             * be interpreted as indices into other blocks.
+             * PIXEL_PACK means that the buffer will frequently have
+             * it's data updated from a texture.
+             * PIXEL_UNPACK means that the buffer will often be used
+             * to update a texture.
+             *
+             * The default is ARRAY.
+             */
             virtual void SetBufferType(BufferType type) {
                 bufferType = type;
                 SetAccessType(type);
             }
 
-            inline UpdateMode GetUpdateMode() const { return updateMode; }
+            /**
+             * Gets the buffer type.
+             *
+             * @return BufferType The type of the buffer.
+             */
+            inline BufferType GetBufferType() const { return bufferType; }
 
+            /**
+             * Set the update mode of the datablock. This is a hint as
+             * to how often the data block will be updated.
+             *
+             * STATIC means that the datablock will almost never be
+             * updated.
+             * DYNAMIC means that the datablock will often be updated
+             * after binding.
+             *
+             * The default is STATIC.
+             */
             virtual void SetUpdateMode(UpdateMode mode) { updateMode = mode; }
             
+            /** 
+             * Gets the current update mode.
+             *
+             * @return UpdateMode The current update mode.
+             */
+            inline UpdateMode GetUpdateMode() const { return updateMode; }
+
+            /**
+             * The data blocks changed event.
+             */
+            virtual IEvent<IDataBlockChangedEventArg>& ChangedEvent() { return changedEvent; }
+
         };
         
         /**
