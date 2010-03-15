@@ -7,8 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE). 
 //--------------------------------------------------------------------
 
-#ifndef _VECTOR_LIST_H_
-#define _VECTOR_LIST_H_
+#ifndef _OE_VECTOR_LIST_H_
+#define _OE_VECTOR_LIST_H_
 
 #include <Math/Vector.h>
 
@@ -20,7 +20,7 @@ namespace OpenEngine {
         protected:
             T* begin;
             T* end;
-            
+
         public:
             VectorIterator(T* begin, unsigned int size){
                 this->elm = begin;
@@ -28,10 +28,13 @@ namespace OpenEngine {
                 this->end = begin + size * N;
             }
 
-            VectorIterator(unsigned int size, T* end){
-                this->elm = begin;
-                this->begin = end - size * N;
-                this->end = end;
+            /**
+             * Copy constructor.
+             */
+            VectorIterator(const VectorIterator<N, T>& itr){
+                this->elm = itr.elm;
+                this->begin = itr.begin;
+                this->end = itr.end;
             }
 
             inline bool HasPrevious() const {
@@ -42,7 +45,7 @@ namespace OpenEngine {
                 return this->elm != end;
             }
             
-            inline VectorIterator<N, T> JumpTo(const unsigned int i){
+            inline VectorIterator<N, T> JumpToElement(const unsigned int i){
                 this->elm = begin + i * N;
 #ifdef OE_SAFE
                 if (this->elm >= end)
@@ -83,7 +86,7 @@ namespace OpenEngine {
                 return *this;
             }
 
-            inline VectorIterator<N, T> operator=(VectorIterator<N,T> other) {
+            inline VectorIterator<N, T> operator=(const VectorIterator<N,T>& other) {
                 this->elm = other.elm;
                 this->begin = other.begin;
                 this->end = other.end;
@@ -118,6 +121,9 @@ namespace OpenEngine {
             T* data;
             unsigned int size;
         public:
+            VectorList()
+                : data(NULL), size(0) { }
+
             VectorList(T* data, unsigned int size)
                 : data(data), size(size) { }
 
@@ -128,8 +134,8 @@ namespace OpenEngine {
                 return data;
             }
 
-                        /**
-             * Gets the i'th element in the buffer object.
+            /**
+             * Gets the i'th vector element in the list.
              */
             inline Vector<N, T> GetElement(unsigned int i) const {
                 unsigned int index = i * N;
@@ -137,14 +143,14 @@ namespace OpenEngine {
             }
 
             /**
-             * Sets the i'th element in the buffer object to the vector.
+             * Sets the i'th element in the list to the values in vector.
              *
              * @param value The value to be set to.
              */
-            inline void SetElement(unsigned int i, Vector<N, T> value){
+            inline void SetElement(unsigned int i, Vector<N, T> vector){
                 T* offset = data + i * N;
                 for (unsigned int j = 0; j < N; ++j)
-                    offset[j] = value[j];
+                    offset[j] = vector[j];
             }
            
             /**
@@ -160,7 +166,7 @@ namespace OpenEngine {
              * the buffer object.
              */
             inline VectorIterator<N, T> End() const {
-                return VectorIterator<N, T>(size, data + size * N);
+                return VectorIterator<N, T>(data, size).JumpToElement(size-1);
             }
         };
             

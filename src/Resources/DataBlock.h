@@ -20,6 +20,9 @@ namespace OpenEngine {
 
         template <unsigned int N, class T>
         class DataBlock : public IDataBlock {
+        protected:
+            VectorList<N, T> vectorlist;
+            
         public:
             DataBlock()
                 : IDataBlock() {
@@ -29,6 +32,14 @@ namespace OpenEngine {
 
             DataBlock(T* d, unsigned int s)
                 : IDataBlock(d, s) {
+                vectorlist = VectorList<N, T>(d, s);
+                this->dimension = N;
+                this->type = GetResourceType<T>();
+            }
+
+            DataBlock(VectorList<N, T> list)
+                : IDataBlock(list.GetData(), list.GetSize()) {
+                vectorlist = list;
                 this->dimension = N;
                 this->type = GetResourceType<T>();
             }
@@ -39,20 +50,13 @@ namespace OpenEngine {
             }
 
             /**
-             * Loads an array.
-             */
-            void Load() {
-                if (!this->data)
-                    this->data = new T[this->size * N];
-            }
-
-            /**
              * Unloads the data array.
              */
             void Unload() {
                 if (this->data){
                     delete [] (T*) this->data;
                     this->data = NULL;
+                    vectorlist = VectorList<N, T>();
                 }
             }
 
@@ -66,24 +70,19 @@ namespace OpenEngine {
             }
 
             /**
-             * Gets the i'th element in the buffer object.
+             * Gets the i'th element in the data block.
              */
             inline Vector<N, T> GetElement(unsigned int i) const {
-                unsigned int index = i * N;
-                T* data = (T*) this->data;
-                return Vector<N, T>(data + index);
+                return vectorlist.GetElement(i);
             }
 
             /**
-             * Sets the i'th element in the buffer object to the vector.
+             * Sets the i'th element in the data block to the vector.
              *
              * @param value The value to be set to.
              */
             inline void SetElement(unsigned int i, Vector<N, T> value){
-                T* data = (T*) this->data;
-                data += i * N;
-                for (unsigned int j = 0; j < N; ++j)
-                    data[j] = value[j];
+                vectorlist.SetElement(i, value);
             }
            
             /**
@@ -91,7 +90,7 @@ namespace OpenEngine {
              * the buffer object.
              */
             inline VectorIterator<N, T> Begin() const {
-                return VectorIterator<N, T>((T*)this->data, this->size);
+                return vectorlist.Begin();
             }
 
             /**
@@ -99,8 +98,7 @@ namespace OpenEngine {
              * the buffer object.
              */
             inline VectorIterator<N, T> End() const {
-                T* data = (T*) this->data;
-                return VectorIterator<N, T>(this->size, data + this->size * N);
+                return vectorlist.End();
             }
         };
 
