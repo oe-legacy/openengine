@@ -23,7 +23,18 @@ namespace OpenEngine {
 
         class IDataBlockChangedEventArg;
 
-        enum AccessType {READ, WRITE, COPY};
+        /**
+         * The buffer type tells the engine the primairy purpuse of
+         * this buffer.
+         *
+         * ARRAY means a standard data array.
+         * INDEX_ARRAY means that the data blocks elements should
+         * be interpreted as indices into other blocks.
+         * PIXEL_PACK means that the buffer will frequently have
+         * it's data updated from a texture.
+         * PIXEL_UNPACK means that the buffer will often be used
+         * to update a texture.
+         */
         enum BufferType {ARRAY, INDEX_ARRAY, PIXEL_PACK, PIXEL_UNPACK};
         /**
          * The UpdateMode is a hint to the engine as to how often the
@@ -34,6 +45,14 @@ namespace OpenEngine {
          * DYNAMIC means that the datablock will often be updated.
          */
         enum UpdateMode {STATIC, DYNAMIC};
+        /**
+         * The unload policy specifies how the data can be unloaded.
+         *
+         * UNLOAD_AUTOMATIC means that the buffer will be unloaded
+         * when the renderer binds it.
+         * UNLOAD_EXPLICIT means that only an explicit call to
+         * Unload can unload the data.
+         */
         enum UnloadPolicy {UNLOAD_EXPLICIT, UNLOAD_AUTOMATIC};
 
         /**
@@ -50,41 +69,28 @@ namespace OpenEngine {
             Type type;
             void* data;
             unsigned int size, dimension;
-            AccessType access;
             BufferType bufferType;
             UpdateMode updateMode;
             UnloadPolicy policy;
-
-            inline void SetAccessType(BufferType type){
-                switch(type){
-                case PIXEL_PACK:
-                    access = COPY;
-                    return;
-                default:
-                    access = WRITE;
-                    return;
-                }
-            }
 
         public:
             IDataBlock() {
                 id = size = dimension = 0;
                 type = NOTYPE;
                 data = NULL;
-                access = WRITE;
                 bufferType = ARRAY;
                 updateMode = STATIC;
                 policy = UNLOAD_AUTOMATIC;
             }
 
-            IDataBlock(void* d, unsigned int s) {
+            IDataBlock(void* d, unsigned int s, 
+                       BufferType b = ARRAY, UpdateMode u = STATIC) {
                 id = dimension = 0;
                 size = s;
                 type = NOTYPE;
                 data = d;
-                access = WRITE;
-                bufferType = ARRAY;
-                updateMode = STATIC;
+                bufferType = b;
+                updateMode = u;
                 policy = UNLOAD_AUTOMATIC;
             }
 
@@ -156,26 +162,6 @@ namespace OpenEngine {
              */
             inline UnloadPolicy GetUnloadPolicy() const { return policy; }
 
-            inline AccessType GetAccessType() const { return access; }
-
-            /**
-             * Set the type of the buffer.
-             *
-             * ARRAY means a standard data array.
-             * INDEX_ARRAY means that the data blocks elements should
-             * be interpreted as indices into other blocks.
-             * PIXEL_PACK means that the buffer will frequently have
-             * it's data updated from a texture.
-             * PIXEL_UNPACK means that the buffer will often be used
-             * to update a texture.
-             *
-             * The default is ARRAY.
-             */
-            virtual void SetBufferType(BufferType type) {
-                bufferType = type;
-                SetAccessType(type);
-            }
-
             /**
              * Gets the buffer type.
              *
@@ -183,19 +169,6 @@ namespace OpenEngine {
              */
             inline BufferType GetBufferType() const { return bufferType; }
 
-            /**
-             * Set the update mode of the datablock. This is a hint as
-             * to how often the data block will be updated.
-             *
-             * STATIC means that the datablock will almost never be
-             * updated.
-             * DYNAMIC means that the datablock will often be updated
-             * after binding.
-             *
-             * The default is STATIC.
-             */
-            virtual void SetUpdateMode(UpdateMode mode) { updateMode = mode; }
-            
             /** 
              * Gets the current update mode.
              *
@@ -207,6 +180,10 @@ namespace OpenEngine {
              * The data blocks changed event.
              */
             virtual IEvent<IDataBlockChangedEventArg>& ChangedEvent() { return changedEvent; }
+
+            virtual void Rebind() {
+                //changedEvent.Notify(IDataBlockChangedEventArg(this->weak_this));
+            }
 
         };
         
