@@ -13,6 +13,7 @@
 #include <Geometry/Model.h>
 #include <Geometry/Mesh.h>
 #include <Geometry/GeometrySet.h>
+#include <Resources/DataBlock.h>
 
 
 namespace OpenEngine {

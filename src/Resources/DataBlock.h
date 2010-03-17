@@ -109,6 +109,23 @@ namespace OpenEngine {
         typedef boost::shared_ptr<DataBlock<3, float> > Float3DataBlockPtr;
         typedef boost::shared_ptr<DataBlock<4, float> > Float4DataBlockPtr;
 
+        /**
+         * Define special index block.
+         */
+        class DataIndices : public DataBlock<1, unsigned int> {
+        public:
+            DataIndices()
+                : DataBlock<1, unsigned int>() {
+                this->bufferType = INDEX_ARRAY;
+            }
+
+            DataIndices(unsigned int* d, unsigned int s)
+                : DataBlock<1, unsigned int>(d, s) {
+                this->bufferType = INDEX_ARRAY;
+            }
+        };
+        typedef boost::shared_ptr<DataIndices > DataIndicesPtr;
+
     }
 }
 

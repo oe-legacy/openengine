@@ -20,7 +20,6 @@ ADD_LIBRARY(OpenEngine_Resources
   IResourcePlugin.h
   IDataBlock.h
   DataBlock.h
-  DataIndices.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources

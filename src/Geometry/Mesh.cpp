@@ -11,6 +11,7 @@
 
 #include <Geometry/GeometrySet.h>
 #include <Geometry/Material.h>
+#include <Resources/DataBlock.h>
 #include <Math/Exceptions.h>
 
 using namespace OpenEngine::Resources;

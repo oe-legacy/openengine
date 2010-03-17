@@ -11,33 +11,34 @@
 #define _OE_MESH_H_
 
 #include <boost/shared_ptr.hpp>
-#include <Resources/DataIndices.h>
 
 #include <list>
 
 using std::list;
 
-using OpenEngine::Resources::GeometryPrimitive;
-
 namespace OpenEngine {
+    namespace Resources {
+        class DataIndices;
+        typedef boost::shared_ptr<DataIndices > DataIndicesPtr;
+    }
     namespace Geometry {
         class Material;
         typedef boost::shared_ptr<Material> MaterialPtr;
         class GeometrySet;
-        typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;
+        typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;        
 
         /**
-         * @TODO rename to GeometryBatch?
-         *
-         * Gather all indice information in a container? Easier to
-         * pass around and constructors will be simpler.
-         * 
-         * Will also make it easy to make DrawElements to the renderer
-         * in case you just want to draw some indice information you
-         * have. (see heightmap that doesn't fit into the Model
-         * abstraction and perhaps other multi model/lod nodes)
+         * Geometry primitives (just happens to have the same values
+         * as OpenGL...)
          */
-
+        enum GeometryPrimitive {
+            POINTS         = 0x0000,
+            LINES          = 0x0001,
+            LINE_STRIP     = 0x0003,
+            TRIANGLES      = 0x0004,
+            TRIANGLE_STRIP = 0x0005,
+            QUADS          = 0x0007};
+        
         /**
          * Draw primitive class, containing the primitive type that
          * should be used when rendering the mesh with the specified
