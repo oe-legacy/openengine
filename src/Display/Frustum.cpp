@@ -169,19 +169,21 @@ void Frustum::UpdatePlanes() {
         
     // calculate all the planes (normals and distances)
     Vector<3,float> pn[6];  float pd[6];
-    //pn[0] = pos + clip[0];  pd[0] =  mat(0,3);
+    pn[0] = pos + clip[0];  pd[0] =  mat(0,3);
     pn[1] = pos - clip[0];  pd[1] = -mat(0,3);
     pn[2] = pos + clip[1];  pd[2] =  mat(1,3);
     pn[3] = pos - clip[1];  pd[3] = -mat(1,3);
     pn[4] = pos + clip[2];  pd[4] =  mat(2,3);
     pn[5] = pos - clip[2];  pd[5] = -mat(2,3);
-    for (unsigned int i=1; i<6; i++)
+    for (unsigned int i=0; i<6; i++)
         planes[i]->Set(pn[i], pd[i] / pn[i].GetLength() - pn[i] * volume.GetPosition());
 
+    /*
     // overwrite the far plane with the frustum's far clipping plane (index 0)
     Vector<3, float> normal = volume.GetDirection().RotateVector(Vector<3,float>(0,0,1));
     float distance = normal * volume.GetPosition() + farClip;
     planes[0]->Set(normal, distance);
+    */
 }
 
 // /**
