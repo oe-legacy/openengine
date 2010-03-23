@@ -12,4 +12,5 @@ SCENE_NODE(SpotLightNode)
 SCENE_NODE(TransformationNode)
 SCENE_NODE(VertexArrayNode)
 SCENE_NODE(ModelNode)
+SCENE_NODE(MeshNode)
 @OE_SCENE_NODE_XMACRO_EXPANSION@
