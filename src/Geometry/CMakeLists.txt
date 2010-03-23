@@ -28,6 +28,7 @@ ADD_LIBRARY(OpenEngine_Geometry
   Model.cpp
   Mesh.h
   Mesh.cpp
+  Light.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Geometry

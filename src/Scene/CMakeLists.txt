@@ -17,8 +17,6 @@ ADD_LIBRARY(OpenEngine_Scene
   GeometryNode.h
   BlendingNode.cpp
   BlendingNode.h
-  LightNode.cpp
-  LightNode.h
   PointLightNode.cpp
   PointLightNode.h
   PropertyNode.h

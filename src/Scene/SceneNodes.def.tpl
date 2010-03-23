@@ -2,7 +2,6 @@
 SCENE_NODE(BlendingNode)
 SCENE_NODE(DirectionalLightNode)
 SCENE_NODE(GeometryNode)
-SCENE_NODE(LightNode)
 SCENE_NODE(PointLightNode)
 SCENE_NODE(PropertyNode)
 SCENE_NODE(RenderNode)

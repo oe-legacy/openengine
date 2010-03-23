@@ -15,12 +15,12 @@ namespace Scene {
 /**
  * Create a directional light node
  *
- * Initial direction is assumed to be [0,0,-1] 
+ * Initial direction is assumed to be [0,-1,0] 
  * Light direction is affected by rotation of transformation nodes.
  */
 
 DirectionalLightNode::DirectionalLightNode()
-    : LightNode()
+    : Light()
 {
 
 }

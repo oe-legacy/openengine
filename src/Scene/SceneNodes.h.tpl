@@ -2,7 +2,6 @@
 #include <Scene/BlendingNode.h>
 #include <Scene/DirectionalLightNode.h>
 #include <Scene/GeometryNode.h>
-#include <Scene/LightNode.h>
 #include <Scene/PointLightNode.h>
 #include <Scene/PropertyNode.h>
 #include <Scene/RenderNode.h>

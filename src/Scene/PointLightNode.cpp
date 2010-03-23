@@ -13,9 +13,10 @@ namespace OpenEngine {
 namespace Scene {
 
 PointLightNode::PointLightNode()
-  : constAtt(1.0)
-  , linearAtt(0.0)
-  , quadAtt(0.0)
+    : Light()
+    , constAtt(1.0)
+    , linearAtt(0.0)
+    , quadAtt(0.0)
 {
     
 }

@@ -10,7 +10,8 @@
 #ifndef _OE_DIRECTIONAL_LIGHT_NODE_H_
 #define _OE_DIRECTIONAL_LIGHT_NODE_H_
 
-#include <Scene/LightNode.h>
+#include <Geometry/Light.h>
+#include <Scene/ISceneNode.h>
 
 namespace OpenEngine {
 namespace Scene {
@@ -20,11 +21,9 @@ namespace Scene {
  * 
  * @class DirectionalLightNode DirectionalLightNode.h Scene/DirectionalLightNode.h
  */
-class DirectionalLightNode : public LightNode {
-    OE_SCENE_NODE(DirectionalLightNode, LightNode)
-
+class DirectionalLightNode : public Light, public ISceneNode {
+    OE_SCENE_NODE(DirectionalLightNode, ISceneNode)
 public:
-    
     DirectionalLightNode();
     virtual ~DirectionalLightNode();
 
@@ -33,7 +32,8 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<LightNode>(*this);
+        ar & boost::serialization::base_object<Light>(*this);
+        ar & boost::serialization::base_object<ISceneNode>(*this);
     }
 
 };

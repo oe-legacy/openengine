@@ -10,7 +10,8 @@
 #ifndef _OE_SPOT_LIGHT_NODE_H_
 #define _OE_SPOT_LIGHT_NODE_H_
 
-#include <Scene/LightNode.h>
+#include <Geometry/Light.h>
+#include <Scene/ISceneNode.h>
 
 namespace OpenEngine {
 namespace Scene {
@@ -20,9 +21,8 @@ namespace Scene {
  * 
  * @class SpotLightNode SpotLightNode.h Scene/SpotLightNode.h
  */
-class SpotLightNode : public LightNode {
-    OE_SCENE_NODE(SpotLightNode, LightNode)
-
+class SpotLightNode : public Light, public ISceneNode {
+    OE_SCENE_NODE(SpotLightNode, ISceneNode)
 public:
     float constAtt, linearAtt, quadAtt, cutoff, exponent;
 
@@ -34,14 +34,14 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<LightNode>(*this);
+        ar & boost::serialization::base_object<Light>(*this);
+        ar & boost::serialization::base_object<ISceneNode>(*this);
         ar & constAtt;
         ar & linearAtt;
         ar & quadAtt;
         ar & cutoff;
         ar & exponent;
    }
-
 };
 
 } // NS Scene

@@ -1,4 +1,4 @@
-// Light tree node.
+// Positional light node.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -10,7 +10,8 @@
 #ifndef _OE_POINT_LIGHT_NODE_H_
 #define _OE_POINT_LIGHT_NODE_H_
 
-#include <Scene/LightNode.h>
+#include <Geometry/Light.h>
+#include <Scene/ISceneNode.h>
 
 namespace OpenEngine {
 namespace Scene {
@@ -21,9 +22,8 @@ namespace Scene {
  * 
  * @class PointLightNode PointLightNode.h Scene/PointLightNode.h
  */
-class PointLightNode : public LightNode {
-    OE_SCENE_NODE(PointLightNode, LightNode)
-
+class PointLightNode : public Light, public ISceneNode {
+    OE_SCENE_NODE(PointLightNode, ISceneNode)
 public:
     float constAtt, linearAtt, quadAtt;
 
@@ -35,7 +35,8 @@ private:
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
         // serialize base class information
-        ar & boost::serialization::base_object<LightNode>(*this);
+        ar & boost::serialization::base_object<Light>(*this);
+        ar & boost::serialization::base_object<ISceneNode>(*this);
         ar & constAtt;
         ar & linearAtt;
         ar & quadAtt;
@@ -48,4 +49,4 @@ private:
 
 BOOST_CLASS_EXPORT(OpenEngine::Scene::PointLightNode)
 
-#endif // _OE_LIGHT_NODE_H_
+#endif // _OE_POINT_LIGHT_NODE_H_
