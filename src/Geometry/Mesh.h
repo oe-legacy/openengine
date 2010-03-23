@@ -49,27 +49,29 @@ namespace OpenEngine {
             Resources::DataIndicesPtr indexBuffer;
             GeometryPrimitive prim;
             MaterialPtr mat;
-            GeometrySetPtr mesh;
+            GeometrySetPtr geom;
             unsigned int indexOffset;
             unsigned int drawRange;
             
         public:
             Mesh(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
-                          MaterialPtr mat,
-                          GeometrySetPtr mesh);
+                          GeometrySetPtr geom,
+                          MaterialPtr mat);
 
             Mesh(Resources::DataIndicesPtr indexBuffer,
                           GeometryPrimitive prim,
+                          GeometrySetPtr geom,
                           MaterialPtr mat,
-                          GeometrySetPtr mesh,
                           unsigned int indexOffset,
                           unsigned int drawRange);
             
+            Mesh(const Mesh& mesh);
+
             /**
              * Return the index buffer object.
              */
-            inline Resources::DataIndicesPtr GetIndexBuffer() const { return indexBuffer; }
+            inline Resources::DataIndicesPtr GetDataIndices() const { return indexBuffer; }
             
             /**
              * Returns the material used by this draw primitive.
@@ -79,7 +81,7 @@ namespace OpenEngine {
             /**
              * Returns the mesh used by this draw primitive.
              */
-            inline GeometrySetPtr GetGeometrySet() const { return mesh; }
+            inline GeometrySetPtr GetGeometrySet() const { return geom; }
 
             /**
              * Returns the primitive drawn.
@@ -94,7 +96,7 @@ namespace OpenEngine {
             /**
              * Returns the number of elements drawn by this draw primitive.
              */
-            inline unsigned int GetDrawingRange() { return drawRange; }
+            inline unsigned int GetDrawingRange() const { return drawRange; }
 
             /**
              * Iterate over primitives. Like how?

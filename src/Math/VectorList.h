@@ -11,6 +11,7 @@
 #define _OE_VECTOR_LIST_H_
 
 #include <Math/Vector.h>
+#include <Utils/Convert.h>
 
 namespace OpenEngine {
     namespace Math {
@@ -148,6 +149,12 @@ namespace OpenEngine {
              * @param value The value to be set to.
              */
             inline void SetElement(unsigned int i, Vector<N, T> vector){
+#ifdef OE_SAFE
+                if (i > size)
+                    throw Exception("Element index " + 
+                                    OpenEngine::Utils::Convert::ToString<unsigned int>(i) + 
+                                    " too high.");
+#endif
                 T* offset = data + i * N;
                 for (unsigned int j = 0; j < N; ++j)
                     offset[j] = vector[j];

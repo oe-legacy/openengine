@@ -22,20 +22,20 @@ namespace OpenEngine {
 
         Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
-                                     MaterialPtr mat,
-                                     GeometrySetPtr mesh)
-            : indexBuffer(indexBuffer), prim(prim), mat(mat), mesh(mesh) {
+                                     GeometrySetPtr geom,
+                                     MaterialPtr mat)
+            : indexBuffer(indexBuffer), prim(prim), mat(mat), geom(geom) {
             indexOffset = 0;
             drawRange = indexBuffer->GetSize();
         }
         
         Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
                                      GeometryPrimitive prim,
+                                     GeometrySetPtr geom,
                                      MaterialPtr mat,
-                                     GeometrySetPtr mesh,
                                      unsigned int indexOffset,
                                      unsigned int drawRange)
-            : indexBuffer(indexBuffer), prim(prim), mat(mat), mesh(mesh),
+            : indexBuffer(indexBuffer), prim(prim), mat(mat), geom(geom),
               indexOffset(indexOffset), drawRange(drawRange) {
 #ifdef OE_SAFE
             unsigned int size = indexBuffer->GetSize();
@@ -45,5 +45,15 @@ namespace OpenEngine {
                 throw IndexOutOfBounds(indexOffset + drawRange, 0, size);
 #endif
         }
+
+        Mesh::Mesh(const Mesh& mesh){
+            indexBuffer = mesh.GetDataIndices();
+            prim = mesh.GetPrimitive();
+            mat = mesh.GetMaterial();
+            geom = mesh.GetGeometrySet();
+            indexOffset = mesh.GetIndexOffset();
+            drawRange = mesh.GetDrawingRange();
+        }
     }
+
 }

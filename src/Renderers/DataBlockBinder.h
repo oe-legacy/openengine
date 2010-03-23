@@ -21,6 +21,7 @@ namespace OpenEngine {
     //forward declarations
     namespace Scene {
         class ModelNode;
+        class MeshNode;
         class ISceneNode;
     }
 
@@ -30,6 +31,7 @@ using Core::IListener;
 using Renderers::RenderingEventArg;
 using Renderers::IRenderer;
 using Scene::ModelNode;
+using Scene::MeshNode;
 using Scene::ISceneNode;
 using Scene::ISceneNodeVisitor;
 
@@ -49,6 +51,7 @@ class DataBlockBinder: public ISceneNodeVisitor,
         
     void Handle(RenderingEventArg arg);
     void VisitModelNode(ModelNode* node);
+    void VisitMeshNode(MeshNode* node);
         
 };
 
