@@ -14,11 +14,10 @@
 #include <Renderers/IRenderer.h>
 #include <Scene/ISceneNodeVisitor.h>
 #include <Scene/GeometryNode.h>
+#include <Scene/MeshNode.h>
 #include <Scene/VertexArrayNode.h>
-#include <Scene/ModelNode.h>
 #include <Geometry/FaceSet.h>
 #include <Geometry/Face.h>
-#include <Geometry/Model.h>
 #include <Geometry/Mesh.h>
 #include <Geometry/VertexArray.h>
 #include <Resources/ITexture2D.h>
@@ -38,7 +37,6 @@ using Core::QueuedEvent;
 using Geometry::FaceList;
 using Geometry::FaceSet;
 using Geometry::VertexArray;
-using Geometry::Model;
 using Geometry::Mesh;
 using Geometry::MeshList;
 using Renderers::RenderingEventArg;
@@ -51,9 +49,11 @@ using Resources::Texture3DChangedEventArg;
 using Scene::ISceneNode;
 using Scene::ISceneNodeVisitor;
 using Scene::GeometryNode;
-using Scene::ModelNode;
+using Scene::MeshNode;
 using Scene::VertexArrayNode;
 
+typedef boost::shared_ptr<Mesh> MeshPtr;
+ 
 /**
  * Utility class to find textures in a scene.
  * All textures found will be loaded with
@@ -85,21 +85,17 @@ public:
         }
     }
 
-    void VisitModelNode(ModelNode* node) {
-        Model* model = node->model;
-        MeshList prims = model->GetMeshs();
-        MeshList::iterator prim = prims.begin();
-        for (; prim != prims.end(); ++prim) {
-            // load face textures if not already loaded or in the cache
-            ITexture2DPtr t = (*prim)->GetMaterial()->texr;
-            if (t != NULL && t->GetID() == 0 &&
-                cache.find(t.get()) == cache.end()) {
-                // logger.info << "load model texture" << logger.end;
-                cache.insert(t.get());
-                loader.Load(t, policy);
-            }
+    void VisitMeshNode(MeshNode* node) {
+        MeshPtr m = node->GetMesh();
+        // load face textures if not already loaded or in the cache
+        ITexture2DPtr t = m->GetMaterial()->texr;
+        if (t != NULL && t->GetID() == 0 &&
+            cache.find(t.get()) == cache.end()) {
+            cache.insert(t.get());
+            loader.Load(t, policy);
         }
     }
+
     void VisitVertexArrayNode(VertexArrayNode* node) {
         list<VertexArray*> vaList = node->GetVertexArrays();
         list<VertexArray*>::iterator itr;

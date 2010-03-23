@@ -31,7 +31,7 @@ namespace OpenEngine {
          * Geometry primitives (just happens to have the same values
          * as OpenGL...)
          */
-        enum GeometryPrimitive {
+        enum Type {
             POINTS         = 0x0000,
             LINES          = 0x0001,
             LINE_STRIP     = 0x0003,
@@ -47,7 +47,7 @@ namespace OpenEngine {
         class Mesh {
         protected:
             Resources::DataIndicesPtr indexBuffer;
-            GeometryPrimitive prim;
+            Type type;
             MaterialPtr mat;
             GeometrySetPtr geom;
             unsigned int indexOffset;
@@ -55,19 +55,19 @@ namespace OpenEngine {
             
         public:
             Mesh(Resources::DataIndicesPtr indexBuffer,
-                          GeometryPrimitive prim,
-                          GeometrySetPtr geom,
-                          MaterialPtr mat);
+                 Type type,
+                 GeometrySetPtr geom,
+                 MaterialPtr mat);
 
             Mesh(Resources::DataIndicesPtr indexBuffer,
-                          GeometryPrimitive prim,
-                          GeometrySetPtr geom,
-                          MaterialPtr mat,
-                          unsigned int indexOffset,
-                          unsigned int drawRange);
+                 Type type,
+                 GeometrySetPtr geom,
+                 MaterialPtr mat,
+                 unsigned int indexOffset,
+                 unsigned int drawRange);
             
             Mesh(const Mesh& mesh);
-
+            
             /**
              * Return the index buffer object.
              */
@@ -84,9 +84,9 @@ namespace OpenEngine {
             inline GeometrySetPtr GetGeometrySet() const { return geom; }
 
             /**
-             * Returns the primitive drawn.
+             * Returns the primitive type.
              */
-            inline GeometryPrimitive GetPrimitive() const { return prim; }
+            inline Type GetType() const { return type; }
             
             /**
              * Returns the specified offset into the index buffer.

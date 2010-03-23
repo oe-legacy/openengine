@@ -9,7 +9,6 @@
 
 #include <Renderers/DataBlockBinder.h>
 
-#include <Scene/ModelNode.h>
 #include <Scene/MeshNode.h>
 #include <Geometry/Model.h>
 #include <Geometry/Mesh.h>
@@ -37,32 +36,6 @@ namespace Renderers {
         r.GetSceneRoot()->Accept(*this);
     }
     
-    void DataBlockBinder::VisitModelNode(ModelNode* node) {
-        Model* model = node->model;
-        MeshList prims = model->GetMeshs();
-        MeshList::iterator prim = prims.begin();
-        for (; prim != prims.end(); ++prim) {
-            if ((*prim)->GetDataIndices() && (*prim)->GetDataIndices()->GetID() == 0)
-                r.BindDataBlock((*prim)->GetDataIndices().get());
-
-            GeometrySetPtr mesh = (*prim)->GetGeometrySet();
-            if (mesh->GetVertices() && mesh->GetVertices()->GetID() == 0)
-                r.BindDataBlock(mesh->GetVertices().get());
-            if (mesh->GetNormals() && mesh->GetNormals()->GetID() == 0)
-                r.BindDataBlock(mesh->GetNormals().get());
-            if (mesh->GetColors() && mesh->GetColors()->GetID() == 0) 
-                r.BindDataBlock(mesh->GetColors().get());
-          
-            IDataBlockList tl = mesh->GetTexCoords();
-            IDataBlockList::iterator texc = tl.begin();
-            for (; texc != tl.end(); ++texc) {
-                if (*texc && (*texc)->GetID() == 0)
-                    r.BindDataBlock((*texc).get());
-            }
-        }
-        node->VisitSubNodes(*this);
-    }
-
     void DataBlockBinder::VisitMeshNode(MeshNode* node) {
         MeshPtr mesh = node->GetMesh();
 

@@ -50,7 +50,6 @@ class DataBlockBinder: public ISceneNodeVisitor,
     virtual ~DataBlockBinder();
         
     void Handle(RenderingEventArg arg);
-    void VisitModelNode(ModelNode* node);
     void VisitMeshNode(MeshNode* node);
         
 };

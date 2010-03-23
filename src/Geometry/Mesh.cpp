@@ -21,21 +21,21 @@ namespace OpenEngine {
     namespace Geometry {
 
         Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
-                                     GeometryPrimitive prim,
-                                     GeometrySetPtr geom,
-                                     MaterialPtr mat)
-            : indexBuffer(indexBuffer), prim(prim), mat(mat), geom(geom) {
+                   Type type,
+                   GeometrySetPtr geom,
+                   MaterialPtr mat)
+            : indexBuffer(indexBuffer), type(type), mat(mat), geom(geom) {
             indexOffset = 0;
             drawRange = indexBuffer->GetSize();
         }
         
         Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
-                                     GeometryPrimitive prim,
-                                     GeometrySetPtr geom,
-                                     MaterialPtr mat,
-                                     unsigned int indexOffset,
-                                     unsigned int drawRange)
-            : indexBuffer(indexBuffer), prim(prim), mat(mat), geom(geom),
+                   Type type,
+                   GeometrySetPtr geom,
+                   MaterialPtr mat,
+                   unsigned int indexOffset,
+                   unsigned int drawRange)
+            : indexBuffer(indexBuffer), type(type), mat(mat), geom(geom),
               indexOffset(indexOffset), drawRange(drawRange) {
 #ifdef OE_SAFE
             unsigned int size = indexBuffer->GetSize();
@@ -48,7 +48,7 @@ namespace OpenEngine {
 
         Mesh::Mesh(const Mesh& mesh){
             indexBuffer = mesh.GetDataIndices();
-            prim = mesh.GetPrimitive();
+            type = mesh.GetType();
             mat = mesh.GetMaterial();
             geom = mesh.GetGeometrySet();
             indexOffset = mesh.GetIndexOffset();

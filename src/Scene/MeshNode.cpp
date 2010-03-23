@@ -35,6 +35,5 @@ namespace OpenEngine {
         void MeshNode::SetMesh(MeshPtr mesh){
             this->mesh = mesh;
         }
-        
     }
 }

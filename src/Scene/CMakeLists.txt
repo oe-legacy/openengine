@@ -38,8 +38,6 @@ ADD_LIBRARY(OpenEngine_Scene
   VertexArrayNode.h
   VertexArrayTransformer.cpp
   VertexArrayTransformer.h
-  ModelNode.h
-  ModelNode.cpp
   MeshNode.h
   MeshNode.cpp
 )
