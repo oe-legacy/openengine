@@ -25,7 +25,8 @@ using OpenEngine::Core::IModule;
 enum FrameOption {
     FRAME_OPENGL     = 0x00000002,
     FRAME_NOBORDER   = 0x00000020,
-    FRAME_FULLSCREEN = 0x80000000
+    FRAME_FULLSCREEN = 0x80000000,
+    FRAME_STEREO     = 0x00000100
 };
 
 /**
