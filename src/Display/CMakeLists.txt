@@ -12,8 +12,9 @@ ADD_LIBRARY(OpenEngine_Display
   PerspectiveViewingVolume.cpp
   OrthogonalViewingVolume.h
   OrthogonalViewingVolume.cpp
-  Camera.h
+  Camera.h  
   Camera.cpp
+  StereoCamera.h
   Frustum.h
   Frustum.cpp
   TrackingCamera.h
