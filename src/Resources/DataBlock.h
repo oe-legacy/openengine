@@ -22,7 +22,7 @@ namespace OpenEngine {
         class DataBlock : public IDataBlock {
         protected:
             VectorList<N, T> vectorlist;
-            
+
         public:
             DataBlock()
                 : IDataBlock() {
@@ -30,9 +30,12 @@ namespace OpenEngine {
                 this->type = GetResourceType<T>();
             }
 
-            DataBlock(T* d, unsigned int s)
-                : IDataBlock(d, s) {
-                vectorlist = VectorList<N, T>(d, s);
+            DataBlock(unsigned int s, T* d = NULL,
+                      BufferType b = ARRAY, UpdateMode u = STATIC)
+                : IDataBlock(s, d, b, u) {
+                if (d == NULL)
+                    this->data = new T[N * s];
+                vectorlist = VectorList<N, T>((T*)this->data, s);
                 this->dimension = N;
                 this->type = GetResourceType<T>();
             }
@@ -119,8 +122,8 @@ namespace OpenEngine {
                 this->bufferType = INDEX_ARRAY;
             }
 
-            DataIndices(unsigned int* d, unsigned int s)
-                : DataBlock<1, unsigned int>(d, s) {
+            DataIndices(unsigned int s, unsigned int* d = NULL)
+                : DataBlock<1, unsigned int>(s, d) {
                 this->bufferType = INDEX_ARRAY;
             }
         };

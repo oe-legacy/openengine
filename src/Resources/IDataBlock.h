@@ -83,7 +83,7 @@ namespace OpenEngine {
                 policy = UNLOAD_AUTOMATIC;
             }
 
-            IDataBlock(void* d, unsigned int s, 
+            IDataBlock(unsigned int s, void* d = NULL, 
                        BufferType b = ARRAY, UpdateMode u = STATIC) {
                 id = dimension = 0;
                 size = s;

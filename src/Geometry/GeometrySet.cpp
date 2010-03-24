@@ -46,8 +46,8 @@ namespace OpenEngine {
 
                 DataBlock<3, float>* ns = (DataBlock<3, float>*)normals.get();
 
-                Float3DataBlockPtr dn = Float3DataBlockPtr(new DataBlock<3, float>(new float[2 * 3 * size], 
-                                                                                   size * 2));
+                Float3DataBlockPtr dn = Float3DataBlockPtr(new DataBlock<3, float>(size * 2, 
+                                                                                   new float[2 * 3 * size]));
                 
                 for (unsigned int i = 0; i < size; ++i){
                     Vector<3, float> vert;
