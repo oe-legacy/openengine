@@ -20,7 +20,7 @@ using namespace OpenEngine::Math;
 namespace OpenEngine {
     namespace Geometry {
 
-        Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
+        Mesh::Mesh(Resources::IndicesPtr indexBuffer,
                    Type type,
                    GeometrySetPtr geom,
                    MaterialPtr mat)
@@ -29,7 +29,7 @@ namespace OpenEngine {
             drawRange = indexBuffer->GetSize();
         }
         
-        Mesh::Mesh(Resources::DataIndicesPtr indexBuffer,
+        Mesh::Mesh(Resources::IndicesPtr indexBuffer,
                    Type type,
                    GeometrySetPtr geom,
                    MaterialPtr mat,
@@ -47,7 +47,7 @@ namespace OpenEngine {
         }
 
         Mesh::Mesh(const Mesh& mesh){
-            indexBuffer = mesh.GetDataIndices();
+            indexBuffer = mesh.GetIndices();
             type = mesh.GetType();
             mat = mesh.GetMaterial();
             geom = mesh.GetGeometrySet();

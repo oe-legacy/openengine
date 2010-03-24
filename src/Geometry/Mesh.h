@@ -18,8 +18,8 @@ using std::list;
 
 namespace OpenEngine {
     namespace Resources {
-        class DataIndices;
-        typedef boost::shared_ptr<DataIndices > DataIndicesPtr;
+        class Indices;
+        typedef boost::shared_ptr<Indices > IndicesPtr;
     }
     namespace Geometry {
         class Material;
@@ -46,7 +46,7 @@ namespace OpenEngine {
          */
         class Mesh {
         protected:
-            Resources::DataIndicesPtr indexBuffer;
+            Resources::IndicesPtr indexBuffer;
             Type type;
             MaterialPtr mat;
             GeometrySetPtr geom;
@@ -54,12 +54,12 @@ namespace OpenEngine {
             unsigned int drawRange;
             
         public:
-            Mesh(Resources::DataIndicesPtr indexBuffer,
+            Mesh(Resources::IndicesPtr indexBuffer,
                  Type type,
                  GeometrySetPtr geom,
                  MaterialPtr mat);
 
-            Mesh(Resources::DataIndicesPtr indexBuffer,
+            Mesh(Resources::IndicesPtr indexBuffer,
                  Type type,
                  GeometrySetPtr geom,
                  MaterialPtr mat,
@@ -71,7 +71,7 @@ namespace OpenEngine {
             /**
              * Return the index buffer object.
              */
-            inline Resources::DataIndicesPtr GetDataIndices() const { return indexBuffer; }
+            inline Resources::IndicesPtr GetIndices() const { return indexBuffer; }
             
             /**
              * Returns the material used by this draw primitive.

@@ -115,19 +115,19 @@ namespace OpenEngine {
         /**
          * Define special index block.
          */
-        class DataIndices : public DataBlock<1, unsigned int> {
+        class Indices : public DataBlock<1, unsigned int> {
         public:
-            DataIndices()
+            Indices()
                 : DataBlock<1, unsigned int>() {
                 this->bufferType = INDEX_ARRAY;
             }
 
-            DataIndices(unsigned int s, unsigned int* d = NULL)
+            Indices(unsigned int s, unsigned int* d = NULL)
                 : DataBlock<1, unsigned int>(s, d) {
                 this->bufferType = INDEX_ARRAY;
             }
         };
-        typedef boost::shared_ptr<DataIndices > DataIndicesPtr;
+        typedef boost::shared_ptr<Indices> IndicesPtr;
 
     }
 }

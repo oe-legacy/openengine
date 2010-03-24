@@ -39,8 +39,8 @@ namespace Renderers {
     void DataBlockBinder::VisitMeshNode(MeshNode* node) {
         MeshPtr mesh = node->GetMesh();
 
-        if (mesh->GetDataIndices() && mesh->GetDataIndices()->GetID() == 0)
-            r.BindDataBlock(mesh->GetDataIndices().get());
+        if (mesh->GetIndices() && mesh->GetIndices()->GetID() == 0)
+            r.BindDataBlock(mesh->GetIndices().get());
         
         GeometrySetPtr geom = mesh->GetGeometrySet();
         if (geom->GetVertices() && geom->GetVertices()->GetID() == 0)
