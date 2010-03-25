@@ -116,6 +116,13 @@ namespace OpenEngine {
             inline void* GetVoidDataPtr() const { return data; }
 
             /**
+             * Get a pointer to the i'th elements data.
+             *
+             * @param i The i'th element.
+             */
+            virtual void* GetVoidElement(unsigned int i) = 0;
+
+            /**
              * Get the type of the buffer object.
              *
              * @return Type the type of the buffer object.

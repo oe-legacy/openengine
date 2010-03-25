@@ -72,11 +72,18 @@ namespace OpenEngine {
                 return (T*) this->data;
             }
 
+            void* GetVoidElement(unsigned int i) {
+                return ((T*) this->data) + N * i;
+            }
+
             /**
              * Gets the i'th element in the data block.
              */
             inline Vector<N, T> GetElement(unsigned int i) const {
                 return vectorlist.GetElement(i);
+            }
+            inline Vector<N, T> operator[](const unsigned int i){
+                return GetElement(i);
             }
 
             /**

@@ -142,6 +142,9 @@ namespace OpenEngine {
                 unsigned int index = i * N;
                 return Vector<N, T>(data + index);
             }
+            inline Vector<N, T> operator[](const unsigned int i){
+                return GetElement(i);
+            }
 
             /**
              * Sets the i'th element in the list to the values in vector.

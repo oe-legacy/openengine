@@ -28,7 +28,7 @@ namespace OpenEngine {
         typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;        
 
         /**
-         * Geometry primitives (just happens to have the same values
+         * Geometry Types (just happens to have the same values
          * as OpenGL...)
          */
         enum Type {
