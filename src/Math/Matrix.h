@@ -212,6 +212,17 @@ public:
         return r;
     }
     /**
+     * Matrix addition.
+     */
+    const Matrix<M,N,T> operator+(Matrix<M,N,T> m) {
+        Matrix<M,M,T> r;
+        for (unsigned int i=0; i<M; i++) 
+            for (unsigned int j=0; j<M; j++) {
+                r.elm[i][j] = elm[i][j] + m[i][j];
+            }
+        return r;
+    }
+    /**
      * Get matrix row vector.
      * @code
      * Matrix<2,2,int> m(1,2, 3,4);   // [(1, 2), (3, 4)]
