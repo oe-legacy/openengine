@@ -19,10 +19,12 @@ namespace OpenEngine {
             /**
              * Type enumeration.
              */
-            enum Type {NOTYPE,
-                       UBYTE, BYTE,
-                       UINT, INT,
-                       FLOAT};
+            enum Type {NOTYPE = 0x0000,
+                       UBYTE  = 0x1401, 
+                       BYTE   = 0x1400,
+                       UINT   = 0x1405, 
+                       INT    = 0x1404,
+                       FLOAT  = 0x1406};
             
             /**
              * Yields an OpenEngine Type based on the template
