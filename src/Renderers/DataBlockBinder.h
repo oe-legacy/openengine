@@ -20,7 +20,6 @@ namespace OpenEngine {
 
     //forward declarations
     namespace Scene {
-        class ModelNode;
         class MeshNode;
         class ISceneNode;
     }
@@ -30,7 +29,6 @@ namespace Renderers {
 using Core::IListener;
 using Renderers::RenderingEventArg;
 using Renderers::IRenderer;
-using Scene::ModelNode;
 using Scene::MeshNode;
 using Scene::ISceneNode;
 using Scene::ISceneNodeVisitor;

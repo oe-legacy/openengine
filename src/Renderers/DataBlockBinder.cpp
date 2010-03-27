@@ -10,7 +10,6 @@
 #include <Renderers/DataBlockBinder.h>
 
 #include <Scene/MeshNode.h>
-#include <Geometry/Model.h>
 #include <Geometry/Mesh.h>
 #include <Geometry/GeometrySet.h>
 #include <Resources/DataBlock.h>
