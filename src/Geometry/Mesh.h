@@ -40,9 +40,9 @@ namespace OpenEngine {
             QUADS          = 0x0007};
         
         /**
-         * Draw primitive class, containing the primitive type that
-         * should be used when rendering the mesh with the specified
-         * material.
+         * The Mesh class contains the primitive type and indices that
+         * should be used when rendering the geometry set with the
+         * specified material.
          */
         class Mesh {
         protected:
@@ -66,6 +66,9 @@ namespace OpenEngine {
                  unsigned int indexOffset,
                  unsigned int drawRange);
             
+            /**
+             * Copy constructor.
+             */
             Mesh(const Mesh& mesh);
             
             /**
@@ -100,6 +103,10 @@ namespace OpenEngine {
 
             /**
              * Iterate over primitives. Like how?
+             *
+             * Perhaps allow a triangle class to capture the most
+             * generel dimensions, eg 3 for normals and 4 for
+             * vertices. Template it with the type we want?
              */
         };
 

@@ -24,10 +24,10 @@ namespace OpenEngine {
     namespace Geometry{
 
         /**
-         * The mesh class contains all of the pr. vertex information
-         * of a mesh.
+         * The geometry set class contains all of the pr. vertex
+         * information of a mesh.
          *
-         * All of the information is assumed to be in floats.
+         * @TODO All of the information is assumed to be in floats?
          */
         class GeometrySet {
         protected:

@@ -24,15 +24,15 @@ namespace OpenEngine {
         class IDataBlockChangedEventArg;
 
         /**
-         * The buffer type tells the engine the primairy purpuse of
-         * this buffer.
+         * The block type tells the engine the primairy purpuse of
+         * this data block.
          *
          * ARRAY means a standard data array.
          * INDEX_ARRAY means that the data blocks elements should
          * be interpreted as indices into other blocks.
-         * PIXEL_PACK means that the buffer will frequently have
+         * PIXEL_PACK means that the data block will frequently have
          * it's data updated from a texture.
-         * PIXEL_UNPACK means that the buffer will often be used
+         * PIXEL_UNPACK means that the data block will often be used
          * to update a texture.
          */
         enum BufferType {ARRAY, INDEX_ARRAY, PIXEL_PACK, PIXEL_UNPACK};
@@ -48,7 +48,7 @@ namespace OpenEngine {
         /**
          * The unload policy specifies how the data can be unloaded.
          *
-         * UNLOAD_AUTOMATIC means that the buffer will be unloaded
+         * UNLOAD_AUTOMATIC means that the data block will be unloaded
          * when the renderer binds it.
          * UNLOAD_EXPLICIT means that only an explicit call to
          * Unload can unload the data.
@@ -56,8 +56,8 @@ namespace OpenEngine {
         enum UnloadPolicy {UNLOAD_EXPLICIT, UNLOAD_AUTOMATIC};
 
         /**
-         * Basic buffer object interface. The buffer object consists
-         * of an array where each element is an N'th dimensional vector.
+         * Basic data block interface. The data block consists of an
+         * array where each element is an N'th dimensional vector.
          *
          * @class IDataBlock IDataBlock.h Resources/IDataBlock.h
          */
@@ -83,6 +83,14 @@ namespace OpenEngine {
                 policy = UNLOAD_AUTOMATIC;
             }
 
+            /**
+             * IDataBlock constructor.
+             *
+             * @param s is the number of elements in the data block.
+             * @param d is an array containing the elements data.
+             * @param b is the type of the data block.
+             * @param u is the blocks update mode.
+             */
             IDataBlock(unsigned int s, void* d = NULL, 
                        BufferType b = ARRAY, UpdateMode u = STATIC) {
                 id = dimension = 0;
@@ -95,23 +103,23 @@ namespace OpenEngine {
             }
 
             /**
-             * Get buffer object id.
+             * Get data block id.
              *
-             * @return Buffer Object id.
+             * @return data block id.
              */
             inline unsigned int GetID() const { return id; }
             
             /**
-             * Set buffer object id.
+             * Set data block id.
              *
-             * @param id Buffer object id.
+             * @param data block id.
              */
             virtual void SetID(int id) { this->id = id; }
 
             /**
-             * Get pointer to loaded buffer object.
+             * Get a pointer to the data blocks raw data.
              *
-             * @return Char pointer to loaded data.
+             * @return pointer to loaded data.
              */
             inline void* GetVoidDataPtr() const { return data; }
 
@@ -123,24 +131,30 @@ namespace OpenEngine {
             virtual void* GetVoidElement(unsigned int i) = 0;
 
             /**
-             * Get the type of the buffer object.
+             * Get the type of the data block.
              *
-             * @return Type the type of the buffer object.
+             * @return the type of the data block.
              */
             inline Type GetType() const { return type; }
 
             /**
-             * Set the type of the buffer object.
+             * Set the type of the data block.
+             *
+             * @param t The type.
              */
             virtual void SetType(Type t) { type = t; }
 
             /**
-             * Get the number of elements in the buffer object.
+             * Get the number of elements in the data block.
+             * 
+             * @return the number of elements.
              */
             inline unsigned int GetSize() const { return size; }
 
             /**
              * Get the elements number of dimensions.
+             *
+             * @return the dimensionality of the elements.
              */
             inline unsigned int GetDimension() const { return dimension; }
 
@@ -153,38 +167,42 @@ namespace OpenEngine {
             /**
              * Sets the default unload policy.
              *
-             * UNLOAD_AUTOMATIC means that the buffer will be unloaded
-             * when the renderer binds it.
+             * UNLOAD_AUTOMATIC means that the dat block will be
+             * unloaded when the renderer binds it.
              * UNLOAD_EXPLICIT means that only an explicit call to
              * Unload can unload the data.
              *
              * The default is UNLOAD_AUTOMATIC.
+             *
+             * @param policy The new unload policy.
              */
             virtual void SetUnloadPolicy(const UnloadPolicy policy) { this->policy = policy; }
 
             /**
              * Gets the active unload policy.
              *
-             * @return UnloadPolicy The active unload policy.
+             * @return the active unload policy.
              */
             inline UnloadPolicy GetUnloadPolicy() const { return policy; }
 
             /**
-             * Gets the buffer type.
+             * Gets the block type.
              *
-             * @return BufferType The type of the buffer.
+             * @return the type of the data block.
              */
             inline BufferType GetBufferType() const { return bufferType; }
 
             /** 
              * Gets the current update mode.
              *
-             * @return UpdateMode The current update mode.
+             * @return the current update mode.
              */
             inline UpdateMode GetUpdateMode() const { return updateMode; }
 
             /**
              * The data blocks changed event.
+             *
+             * @return the IEvent
              */
             virtual IEvent<IDataBlockChangedEventArg>& ChangedEvent() { return changedEvent; }
 
@@ -195,7 +213,7 @@ namespace OpenEngine {
         };
         
         /**
-         * Buffer Object interface smart pointer.
+         * Data Block interface smart pointer.
          */
         typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
         typedef list<IDataBlockPtr > IDataBlockList;

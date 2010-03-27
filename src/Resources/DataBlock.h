@@ -97,7 +97,7 @@ namespace OpenEngine {
            
             /**
              * Returns an iterator referring to the first element in
-             * the buffer object.
+             * the data block.
              */
             inline VectorIterator<N, T> Begin() const {
                 return vectorlist.Begin();
@@ -105,7 +105,7 @@ namespace OpenEngine {
 
             /**
              * Returns an iterator referring to the last element in
-             * the buffer object.
+             * the data block.
              */
             inline VectorIterator<N, T> End() const {
                 return vectorlist.End();
@@ -113,7 +113,7 @@ namespace OpenEngine {
         };
 
         /**
-         * Buffer Object smart pointer.
+         * Data block smart pointer.
          */
         typedef boost::shared_ptr<DataBlock<2, float> > Float2DataBlockPtr;
         typedef boost::shared_ptr<DataBlock<3, float> > Float3DataBlockPtr;
