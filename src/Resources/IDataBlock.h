@@ -35,7 +35,10 @@ namespace OpenEngine {
          * PIXEL_UNPACK means that the data block will often be used
          * to update a texture.
          */
-        enum BufferType {ARRAY, INDEX_ARRAY, PIXEL_PACK, PIXEL_UNPACK};
+        enum BlockType {ARRAY        = 0x8892,
+                        INDEX_ARRAY  = 0x8893, 
+                        PIXEL_PACK   = 0x88EB, 
+                        PIXEL_UNPACK = 0x88EC};
         /**
          * The UpdateMode is a hint to the engine as to how often the
          * content of the datablock will be changed.
@@ -69,7 +72,7 @@ namespace OpenEngine {
             Type type;
             void* data;
             unsigned int size, dimension;
-            BufferType bufferType;
+            BlockType blockType;
             UpdateMode updateMode;
             UnloadPolicy policy;
 
@@ -78,7 +81,7 @@ namespace OpenEngine {
                 id = size = dimension = 0;
                 type = NOTYPE;
                 data = NULL;
-                bufferType = ARRAY;
+                blockType = ARRAY;
                 updateMode = STATIC;
                 policy = UNLOAD_AUTOMATIC;
             }
@@ -92,12 +95,12 @@ namespace OpenEngine {
              * @param u is the blocks update mode.
              */
             IDataBlock(unsigned int s, void* d = NULL, 
-                       BufferType b = ARRAY, UpdateMode u = STATIC) {
+                       BlockType b = ARRAY, UpdateMode u = STATIC) {
                 id = dimension = 0;
                 size = s;
                 type = NOTYPE;
                 data = d;
-                bufferType = b;
+                blockType = b;
                 updateMode = u;
                 policy = UNLOAD_AUTOMATIC;
             }
@@ -190,7 +193,7 @@ namespace OpenEngine {
              *
              * @return the type of the data block.
              */
-            inline BufferType GetBufferType() const { return bufferType; }
+            inline BlockType GetBlockType() const { return blockType; }
 
             /** 
              * Gets the current update mode.

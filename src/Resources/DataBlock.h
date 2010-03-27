@@ -31,7 +31,7 @@ namespace OpenEngine {
             }
 
             DataBlock(unsigned int s, T* d = NULL,
-                      BufferType b = ARRAY, UpdateMode u = STATIC)
+                      BlockType b = ARRAY, UpdateMode u = STATIC)
                 : IDataBlock(s, d, b, u) {
                 if (d == NULL)
                     this->data = new T[N * s];
@@ -126,12 +126,12 @@ namespace OpenEngine {
         public:
             Indices()
                 : DataBlock<1, unsigned int>() {
-                this->bufferType = INDEX_ARRAY;
+                this->blockType = INDEX_ARRAY;
             }
 
             Indices(unsigned int s, unsigned int* d = NULL)
                 : DataBlock<1, unsigned int>(s, d) {
-                this->bufferType = INDEX_ARRAY;
+                this->blockType = INDEX_ARRAY;
             }
         };
         typedef boost::shared_ptr<Indices> IndicesPtr;
