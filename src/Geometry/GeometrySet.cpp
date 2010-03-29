@@ -63,7 +63,7 @@ namespace OpenEngine {
                     Vector<3, float> norm = ns->GetElement(i);
                     
                     dn->SetElement(2 * i, vert);
-                    dn->SetElement(2 * i + 1, vert + norm * 50);
+                    dn->SetElement(2 * i + 1, vert + norm);
                 }
 
                 debugNormals = dn;

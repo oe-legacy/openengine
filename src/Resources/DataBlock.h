@@ -24,13 +24,7 @@ namespace OpenEngine {
             VectorList<N, T> vectorlist;
 
         public:
-            DataBlock()
-                : IDataBlock() {
-                this->dimension = N;
-                this->type = GetResourceType<T>();
-            }
-
-            DataBlock(unsigned int s, T* d = NULL,
+            DataBlock(unsigned int s = 0, T* d = NULL,
                       BlockType b = ARRAY, UpdateMode u = STATIC)
                 : IDataBlock(s, d, b, u) {
                 if (d == NULL)
@@ -40,8 +34,9 @@ namespace OpenEngine {
                 this->type = GetResourceType<T>();
             }
 
-            DataBlock(VectorList<N, T> list)
-                : IDataBlock(list.GetData(), list.GetSize()) {
+            DataBlock(VectorList<N, T> list,
+                      BlockType b = ARRAY, UpdateMode u = STATIC)
+                : IDataBlock(list.GetSize(), list.GetData(), b, u) {
                 vectorlist = list;
                 this->dimension = N;
                 this->type = GetResourceType<T>();
@@ -124,14 +119,8 @@ namespace OpenEngine {
          */
         class Indices : public DataBlock<1, unsigned int> {
         public:
-            Indices()
-                : DataBlock<1, unsigned int>() {
-                this->blockType = INDEX_ARRAY;
-            }
-
-            Indices(unsigned int s, unsigned int* d = NULL)
-                : DataBlock<1, unsigned int>(s, d) {
-                this->blockType = INDEX_ARRAY;
+            Indices(unsigned int s = 0, unsigned int* d = NULL)
+                : DataBlock<1, unsigned int>(s, d, INDEX_ARRAY) {
             }
         };
         typedef boost::shared_ptr<Indices> IndicesPtr;

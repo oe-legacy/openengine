@@ -77,15 +77,6 @@ namespace OpenEngine {
             UnloadPolicy policy;
 
         public:
-            IDataBlock() {
-                id = size = dimension = 0;
-                type = NOTYPE;
-                data = NULL;
-                blockType = ARRAY;
-                updateMode = STATIC;
-                policy = UNLOAD_AUTOMATIC;
-            }
-
             /**
              * IDataBlock constructor.
              *
@@ -94,7 +85,7 @@ namespace OpenEngine {
              * @param b is the type of the data block.
              * @param u is the blocks update mode.
              */
-            IDataBlock(unsigned int s, void* d = NULL, 
+            IDataBlock(unsigned int s = 0, void* d = NULL, 
                        BlockType b = ARRAY, UpdateMode u = STATIC) {
                 id = dimension = 0;
                 size = s;
@@ -208,10 +199,6 @@ namespace OpenEngine {
              * @return the IEvent
              */
             virtual IEvent<IDataBlockChangedEventArg>& ChangedEvent() { return changedEvent; }
-
-            virtual void Rebind() {
-                //changedEvent.Notify(IDataBlockChangedEventArg(this->weak_this));
-            }
 
         };
         
