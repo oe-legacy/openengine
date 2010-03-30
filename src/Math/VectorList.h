@@ -178,8 +178,33 @@ namespace OpenEngine {
             inline VectorIterator<N, T> End() const {
                 return VectorIterator<N, T>(data, size).JumpToElement(size-1);
             }
+
+            /**
+             * String representation.
+             *
+             * @return VectorList as string
+             */
+            std::string ToString() const {
+                std::ostringstream out;
+                out << "[";
+                for (unsigned int i = 0; i+1 < size; ++i)
+                    out << GetElement(i) << ", ";
+                        
+                out << GetElement(size-1) << "]";
+                return out.str();
+            }  
+            
         };
             
+        /**
+         * Stream operator to ease the use of ToString method.
+         */
+        template <unsigned int N, class T>
+        std::ostream& operator<<(std::ostream& os, const VectorList<N,T> l) {
+            os<<l.ToString();
+            return os;
+        }
+        
     }
 }
 

@@ -13,6 +13,7 @@
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/IResource.h>
 #include <list>
+#include <string>
 
 using std::list;
 
@@ -199,6 +200,13 @@ namespace OpenEngine {
              * @return the IEvent
              */
             virtual IEvent<IDataBlockChangedEventArg>& ChangedEvent() { return changedEvent; }
+
+            /**
+             * String representation.
+             *
+             * @return IDataBlock as a string.
+             */
+            virtual std::string ToString() = 0;
 
         };
         

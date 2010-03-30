@@ -105,6 +105,10 @@ namespace OpenEngine {
             inline VectorIterator<N, T> End() const {
                 return vectorlist.End();
             }
+
+            std::string ToString(){
+                return vectorlist.ToString();
+            }
         };
 
         /**

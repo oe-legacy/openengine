@@ -492,7 +492,7 @@ public:
         std::ostringstream out;
         //out.width(6);
         out << "[";
-        for (unsigned int i=0;i<N-1;i++)
+        for (unsigned int i=0;i+1<N;i++)
             out << elm[i] << ", ";
         out << elm[N-1] << "]";
         return out.str();
