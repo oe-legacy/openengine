@@ -6,6 +6,7 @@ ADD_LIBRARY(OpenEngine_Utils
   Timer.cpp
   Convert.h
   Convert.cpp
+  DateTime.cpp
   Statistics.h
   Statistics.cpp
   Serialization.h

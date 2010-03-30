@@ -10,6 +10,8 @@
 #ifndef _FILE_H_
 #define _FILE_H_
 
+#include <Utils/DateTime.h>
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -31,6 +33,7 @@ public:
     static int GetSize(string filename);
     static string Extension(string filename);
     static string Parent(string filename);
+    static Utils::DateTime GetLastModified(string filename);
 
     /**
      *  Reads a file from the supplied filename and returns the files data in a

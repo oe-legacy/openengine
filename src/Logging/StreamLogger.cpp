@@ -9,6 +9,7 @@
 
 #include <Logging/StreamLogger.h>
 #include <Meta/Time.h>
+#include <Utils/DateTime.h>
 
 #include <string.h>
 
@@ -42,11 +43,8 @@ StreamLogger::~StreamLogger(){
  * @param msg Message to log.
  */
 void StreamLogger::Write(LoggerType type, string msg) {
-    time_t t; time(&t); // get the current time
-    char buf[20]; memset (buf, '0', 20); // this terminates the string
-	strftime (buf, sizeof(buf), "%Y/%m/%d %H:%M:%S", localtime(&t));
     *stream << TypeToString(type) << " ";
-    *stream << string(buf) << ": ";
+    *stream << Utils::DateTime::GetCurrent() << ": ";
     *stream << msg << std::endl;
 }
 

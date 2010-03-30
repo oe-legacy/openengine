@@ -16,6 +16,7 @@
 #include <cstring>
 #include <stdio.h>
 #include <limits.h>
+#include <iomanip>
 
 #if defined(_WIN32)
     #include <Windows.h>
@@ -115,8 +116,7 @@ std::string Time::ToString() const {
     std::string str_micro = micro.str();
     unsigned int zeros = 6 - strlen(str_micro.c_str());
     out << "<" << sec << " sec, ";
-    while(zeros--)
-        out << "0";
+    out << std::setw(zeros) << std::setfill('0');
     out << str_micro << " microsec>";
     return out.str();
 }

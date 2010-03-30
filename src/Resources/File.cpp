@@ -1,6 +1,8 @@
 #include <Resources/File.h>
 #include <Resources/Exceptions.h>
 
+#include <sys/stat.h>
+
 namespace OpenEngine {
 namespace Resources {
 
@@ -56,6 +58,13 @@ int File::GetSize(string filename) {
     if(size==0)
         throw ResourceException("Error calculating size of: " + filename);
     return size;
+}
+
+Utils::DateTime File::GetLastModified(string filename) {
+    struct stat sb;
+    stat (filename.c_str(), &sb);
+    time_t time(sb.st_mtime);
+    return Utils::DateTime(time);
 }
 
 /**
