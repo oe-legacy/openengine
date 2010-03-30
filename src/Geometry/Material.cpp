@@ -11,7 +11,7 @@
 #include <Logging/Logger.h>
 #include <Resources/IArchiveWriter.h>
 #include <Resources/IArchiveReader.h>
-#include <Resources/ITextureResource.h>
+#include <Resources/ITexture2D.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -112,7 +112,7 @@ void Material::Deserialize(Resources::IArchiveReader& r) {
     specular = r.ReadVector<4,float>("specular");
     emission = r.ReadVector<4,float>("emission");
     shininess = r.ReadFloat("shininess");
-    texr = r.ReadObjectPtr<ITextureResource>("texr");
+    texr = r.ReadObjectPtr<ITexture2D>("texr");
 }
 
 } // NS Geometry

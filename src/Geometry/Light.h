@@ -12,12 +12,6 @@
 
 #include <Math/Vector.h>
 
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/serialization/extended_type_info.hpp>
-#include <boost/serialization/export.hpp>
-#include <Meta/BoostSerialization.h>
 
 namespace OpenEngine {
 namespace Geometry {
@@ -40,21 +34,11 @@ public:
 
     virtual ~Light() {}
 
-private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<Light>(*this);
-        ar & ambient;
-        ar & diffuse;
-        ar & specular;
-    }
+
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Geometry::Light)
 
 #endif // _OE_LIGHT_H_

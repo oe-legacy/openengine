@@ -32,22 +32,11 @@ public:
     virtual ~LightNode();
         
 private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<ISceneNode>(*this);
-        ar & active;
-        ar & ambient;
-        ar & diffuse;
-        ar & specular;
-    }
-
+    
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::LightNode)
 
 #endif // _OE_LIGHT_NODE_H_

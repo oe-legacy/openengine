@@ -14,7 +14,6 @@
 #include <Resources/IArchiveWriter.h>
 #include <Resources/IArchiveReader.h>
 #include <Resources/ISerializable.h>
-#include <Resources/ITextureResource.h>
 
 #include <boost/shared_ptr.hpp>
 

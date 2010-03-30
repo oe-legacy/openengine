@@ -11,6 +11,7 @@
 #define _I_TEXTURE_H_
 
 #include <Resources/Types/ResourceTypes.h>
+#include <Resources/ISerializable.h>
 
 //@todo warning: removed becasue it causes name clashed with BYTE
 //using namespace OpenEngine::Resources::Types;
@@ -37,7 +38,7 @@ namespace OpenEngine {
          *
          * @class ITexture ITexture.h Resources/ITexture.h
          */
-        class ITexture {
+        class ITexture : public ISerializable {
         protected:
             unsigned int id;
             unsigned char channels;
@@ -184,6 +185,11 @@ namespace OpenEngine {
              */
             virtual void SetCompression(bool c) { compression = c; }
 
+            // Serialization
+            virtual void Serialize(IArchiveWriter&) {}; // Todo make pure virtual.
+            virtual void Deserialize(IArchiveReader&) {};
+            virtual unsigned int GetSerialzationTag() {return -1;}
+            
         };
 
         /**

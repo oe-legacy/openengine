@@ -12,8 +12,6 @@
 
 #include <Scene/ISceneNode.h>
 
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/export.hpp>
 #include <boost/shared_ptr.hpp>
 
 namespace OpenEngine {
@@ -44,16 +42,9 @@ namespace OpenEngine {
         protected:
             MeshPtr mesh;
             
-            friend class boost::serialization::access;
-            template<class Archive>
-            void serialize(Archive & ar, const unsigned int version) {
-                // serialize base class information
-                ar & boost::serialization::base_object<ISceneNode>(*this);
-            }            
         };
     }
 }
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::MeshNode)
 
 #endif

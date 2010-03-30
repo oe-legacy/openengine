@@ -4,6 +4,8 @@
   found at: https://svn.boost.org/trac/boost/attachment/ticket/2569/boost_serialization.patch
  */
 
+#error "Boost not supported"
+
 #include <boost/version.hpp>
 
 #if (BOOST_VERSION / 100 % 1000 < 38) && (BOOST_VERSION / 100 % 1000 > 35)

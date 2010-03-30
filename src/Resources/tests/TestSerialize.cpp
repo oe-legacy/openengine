@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include <Resources/StreamArchive.h>
+#include <Resources/BinaryStreamArchive.h>
 #include <Scene/SceneNode.h>
 #include <Scene/TransformationNode.h>
 #include <Scene/RenderStateNode.h>
@@ -267,8 +268,11 @@ int test_main(int argc, char* argv[]) {
     stringstream ss (stringstream::in | stringstream::out);
 
     
-    StreamArchiveWriter w = StreamArchiveWriter(ss);
-    StreamArchiveReader r = StreamArchiveReader(ss);
+    // StreamArchiveWriter w = StreamArchiveWriter(ss);
+    // StreamArchiveReader r = StreamArchiveReader(ss);
+        
+    BinaryStreamArchiveWriter w = BinaryStreamArchiveWriter(ss);
+    BinaryStreamArchiveReader r = BinaryStreamArchiveReader(ss);
         
     test_primitives_write(w);
     test_Vector_write(w);
@@ -279,6 +283,8 @@ int test_main(int argc, char* argv[]) {
     test_scene_write(w);
     
     test_WriteArray(w);
+
+
     // test_WriteObject(w);
     // test_WriteObjectPtr(w);
 
@@ -293,6 +299,8 @@ int test_main(int argc, char* argv[]) {
     test_scene_read(r);
 
     test_ReadArray(r);
+
+
     // test_ReadObject(r);
     // test_ReadObjectPtr(r);
 

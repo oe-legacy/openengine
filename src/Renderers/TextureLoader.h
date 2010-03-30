@@ -11,8 +11,7 @@
 #define _OE_TEXTURE_LOADER_H_
 
 #include <Core/IListener.h>
-#include <boost/serialization/shared_ptr.hpp> // include serialization
-                                              // for shared_ptr
+#include <boost/shared_ptr.hpp>
 
 // forward declarations
 namespace OpenEngine {

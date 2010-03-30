@@ -33,21 +33,12 @@ public:
     virtual ~PointLightNode();
 
 private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<LightNode>(*this);
-        ar & constAtt;
-        ar & linearAtt;
-        ar & quadAtt;
-    }
 
 };
 
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::PointLightNode)
 
-#endif // _OE_LIGHT_NODE_H_
+#endif // _OE_POINT_LIGHT_NODE_H_
+

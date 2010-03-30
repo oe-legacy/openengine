@@ -32,18 +32,6 @@ public:
     virtual ~SpotLightNode();
 
 private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version) {
-        // serialize base class information
-        ar & boost::serialization::base_object<LightNode>(*this);
-        ar & constAtt;
-        ar & linearAtt;
-        ar & quadAtt;
-        ar & cutoff;
-        ar & exponent;
-   }
-
 };
 
 } // NS Scene

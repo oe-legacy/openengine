@@ -18,6 +18,18 @@ ADD_LIBRARY(OpenEngine_Resources
   DirectoryManager.h
   DirectoryManager.cpp
   IResourcePlugin.h
+  IArchiveReader.h
+  IArchiveReader.cpp
+  IArchiveWriter.h
+  IArchiveWriter.cpp
+  StreamArchive.h
+  StreamArchive.cpp
+  BinaryStreamArchive.h
+  BinaryStreamArchive.cpp
+  SerializationResource.h
+  SerializationResource.cpp
+  IDataBlock.h
+  DataBlock.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources
