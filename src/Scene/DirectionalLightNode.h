@@ -16,6 +16,8 @@
 namespace OpenEngine {
 namespace Scene {
 
+using Geometry::Light;
+
 /**
  * Directional Light tree node.
  * 

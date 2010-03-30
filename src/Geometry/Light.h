@@ -20,7 +20,7 @@
 #include <Meta/BoostSerialization.h>
 
 namespace OpenEngine {
-namespace Scene {
+namespace Geometry {
 
 using Math::Vector;
 
@@ -55,6 +55,6 @@ private:
 } // NS Scene
 } // NS OpenEngine
 
-BOOST_CLASS_EXPORT(OpenEngine::Scene::Light)
+BOOST_CLASS_EXPORT(OpenEngine::Geometry::Light)
 
 #endif // _OE_LIGHT_H_
