@@ -16,11 +16,11 @@
 
 using std::list;
 
-using namespace OpenEngine::Resources::Types;
+
 
 namespace OpenEngine {
     namespace Resources {
-
+        using namespace OpenEngine::Resources::Types;
         class IDataBlockChangedEventArg;
 
         /**
