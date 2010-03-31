@@ -1,7 +1,9 @@
 #include <Resources/File.h>
 #include <Resources/Exceptions.h>
+#include <Utils/Convert.h>
 
 #include <sys/stat.h>
+#include <errno.h>
 
 namespace OpenEngine {
 namespace Resources {
@@ -60,9 +62,23 @@ int File::GetSize(string filename) {
     return size;
 }
 
+bool File::Exists(string filename) {
+    struct stat sb;
+    int error = stat (filename.c_str(), &sb);
+    if (error == 0)
+        return true;
+    else if (errno == ENOENT)
+        return false;
+    throw Exception("Error reading file: " + filename + ", " + 
+                    Utils::Convert::ToString(errno));
+}
+
 Utils::DateTime File::GetLastModified(string filename) {
     struct stat sb;
-    stat (filename.c_str(), &sb);
+    int error =stat (filename.c_str(), &sb);
+    if (error != 0)
+        throw Exception("error reading file: " + filename + ", " + 
+                        Utils::Convert::ToString(errno));
     time_t time(sb.st_mtime);
     return Utils::DateTime(time);
 }

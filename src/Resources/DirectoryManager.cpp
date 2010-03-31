@@ -1,14 +1,10 @@
 #include <Resources/DirectoryManager.h>
 #include <Logging/Logger.h>
 #include <Resources/Exceptions.h>
-
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/exception.hpp>
+#include <Resources/File.h>
 
 namespace OpenEngine {
 namespace Resources {
-
-namespace fs = boost::filesystem;
 
 // initialization of static members
 list<string> DirectoryManager::paths = list<string>();
@@ -66,12 +62,12 @@ string DirectoryManager::FindFileInPath(string file) {
 	list<string> possibles;
 	
     // check for a global path as well
-    if (fs::exists(file))
+    if (File::Exists(file))
         possibles.push_back(file);
 
 	for (list<string>::iterator itr = paths.begin(); itr != paths.end(); itr++) {
 		string p = (*itr) + file;
-		if (fs::exists(p)) {
+		if (File::Exists(p)) {
 			possibles.push_back(p);
 		}
 	}

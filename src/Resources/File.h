@@ -31,6 +31,7 @@ class File {
 public:
     static ifstream* Open(string filename, ios_base::openmode mode = ios_base::in);
     static int GetSize(string filename);
+    static bool Exists(string filename);
     static string Extension(string filename);
     static string Parent(string filename);
     static Utils::DateTime GetLastModified(string filename);
