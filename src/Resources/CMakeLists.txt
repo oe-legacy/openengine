@@ -38,6 +38,5 @@ TARGET_LINK_LIBRARIES(OpenEngine_Resources
   OpenEngine_Scene
   # link to all libraries that have added serializable objects
   ${OE_SERIALIZABLE_OBJECT_EXTENSIONS}
-  ${BOOST_SYSTEM_LIB}
 )
 SUBDIRS(tests)
