@@ -13,6 +13,9 @@
 #include <Resources/ITexture2D.h>
 #include <Math/Exceptions.h>
 #include <Resources/Exceptions.h>
+#include <Math/Vector.h>
+
+using OpenEngine::Math::Vector;
 
 namespace OpenEngine {
     namespace Resources {
@@ -129,6 +132,29 @@ namespace OpenEngine {
                 unsigned int entry = X + Y * width;
                 T* data = (T*) this->data;
                 return data + entry * this->channels;
+            }
+            
+            /**
+             * Get a Vector of the bilinearly interpolated values.
+             *
+             * return The color values as a Vector<4, T>
+             */
+            inline Vector<4, T> InterpolatedPixel(const float x, const float y){
+                unsigned int X = x * width;
+                unsigned int Y = y * height;
+
+                float dX = x * width - X;
+                float dY = y * height - Y;
+
+                Vector<4, T> lowerleft = Vector<4, T>(GetPixel(X, Y));
+                Vector<4, T> lowerright = Vector<4, T>(GetPixel(X+1, Y));
+                Vector<4, T> upperleft = Vector<4, T>(GetPixel(X, Y+1));
+                Vector<4, T> upperright = Vector<4, T>(GetPixel(X+1, Y+1));
+
+                return lowerleft * (1-dX) * (1-dY) +
+                       lowerright * dX * (1-dY) +
+                       upperleft * (1-dX) * dY +
+                       upperright * dX * dY;
             }
 
             virtual void Reverse() {
