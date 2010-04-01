@@ -10,6 +10,7 @@
 
 #include <Resources/StreamArchive.h>
 
+#include <Core/Exceptions.h>
 #include <Scene/SceneNode.h>
 #include <Scene/ISceneNodeVisitor.h>
 
@@ -19,14 +20,8 @@
 
 using namespace std;
 
-
-
-
-
-
 namespace OpenEngine {
 namespace Resources {
-
 
     enum SceneNodeTags {
 #define SCENE_NODE(node) \
@@ -48,7 +43,7 @@ size_t StreamArchiveReader::Begin(string key) {
      string k;
      input >> k;
      if (k != key) {
-         throw Exception("Key mismatch in Begin [" + k + 
+         throw Core::Exception("Key mismatch in Begin [" + k + 
                          "] should be [" + key + "]");
      }
 
@@ -67,7 +62,7 @@ void StreamArchiveReader::End(string key) {
         string k;                                                    \
         input >> k;                                                  \
         if (k != key)                                                \
-            throw Exception("key mismatch in Read [" + k +           \
+            throw Core::Exception("key mismatch in Read [" + k +     \
                             "] should be [" + key + "]");            \
         input >> r;                                                  \
         return r;                                                    \
@@ -94,7 +89,7 @@ ISceneNode* StreamArchiveReader::ReadNode() {
     case NODE_NULL:
         return NULL;
     case NODE_END:
-        throw Exception("Unknown node tag in ReadScene");
+        throw Core::Exception("Unknown node tag in ReadScene");
         break;
     }
     // Read children...
@@ -116,7 +111,7 @@ ISceneNode* StreamArchiveReader::ReadScene(string key) {
     input >> k;
 
     if (k != key)
-        throw Exception("key mismatch in ReadScene [" +
+        throw Core::Exception("key mismatch in ReadScene [" +
                         k + "] should be [" + key + "]");
 
     return ReadNode();

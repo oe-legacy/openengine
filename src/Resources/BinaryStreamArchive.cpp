@@ -10,6 +10,7 @@
 
 #include <Resources/BinaryStreamArchive.h>
 
+#include <Core/Exceptions.h>
 #include <Scene/SceneNode.h>
 #include <Scene/ISceneNodeVisitor.h>
 
@@ -18,11 +19,6 @@
 #include <string>
 
 using namespace std;
-
-
-
-
-
 
 namespace OpenEngine {
 namespace Resources {
@@ -79,7 +75,7 @@ ISceneNode* BinaryStreamArchiveReader::ReadNode() {
     case NODE_NULL:
         return NULL;
     case NODE_END:
-        throw Exception("Unknown node tag in ReadScene");
+        throw Core::Exception("Unknown node tag in ReadScene");
         break;
     }
     // Read children...
