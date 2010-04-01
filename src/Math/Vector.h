@@ -483,6 +483,12 @@ public:
             a[i] = elm[i];
     }
     /**
+     * Returns a pointer directly into hte vectors data core.
+     */
+    inline T* ToArray() const {
+        return elm;
+    }
+    /**
      * String representation.
      * Ex. [1, 2, 3]
      *
