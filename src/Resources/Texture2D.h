@@ -105,9 +105,6 @@ namespace OpenEngine {
                 if (this->data == NULL){
                     throw ResourceException("Cannot get pixel data from null texture.");
                 }
-                // Check bounds
-                //if (x > width) throw Math::IndexOutOfBounds(x, 0, width);
-                //if (y > height) throw Math::IndexOutOfBounds(y, 0, height);
 #endif
                 unsigned int X, Y;
                 switch(this->wrap){
@@ -146,10 +143,19 @@ namespace OpenEngine {
                 float dX = x * width - X;
                 float dY = y * height - Y;
 
-                Vector<4, T> lowerleft = Vector<4, T>(GetPixel(X, Y));
-                Vector<4, T> lowerright = Vector<4, T>(GetPixel(X+1, Y));
-                Vector<4, T> upperleft = Vector<4, T>(GetPixel(X, Y+1));
-                Vector<4, T> upperright = Vector<4, T>(GetPixel(X+1, Y+1));
+                Vector<4, T> lowerleft, lowerright, upperleft, upperright;
+                T* pixel = GetPixel(X, Y);
+                for (unsigned int i = 0; i < 4; ++i)
+                    lowerleft[i] = this->channels > i ? pixel[i] : 0;
+                pixel = GetPixel(X+1, Y);
+                for (unsigned int i = 0; i < 4; ++i)
+                    lowerright[i] = this->channels > i ? pixel[i] : 0;
+                pixel = GetPixel(X, Y+1);
+                for (unsigned int i = 0; i < 4; ++i)
+                    upperleft[i] = this->channels > i ? pixel[i] : 0;
+                pixel = GetPixel(X+1, Y+1);
+                for (unsigned int i = 0; i < 4; ++i)
+                    upperright[i] = this->channels > i ? pixel[i] : 0;
 
                 return lowerleft * (1-dX) * (1-dY) +
                        lowerright * dX * (1-dY) +
