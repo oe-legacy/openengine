@@ -235,14 +235,14 @@ public:
      * @exception DivisionByZero Cannot divide by a zero scalar.
      * @return Vector where all elements are divided by \a s
      */
-    const Vector<N,float> operator/(const T s) const {
+    const Vector<N,T> operator/(const T s) const {
 #if OE_SAFE
         if (s == 0)
             throw DivisionByZero();
 #endif
-        Vector<N,float> v;
+        Vector<N,T> v;
         for (unsigned int i=0; i<N; i++)
-            v[i] = (float)elm[i] / s;
+            v[i] = (T)elm[i] / s;
         return v;
     }
     /**
@@ -364,8 +364,8 @@ public:
      *
      * @return Normalized vector
      */
-    Vector<N,float> GetNormalize() const {
-        Vector<N,float> v (*this);
+    Vector<N,T> GetNormalize() const {
+        Vector<N,T> v (*this);
         v.Normalize();
         return v;
     }
