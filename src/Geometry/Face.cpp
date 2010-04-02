@@ -98,7 +98,8 @@ Face::Face(const FacePtr& face) {
  *
  * @param face Face to copy
  */
-Face::Face(const Face& face) {
+Face::Face(const Face& face) 
+    : ISerializable() {
     Copy(face);
 }
 

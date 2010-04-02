@@ -24,6 +24,7 @@
 #include <Resources/ITexture3D.h>
 #include <list>
 #include <set>
+#include <Logging/Logger.h>
 
 namespace OpenEngine {
 namespace Renderers {
@@ -37,6 +38,7 @@ using Core::QueuedEvent;
 using Geometry::FaceList;
 using Geometry::FaceSet;
 using Geometry::VertexArray;
+using Geometry::MaterialPtr;
 using Geometry::Mesh;
 using Geometry::MeshList;
 using Renderers::RenderingEventArg;
@@ -76,24 +78,14 @@ public:
         FaceList::iterator face;
         for (face = faces->begin(); face != faces->end(); face++) {
             // load face textures if not already loaded or in the cache
-            ITexture2DPtr t = (*face)->mat->texr;
-            if (t != NULL && t->GetID() == 0 &&
-                cache.find(t.get()) == cache.end()) {
-                cache.insert(t.get());
-                loader.Load(t, policy);
-            }
+            LoadMaterial((*face)->mat);
         }
     }
 
     void VisitMeshNode(MeshNode* node) {
         MeshPtr m = node->GetMesh();
         // load face textures if not already loaded or in the cache
-        ITexture2DPtr t = m->GetMaterial()->texr;
-        if (t != NULL && t->GetID() == 0 &&
-            cache.find(t.get()) == cache.end()) {
-            cache.insert(t.get());
-            loader.Load(t, policy);
-        }
+        LoadMaterial(m->GetMaterial());
     }
 
     void VisitVertexArrayNode(VertexArrayNode* node) {
@@ -101,12 +93,21 @@ public:
         list<VertexArray*>::iterator itr;
         for (itr = vaList.begin(); itr!=vaList.end(); itr++) {
             // Load vertex array texture if not already loaded or in the cache
-            ITexture2DPtr t = (*itr)->mat->texr;
+            LoadMaterial((*itr)->mat);
+        }
+    }
+
+    void LoadMaterial(MaterialPtr mat){
+        list<pair <string, ITexture2DPtr> > texs2D = mat->Get2DTextures();
+        list<pair <string, ITexture2DPtr> >::iterator itr = texs2D.begin();
+        while(itr != texs2D.end()){
+            ITexture2DPtr t = itr->second;
             if (t != NULL && t->GetID() == 0 &&
                 cache.find(t.get()) == cache.end()) {
                 cache.insert(t.get());
                 loader.Load(t, policy);
-            }
+            }            
+            ++itr;
         }
     }
 };

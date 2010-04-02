@@ -12,6 +12,8 @@
 #include <Resources/IArchiveWriter.h>
 #include <Resources/IArchiveReader.h>
 #include <Resources/ITexture2D.h>
+#include <Resources/ITexture3D.h>
+#include <Utils/Convert.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -29,6 +31,8 @@ void Material::Init() {
     specular = Vector<4,float>(0.0,0.0,0.0,1.0);
     emission = Vector<4,float>(0.0,0.0,0.0,1.0);
     shininess = 0.0;    
+    texs2D = list<pair<string, ITexture2DPtr> >();
+    texs3D = list<pair<string, ITexture3DPtr> >();
 }
 
 // initialize default material.
@@ -75,7 +79,8 @@ Material::Material(const MaterialPtr& mat) {
  *
  * @param mat Material to copy
  */
-Material::Material(const Material& mat) {
+Material::Material(const Material& mat) 
+    : ISerializable() {
     Copy(mat);
 }
 
@@ -92,9 +97,28 @@ bool Material::Equals(MaterialPtr mat) {
     else if (this->specular != mat->specular) return false;
     else if (this->emission != mat->emission) return false;
     else if (this->shininess != mat->shininess) return false;
-    else if (this->texr != mat->texr) return false;
+    else if (this->texs2D != mat->texs2D) return false;
+    else if (this->texs3D != mat->texs3D) return false;
     else if (this->shad != mat->shad) return false;
     return true;
+}
+
+void Material::AddTexture(Resources::ITexture2DPtr tex){
+    string name = "color" + Utils::Convert::ToString<unsigned int>(texs2D.size() + texs3D.size());
+    AddTexture(tex, name);
+}
+
+void Material::AddTexture(Resources::ITexture2DPtr tex, std::string name){
+    texs2D.push_back(pair<string, Resources::ITexture2DPtr>(name, tex));
+}
+
+void Material::AddTexture(Resources::ITexture3DPtr tex){
+    string name = "color" + Utils::Convert::ToString<unsigned int>(texs2D.size() + texs3D.size());
+    AddTexture(tex, name);
+}
+
+void Material::AddTexture(Resources::ITexture3DPtr tex, std::string name){
+    texs3D.push_back(pair<string, Resources::ITexture3DPtr>(name, tex));
 }
 
 void Material::Serialize(Resources::IArchiveWriter& w) {
@@ -103,7 +127,26 @@ void Material::Serialize(Resources::IArchiveWriter& w) {
     w.WriteVector<4,float>("specular",specular);
     w.WriteVector<4,float>("emission",emission);
     w.WriteFloat("shininess",shininess);
-    w.WriteObjectPtr("texr",texr);
+    
+    w.WriteInt("texs2Dsize", texs2D.size());
+    unsigned int i = 0;
+    list<pair<string, ITexture2DPtr> >::iterator itr = texs2D.begin();
+    while (itr != texs2D.end()){
+        string key = "tex2d" + Utils::Convert::ToString<unsigned int>(i);
+        w.WriteString(key, itr->first);
+        w.WriteObjectPtr(key, itr->second);
+        ++itr; ++i;
+    }
+        
+    w.WriteInt("texs3Dsize", texs3D.size());
+    i = 0;
+    list<pair<string, ITexture3DPtr> >::iterator itr3D = texs3D.begin();
+    while (itr3D != texs3D.end()){
+        string key = "tex3d" + Utils::Convert::ToString<unsigned int>(i);
+        w.WriteString(key, itr3D->first);
+        w.WriteObjectPtr(key, itr3D->second);
+        ++itr3D; ++i;
+    }
 }
 
 void Material::Deserialize(Resources::IArchiveReader& r) {
@@ -112,7 +155,24 @@ void Material::Deserialize(Resources::IArchiveReader& r) {
     specular = r.ReadVector<4,float>("specular");
     emission = r.ReadVector<4,float>("emission");
     shininess = r.ReadFloat("shininess");
-    texr = r.ReadObjectPtr<ITexture2D>("texr");
+
+    texs2D.clear();
+    unsigned int texs2Dsize = r.ReadInt("texs2Dsize");
+    for (unsigned int i = 0; i < texs2Dsize; ++i){
+        string key = "tex2d" + Utils::Convert::ToString<unsigned int>(i);
+        string name = r.ReadString(key);
+        ITexture2DPtr tex = r.ReadObjectPtr<ITexture2D>(key);
+        texs2D.push_back(pair<string, ITexture2DPtr>(name, tex));
+    }
+
+    texs3D.clear();
+    unsigned int texs3Dsize = r.ReadInt("texs3Dsize");
+    for (unsigned int i = 0; i < texs3Dsize; ++i){
+        string key = "tex3d" + Utils::Convert::ToString<unsigned int>(i);
+        string name = r.ReadString(key);
+        ITexture3DPtr tex = r.ReadObjectPtr<ITexture3D>(key);
+        texs3D.push_back(pair<string, ITexture3DPtr>(name, tex));
+    }
 }
 
 } // NS Geometry

@@ -13,6 +13,13 @@
 #include <Math/Vector.h>
 #include <boost/shared_ptr.hpp>
 #include <Resources/ISerializable.h>
+#include <list>
+#include <utility>
+#include <string>
+
+using std::list;
+using std::pair;
+using std::string;
 
 // forward declerations
 namespace OpenEngine {
@@ -21,6 +28,8 @@ namespace OpenEngine {
         typedef boost::shared_ptr<IShaderResource> IShaderResourcePtr;
         class ITexture2D;
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
+        class ITexture3D;
+        typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
     }
 }
 
@@ -60,17 +69,10 @@ public:
     Vector<4,float> emission;    //!< emission color
     float shininess;             //!< shininess value
 
-//     Vector<4,float> reflective;  //!< reflective color
-//     float reflectivity;          //!< reflective color
-
-//     Vector<4,float> transparent; //!< reflective color
-//     float transparency;          //!< reflective color
-
-//     float indexOfRefraction;     //!< reflective color
-
-    OpenEngine::Resources::ITexture2DPtr texr; //!< texture resource
-    OpenEngine::Resources::IShaderResourcePtr  shad; //!< shader resource
-
+    IShaderResourcePtr  shad; //!< shader resource
+    list<pair<string, ITexture2DPtr> > texs2D;
+    list<pair<string, ITexture3DPtr> > texs3D;
+    
     Material();
     explicit Material(const Material& material);
     explicit Material(const MaterialPtr& material);
@@ -81,8 +83,15 @@ public:
 
     bool Equals(MaterialPtr mat);
 
-    void Serialize(Resources::IArchiveWriter& w);
-    void Deserialize(Resources::IArchiveReader& r);
+    void AddTexture(ITexture2DPtr tex);
+    void AddTexture(ITexture2DPtr tex, std::string name);
+    void AddTexture(ITexture3DPtr tex);
+    void AddTexture(ITexture3DPtr tex, std::string name);
+    inline list<pair <string, ITexture2DPtr> > Get2DTextures() const { return texs2D; }
+    inline list<pair <string, ITexture3DPtr> > Get3DTextures() const { return texs3D; }
+
+    void Serialize(IArchiveWriter& w);
+    void Deserialize(IArchiveReader& r);
 };
 
 } // NS Geometry
