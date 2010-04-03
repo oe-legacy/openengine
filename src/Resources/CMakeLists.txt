@@ -30,6 +30,7 @@ ADD_LIBRARY(OpenEngine_Resources
   SerializationResource.cpp
   IDataBlock.h
   DataBlock.h
+  FrameBuffer.h
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Resources

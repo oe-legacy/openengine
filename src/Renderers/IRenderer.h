@@ -26,6 +26,7 @@ namespace OpenEngine {
         class IViewingVolume;
     }
     namespace Resources{
+        class FrameBuffer;
         class ITexture2D;
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
         class ITexture3D;
@@ -45,6 +46,7 @@ using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
 using OpenEngine::Utils::Time;
+using OpenEngine::Resources::FrameBuffer;
 using OpenEngine::Resources::ITexture2DPtr;
 using OpenEngine::Resources::ITexture2D;
 using OpenEngine::Resources::ITexture3DPtr;
@@ -178,6 +180,13 @@ public:
     virtual void RebindTexture(ITexture2D* texr, unsigned int xOffset, unsigned int yOffset, unsigned int width, unsigned int height) = 0;
     virtual void RebindTexture(ITexture3DPtr texr, unsigned int xOffset, unsigned int yOffset, unsigned int zOffset, unsigned int width, unsigned int height, unsigned int depth) = 0;
     virtual void RebindTexture(ITexture3D* texr, unsigned int xOffset, unsigned int yOffset, unsigned int zOffset, unsigned int width, unsigned int height, unsigned int depth) = 0;
+
+    /**
+     * Binds a framebuffer and all the textures attached.
+     *
+     * @param fb The frame buffer object.
+     */
+    virtual void BindFrameBuffer(FrameBuffer* fb) = 0;
 
     /**
      * Bind a buffer object.
