@@ -120,13 +120,14 @@ public:
     virtual void GetTexture(string name, ITexture3DPtr &tex) = 0;
 
     /**
-     * Looks up the id of the uniform with the given name. Requires
-     * the shader to be bound.
+     * Looks up the id of the uniform with the given name. Doesn't
+     * require the shader to be bound. Returns a negative integer if
+     * the uniform is not found.
      *
      * @param name The name of the uniform.
      * @return the uniforms id.
      */
-    virtual unsigned int GetUniformID(string name) = 0;
+    virtual int GetUniformID(string name) = 0;
 
     /**
      * Get the Textures associated with the shader.
