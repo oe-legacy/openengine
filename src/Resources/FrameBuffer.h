@@ -36,7 +36,8 @@ namespace OpenEngine {
             Vector<4, int> dimension;
             
         public:
-            FrameBuffer(Viewport& view, unsigned int colorBuffers = 1, bool useDepth = false){
+            FrameBuffer(Viewport& view, unsigned int colorBuffers = 1, bool useDepth = false)
+                : id(0) {
                 dimension = view.GetDimension();
                 unsigned int width = dimension[2];
                 unsigned int height = dimension[3];

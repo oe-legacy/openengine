@@ -12,6 +12,7 @@
 
 #include <Resources/IResource.h>
 #include <Math/Vector.h>
+#include <Math/Matrix.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -26,6 +27,7 @@ class ITexture3D;
 typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
 
 using OpenEngine::Math::Vector;
+using OpenEngine::Math::Matrix;
 using std::string;
 using std::vector;
 using std::map;
@@ -84,6 +86,7 @@ public:
     virtual void SetUniform(string name, Vector<2, float> value, bool force = false)=0;
     virtual void SetUniform(string name, Vector<3, float> value, bool force = false)=0;
     virtual void SetUniform(string name, Vector<4, float> value, bool force = false)=0;
+    virtual void SetUniform(string name, Matrix<4, 4, float> value, bool force = false)=0;
 
     /**
      * Looks up the uniform with the specified name and fills value
@@ -97,6 +100,7 @@ public:
     virtual void GetUniform(string name, Vector<2, float> &value)=0;
     virtual void GetUniform(string name, Vector<3, float> &value)=0;
     virtual void GetUniform(string name, Vector<4, float> &value)=0;
+    virtual void GetUniform(string name, Matrix<4, 4, float> &value)=0;
 
     /**
      * Binds a texture to variable with the name in the shader.
