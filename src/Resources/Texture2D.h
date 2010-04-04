@@ -14,6 +14,7 @@
 #include <Math/Exceptions.h>
 #include <Resources/Exceptions.h>
 #include <Math/Vector.h>
+#include <cstring>
 
 using OpenEngine::Math::Vector;
 
@@ -40,6 +41,8 @@ namespace OpenEngine {
                 this->height = h;
                 this->channels = c;
                 this->format = ColorFormatFromChannels(c);
+                data = new T[w*h*c];
+                std::memset(data,height*width*channels,0);
             }
             
             Texture2D(unsigned int w, unsigned int h, unsigned int c, T* d)
@@ -111,6 +114,7 @@ namespace OpenEngine {
                 case REPEAT:
                     X = x % width;
                     Y = y % height;
+                    break;
                 default:
                     if (x < 0)
                         X = 0;
@@ -125,10 +129,25 @@ namespace OpenEngine {
                     else
                         Y = y;
                 }
+
+                //logger.info << "XY:" << X << " " << Y << logger.end;
                 
                 unsigned int entry = X + Y * width;
                 T* data = (T*) this->data;
                 return data + entry * this->channels;
+            }
+
+            Vector<4,T> GetPixelValues(const int x, const int y) {
+                T* p = GetPixel(x, y);
+                Vector<4, T> vec(0.0f);
+                vec[0] = *p;
+                if (channels == 2)
+                    vec[1] = *(p+1);
+                if (channels == 3)
+                    vec[2] = *(p+2);
+                if (channels == 4)
+                    vec[3] = *(p+3);
+                return vec;
             }
             
             /**
@@ -140,22 +159,13 @@ namespace OpenEngine {
                 unsigned int X = x * width;
                 unsigned int Y = y * height;
 
-                float dX = x * width - X;
-                float dY = y * height - Y;
+                float dX = X / (float)width - x;
+                float dY = Y / (float)height - y;
 
-                Vector<4, T> lowerleft, lowerright, upperleft, upperright;
-                T* pixel = GetPixel(X, Y);
-                for (unsigned int i = 0; i < 4; ++i)
-                    lowerleft[i] = this->channels > i ? pixel[i] : 0;
-                pixel = GetPixel(X+1, Y);
-                for (unsigned int i = 0; i < 4; ++i)
-                    lowerright[i] = this->channels > i ? pixel[i] : 0;
-                pixel = GetPixel(X, Y+1);
-                for (unsigned int i = 0; i < 4; ++i)
-                    upperleft[i] = this->channels > i ? pixel[i] : 0;
-                pixel = GetPixel(X+1, Y+1);
-                for (unsigned int i = 0; i < 4; ++i)
-                    upperright[i] = this->channels > i ? pixel[i] : 0;
+                Vector<4, T> lowerleft = GetPixelValues(X, Y);
+                Vector<4, T> lowerright = GetPixelValues(X+1, Y);
+                Vector<4, T> upperleft = GetPixelValues(X, Y+1);
+                Vector<4, T> upperright = GetPixelValues(X+1, Y+1);
 
                 return lowerleft * (1-dX) * (1-dY) +
                        lowerright * dX * (1-dY) +
