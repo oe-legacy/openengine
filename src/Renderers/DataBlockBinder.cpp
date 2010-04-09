@@ -1,6 +1,6 @@
 // Data Blockbinder
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -9,55 +9,161 @@
 
 #include <Renderers/DataBlockBinder.h>
 
+#include <Core/QueuedEvent.h>
 #include <Scene/MeshNode.h>
 #include <Geometry/Mesh.h>
 #include <Geometry/GeometrySet.h>
 #include <Resources/DataBlock.h>
-
+#include <Renderers/IRenderer.h>
+#include <Core/IListener.h>
+#include <Logging/Logger.h>
 
 namespace OpenEngine {
+    using Core::QueuedEvent;
+    using Geometry::MeshPtr;
+    using Geometry::GeometrySetPtr;
+    using Resources::IDataBlockPtr;
+    using Resources::IDataBlockChangedEventArg;
+    using Resources::IDataBlockList;
+    using Scene::MeshNode;
+    using Core::IListener;
+
 namespace Renderers {
 
-    using namespace Scene;
-    using namespace Geometry;
+    /**
+     * Utility class that listens for data block change events and
+     * rebinds them in the renderer.
+     */
+    class DataBlockBinder::Reloader : public IListener<IDataBlockChangedEventArg> {
+        IRenderer& renderer;
+        QueuedEvent<IDataBlockChangedEventArg> queue;
+    public:
+        Reloader(IRenderer& renderer)
+            : renderer(renderer) {
+            queue.Attach(*this);
+        }
+        /**
+         * Dispatch the changed events in the queue.
+         */
+        void ReloadQueue() {
+            queue.Release();
+        }
+        /**
+         * Update the data block that was changed.
+         */
+        void Handle(IDataBlockChangedEventArg arg) {
+            /*
+            renderer.RebindDataBlock(arg.resource,
+                                     arg.start,
+                                     arg.end);
+            */
+        }
+        /**
+         * Adds a data block to the reloader.
+         */
+        void Add(IDataBlockPtr block, ReloadPolicy policy) {
+            // Remember to detach the listener first to make sure we
+            // don't listen twice.
+            if (policy == RELOAD_IMMEDIATE) {
+                block->ChangedEvent().Detach(*this);
+                block->ChangedEvent().Attach(*this);
+            } else if (policy == RELOAD_QUEUED) {
+                block->ChangedEvent().Detach(queue);
+                block->ChangedEvent().Attach(queue);
+            }
+        }
+    };
 
-    DataBlockBinder::DataBlockBinder(IRenderer& r)
-        :r(r) {
-        
+    
+    class DataBlockBinder::InitBinder : public IListener<RenderingEventArg> {
+    private:
+        struct pair {
+            IDataBlockPtr b;
+            ReloadPolicy p;
+            pair(IDataBlockPtr b, ReloadPolicy p) : b(b), p(p) {}
+        };
+        list<pair> queue;
+        Reloader& reloader;
+    public:
+        InitBinder(Reloader& reloader) : reloader(reloader) {}
+
+        void Add(IDataBlockPtr b, ReloadPolicy p){
+            queue.push_back(pair(b,p));
+        }
+
+        void Handle(RenderingEventArg arg) {
+            list<pair>::iterator itr;
+            for (itr = queue.begin(); itr != queue.end(); ++itr){
+                if (itr->b->GetID() == 0)
+                    arg.renderer.BindDataBlock(itr->b.get());
+                reloader.Add(itr->b, itr->p);
+            }
+            queue.clear();
+        }
+    };
+
+
+    DataBlockBinder::DataBlockBinder(IRenderer& r,
+                                     ReloadPolicy d)
+        :r(r), reloader(new Reloader(r)), initbinder(new InitBinder(*reloader)), defaultpolicy(d) {
+        r.InitializeEvent().Attach(*initbinder);
     }
     
     DataBlockBinder::~DataBlockBinder() {
+        delete reloader;
+        delete initbinder;
+    }
 
+    void DataBlockBinder::Bind(ISceneNode& node, ReloadPolicy policy){
+        node.Accept(*this);
+    }
+
+    void DataBlockBinder::Bind(IDataBlockPtr block, ReloadPolicy policy){
+        policy = (policy == RELOAD_DEFAULT) ? defaultpolicy : policy;
+        if (IRenderer::RENDERER_UNINITIALIZE == r.GetCurrentStage()){
+            initbinder->Add(block, policy);
+        }else{
+            // If the texture has not already been loaded
+            if (block->GetID() == 0)
+                r.BindDataBlock(block.get());
+            // Listen for reload events (based on policy)
+            reloader->Add(block, policy);
+        }
     }
         
-    void DataBlockBinder::Handle(RenderingEventArg arg) {
-        r = arg.renderer;
-        r.GetSceneRoot()->Accept(*this);
+    void DataBlockBinder::SetDefaultPolicy(ReloadPolicy p){
+        // The default policy must never be RELOAD_DEFAULT
+        if (p == RELOAD_DEFAULT)
+            throw Exception("Invalid default reload policy.");
+        defaultpolicy = p;
+    }
+
+    void DataBlockBinder::VisitMeshNode(MeshNode* node) {
+        if (node->GetMesh()->GetIndices() && node->GetMesh()->GetIndices()->GetID() == 0)
+            Bind(node->GetMesh()->GetIndices(), defaultpolicy);
+        
+        GeometrySetPtr geom = node->GetMesh()->GetGeometrySet();
+        LoadGeometrySet(geom);
+        
+        node->VisitSubNodes(*this);
     }
     
-    void DataBlockBinder::VisitMeshNode(MeshNode* node) {
-        MeshPtr mesh = node->GetMesh();
-
-        if (mesh->GetIndices() && mesh->GetIndices()->GetID() == 0)
-            r.BindDataBlock(mesh->GetIndices().get());
-        
-        GeometrySetPtr geom = mesh->GetGeometrySet();
+    void DataBlockBinder::LoadGeometrySet(GeometrySetPtr geom){
         if (geom->GetVertices() && geom->GetVertices()->GetID() == 0)
-            r.BindDataBlock(geom->GetVertices().get());
+            Bind(geom->GetVertices(), defaultpolicy);
         if (geom->GetNormals() && geom->GetNormals()->GetID() == 0)
-            r.BindDataBlock(geom->GetNormals().get());
+            Bind(geom->GetNormals(), defaultpolicy);
         if (geom->GetColors() && geom->GetColors()->GetID() == 0) 
-            r.BindDataBlock(geom->GetColors().get());
+            Bind(geom->GetVertices(), defaultpolicy);
         
         IDataBlockList tl = geom->GetTexCoords();
         IDataBlockList::iterator texc = tl.begin();
         for (; texc != tl.end(); ++texc) {
             if (*texc && (*texc)->GetID() == 0)
-                r.BindDataBlock((*texc).get());
+                Bind(*texc, defaultpolicy);
         }
-
-        node->VisitSubNodes(*this);
     }
+    
     
 } // NS OpenEngine
 } // NS Renderers
