@@ -130,8 +130,6 @@ namespace OpenEngine {
                         Y = y;
                 }
 
-                //logger.info << "XY:" << X << " " << Y << logger.end;
-                
                 unsigned int entry = X + Y * width;
                 T* data = (T*) this->data;
                 return data + entry * this->channels;
