@@ -40,7 +40,7 @@ namespace OpenEngine {
                 this->format = ColorFormatFromChannels(c);
             }
 
-            Texture2D(unsigned int w, unsigned int h, unsigned int c, T* data)
+            Texture3D(unsigned int w, unsigned int h, unsigned int d, unsigned int c, T* data)
                 : ITexture2D() {
                 SetupType<T>();
                 this->width = w;
