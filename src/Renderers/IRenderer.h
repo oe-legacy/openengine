@@ -11,18 +11,20 @@
 #define _OE_INTERFACE_RENDERER_H_
 
 #include <vector>
-#include <Core/IModule.h>
 #include <Core/IEvent.h>
-#include <Scene/ISceneNode.h>
 #include <Geometry/Line.h>
 #include <Geometry/Face.h>
 #include <Math/Vector.h>
 #include <Utils/Timer.h>
 
-// forward declerations
+#include <Display/ICanvas.h>
+#include <Core/IListener.h>
+
+#include <list>
+
+// forward declarations
 namespace OpenEngine {
     namespace Display {
-        class Viewport;
         class IViewingVolume;
     }
     namespace Resources{
@@ -39,9 +41,7 @@ namespace OpenEngine {
 namespace OpenEngine {
 namespace Renderers {
 
-using OpenEngine::Core::IModule;
 using OpenEngine::Core::IEvent;
-using OpenEngine::Scene::ISceneNode;
 using OpenEngine::Geometry::Line;
 using OpenEngine::Geometry::FacePtr;
 using OpenEngine::Math::Vector;
@@ -53,8 +53,13 @@ using OpenEngine::Resources::ITexture3DPtr;
 using OpenEngine::Resources::ITexture3D;
 using OpenEngine::Resources::IDataBlock;
 
-// forward declerations
-class IRenderer; class IRenderingView;
+using Core::IListener;
+using Display::ICanvas;
+
+using std::list;
+
+// forward declarations
+class IRenderer;
 
 /**
  * Event argument for all the rendering phases.
@@ -63,11 +68,12 @@ class IRenderer; class IRenderingView;
  */
 class RenderingEventArg {
 public:
+    ICanvas& canvas;
     IRenderer& renderer;
     Time time;
     unsigned int approx;
-    RenderingEventArg(IRenderer& renderer, Time time = Time(), unsigned int approx = 0)
-        : renderer(renderer), time(time), approx(approx) {}
+    RenderingEventArg(ICanvas& canvas, IRenderer& renderer, Time time = Time(), unsigned int approx = 0)
+        : canvas(canvas), renderer(renderer), time(time), approx(approx) {}
 };
 
 /**
@@ -81,7 +87,9 @@ public:
  *
  * @class IRenderer IRenderer.h Renderers/IRenderer.h
  */
-class IRenderer : public virtual IModule {
+class IRenderer : public virtual IListener<Display::InitializeEventArg>, public virtual IListener<Display::DeinitializeEventArg>, public virtual IListener<Display::RedrawEventArg> {
+// protected:
+//     list<ICanvasListener*> dependencies;
 public:
 
     /**
@@ -127,30 +135,6 @@ public:
     virtual RendererStage GetCurrentStage() const {
         return stage;
     }
-
-    /**
-     * Get the viewport of the renderer.
-     *
-     * The viewport defines the area that is rendered to and contains
-     * the viewing volume that defines the orientation. 
-     *
-     * @return Rendering viewport
-     */
-    virtual Display::Viewport& GetViewport() const = 0;
-
-    /**
-     * Set the root node for the rendering scene.
-     *
-     * @param root Scene root node
-     */
-    virtual void SetSceneRoot(ISceneNode* root) = 0;
-
-    /**
-     * Get the root node for the rendering scene.
-     *
-     * @return Scene root
-     */
-    virtual ISceneNode* GetSceneRoot() const = 0;
 
     /**
      * Apply a viewing volume.
@@ -260,16 +244,7 @@ public:
      */
     virtual bool BufferSupport() = 0;
 
-    /**
-     * Are frame buffers supported.
-     *
-     * @return True if frame buffers are supported.
-     */
-    virtual bool FrameBufferSupport() = 0;
-
 protected:
-    //! root node of the rendering scene
-    ISceneNode* root;
     RendererStage stage;
 
 };

@@ -11,7 +11,7 @@
 #define _OE_RENDER_NODE_H_
 
 #include <Scene/ISceneNode.h>
-#include <Renderers/IRenderingView.h>
+#include <Renderers/IRenderer.h>
 
 namespace OpenEngine {
 namespace Scene {
@@ -33,7 +33,7 @@ public:
     /**
      * Apply the node, called by the renderer
      */
-    virtual void Apply(Renderers::IRenderingView* view) /* = 0; (prohibited by Clone) */ {}
+    virtual void Apply(Renderers::RenderingEventArg arg) /* = 0; (prohibited by Clone) */ {}
 };
 
 } // NS Scene

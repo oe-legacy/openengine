@@ -275,21 +275,21 @@ ISceneNode* Frustum::FNode::Clone() {
  * Apply method for rendering nodes.
  * @see RenderingNode::Apply
  */
-void Frustum::FNode::Apply(IRenderingView* view) {
+void Frustum::FNode::Apply(RenderingEventArg arg) {
 
-    IRenderer* r = view->GetRenderer();
+    IRenderer& r = arg.renderer;
 
     // draw clipped and visible objects
     list<Vector<3,float> >::iterator l;
     for (l = frustum.visible.begin(); l != frustum.visible.end(); l++)
-        r->DrawLine(Line(*l, *l++), Vector<3,float>(0,1,0), 1);
+        r.DrawLine(Line(*l, *l++), Vector<3,float>(0,1,0), 1);
     for (l = frustum.clipped.begin(); l != frustum.clipped.end(); l++)
-        r->DrawLine(Line(*l, *l++), Vector<3,float>(1,0,0), 4);
+        r.DrawLine(Line(*l, *l++), Vector<3,float>(1,0,0), 4);
 
     // draw frustum plane normals
     for (unsigned int i=0; i<6; i++) {
         Plane* p = frustum.planes[i];
-        r->DrawLine( Line( - p->GetDistance() * p->GetNormal(), p->GetNormal() * (100 - p->GetDistance())),
+        r.DrawLine( Line( - p->GetDistance() * p->GetNormal(), p->GetNormal() * (100 - p->GetDistance())),
                      Vector<3,float>(1,0,0), 2);
     }
 

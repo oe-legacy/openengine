@@ -41,7 +41,7 @@ private:
         ~FNode();
         FNode(FNode& node);
         ISceneNode* Clone();
-        void Apply(IRenderingView* view);
+        void Apply(RenderingEventArg arg);
     };
 
     Plane* planes[6];           //!< computed clipping planes.

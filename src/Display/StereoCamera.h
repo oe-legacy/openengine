@@ -1,4 +1,4 @@
-// 
+// Stereo camera implementation
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
 //
@@ -7,9 +7,8 @@
 // See the GNU General Public License for more details (see LICENSE).
 //--------------------------------------------------------------------
 
-
-#ifndef _OE_STEREO_CAMERA_H_
-#define _OE_STEREO_CAMERA_H_
+#ifndef _STEREO_CAMERA_H_
+#define _STEREO_CAMERA_H_
 
 #include <Display/Camera.h>
 #include <Display/ViewingVolume.h>
@@ -28,39 +27,60 @@ using namespace OpenEngine::Renderers;
  */
 class StereoCamera : public Camera {
 private:
-    Matrix<4,4,float> vm;
-    Matrix<4,4,float> pm;
-    
+    ViewingVolume* left;
     ViewingVolume* right;
-
+    float eyedist, halfdist;
 public:
-    float dist;
 
-    StereoCamera(IViewingVolume& volume) : Camera(volume),dist(10) {
+    StereoCamera(IViewingVolume& volume) : Camera(volume), eyedist(1.0), halfdist(0.5 * eyedist) {
+        left = new ViewingVolume();
         right = new ViewingVolume();
     }
+
+    ~StereoCamera() {
+        delete left;
+        delete right;
+    }
+
     virtual void SignalRendering(const float dt) {
          volume.SignalRendering(dt);
-         
-         //logger.info << "signal" << logger.end;
-         Vector<3,float> pos = volume.GetPosition();
-         Quaternion<float> rot = volume.GetDirection();
-         right->SetPosition(pos + rot.RotateVector(Vector<3,float>(dist,0,0)));
-         right->SetDirection(rot);
+         // Vector<3,float> pos = volume.GetPosition();
+         // Quaternion<float> rot = volume.GetDirection();
+         // right->SetPosition(pos + rot.RotateVector(Vector<3,float>(dist,0,0)));
+         // right->SetDirection(rot);
      }
 
-
     IViewingVolume* GetLeft() {
-        return this;
+        Vector<3,float> pos = volume.GetPosition();
+        Quaternion<float> rot = volume.GetDirection();
+        left->SetPosition(pos + rot.RotateVector(Vector<3,float>(-halfdist,0,0)));
+        left->SetDirection(rot);
+        return left;
     }
+
     IViewingVolume* GetRight() {
+         Vector<3,float> pos = volume.GetPosition();
+         Quaternion<float> rot = volume.GetDirection();
+         right->SetPosition(pos + rot.RotateVector(Vector<3,float>(halfdist,0,0)));
+         right->SetDirection(rot);
         return right;
     }
     
+    void SetEyeDistance(float dist) {
+        eyedist = dist;
+        halfdist = 0.5 * eyedist;
+    }
 
+    float GetEyeDistance() {
+        return eyedist;
+    }
+
+    void SetViewingVolume(IViewingVolume& v) {
+        volume = v;
+    }
 };
 
 }
 }
 
-#endif // _OE_STEREO_CAMERA_H_
+#endif // _STEREO_CAMERA_H_

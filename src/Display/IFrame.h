@@ -1,4 +1,4 @@
-// Generic frame interface.
+// Frame interface.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -10,13 +10,15 @@
 #ifndef _INTERFACE_FRAME_H_
 #define _INTERFACE_FRAME_H_
 
+#include <Display/ICanvas.h>
 #include <Core/IModule.h>
 
 namespace OpenEngine {
 namespace Display {
 
-using OpenEngine::Core::IModule;
-
+    class StereoCamera;
+    using Core::IModule;
+    
 /**
  * Frame options.
  *
@@ -32,22 +34,15 @@ enum FrameOption {
 /**
  * Frame module interface.
  *
+ * A frame represents a top-level canvas with additional methods to
+ * control features such as fullscreen mode and other video
+ * attributes.
+ *
+ * @see ICanvas
  * @class IFrame IFrame.h Display/IFrame.h
  */
-class IFrame : public virtual IModule {
-
+class IFrame : public virtual ICanvas, public virtual IModule {
 public:
-
-    /**
-     * Frame constructor.
-     *
-     * @param w Frame width
-     * @param h Frame height
-     * @param d Frame depth
-     * @param o Frame options
-     */
-    IFrame(int w, int h, int d, FrameOption o) {};
-
     /**
      * Frame destructor.
      */
@@ -61,27 +56,6 @@ public:
     virtual bool IsFocused() const = 0;
     
     /**
-     * Get frame width.
-     *
-     * @return Frame width
-     */
-    virtual unsigned int GetWidth() const = 0;
-
-    /**
-     * Get frame height.
-     *
-     * @return Frame height
-     */
-    virtual unsigned int GetHeight() const = 0;
-    
-    /**
-     * Get frame depth.
-     *
-     * @return Frame depth
-     */
-    virtual unsigned int GetDepth() const = 0;
-
-    /**
      * Get frame options
      *
      * @return Frame options
@@ -94,36 +68,6 @@ public:
      * @return bool is the option set
      */
     virtual bool GetOption(const FrameOption option) const = 0;
-
-    /**
-     * Set frame width.
-     * Must be supported as long as the module initialization method
-     * has not been invoked.
-     * After initialization the behavior is up to the implementation.
-     *
-     * @param width Frame width
-     */
-    virtual void SetWidth(const int width) = 0;
-
-    /**
-     * Set frame height.
-     * Must be supported as long as the module initialization method
-     * has not been invoked.
-     * After initialization the behavior is up to the implementation.
-     *
-     * @param height Frame height
-     */
-    virtual void SetHeight(const int height) = 0;
-    
-    /**
-     * Set frame depth.
-     * Must be supported as long as the module initialization method
-     * has not been invoked.
-     * After initialization the behavior is up to the implementation.
-     *
-     * @param depth Frame depth
-     */
-    virtual void SetDepth(const int depth) = 0;
 
     /**
      * Set frame options
@@ -153,6 +97,14 @@ public:
         return (o & GetOptions()) == o;
     }
 
+    /**
+     * Get the stereocamera for use when stereo rendering is enabled.
+     * The stereo camera is used to calculate the position of two
+     * addition eye cameras based on the current viewing volume.
+     *
+     * @return The stereo camera.
+     */
+    virtual StereoCamera& GetStereoCamera() const = 0;
 };
 
 } // NS Display

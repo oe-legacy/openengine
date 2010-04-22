@@ -21,6 +21,8 @@ namespace Display {
 
 class IFrame;
 
+using std::string;
+
 /**
  * Abstract environment for a widget/display toolkit, such as SDL or Qt.
  *
@@ -32,7 +34,7 @@ private:
 public:
     IEnvironment() {}
     virtual ~IEnvironment() {}
-    virtual IFrame& GetFrame() = 0;
+    virtual IFrame& CreateFrame() = 0;
     virtual Devices::IMouse* GetMouse() = 0;
     virtual Devices::IKeyboard* GetKeyboard() = 0;
     virtual Devices::IJoystick* GetJoystick() = 0;
