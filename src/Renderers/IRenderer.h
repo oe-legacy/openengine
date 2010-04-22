@@ -185,14 +185,14 @@ public:
      * special, in that any change will modify the entire background
      * colour of the GL context.
      */
-    virtual void SetBackgroundColor(Vector<4,float> color) = 0;
+    //virtual void SetBackgroundColor(Vector<4,float> color) = 0;
 
     /**
      * Get the global background colour.
      * This function is strongly related to OpenGL.
      * See \a SetBackgroundColor for an explanation.
      */
-    virtual Vector<4,float> GetBackgroundColor() = 0;
+    //virtual Vector<4,float> GetBackgroundColor() = 0;
 
     /**
      * Draw a face

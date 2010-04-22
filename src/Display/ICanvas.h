@@ -207,10 +207,11 @@ public:
  *
  * @class ICanvas ICanvas.h Display/ICanvas.h
  */
-    class ICanvas: public CanvasObservable {//, public virtual IRenderableSurface {
+class ICanvas: public CanvasObservable {//, public virtual IRenderableSurface {
 protected:
     IViewingVolume* vv;
     ISceneNode* scene;
+    Vector<4,float> bgc;
 public:
     virtual ~ICanvas() {}    
 
@@ -300,6 +301,26 @@ public:
      * @return The scene graph root
      */
     virtual ISceneNode* GetScene() const { return scene; }
+
+    /**
+     * Set the global background colour.
+     * This is a product of OpenGL that treats the background colour
+     * special, in that any change will modify the entire background
+     * colour of the GL context.
+     */
+     virtual void SetBackgroundColor(Vector<4,float> color) {
+         bgc = color;
+     }
+
+    /**
+     * Get the global background colour.
+     * This function is strongly related to OpenGL.
+     * See \a SetBackgroundColor for an explanation.
+     */
+     virtual Vector<4,float> GetBackgroundColor() {
+         return bgc;
+     }
+
 };
 
 } // NS Display
