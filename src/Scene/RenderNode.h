@@ -33,7 +33,7 @@ public:
     /**
      * Apply the node, called by the renderer
      */
-    virtual void Apply(Renderers::RenderingEventArg arg) /* = 0; (prohibited by Clone) */ {}
+    virtual void Apply(Renderers::RenderingEventArg arg, ISceneNodeVisitor& v) /* = 0; (prohibited by Clone) */ {}
 };
 
 } // NS Scene
