@@ -31,18 +31,17 @@ namespace OpenEngine {
         class FrameBuffer {
         protected:
             unsigned int id;
+            Vector<4, int> dimension;
             ITexture2DPtr depth;
             vector<ITexture2DPtr> texs;
-            Vector<4, int> dimension;
             
         public:
-            FrameBuffer(Viewport& view, unsigned int colorBuffers = 1, bool useDepth = false)
-                : id(0) {
-                dimension = view.GetDimension();
-                unsigned int width = dimension[2];
-                unsigned int height = dimension[3];
+            FrameBuffer(Vector<4, int> dims, unsigned int colorBuffers = 1, bool useDepth = false)
+                : id(0), dimension(dims) {
+                unsigned int width = dimension[2] - dimension[0];
+                unsigned int height = dimension[3] - dimension[1];
                 if (useDepth){
-                    depth = ITexture2DPtr(new Texture2D<unsigned char>(width, height, 1));
+                    depth = ITexture2DPtr(new Texture2D<float>(width, height, 1));
                     depth->SetColorFormat(DEPTH);
                     depth->SetMipmapping(false);
                     depth->SetCompression(false);
