@@ -76,7 +76,7 @@ namespace OpenEngine {
                 id = channels = 0;
                 data = NULL;
                 mipmapping = true;
-                compression = true;
+                compression = false;
                 type = Types::NOTYPE;
                 wrap = REPEAT;
             }
