@@ -139,11 +139,11 @@ namespace OpenEngine {
                 T* p = GetPixel(x, y);
                 Vector<4, T> vec(0.0f);
                 vec[0] = *p;
-                if (channels == 2)
+                if (channels >= 2)
                     vec[1] = *(p+1);
-                if (channels == 3)
+                if (channels >= 3)
                     vec[2] = *(p+2);
-                if (channels == 4)
+                if (channels >= 4)
                     vec[3] = *(p+3);
                 return vec;
             }
