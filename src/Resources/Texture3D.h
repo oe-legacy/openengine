@@ -11,8 +11,12 @@
 #define _TEXTURE_3D_RESOURCE_H_
 
 #include <Resources/ITexture3D.h>
+#include <Resources/Texture2D.h>
 #include <Math/Exceptions.h>
 #include <Resources/Exceptions.h>
+
+#include <vector>
+using std::vector;
 
 namespace OpenEngine {
     namespace Resources {
@@ -41,7 +45,7 @@ namespace OpenEngine {
             }
 
             Texture3D(unsigned int w, unsigned int h, unsigned int d, unsigned int c, T* data)
-                : ITexture2D() {
+                : ITexture3D() {
                 SetupType<T>();
                 this->width = w;
                 this->height = h;
@@ -49,6 +53,42 @@ namespace OpenEngine {
                 this->channels = c;
                 this->format = ColorFormatFromChannels(c);
                 this->data = data;
+            }
+
+            Texture3D(vector<Texture2DPtr(T)> l)
+                : ITexture3D() {
+                SetupType<T>();
+                this->width = 0;
+                this->height = 0;
+                this->depth = l.size();
+                this->channels = 1;
+                typename vector<Texture2DPtr(T) >::iterator itr = l.begin();
+                while (itr != l.end()) {
+                    Texture2DPtr(T) tex = *itr;
+                    tex->Load();
+                    if (this->width < tex->GetWidth()) this->width = tex->GetWidth();
+                    if (this->height < tex->GetHeight()) this->height = tex->GetHeight();
+                    if (this->channels < tex->GetChannels()) this->channels = tex->GetChannels();
+
+                    ++itr;
+                }
+                this->format = ColorFormatFromChannels(this->channels);
+                this->data = new T[this->width * this->height * this->depth * this->channels];
+                
+                for (unsigned int w = 0; w < this->width; ++w){
+                    for (unsigned int h = 0; h < this->height; ++h){
+                        float x = float(w) / float(this->width);
+                        float y = float(h) / float(this->height);
+                        for (unsigned int d = 0; d < this->depth; ++d){
+                            T* voxel = GetVoxel(w,h,d);
+                            Vector<4, T> color = l[d]->InterpolatedPixel(x, y);
+                            
+                            for (unsigned int c = 0; c < this->channels; ++c)
+                                voxel[c] = color.Get(c);
+                        }
+                    }
+                }
+
             }
             
             virtual ~Texture3D() {
