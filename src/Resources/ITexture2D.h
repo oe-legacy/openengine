@@ -19,7 +19,7 @@ namespace OpenEngine {
         class Texture2DChangedEventArg;
 
         /**
-         * Texture resource interface.
+         * Texture 2D resource interface.
          *
          * @class ITexture2D ITexture2D.h Resources/ITexture2D.h
          */

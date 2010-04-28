@@ -1,4 +1,4 @@
-// Texture 2D resource interface.
+// Texture 2D resource.
 // -------------------------------------------------------------------
 // Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
 // 
@@ -25,7 +25,7 @@ namespace OpenEngine {
          * Templated 2D texture implementation with basic Load and
          * Unload functions.
          *
-         * @class TTexture2D Texture2D.h Resources/Texture2D.h
+         * @class Texture2D Texture2D.h Resources/Texture2D.h
          */
         template <class T> class Texture2D : public ITexture2D {
         public:
@@ -42,7 +42,6 @@ namespace OpenEngine {
                 this->channels = c;
                 this->format = ColorFormatFromChannels(c);
                 data = new T[w*h*c];
-                std::memset(data,height*width*channels,0);
             }
             
             Texture2D(unsigned int w, unsigned int h, unsigned int c, T* d)

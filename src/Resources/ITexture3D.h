@@ -25,13 +25,24 @@ namespace OpenEngine {
          */
         class ITexture3D : public IResource<Texture3DChangedEventArg> 
                          , public ITexture {
+        public:
+            /**
+             * Tells OpenEngine how the 3d texture will be used. Either as
+             * a standard 3d texture or as an array of 2D textures.
+             */
+            enum TextureUseCase {TEXTURE3D = 0x806F, 
+                                 TEXTURE2D_ARRAY = 0x8C1A};
+            
+
         protected:
             unsigned int width, height, depth;
+            TextureUseCase useCase;
 
         public:
             ITexture3D()
                 : ITexture() {
                 width = height = depth = 0;
+                useCase = TEXTURE3D;
             }
     
             /**
@@ -55,6 +66,19 @@ namespace OpenEngine {
              */
             inline unsigned int GetDepth() const { return depth; }
 
+            /**
+             * Get the specified use case.
+             */
+            inline TextureUseCase GetUseCase() const { return useCase; }
+
+            /**
+             * Sets a use case for the 3d texture. Will only have an
+             * effect if the texture hasn't been bound.
+             */
+            inline void SetUseCase(TextureUseCase u) {
+                if (id == 0)
+                    useCase = u;
+            }
         };
 
         /**

@@ -13,9 +13,6 @@
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/ISerializable.h>
 
-//@todo warning: removed becasue it causes name clashed with BYTE
-//using namespace OpenEngine::Resources::Types;
-
 namespace OpenEngine {
     namespace Resources {
         

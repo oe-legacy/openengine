@@ -134,9 +134,9 @@ namespace OpenEngine {
             }
 
             /**
-             * Get a pointer to the specific pixel at (x, y).
+             * Get a pointer to the specific voxel at (x, y, z).
              *
-             * return T The pointer to the pixel.
+             * return T The pointer to the voxel.
              */
             inline T* GetVoxel(const unsigned int x, const unsigned int y, const unsigned int z) const{
 #ifdef OE_SAFE
@@ -156,7 +156,7 @@ namespace OpenEngine {
         };
 
         /**
-         * Texture resource smart pointer.
+         * Texture 3D smart pointer.
          */
         typedef Texture3D<unsigned char>  UCharTexture3D;
         typedef Texture3D<char>  CharTexture3D;
