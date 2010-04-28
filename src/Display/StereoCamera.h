@@ -32,7 +32,7 @@ private:
     float eyedist, halfdist;
 public:
 
-    StereoCamera(IViewingVolume& volume) : Camera(volume), eyedist(1.0), halfdist(0.5 * eyedist) {
+    StereoCamera(IViewingVolume& volume) : Camera(volume), eyedist(.5), halfdist(0.5 * eyedist) {
         left = new ViewingVolume();
         right = new ViewingVolume();
     }
