@@ -42,9 +42,13 @@ namespace OpenEngine {
                 this->depth = d;
                 this->channels = c;
                 this->format = ColorFormatFromChannels(c);
+                data = new T[w*h*d*c];
+                std::memset(data,height*width*depth*channels,0);
             }
 
-            Texture3D(unsigned int w, unsigned int h, unsigned int d, unsigned int c, T* data)
+
+            Texture3D(unsigned int w, unsigned int h, unsigned int d, 
+                      unsigned int c, T* data)
                 : ITexture3D() {
                 SetupType<T>();
                 this->width = w;
@@ -138,21 +142,95 @@ namespace OpenEngine {
              *
              * return T The pointer to the voxel.
              */
-            inline T* GetVoxel(const unsigned int x, const unsigned int y, const unsigned int z) const{
+            inline T* GetVoxel(const int x, const int y, const int z) const {
 #ifdef OE_SAFE
                 if (this->data == NULL){
                     throw ResourceException("Cannot get pixel data from null texture.");
                 }
-                // Check bounds
-                if (x > width) throw Math::IndexOutOfBounds(x, 0, width);
-                if (y > height) throw Math::IndexOutOfBounds(y, 0, height);
-                if (z > depth) throw Math::IndexOutOfBounds(z, 0, depth);
 #endif
-                unsigned int entry = x + y * width + z * width * height;
+                unsigned int X, Y, Z;
+                switch(this->wrap){
+                case REPEAT:
+                    X = x % width;
+                    Y = y % height;
+                    Z = z % height;
+                    break;
+                default:
+                    if (x < 0)
+                        X = 0;
+                    else if (width <= (unsigned int)x)
+                        X = width - 1;
+                    else
+                        X = x;
+                    if (y < 0)
+                        Y = 0;
+                    else if (height <= (unsigned int)y)
+                        Y = height - 1;
+                    else
+                        Y = y;
+                    if (z < 0)
+                        Z = 0;
+                    else if (depth <= (unsigned int)z)
+                        Z = depth - 1;
+                    else
+                        Z = z;
+                }
+
+                unsigned int entry = X + Y * width + Z * width * height;
                 T* data = (T*) this->data;
                 return data + entry * this->channels;
             }
 
+        Vector<4,T> GetVoxelValues(const int x, const int y, const int z) {
+            T* p = GetVoxel(x, y, z);
+            Vector<4, T> vec(0.0f);
+            vec[0] = *p;
+            if (channels == 2)
+                vec[1] = *(p+1);
+            if (channels == 3)
+                vec[2] = *(p+2);
+            if (channels == 4)
+                vec[3] = *(p+3);
+            return vec;
+        }
+            
+        inline Vector<4, T> InterpolatedVoxel(const float x,
+                                              const float y,
+                                              const float z){
+                unsigned int X = x * width;
+                unsigned int Y = y * height;
+                unsigned int Z = z * depth;
+
+                float dX = X / (float)width  - x;
+                float dY = Y / (float)height - y;
+                float dZ = Z / (float)depth  - z;
+
+                Vector<4, T> llb = GetVoxelValues(X, Y, Z);
+                Vector<4, T> lrb = GetVoxelValues(X+1, Y, Z);
+                Vector<4, T> ulb = GetVoxelValues(X, Y+1, Z);
+                Vector<4, T> urb = GetVoxelValues(X+1, Y+1, Z);
+
+                Vector<4, T> llf = GetVoxelValues(X, Y, Z+1);
+                Vector<4, T> lrf = GetVoxelValues(X+1, Y, Z+1);
+                Vector<4, T> ulf = GetVoxelValues(X, Y+1, Z+1);
+                Vector<4, T> urf = GetVoxelValues(X+1, Y+1, Z+1);
+
+                Vector<4, T> back = llb * (1-dX) * (1-dY) +
+                    lrb * dX * (1-dY) +
+                    ulb * (1-dX) * dY +
+                    urb * dX * dY;
+
+                Vector<4, T> front = llf * (1-dX) * (1-dY) +
+                    lrf * dX * (1-dY) +
+                    ulf * (1-dX) * dY +
+                    urf * dX * dY;
+
+                Vector<4, T> result = front * (1-dZ) +
+                    back * dZ;
+
+                // @todo: missing third dimension
+                return result;
+            }
         };
 
         /**

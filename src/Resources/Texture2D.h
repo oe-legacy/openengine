@@ -102,7 +102,7 @@ namespace OpenEngine {
              *
              * return T The pointer to the pixel.
              */
-            inline T* GetPixel(const int x, const int y) const{
+            inline T* GetPixel(const int x, const int y) const {
 #ifdef OE_SAFE
                 if (this->data == NULL){
                     throw ResourceException("Cannot get pixel data from null texture.");
