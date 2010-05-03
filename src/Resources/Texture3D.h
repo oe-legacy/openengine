@@ -153,7 +153,7 @@ namespace OpenEngine {
                 case REPEAT:
                     X = x % width;
                     Y = y % height;
-                    Z = z % height;
+                    Z = z % depth;
                     break;
                 default:
                     if (x < 0)
@@ -205,31 +205,28 @@ namespace OpenEngine {
                 float dY = Y / (float)height - y;
                 float dZ = Z / (float)depth  - z;
 
-                Vector<4, T> llb = GetVoxelValues(X, Y, Z);
-                Vector<4, T> lrb = GetVoxelValues(X+1, Y, Z);
-                Vector<4, T> ulb = GetVoxelValues(X, Y+1, Z);
-                Vector<4, T> urb = GetVoxelValues(X+1, Y+1, Z);
+                // trilinear interpolation from:
+                // http://local.wasp.uwa.edu.au/~pbourke
+                // /miscellaneous/interpolation/
+                Vector<4, T> v000 = GetVoxelValues(X, Y, Z);
+                Vector<4, T> v100 = GetVoxelValues(X+1, Y, Z);
+                Vector<4, T> v001 = GetVoxelValues(X, Y+1, Z);
+                Vector<4, T> v101 = GetVoxelValues(X+1, Y+1, Z);
+                Vector<4, T> v010 = GetVoxelValues(X, Y, Z+1);
+                Vector<4, T> v110 = GetVoxelValues(X+1, Y, Z+1);
+                Vector<4, T> v011 = GetVoxelValues(X, Y+1, Z+1);
+                Vector<4, T> v111 = GetVoxelValues(X+1, Y+1, Z+1);
 
-                Vector<4, T> llf = GetVoxelValues(X, Y, Z+1);
-                Vector<4, T> lrf = GetVoxelValues(X+1, Y, Z+1);
-                Vector<4, T> ulf = GetVoxelValues(X, Y+1, Z+1);
-                Vector<4, T> urf = GetVoxelValues(X+1, Y+1, Z+1);
-
-                Vector<4, T> back = llb * (1-dX) * (1-dY) +
-                    lrb * dX * (1-dY) +
-                    ulb * (1-dX) * dY +
-                    urb * dX * dY;
-
-                Vector<4, T> front = llf * (1-dX) * (1-dY) +
-                    lrf * dX * (1-dY) +
-                    ulf * (1-dX) * dY +
-                    urf * dX * dY;
-
-                Vector<4, T> result = front * (1-dZ) +
-                    back * dZ;
-
-                // @todo: missing third dimension
-                return result;
+                Vector<4, T> vxyz = 
+                    v000 * (1-dX) * (1-dY) * (1-dZ) +
+                    v100 * dX     * (1-dY) * (1-dZ) +
+                    v010 * (1-dX) * dY     * (1-dZ) +
+                    v001 * (1-dX) * (1-dY) * dZ     +
+                    v101 * dX     * (1-dY) * dZ     +
+                    v011 * (1-dX) * dY     * dZ     +
+                    v000 * dX     * dY     * (1-dZ) +
+                    v111 * dX     * dY     * dZ;
+                return vxyz;
             }
         };
 
