@@ -10,13 +10,12 @@
 #ifndef _INTERFACE_FRAME_H_
 #define _INTERFACE_FRAME_H_
 
-#include <Display/ICanvas.h>
 #include <Core/IModule.h>
 
 namespace OpenEngine {
 namespace Display {
-
-    class StereoCamera;
+    class ICanvas;
+    
     using Core::IModule;
     
 /**
@@ -41,12 +40,63 @@ enum FrameOption {
  * @see ICanvas
  * @class IFrame IFrame.h Display/IFrame.h
  */
-class IFrame : public virtual ICanvas, public virtual IModule {
+class IFrame : public virtual IModule {
 public:
     /**
      * Frame destructor.
      */
     virtual ~IFrame() {};
+
+    /**
+     * Get frame width.
+     *
+     * @return Frame width
+     */
+    virtual unsigned int GetWidth() const = 0;
+
+    /**
+     * Get frame height.
+     *
+     * @return Frame height
+     */
+    virtual unsigned int GetHeight() const = 0;
+    
+    /**
+     * Get frame depth.
+     *
+     * @return Frame depth
+     */
+    virtual unsigned int GetDepth() const = 0;
+
+    /**
+     * Set frame width.
+     * Must be supported as long as the module initialization method
+     * has not been invoked.
+     * After initialization the behavior is up to the implementation.
+     *
+     * @param width Frame width
+     */
+    virtual void SetWidth(const unsigned int width) = 0;
+
+    /**
+     * Set frame height.
+     * Must be supported as long as the module initialization method
+     * has not been invoked.
+     * After initialization the behavior is up to the implementation.
+     *
+     * @param height Frame height
+     */
+    virtual void SetHeight(const unsigned int height) = 0;
+    
+    /**
+     * Set frame depth.
+     * Must be supported as long as the module initialization method
+     * has not been invoked.
+     * After initialization the behavior is up to the implementation.
+     *
+     * @param depth Frame depth
+     */
+    virtual void SetDepth(const unsigned int depth) = 0;
 
     /**
      * Is this frame focused.
@@ -98,13 +148,18 @@ public:
     }
 
     /**
-     * Get the stereocamera for use when stereo rendering is enabled.
-     * The stereo camera is used to calculate the position of two
-     * addition eye cameras based on the current viewing volume.
+     * Set the canvas that will be mapped onto this frame.
      *
-     * @return The stereo camera.
+     * @param canvas The canvas that will be mapped onto this frame.
      */
-    virtual StereoCamera& GetStereoCamera() const = 0;
+    virtual void SetCanvas(ICanvas* canvas) = 0;
+
+    /**
+     * Get the canvas that will be mapped onto this frame.
+     *
+     * @return The canvas that will be mapped onto this frame.
+     */
+    virtual ICanvas* GetCanvas() = 0;
 };
 
 } // NS Display

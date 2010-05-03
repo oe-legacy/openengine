@@ -43,26 +43,20 @@ public:
     }
 
     virtual void SignalRendering(const float dt) {
-         volume.SignalRendering(dt);
-         // Vector<3,float> pos = volume.GetPosition();
-         // Quaternion<float> rot = volume.GetDirection();
-         // right->SetPosition(pos + rot.RotateVector(Vector<3,float>(dist,0,0)));
-         // right->SetDirection(rot);
-     }
-
-    IViewingVolume* GetLeft() {
+        volume.SignalRendering(dt);
         Vector<3,float> pos = volume.GetPosition();
         Quaternion<float> rot = volume.GetDirection();
         left->SetPosition(pos + rot.RotateVector(Vector<3,float>(-halfdist,0,0)));
         left->SetDirection(rot);
+        right->SetPosition(pos + rot.RotateVector(Vector<3,float>(halfdist,0,0)));
+        right->SetDirection(rot);
+    }
+
+    IViewingVolume* GetLeft() {
         return left;
     }
 
     IViewingVolume* GetRight() {
-         Vector<3,float> pos = volume.GetPosition();
-         Quaternion<float> rot = volume.GetDirection();
-         right->SetPosition(pos + rot.RotateVector(Vector<3,float>(halfdist,0,0)));
-         right->SetDirection(rot);
         return right;
     }
     

@@ -3,6 +3,7 @@ ADD_LIBRARY(OpenEngine_Display
   Display.cpp
   IFrame.h
   ICanvas.h
+  IRenderCanvas.h
   IViewingVolume.h
   IViewingVolumeDecorator.h
   Viewport.h

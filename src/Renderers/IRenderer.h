@@ -17,7 +17,7 @@
 #include <Math/Vector.h>
 #include <Utils/Timer.h>
 
-#include <Display/ICanvas.h>
+#include <Display/IRenderCanvas.h>
 #include <Core/IListener.h>
 
 #include <list>
@@ -54,7 +54,7 @@ using OpenEngine::Resources::ITexture3D;
 using OpenEngine::Resources::IDataBlock;
 
 using Core::IListener;
-using Display::ICanvas;
+using Display::IRenderCanvas;
 
 using std::list;
 
@@ -68,13 +68,40 @@ class IRenderer;
  */
 class RenderingEventArg {
 public:
-    ICanvas& canvas;
+    IRenderCanvas& canvas;
     IRenderer& renderer;
     Time time;
     unsigned int approx;
-    RenderingEventArg(ICanvas& canvas, IRenderer& renderer, Time time = Time(), unsigned int approx = 0)
+    RenderingEventArg(IRenderCanvas& canvas, IRenderer& renderer, Time time = Time(), unsigned int approx = 0)
         : canvas(canvas), renderer(renderer), time(time), approx(approx) {}
 };
+
+class InitializeEventArg {
+public:
+    IRenderCanvas& canvas;
+    InitializeEventArg(IRenderCanvas& canvas): canvas(canvas) {}
+    virtual ~InitializeEventArg() {}
+};
+
+class DeinitializeEventArg {
+public:
+    IRenderCanvas& canvas;
+    DeinitializeEventArg(IRenderCanvas& canvas): canvas(canvas) {}
+    virtual ~DeinitializeEventArg() {}
+};
+
+class ProcessEventArg {
+public:
+    IRenderCanvas& canvas;
+    Time start;                 //!< time of engine loop start.
+    unsigned int approx;        //!< approximate engine loop time.
+    ProcessEventArg(IRenderCanvas& canvas, Time start, unsigned int approx)
+        : canvas(canvas)
+        , start(start)
+        , approx(approx) {}
+    virtual ~ProcessEventArg() {}
+};
+
 
 /**
  * Renderer interface.
@@ -87,7 +114,7 @@ public:
  *
  * @class IRenderer IRenderer.h Renderers/IRenderer.h
  */
-class IRenderer : public virtual IListener<Display::InitializeEventArg>, public virtual IListener<Display::DeinitializeEventArg>, public virtual IListener<Display::RedrawEventArg> {
+class IRenderer : public virtual IListener<Renderers::InitializeEventArg>, public virtual IListener<Renderers::DeinitializeEventArg>, public virtual IListener<Renderers::ProcessEventArg> {
 // protected:
 //     list<ICanvasListener*> dependencies;
 public:
@@ -185,14 +212,14 @@ public:
      * special, in that any change will modify the entire background
      * colour of the GL context.
      */
-    //virtual void SetBackgroundColor(Vector<4,float> color) = 0;
+    virtual void SetBackgroundColor(Vector<4,float> color) = 0;
 
     /**
      * Get the global background colour.
      * This function is strongly related to OpenGL.
      * See \a SetBackgroundColor for an explanation.
      */
-    //virtual Vector<4,float> GetBackgroundColor() = 0;
+    virtual Vector<4,float> GetBackgroundColor() = 0;
 
     /**
      * Draw a face
