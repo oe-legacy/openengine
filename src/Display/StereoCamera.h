@@ -12,18 +12,15 @@
 
 #include <Display/Camera.h>
 #include <Display/ViewingVolume.h>
-#include <Logging/Logger.h>
-#include <Renderers/IRenderer.h>
+// #include <Logging/Logger.h>
 
 namespace OpenEngine {
 namespace Display {
 
-using namespace OpenEngine::Renderers;
-
 /**
  * Short description.
  *
- * @class StereoCamera StereoCamera.h ts/Boids/StereoCamera.h
+ * @class StereoCamera StereoCamera.h Display/StereoCamera.h
  */
 class StereoCamera : public Camera {
 private:

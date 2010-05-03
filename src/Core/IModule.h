@@ -22,9 +22,9 @@ namespace Core {
  * on all engine events: \a InitializeEventArg, \a ProcessEventArg and
  * \a DeinitializeEventArg.
  */
-class IModule : public virtual IListener<InitializeEventArg>,
-                public virtual IListener<ProcessEventArg>,
-                public virtual IListener<DeinitializeEventArg> {
+class IModule : public virtual IListener<Core::InitializeEventArg>,
+                public virtual IListener<Core::ProcessEventArg>,
+                public virtual IListener<Core::DeinitializeEventArg> {
 public:
     virtual ~IModule() {}
 };

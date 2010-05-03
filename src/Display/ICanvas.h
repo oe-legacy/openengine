@@ -10,14 +10,15 @@
 #ifndef _INTERFACE_CANVAS_H_
 #define _INTERFACE_CANVAS_H_
 
-#include <Core/Event.h>
+// #include <Core/Event.h>
 #include <Utils/Timer.h>
 #include <Resources/ITexture2D.h>
+#include <Core/IListener.h>
 
 namespace OpenEngine {
 namespace Display {
 
-using Core::Event;
+// using Core::Event;
 using Core::IListener;
 using Utils::Time;
 using namespace Resources;
