@@ -20,7 +20,7 @@ namespace OpenEngine {
          * Color Format enumeration.
          */
         enum ColorFormat { ALPHA, ALPHA_COMPRESSED, 
-                           LUMINANCE, LUMINANCE_COMPRESSED, DEPTH, 
+                           LUMINANCE, LUMINANCE_COMPRESSED, DEPTH, LUMINANCE32F,
                            LUMINANCE_ALPHA, LUMINANCE_ALPHA_COMPRESSED, 
                            RGB, BGR, RGB_COMPRESSED, RGB32F, 
                            RGBA, BGRA, RGBA_COMPRESSED, RGBA32F };
