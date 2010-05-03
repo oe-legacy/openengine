@@ -271,6 +271,13 @@ public:
      */
     virtual bool BufferSupport() = 0;
 
+    /**
+     * Are frame buffers supported.
+     *
+     * @return True if frame buffers are supported.
+     */
+    virtual bool FrameBufferSupport() = 0;
+
 protected:
     RendererStage stage;
 
