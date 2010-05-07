@@ -36,6 +36,22 @@ namespace OpenEngine {
 #endif
         }
 
+        
+        GeometrySetPtr GeometrySet::Clone() {
+            IDataBlockPtr v = vertices->Clone();
+            IDataBlockPtr n = normals->Clone();
+            IDataBlockPtr c = colors->Clone();
+
+            IDataBlockList tcs;
+            for (IDataBlockList::iterator itr = texCoords.begin();
+                 itr != texCoords.end(); ++itr) {
+                tcs.push_back((*itr)->Clone());
+            }
+
+            return GeometrySetPtr(new GeometrySet(v, n, tcs, c));
+        }
+
+
         IDataBlockPtr GeometrySet::GetDebugNormals() {
 #ifdef OE_SAFE
             if (vertices->GetType() != Types::FLOAT)

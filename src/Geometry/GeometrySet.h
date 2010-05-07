@@ -57,6 +57,8 @@ namespace OpenEngine {
                  Resources::IDataBlockList texCoords = Resources::IDataBlockList(),
                  Resources::IDataBlockPtr colors = Resources::IDataBlockPtr());
 
+            GeometrySetPtr Clone();
+
             /**
              * Get vertices.
              */
