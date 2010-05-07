@@ -22,6 +22,7 @@
 #include <Geometry/VertexArray.h>
 #include <Resources/ITexture2D.h>
 #include <Resources/ITexture3D.h>
+#include <Resources/IShaderResource.h>
 #include <list>
 #include <set>
 #include <Logging/Logger.h>
@@ -48,6 +49,8 @@ using Resources::Texture2DChangedEventArg;
 using Resources::ITexture3D;
 using Resources::ITexture3DPtr;
 using Resources::Texture3DChangedEventArg;
+using Resources::IShaderResourcePtr;
+using Resources::TextureList;
 using Scene::ISceneNode;
 using Scene::ISceneNodeVisitor;
 using Scene::GeometryNode;
@@ -106,8 +109,17 @@ public:
                 cache.find(t.get()) == cache.end()) {
                 cache.insert(t.get());
                 loader.Load(t, policy);
-            }            
+            }
             ++itr;
+        }
+
+        IShaderResourcePtr shad = mat->shad;
+        if (shad != NULL) {
+            // load shader and its textures
+            shad->Load();
+            TextureList texs = shad->GetTextures();
+            for (unsigned int i = 0; i < texs.size(); ++i)
+                loader.Load(texs[i]);
         }
     }
 };

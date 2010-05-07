@@ -21,7 +21,7 @@ namespace OpenEngine {
              */
             enum Type {NOTYPE = 0x0000,
                        UBYTE  = 0x1401, 
-                       BYTE   = 0x1400,
+                       SBYTE   = 0x1400,
                        UINT   = 0x1405, 
                        INT    = 0x1404,
                        FLOAT  = 0x1406};
@@ -34,7 +34,7 @@ namespace OpenEngine {
                 if (typeid(T) == typeid(unsigned char))
                     return UBYTE;
                 else if (typeid(T) == typeid(char))
-                    return BYTE;
+                    return SBYTE;
                 else if (typeid(T) == typeid(unsigned int))
                     return UINT;
                 else if (typeid(T) == typeid(int))
