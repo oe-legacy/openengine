@@ -104,6 +104,14 @@ namespace OpenEngine {
             }
 
             /**
+             * Clones the IDataBlock properties and it's data, except
+             * for the id, which is set to 0.
+             *
+             * @return A new IDataBlock with with the same properties and copied data.
+             */
+            virtual IDataBlockPtr Clone() = 0;
+
+            /**
              * Get data block id.
              *
              * @return data block id.
@@ -206,13 +214,6 @@ namespace OpenEngine {
              * @return the IEvent
              */
             virtual IEvent<IDataBlockChangedEventArg>& ChangedEvent() { return changedEvent; }
-
-            /**
-             * Clones the IDataBlock properties and it's data.
-             *
-             * @return A new IDataBlock with with the same properties and copied data.
-             */
-            IDataBlockPtr Clone();
 
             /**
              * String representation.

@@ -29,7 +29,6 @@ ADD_LIBRARY(OpenEngine_Resources
   SerializationResource.h
   SerializationResource.cpp
   IDataBlock.h
-  IDataBlock.cpp
   DataBlock.h
   FrameBuffer.h
 )

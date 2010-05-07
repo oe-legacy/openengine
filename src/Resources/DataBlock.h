@@ -66,6 +66,16 @@ namespace OpenEngine {
                     delete [] (T*) this->data;
             }
 
+            IDataBlockPtr Clone() {
+                T* data = new T[N * this->size];
+                memcpy(data, this->data, N * this->size * sizeof(T));
+                DataBlock<N, T>* block = new DataBlock<N, T>(this->size, data, 
+                                                             this->blockType,
+                                                             this->updateMode);
+                block->SetUnloadPolicy(this->policy);
+                return IDataBlockPtr(block);
+            }
+
             /**
              * Unloads the data array.
              */
