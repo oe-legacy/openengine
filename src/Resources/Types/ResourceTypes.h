@@ -11,6 +11,7 @@
 #define _OPENENGINE_RESOURCE_FORMATS_H_
 
 #include <typeinfo>
+#include <string>
 
 namespace OpenEngine {
     namespace Resources {
@@ -45,7 +46,26 @@ namespace OpenEngine {
                     return NOTYPE;
             }
 
-
+            /*
+            std::string ToString(Type t) {
+                switch(t){
+                case NOTYPE:
+                    return "notype";
+                case UBYTE:
+                    return "unsigned byte";
+                case SBYTE:
+                    return "byte";
+                case UINT:
+                    return "unsigned integer";
+                case INT:
+                    return "integer";
+                case FLOAT:
+                    return "float";
+                default:
+                    return "unknown type";
+                }
+            }
+            */
         }
     }
 }

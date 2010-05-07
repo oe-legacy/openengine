@@ -35,10 +35,10 @@ namespace OpenEngine {
             }
 #endif
         }
-        
+
         IDataBlockPtr GeometrySet::GetDebugNormals() {
 #ifdef OE_SAFE
-            if (vertices->GetType() != FLOAT)
+            if (vertices->GetType() != Types::FLOAT)
                 throw Exception("Cannot calculate debug normals of non float vertices.");
 #endif
             if (debugNormals == NULL) {

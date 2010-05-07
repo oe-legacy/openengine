@@ -122,11 +122,13 @@ namespace OpenEngine {
             T* data;
             unsigned int size;
         public:
-            VectorList()
-                : data(NULL), size(0) { }
-
-            VectorList(T* data, unsigned int size)
-                : data(data), size(size) { }
+            VectorList(T* data = NULL, unsigned int size = 0)
+                : data(data) {
+                if (data != NULL)
+                    this->size = size;
+                else
+                    this->size = 0;
+            }
 
             /**
              * Get pointer to the data array.

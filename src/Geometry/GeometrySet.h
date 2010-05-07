@@ -24,6 +24,16 @@ namespace OpenEngine {
     namespace Geometry{
 
         /**
+         * Forward decleration used for shared pointer.
+         */
+        class GeometrySet;
+
+        /**
+         * Shared pointer
+         */
+        typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;
+
+        /**
          * The geometry set class contains all of the pr. vertex
          * information of a mesh.
          *
@@ -74,10 +84,6 @@ namespace OpenEngine {
 
         };
 
-        /**
-         * Shared pointer
-         */
-        typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;
     }
 }
 

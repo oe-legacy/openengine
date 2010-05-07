@@ -1,6 +1,6 @@
 // Data Block interface.
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -17,12 +17,18 @@
 
 using std::list;
 
-
-
 namespace OpenEngine {
     namespace Resources {
-        using namespace OpenEngine::Resources::Types;
+        /**
+         * Forward declerations.
+         */
         class IDataBlockChangedEventArg;
+        class IDataBlock;
+        /**
+         * Data Block interface smart pointer.
+         */
+        typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
+        typedef list<IDataBlockPtr > IDataBlockList;
 
         /**
          * The block type tells the engine the primairy purpuse of
@@ -70,7 +76,7 @@ namespace OpenEngine {
             Event<IDataBlockChangedEventArg> changedEvent;
             
             unsigned int id;
-            Type type;
+            Types::Type type;
             void* data;
             unsigned int size, dimension;
             BlockType blockType;
@@ -90,7 +96,7 @@ namespace OpenEngine {
                        BlockType b = ARRAY, UpdateMode u = STATIC) {
                 id = dimension = 0;
                 size = s;
-                type = NOTYPE;
+                type = Types::NOTYPE;
                 data = d;
                 blockType = b;
                 updateMode = u;
@@ -130,14 +136,14 @@ namespace OpenEngine {
              *
              * @return the type of the data block.
              */
-            inline Type GetType() const { return type; }
+            inline Types::Type GetType() const { return type; }
 
             /**
              * Set the type of the data block.
              *
              * @param t The type.
              */
-            virtual void SetType(Type t) { type = t; }
+            virtual void SetType(Types::Type t) { type = t; }
 
             /**
              * Get the number of elements in the data block.
@@ -202,6 +208,13 @@ namespace OpenEngine {
             virtual IEvent<IDataBlockChangedEventArg>& ChangedEvent() { return changedEvent; }
 
             /**
+             * Clones the IDataBlock properties and it's data.
+             *
+             * @return A new IDataBlock with with the same properties and copied data.
+             */
+            IDataBlockPtr Clone();
+
+            /**
              * String representation.
              *
              * @return IDataBlock as a string.
@@ -210,12 +223,6 @@ namespace OpenEngine {
 
         };
         
-        /**
-         * Data Block interface smart pointer.
-         */
-        typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
-        typedef list<IDataBlockPtr > IDataBlockList;
-
         /**
          * IDataBlockChangedEventArg
          */

@@ -31,7 +31,7 @@ namespace OpenEngine {
                     this->data = new T[N * s];
                 vectorlist = VectorList<N, T>((T*)this->data, s);
                 this->dimension = N;
-                this->type = GetResourceType<T>();
+                this->type = Types::GetResourceType<T>();
             }
 
             DataBlock(VectorList<N, T> list,
@@ -39,7 +39,26 @@ namespace OpenEngine {
                 : IDataBlock(list.GetSize(), list.GetData(), b, u) {
                 vectorlist = list;
                 this->dimension = N;
-                this->type = GetResourceType<T>();
+                this->type = Types::GetResourceType<T>();
+            }
+
+            DataBlock(IDataBlock* block) 
+                : IDataBlock(block->GetSize(), NULL, 
+                             block->GetBlockType(), block->GetUpdateMode()){
+                this->dimension = N;
+                this->type = Types::GetResourceType<T>();
+#ifdef OE_SAFE
+                if (this->type != block->GetType())
+                    throw Exception("Types not equal");
+#endif
+                this->policy = block->GetUnloadPolicy();
+
+                if (block->GetVoidDataPtr() != NULL){
+                    this->data = new T[N * this->size];
+                    memcpy(this->data, block->GetVoidDataPtr(), N * this->size * sizeof(T));
+                }
+
+                vectorlist = VectorList<N, T>((T*)this->data, this->size);
             }
 
             ~DataBlock(){
