@@ -13,15 +13,13 @@
 #include <Resources/IDataBlock.h>
 #include <Math/VectorList.h>
 
-using namespace OpenEngine::Math;
-
 namespace OpenEngine {
     namespace Resources {
 
         template <unsigned int N, class T>
         class DataBlock : public IDataBlock {
         protected:
-            VectorList<N, T> vectorlist;
+            Math::VectorList<N, T> vectorlist;
 
         public:
             DataBlock(unsigned int s = 0, T* d = NULL,
@@ -29,12 +27,12 @@ namespace OpenEngine {
                 : IDataBlock(s, d, b, u) {
                 if (d == NULL)
                     this->data = new T[N * s];
-                vectorlist = VectorList<N, T>((T*)this->data, s);
+                vectorlist = Math::VectorList<N, T>((T*)this->data, s);
                 this->dimension = N;
                 this->type = Types::GetResourceType<T>();
             }
 
-            DataBlock(VectorList<N, T> list,
+            DataBlock(Math::VectorList<N, T> list,
                       BlockType b = ARRAY, UpdateMode u = STATIC)
                 : IDataBlock(list.GetSize(), list.GetData(), b, u) {
                 vectorlist = list;
@@ -49,7 +47,7 @@ namespace OpenEngine {
                 this->type = Types::GetResourceType<T>();
 #ifdef OE_SAFE
                 if (this->type != block->GetType())
-                    throw Exception("Types not equal");
+                    throw Math::Exception("Types not equal");
 #endif
                 this->policy = block->GetUnloadPolicy();
 
@@ -58,7 +56,7 @@ namespace OpenEngine {
                     memcpy(this->data, block->GetVoidDataPtr(), N * this->size * sizeof(T));
                 }
 
-                vectorlist = VectorList<N, T>((T*)this->data, this->size);
+                vectorlist = Math::VectorList<N, T>((T*)this->data, this->size);
             }
 
             ~DataBlock(){
@@ -83,7 +81,7 @@ namespace OpenEngine {
                 if (this->data){
                     delete [] (T*) this->data;
                     this->data = NULL;
-                    vectorlist = VectorList<N, T>();
+                    vectorlist = Math::VectorList<N, T>();
                 }
             }
 
@@ -96,34 +94,62 @@ namespace OpenEngine {
                 return (T*) this->data;
             }
 
-            void* GetVoidElement(unsigned int i) {
-                return ((T*) this->data) + N * i;
+            void GetElement(unsigned int i, Math::Vector<2, float> element){
+                Math::Vector<N, T> vec = vectorlist.GetElement(i);
+                element[0] = vec.Get(0);
+                element[1] = (N >= 2) ? vec.Get(1) : 0;
+            }
+            void GetElement(unsigned int i, Math::Vector<3, float> element){
+                Math::Vector<N, T> vec = vectorlist.GetElement(i);
+                element[0] = vec.Get(0);
+                if (N >= 2) element[1] = vec.Get(1);
+                if (N >= 3) element[2] = vec.Get(2);
+            }
+            void GetElement(unsigned int i, Math::Vector<4, float> element){
+                Math::Vector<N, T> vec = vectorlist.GetElement(i);
+                element[0] = vec.Get(0);
+                if (N >= 2) element[1] = vec.Get(1);
+                if (N >= 3) element[2] = vec.Get(2);
+                if (N >= 4) element[3] = vec.Get(3);
             }
 
             /**
              * Gets the i'th element in the data block.
              */
-            inline Vector<N, T> GetElement(unsigned int i) const {
+            inline Math::Vector<N, T> GetElement(unsigned int i) const {
                 return vectorlist.GetElement(i);
             }
-            inline Vector<N, T> operator[](const unsigned int i){
+            inline Math::Vector<N, T> operator[](const unsigned int i){
                 return GetElement(i);
             }
 
-            /**
-             * Sets the i'th element in the data block to the vector.
-             *
-             * @param value The value to be set to.
-             */
-            inline void SetElement(unsigned int i, Vector<N, T> value){
-                vectorlist.SetElement(i, value);
+            void SetElement(unsigned int i, Math::Vector<2, float> value){
+                Math::Vector<N, T> vec;
+                vec[0] = value.Get(0);
+                vec[1] = (N >= 2) ? value.Get(1) : 0;
+                vectorlist.SetElement(i, vec);
             }
-           
+            void SetElement(unsigned int i, Math::Vector<3, float> value){
+                Math::Vector<N, T> vec;
+                vec[0] = value.Get(0);
+                vec[1] = (N >= 2) ? value.Get(1) : 0;
+                vec[2] = (N >= 3) ? value.Get(2) : 0;
+                vectorlist.SetElement(i, vec);
+            }
+            void SetElement(unsigned int i, Math::Vector<4, float> value){
+                Math::Vector<N, T> vec;
+                vec[0] = value.Get(0);
+                vec[1] = (N >= 2) ? value.Get(1) : 0;
+                vec[2] = (N >= 3) ? value.Get(2) : 0;
+                vec[3] = (N >= 4) ? value.Get(3) : 0;
+                vectorlist.SetElement(i, vec);
+            }
+
             /**
              * Returns an iterator referring to the first element in
              * the data block.
              */
-            inline VectorIterator<N, T> Begin() const {
+            inline Math::VectorIterator<N, T> Begin() const {
                 return vectorlist.Begin();
             }
 
@@ -131,7 +157,7 @@ namespace OpenEngine {
              * Returns an iterator referring to the last element in
              * the data block.
              */
-            inline VectorIterator<N, T> End() const {
+            inline Math::VectorIterator<N, T> End() const {
                 return vectorlist.End();
             }
 

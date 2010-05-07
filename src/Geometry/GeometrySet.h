@@ -57,6 +57,11 @@ namespace OpenEngine {
                  Resources::IDataBlockList texCoords = Resources::IDataBlockList(),
                  Resources::IDataBlockPtr colors = Resources::IDataBlockPtr());
 
+            /**
+             * Clones the data in the geometry set.
+             *
+             * @return A new GeometrySet with the cloned data.
+             */
             GeometrySetPtr Clone();
 
             /**

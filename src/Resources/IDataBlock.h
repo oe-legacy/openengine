@@ -12,10 +12,10 @@
 
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/IResource.h>
+#include <Math/Vector.h>
+
 #include <list>
 #include <string>
-
-using std::list;
 
 namespace OpenEngine {
     namespace Resources {
@@ -28,7 +28,7 @@ namespace OpenEngine {
          * Data Block interface smart pointer.
          */
         typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
-        typedef list<IDataBlockPtr > IDataBlockList;
+        typedef std::list<IDataBlockPtr > IDataBlockList;
 
         /**
          * The block type tells the engine the primairy purpuse of
@@ -133,11 +133,25 @@ namespace OpenEngine {
             inline void* GetVoidDataPtr() const { return data; }
 
             /**
-             * Get a pointer to the i'th elements data.
+             * Copies the i'th element of the datablock into the
+             * supplied vector.
              *
-             * @param i The i'th element.
+             * @param i The index into the block.
+             * @param element The vector to place the data in.
              */
-            virtual void* GetVoidElement(unsigned int i) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<2, float> element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<3, float> element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<4, float> element) = 0;
+
+            /**
+             * Sets the i'th element in the data block to the vector.
+             *
+             * @param i The index into the block.
+             * @param value The value to be set to.
+             */
+            virtual void SetElement(unsigned int i, Math::Vector<2, float> value) = 0;
+            virtual void SetElement(unsigned int i, Math::Vector<3, float> value) = 0;
+            virtual void SetElement(unsigned int i, Math::Vector<4, float> value) = 0;
 
             /**
              * Get the type of the data block.

@@ -134,7 +134,7 @@ namespace Renderers {
     void DataBlockBinder::SetDefaultPolicy(ReloadPolicy p){
         // The default policy must never be RELOAD_DEFAULT
         if (p == RELOAD_DEFAULT)
-            throw Exception("Invalid default reload policy.");
+            throw Math::Exception("Invalid default reload policy.");
         defaultpolicy = p;
     }
 
