@@ -38,9 +38,9 @@ namespace OpenEngine {
 
         
         GeometrySetPtr GeometrySet::Clone() {
-            IDataBlockPtr v = vertices->Clone();
-            IDataBlockPtr n = normals->Clone();
-            IDataBlockPtr c = colors->Clone();
+            IDataBlockPtr v = vertices ? vertices->Clone() : IDataBlockPtr();
+            IDataBlockPtr n = normals ? normals->Clone() : IDataBlockPtr();
+            IDataBlockPtr c = colors ? colors->Clone() : IDataBlockPtr();
 
             IDataBlockList tcs;
             for (IDataBlockList::iterator itr = texCoords.begin();

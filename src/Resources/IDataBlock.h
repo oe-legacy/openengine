@@ -139,9 +139,9 @@ namespace OpenEngine {
              * @param i The index into the block.
              * @param element The vector to place the data in.
              */
-            virtual void GetElement(unsigned int i, Math::Vector<2, float> element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<3, float> element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<4, float> element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<2, float> &element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<3, float> &element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<4, float> &element) = 0;
 
             /**
              * Sets the i'th element in the data block to the vector.

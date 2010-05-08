@@ -94,18 +94,18 @@ namespace OpenEngine {
                 return (T*) this->data;
             }
 
-            void GetElement(unsigned int i, Math::Vector<2, float> element){
+            void GetElement(unsigned int i, Math::Vector<2, float> &element){
                 Math::Vector<N, T> vec = vectorlist.GetElement(i);
                 element[0] = vec.Get(0);
                 element[1] = (N >= 2) ? vec.Get(1) : 0;
             }
-            void GetElement(unsigned int i, Math::Vector<3, float> element){
+            void GetElement(unsigned int i, Math::Vector<3, float> &element){
                 Math::Vector<N, T> vec = vectorlist.GetElement(i);
                 element[0] = vec.Get(0);
                 if (N >= 2) element[1] = vec.Get(1);
                 if (N >= 3) element[2] = vec.Get(2);
             }
-            void GetElement(unsigned int i, Math::Vector<4, float> element){
+            void GetElement(unsigned int i, Math::Vector<4, float> &element){
                 Math::Vector<N, T> vec = vectorlist.GetElement(i);
                 element[0] = vec.Get(0);
                 if (N >= 2) element[1] = vec.Get(1);
@@ -126,22 +126,22 @@ namespace OpenEngine {
             void SetElement(unsigned int i, Math::Vector<2, float> value){
                 Math::Vector<N, T> vec;
                 vec[0] = value.Get(0);
-                vec[1] = (N >= 2) ? value.Get(1) : 0;
+                if (N >= 2) vec[1] = value.Get(1);
                 vectorlist.SetElement(i, vec);
             }
             void SetElement(unsigned int i, Math::Vector<3, float> value){
                 Math::Vector<N, T> vec;
                 vec[0] = value.Get(0);
-                vec[1] = (N >= 2) ? value.Get(1) : 0;
-                vec[2] = (N >= 3) ? value.Get(2) : 0;
+                if (N >= 2) vec[1] = value.Get(1);
+                if (N >= 3) vec[2] = value.Get(2);
                 vectorlist.SetElement(i, vec);
             }
             void SetElement(unsigned int i, Math::Vector<4, float> value){
                 Math::Vector<N, T> vec;
                 vec[0] = value.Get(0);
-                vec[1] = (N >= 2) ? value.Get(1) : 0;
-                vec[2] = (N >= 3) ? value.Get(2) : 0;
-                vec[3] = (N >= 4) ? value.Get(3) : 0;
+                if (N >= 2) vec[1] = value.Get(1);
+                if (N >= 3) vec[2] = value.Get(2);
+                if (N >= 4) vec[3] = value.Get(3);
                 vectorlist.SetElement(i, vec);
             }
 
