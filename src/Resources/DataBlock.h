@@ -12,6 +12,7 @@
 
 #include <Resources/IDataBlock.h>
 #include <Math/VectorList.h>
+#include <string.h>
 
 namespace OpenEngine {
     namespace Resources {
@@ -190,7 +191,7 @@ namespace OpenEngine {
                 return clone;                                           \
             }                                                           \
             
-#include <Resources/DataBLockVectorList.h>
+#include <Resources/DataBlockVectorList.h>
             
             inline void Normalize() {
                 for (unsigned int i = 1; i < this->size; ++i){          
