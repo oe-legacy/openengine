@@ -149,9 +149,9 @@ namespace OpenEngine {
              * @param i The index into the block.
              * @param value The value to be set to.
              */
-            virtual void SetElement(unsigned int i, Math::Vector<2, float> value) = 0;
-            virtual void SetElement(unsigned int i, Math::Vector<3, float> value) = 0;
-            virtual void SetElement(unsigned int i, Math::Vector<4, float> value) = 0;
+            virtual void SetElement(unsigned int i, const Math::Vector<2, float> value) = 0;
+            virtual void SetElement(unsigned int i, const Math::Vector<3, float> value) = 0;
+            virtual void SetElement(unsigned int i, const Math::Vector<4, float> value) = 0;
 
             /**
              * Get the type of the data block.
@@ -236,6 +236,65 @@ namespace OpenEngine {
              */
             virtual std::string ToString() = 0;
 
+            // *** Math ***
+
+            /**
+             * Destructive vector addition on all elements in the
+             * datablock.
+             */
+            virtual void operator+=(const Math::Vector<2, float> value) = 0;
+            virtual void operator+=(const Math::Vector<3, float> value) = 0;
+            virtual void operator+=(const Math::Vector<4, float> value) = 0;
+            /**
+             * Nondestructive vector addition on all elements in the
+             * datablock.
+             */
+            virtual IDataBlockPtr operator+(const Math::Vector<2, float> value) = 0;
+            virtual IDataBlockPtr operator+(const Math::Vector<3, float> value) = 0;
+            virtual IDataBlockPtr operator+(const Math::Vector<4, float> value) = 0;
+
+            /**
+             * Destructive vector subtraction on all elements in the
+             * datablock.
+             */
+            virtual void operator-=(const Math::Vector<2, float> value) = 0;
+            virtual void operator-=(const Math::Vector<3, float> value) = 0;
+            virtual void operator-=(const Math::Vector<4, float> value) = 0;
+            /**
+             * Nondestructive vector subtraction on all elements in the
+             * datablock.
+             */
+            virtual IDataBlockPtr operator-(const Math::Vector<2, float> value) = 0;
+            virtual IDataBlockPtr operator-(const Math::Vector<3, float> value) = 0;
+            virtual IDataBlockPtr operator-(const Math::Vector<4, float> value) = 0;
+
+            /**
+             * Destructive scalar multiplication on all elements in
+             * the datablock.
+             */
+            virtual void operator*=(const float s) = 0;
+            /**
+             * Nondestructive scalar multiplication on all elements in
+             * the datablock.
+             */
+            virtual IDataBlockPtr operator*(const float s) = 0;
+            
+            /**
+             * Destructive scalar division on all elements in the
+             * datablock.
+             */
+            virtual void operator/=(const float s) = 0;
+            /**
+             * Nondestructive scalar division on all elements in the
+             * datablock.
+             */
+            virtual IDataBlockPtr operator/(const float s) = 0;
+
+            /**
+             * Destructively normalize all elements of the datablock.
+             */
+            virtual void Normalize() = 0;
+
         };
         
         /**
@@ -252,6 +311,7 @@ namespace OpenEngine {
             IDataBlockChangedEventArg(IDataBlockPtr r, unsigned int s, unsigned int e)
                 : resource(r), start(s), end(e) {}
         };
+
     }
 }
 

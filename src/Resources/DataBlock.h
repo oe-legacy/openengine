@@ -1,6 +1,6 @@
 // Data block.
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -94,25 +94,6 @@ namespace OpenEngine {
                 return (T*) this->data;
             }
 
-            void GetElement(unsigned int i, Math::Vector<2, float> &element){
-                Math::Vector<N, T> vec = vectorlist.GetElement(i);
-                element[0] = vec.Get(0);
-                element[1] = (N >= 2) ? vec.Get(1) : 0;
-            }
-            void GetElement(unsigned int i, Math::Vector<3, float> &element){
-                Math::Vector<N, T> vec = vectorlist.GetElement(i);
-                element[0] = vec.Get(0);
-                if (N >= 2) element[1] = vec.Get(1);
-                if (N >= 3) element[2] = vec.Get(2);
-            }
-            void GetElement(unsigned int i, Math::Vector<4, float> &element){
-                Math::Vector<N, T> vec = vectorlist.GetElement(i);
-                element[0] = vec.Get(0);
-                if (N >= 2) element[1] = vec.Get(1);
-                if (N >= 3) element[2] = vec.Get(2);
-                if (N >= 4) element[3] = vec.Get(3);
-            }
-
             /**
              * Gets the i'th element in the data block.
              */
@@ -121,28 +102,6 @@ namespace OpenEngine {
             }
             inline Math::Vector<N, T> operator[](const unsigned int i){
                 return GetElement(i);
-            }
-
-            void SetElement(unsigned int i, Math::Vector<2, float> value){
-                Math::Vector<N, T> vec;
-                vec[0] = value.Get(0);
-                if (N >= 2) vec[1] = value.Get(1);
-                vectorlist.SetElement(i, vec);
-            }
-            void SetElement(unsigned int i, Math::Vector<3, float> value){
-                Math::Vector<N, T> vec;
-                vec[0] = value.Get(0);
-                if (N >= 2) vec[1] = value.Get(1);
-                if (N >= 3) vec[2] = value.Get(2);
-                vectorlist.SetElement(i, vec);
-            }
-            void SetElement(unsigned int i, Math::Vector<4, float> value){
-                Math::Vector<N, T> vec;
-                vec[0] = value.Get(0);
-                if (N >= 2) vec[1] = value.Get(1);
-                if (N >= 3) vec[2] = value.Get(2);
-                if (N >= 4) vec[3] = value.Get(3);
-                vectorlist.SetElement(i, vec);
             }
 
             /**
@@ -159,6 +118,86 @@ namespace OpenEngine {
              */
             inline Math::VectorIterator<N, T> End() const {
                 return vectorlist.End();
+            }
+
+#undef VECTOR
+#define VECTOR(dim, type)                                               \
+            inline Math::Vector<N, T> ConvertVector(const Math::Vector<dim, type> value){ \
+                Math::Vector<N, T> vec;                                 \
+                vec[0] = value.Get(0);                                  \
+                for (unsigned int i = 1; i < N && i < dim; ++i)         \
+                    vec[i] = value.Get(i);                              \
+                return vec;                                             \
+            }                                                           \
+                                                                        \
+            inline void GetElement(unsigned int i, Math::Vector<dim, type> &element){ \
+                Math::Vector<N, T> vec = vectorlist.GetElement(i);      \
+                element[0] = vec.Get(0);                                \
+                for (unsigned int i = 0; i < dim; ++i)                  \
+                    element[i] = i < N ? vec.Get(i) : 0;                \
+            }                                                           \
+            inline void SetElement(unsigned int i, const Math::Vector<dim, type> value){ \
+                Math::Vector<N, T> vec = ConvertVector(value);          \
+                vectorlist.SetElement(i, vec);                          \
+            }                                                           \
+            inline void operator+=(const Math::Vector<dim, type> value) { \
+                Math::Vector<N, T> vec = ConvertVector(value);          \
+                for (unsigned int i = 1; i < this->size; ++i){          \
+                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
+                    vectorlist.SetElement(i, element + vec);            \
+                }                                                       \
+            }                                                           \
+            inline IDataBlockPtr operator+(const Math::Vector<dim, type> value) { \
+                IDataBlockPtr clone = this->Clone();                    \
+                *clone += value;                                        \
+                return clone;                                           \
+            }                                                           \
+            inline void operator-=(const Math::Vector<dim, type> value) { \
+                Math::Vector<N, T> vec = ConvertVector(value);          \
+                for (unsigned int i = 1; i < this->size; ++i){          \
+                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
+                    vectorlist.SetElement(i, element - vec);            \
+                }                                                       \
+            }                                                           \
+            inline IDataBlockPtr operator-(const Math::Vector<dim, type> value) { \
+                IDataBlockPtr clone = this->Clone();                    \
+                *clone -= value;                                        \
+                return clone;                                           \
+            }                                                           \
+
+#undef SCALAR
+#define SCALAR(type)                                                    \
+            inline void operator*=(const float s){                      \
+                for (unsigned int i = 1; i < this->size; ++i){          \
+                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
+                    vectorlist.SetElement(i, element * s);              \
+                }                                                       \
+            }                                                           \
+            inline IDataBlockPtr operator*(const float s){              \
+                IDataBlockPtr clone = this->Clone();                    \
+                *clone *= s;                                            \
+                return clone;                                           \
+            }                                                           \
+            inline void operator/=(const float s){                      \
+                for (unsigned int i = 1; i < this->size; ++i){          \
+                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
+                    vectorlist.SetElement(i, element / s);              \
+                }                                                       \
+            }                                                           \
+            inline IDataBlockPtr operator/(const float s){              \
+                IDataBlockPtr clone = this->Clone();                    \
+                *clone /= s;                                            \
+                return clone;                                           \
+            }                                                           \
+            
+#include <Resources/DataBLockVectorList.h>
+            
+            inline void Normalize() {
+                for (unsigned int i = 1; i < this->size; ++i){          
+                    Math::Vector<N, T> element = vectorlist.GetElement(i); 
+                    element.Normalize();
+                    vectorlist.SetElement(i, element);            
+                }                                                       
             }
 
             std::string ToString(){
