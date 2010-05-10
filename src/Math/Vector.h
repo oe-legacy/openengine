@@ -483,7 +483,7 @@ public:
             a[i] = elm[i];
     }
     /**
-     * Returns a pointer directly into hte vectors data core.
+     * Returns a pointer directly into the vectors data core.
      */
     inline T* ToArray() const {
         return elm;
