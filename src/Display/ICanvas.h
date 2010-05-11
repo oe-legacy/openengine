@@ -10,10 +10,10 @@
 #ifndef _INTERFACE_CANVAS_H_
 #define _INTERFACE_CANVAS_H_
 
-// #include <Core/Event.h>
 #include <Utils/Timer.h>
 #include <Resources/ITexture2D.h>
 #include <Core/IListener.h>
+#include <Math/Vector.h>
 
 namespace OpenEngine {
 namespace Display {
@@ -21,6 +21,7 @@ namespace Display {
 // using Core::Event;
 using Core::IListener;
 using Utils::Time;
+using Math::Vector;
 using namespace Resources;
 
 class ICanvas;
@@ -72,8 +73,21 @@ class ICanvas
     , public virtual IListener<Display::InitializeEventArg>
     , public virtual IListener<Display::DeinitializeEventArg> 
 {
+protected:
+    Vector<2,int> pos;
 public:
     virtual ~ICanvas() {}    
+
+
+    /**
+     * Get the origin position of the canvas.  
+     *
+     * This is only relevant when multiple canvases are composited
+     * onto a target canvas.
+     *
+     * @return Canvas position
+     */
+    virtual Vector<2,int> GetPosition() const { return pos; }
 
     /**
      * Get canvas width.
@@ -89,6 +103,16 @@ public:
      */
     virtual unsigned int GetHeight() const = 0;
     
+    /**
+     * Set the origin position of the canvas.  
+     *
+     * This is only relevant when multiple canvases are composited
+     * onto a target canvas.
+     *
+     * @param position The canvas position
+     */
+    virtual void SetPosition(const Vector<2,int> pos) { this->pos = pos; };
+
     /**
      * Set canvas width.
      * Must be supported as long as the module initialization method
