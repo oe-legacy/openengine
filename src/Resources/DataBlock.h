@@ -125,15 +125,13 @@ namespace OpenEngine {
 #define VECTOR(dim, type)                                               \
             inline Math::Vector<N, T> ConvertVector(const Math::Vector<dim, type> value){ \
                 Math::Vector<N, T> vec;                                 \
-                vec[0] = value.Get(0);                                  \
-                for (unsigned int i = 1; i < N && i < dim; ++i)         \
+                for (unsigned int i = 0; i < N && i < dim; ++i)         \
                     vec[i] = value.Get(i);                              \
                 return vec;                                             \
             }                                                           \
                                                                         \
             inline void GetElement(unsigned int i, Math::Vector<dim, type> &element){ \
                 Math::Vector<N, T> vec = vectorlist.GetElement(i);      \
-                element[0] = vec.Get(0);                                \
                 for (unsigned int i = 0; i < dim; ++i)                  \
                     element[i] = i < N ? vec.Get(i) : 0;                \
             }                                                           \
@@ -143,7 +141,7 @@ namespace OpenEngine {
             }                                                           \
             inline void operator+=(const Math::Vector<dim, type> value) { \
                 Math::Vector<N, T> vec = ConvertVector(value);          \
-                for (unsigned int i = 1; i < this->size; ++i){          \
+                for (unsigned int i = 0; i < this->size; ++i){          \
                     Math::Vector<N, T> element = vectorlist.GetElement(i); \
                     vectorlist.SetElement(i, element + vec);            \
                 }                                                       \
@@ -155,7 +153,7 @@ namespace OpenEngine {
             }                                                           \
             inline void operator-=(const Math::Vector<dim, type> value) { \
                 Math::Vector<N, T> vec = ConvertVector(value);          \
-                for (unsigned int i = 1; i < this->size; ++i){          \
+                for (unsigned int i = 0; i < this->size; ++i){          \
                     Math::Vector<N, T> element = vectorlist.GetElement(i); \
                     vectorlist.SetElement(i, element - vec);            \
                 }                                                       \
