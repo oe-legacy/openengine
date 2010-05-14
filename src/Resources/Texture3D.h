@@ -102,8 +102,10 @@ namespace OpenEngine {
             }
 
             Texture3D<T>* Clone(){
+                T* data = new T[this->width * this->height * this->depth * this->channels];
+                memcpy(data, this->data, this->width * this->height * this->depth * this->channels * sizeof(T));
                 Texture3D<T>* clone = new Texture3D<T>(this->width, this->height, this->depth, 
-                                                       this->channels, (T*)this->data);
+                                                       this->channels, data);
                 clone->format = this->format;
                 clone->wrap = this->wrap;
                 clone->mipmapping = this->mipmapping;

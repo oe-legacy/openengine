@@ -61,8 +61,10 @@ namespace OpenEngine {
             }
 
             Texture2D<T>* Clone(){
+                T* data = new T[this->width * this->height * this->channels];
+                memcpy(data, this->data, this->width * this->height * this->channels * sizeof(T));
                 Texture2D<T>* clone = new Texture2D<T>(this->width, this->height, 
-                                                       this->channels, (T*)this->data);
+                                                       this->channels, data);
                 clone->format = this->format;
                 clone->wrap = this->wrap;
                 clone->mipmapping = this->mipmapping;
