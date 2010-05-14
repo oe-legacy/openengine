@@ -542,6 +542,19 @@ const Vector<N,T> operator*(const T s, const Vector<N,T>& e) {
 }
 
 /**
+ * Scalar/vector division.
+ *
+ * @see Vector::operator/
+ */
+template <unsigned int N, class T>
+const Vector<N,T> operator/(const T s, const Vector<N,T>& e) {
+    Vector<N, T> ret;
+    for (unsigned int i=0; i<N; i++)
+        ret[i] = s / e.Get(i);
+    return ret;
+}
+
+/**
  * Stream operator to ease the use of ToString method.
  */
 template <unsigned int N, class T>
