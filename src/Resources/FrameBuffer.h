@@ -36,6 +36,13 @@ namespace OpenEngine {
             vector<ITexture2DPtr> texs;
             
         public:
+            FrameBuffer() {
+                id = 0;
+                dimension = Vector<2, int>();
+                depth = ITexture2DPtr();
+                texs.clear();
+            }
+
             FrameBuffer(Vector<2, int> dims, unsigned int colorBuffers = 1, bool useDepth = false)
                 : id(0), dimension(dims) {
                 unsigned int width = dimension[0];
@@ -59,6 +66,19 @@ namespace OpenEngine {
                 }
             }
             
+            FrameBuffer* Clone() {
+                FrameBuffer* clone = new FrameBuffer();
+                clone->dimension = dimension;
+                if (depth != NULL)
+                    clone->depth = ITexture2DPtr(depth->Clone());
+
+                for (unsigned int i = 0; i < texs.size(); ++i){
+                    ITexture2DPtr tex = ITexture2DPtr(texs[i]->Clone());
+                    clone->texs.push_back(tex);
+                }
+                return clone;
+            }
+
             /**
              * Get framebuffer id.
              *
