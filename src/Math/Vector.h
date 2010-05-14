@@ -484,6 +484,8 @@ public:
     }
     /**
      * Returns a pointer directly into the vectors data core.
+     *
+     * @return The data pointer.
      */
     inline T* ToArray() const {
         return elm;

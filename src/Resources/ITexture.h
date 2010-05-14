@@ -17,6 +17,16 @@ namespace OpenEngine {
     namespace Resources {
         
         /**
+         * Forward declaration.
+         */
+        class ITexture;
+        
+        /**
+         * Texture resource smart pointer.
+         */
+        typedef boost::shared_ptr<ITexture> ITexturePtr;
+
+        /**
          * Color Format enumeration.
          */
         enum ColorFormat { ALPHA, ALPHA_COMPRESSED, 
@@ -79,6 +89,8 @@ namespace OpenEngine {
             }
 
             virtual ~ITexture() {}
+
+            virtual ITexture* Clone() = 0;
 
             /**
              * Get texture id.
@@ -188,11 +200,6 @@ namespace OpenEngine {
             virtual unsigned int GetSerialzationTag() {return -1;}
             
         };
-
-        /**
-         * Texture resource smart pointer.
-         */
-        typedef boost::shared_ptr<ITexture> ITexturePtr;
 
     }
 }

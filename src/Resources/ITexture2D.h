@@ -16,7 +16,16 @@
 namespace OpenEngine {
     namespace Resources {
 
+        /**
+         * Forward declarations.
+         */
+        class ITexture2D;
         class Texture2DChangedEventArg;
+
+        /**
+         * Texture resource smart pointer.
+         */
+        typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
 
         /**
          * Texture 2D resource interface.
@@ -33,6 +42,8 @@ namespace OpenEngine {
                 : ITexture() {
                 width = height = 0;
             }
+
+            virtual ITexture2D* Clone() = 0;
     
             /**
              * Get width in pixels on loaded texture.

@@ -60,6 +60,16 @@ namespace OpenEngine {
                 }
             }
 
+            Texture2D<T>* Clone(){
+                Texture2D<T>* clone = new Texture2D<T>(this->width, this->height, 
+                                                       this->channels, (T*)this->data);
+                clone->format = this->format;
+                clone->wrap = this->wrap;
+                clone->mipmapping = this->mipmapping;
+                clone->compression = this->compression;
+                return clone;
+            }
+
             /**
              * Loads an empty data array.
              */

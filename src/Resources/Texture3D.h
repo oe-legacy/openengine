@@ -101,6 +101,17 @@ namespace OpenEngine {
                 }
             }
 
+            Texture3D<T>* Clone(){
+                Texture3D<T>* clone = new Texture3D<T>(this->width, this->height, this->depth, 
+                                                       this->channels, (T*)this->data);
+                clone->format = this->format;
+                clone->wrap = this->wrap;
+                clone->mipmapping = this->mipmapping;
+                clone->compression = this->compression;
+                clone->useCase = this->useCase;
+                return clone;
+            }
+
             /**
              * Loads an empty data array.
              */

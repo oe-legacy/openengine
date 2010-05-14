@@ -16,7 +16,16 @@
 namespace OpenEngine {
     namespace Resources {
 
+        /**
+         * Forward declarations.
+         */
+        class ITexture3D;
         class Texture3DChangedEventArg;
+
+        /**
+         * Texture resource smart pointer.
+         */
+        typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
 
         /**
          * Texture resource interface.
@@ -44,6 +53,8 @@ namespace OpenEngine {
                 width = height = depth = 0;
                 useCase = TEXTURE3D;
             }
+    
+            virtual ITexture3D* Clone() = 0;
     
             /**
              * Get width in pixels on loaded texture.
@@ -85,7 +96,6 @@ namespace OpenEngine {
          * Void smart pointer
          */
         typedef boost::shared_ptr<void> VoidPtr;
-        typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
         
         /**
          * Texture change event argument.
