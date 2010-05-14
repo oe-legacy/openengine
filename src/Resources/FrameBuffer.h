@@ -31,15 +31,15 @@ namespace OpenEngine {
         class FrameBuffer {
         protected:
             unsigned int id;
-            Vector<4, int> dimension;
+            Vector<2, int> dimension;
             ITexture2DPtr depth;
             vector<ITexture2DPtr> texs;
             
         public:
-            FrameBuffer(Vector<4, int> dims, unsigned int colorBuffers = 1, bool useDepth = false)
+            FrameBuffer(Vector<2, int> dims, unsigned int colorBuffers = 1, bool useDepth = false)
                 : id(0), dimension(dims) {
-                unsigned int width = dimension[2] - dimension[0];
-                unsigned int height = dimension[3] - dimension[1];
+                unsigned int width = dimension[0];
+                unsigned int height = dimension[1];
                 if (useDepth){
                     depth = ITexture2DPtr(new Texture2D<float>(width, height, 1));
                     depth->SetColorFormat(DEPTH);
@@ -75,19 +75,19 @@ namespace OpenEngine {
 
             /**
              * Get framebuffer dimension. The values represent
-             * [xoffset, yoffset, width, height].
+             * [width, height].
              *
              * @return The vector containing the dimensions of the
              * framebuffer. 
              */
-            inline Vector<4, int> GetDimension() const { return dimension; }
+            inline Vector<2, int> GetDimension() const { return dimension; }
 
             /**
              * Set the dimension of the framebuffer.
              *
              * @param dim A vector containing the dimension.
              */
-            inline void SetDimension(Vector<4, int> dim) { dimension = dim; }
+            inline void SetDimension(Vector<2, int> dim) { dimension = dim; }
 
             /**
              * Get the texture containing the depth buffer. Returns a
