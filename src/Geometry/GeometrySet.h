@@ -52,6 +52,8 @@ namespace OpenEngine {
             //map<string, IDataBlockPtr> vertexAttrib;
 
         public:
+            GeometrySet();
+            
             GeometrySet(Resources::IDataBlockPtr vertices,
                  Resources::IDataBlockPtr normals = Resources::IDataBlockPtr(),
                  Resources::IDataBlockList texCoords = Resources::IDataBlockList(),

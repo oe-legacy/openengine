@@ -15,6 +15,13 @@ using namespace OpenEngine::Resources;
 namespace OpenEngine {
     namespace Geometry{
 
+        GeometrySet::GeometrySet() 
+            : vertices(IDataBlockPtr()), 
+              normals(IDataBlockPtr()), 
+              texCoords(), 
+              colors(IDataBlockPtr()) {
+        }
+
         GeometrySet::GeometrySet(IDataBlockPtr vertices,
                                  IDataBlockPtr normals,
                                  IDataBlockList texCoords,
