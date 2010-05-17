@@ -125,7 +125,7 @@ namespace OpenEngine {
             /**
              * Get the i'th texture attachment.
              */
-            inline ITexture2DPtr GetTexAttachement(unsigned int i) const { 
+            inline ITexture2DPtr GetTexAttachment(unsigned int i) const { 
 #ifdef OE_SAFE
                 if (texs.size() <= i)
                     throw Exception("No attachment at index " + Utils::Convert::ToString<unsigned int>(i));
