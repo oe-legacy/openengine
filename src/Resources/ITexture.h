@@ -29,7 +29,7 @@ namespace OpenEngine {
         /**
          * Color Format enumeration.
          */
-        enum ColorFormat { ALPHA, ALPHA_COMPRESSED, 
+        enum ColorFormat { UNKNOWN, ALPHA, ALPHA_COMPRESSED, 
                            LUMINANCE, LUMINANCE_COMPRESSED, DEPTH, LUMINANCE32F,
                            LUMINANCE_ALPHA, LUMINANCE_ALPHA_COMPRESSED, 
                            RGB, BGR, RGB_COMPRESSED, RGB32F, 
@@ -75,7 +75,21 @@ namespace OpenEngine {
                 case 3: return RGB;
                 case 4: return RGBA;
                 }
-                return RGBA;
+                return Resources::UNKNOWN;
+            }
+
+            /**
+             * Given a number of channels, the default colorformat is
+             * returned.
+             */
+            ColorFormat ColorFormatFromChannelsBGR(unsigned char c){
+                switch(c){
+                case 1: return LUMINANCE;
+                case 2: return LUMINANCE_ALPHA;
+                case 3: return BGR;
+                case 4: return BGRA;
+                }
+                return Resources::UNKNOWN;
             }
 
         public:
@@ -85,6 +99,7 @@ namespace OpenEngine {
                 mipmapping = true;
                 compression = false;
                 type = Types::NOTYPE;
+                format = Resources::UNKNOWN;
                 wrap = REPEAT;
             }
 
@@ -199,9 +214,34 @@ namespace OpenEngine {
             virtual void Deserialize(IArchiveReader&) {};
             virtual unsigned int GetSerialzationTag() {return -1;}
             
+            static std::string colorFomatToString(ColorFormat cf) {
+                switch(cf) {
+                case Resources::UNKNOWN : return "UNKNOWN";
+                case Resources::ALPHA : return "ALPHA";
+                case Resources::ALPHA_COMPRESSED : return "ALPHA_COMPRESSED";
+                case Resources::LUMINANCE : return "LUMINANCE";
+                case Resources::LUMINANCE_COMPRESSED : 
+                    return "LUMINANCE_COMPRESSED";
+                case Resources::DEPTH : return "DEPTH";
+                case Resources::LUMINANCE32F : return "LUMINANCE32F";
+                case Resources::LUMINANCE_ALPHA : return "LUMINANCE_ALPHA";
+                case Resources::LUMINANCE_ALPHA_COMPRESSED : 
+                    return "LUMINANCE_ALPHA_COMPRESSED";
+                case Resources::RGB : return "RGB";
+                case Resources::BGR : return "BGR";
+                case Resources::RGB_COMPRESSED : return "RGB_COMPRESSED";
+                case Resources::RGB32F : return "RGB32F";
+                case Resources::RGBA : return "RGBA";
+                case Resources::BGRA : return "BGRA";
+                case Resources::RGBA_COMPRESSED : return "RGBA_COMPRESSED";
+                case Resources::RGBA32F : return "RGBA32F";
+                default:
+                    return "unknown type";
+                }
+            }
         };
 
-    }
-}
+    } // NS Resources
+} // OpenEngine
 
 #endif
