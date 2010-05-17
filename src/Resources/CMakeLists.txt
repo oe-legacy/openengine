@@ -14,6 +14,8 @@ ADD_LIBRARY(OpenEngine_Resources
   Exceptions.h
   File.h
   File.cpp
+  Directory.h
+  Directory.cpp
   ResourceManager.h
   DirectoryManager.h
   DirectoryManager.cpp
