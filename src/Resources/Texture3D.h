@@ -62,22 +62,39 @@ namespace OpenEngine {
             Texture3D(vector<Texture2DPtr(T)> l)
                 : ITexture3D() {
                 SetupType<T>();
+                this->depth = l.size();
+
                 this->width = 0;
                 this->height = 0;
-                this->depth = l.size();
-                this->channels = 1;
+                this->channels = 0;
                 typename vector<Texture2DPtr(T) >::iterator itr = l.begin();
+                this->format = Resources::UNKNOWN;
+                unsigned int count = 1;
                 while (itr != l.end()) {
                     Texture2DPtr(T) tex = *itr;
                     tex->Load();
-                    if (this->width < tex->GetWidth()) this->width = tex->GetWidth();
-                    if (this->height < tex->GetHeight()) this->height = tex->GetHeight();
-                    if (this->channels < tex->GetChannels()) this->channels = tex->GetChannels();
+                    if (this->width < tex->GetWidth())
+                        this->width = tex->GetWidth();
+                    if (this->height < tex->GetHeight())
+                        this->height = tex->GetHeight();
+                    if (this->channels < tex->GetChannels())
+                        this->channels = tex->GetChannels();
+
+                    if (itr == l.begin())
+                        this->format = tex->GetColorFormat();
+                    else if (this->format != tex->GetColorFormat())
+                        throw Core::Exception("format mismatch on count: " +
+                                              Convert::ToString(count) + " " +
+                                              colorFomatToString(this->format)
+                                              + "!=" +
+                                              colorFomatToString(tex->GetColorFormat()));
 
                     ++itr;
+                    count++;
                 }
-                this->format = ColorFormatFromChannels(this->channels);
-                this->data = new T[this->width * this->height * this->depth * this->channels];
+
+                this->data = new T[this->width * this->height * 
+                                   this->depth * this->channels];
                 
                 for (unsigned int w = 0; w < this->width; ++w){
                     for (unsigned int h = 0; h < this->height; ++h){
