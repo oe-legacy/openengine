@@ -26,7 +26,28 @@ namespace OpenEngine {
     }
     
     namespace Scene {
-        
+
+        /**
+         * A scene node that handles post processing effects on the
+         * image.
+         *
+         * The node will handle most of the setup as long as a few
+         * naming conventions are respected.
+         *
+         * The uniform sampler2DShadow depth contains the depth
+         * texture for the subscene.
+         *
+         * The uniform sampler2D imageN contains the N'th texture
+         * rendered to in the subscene.
+         *
+         * The uniform sampler2D finalImage0 contains the N'th image
+         * from the previous application of the post process node with
+         * the effect applied. Since this is undefined for the first
+         * pass, it will contain the same as imageN.
+         *
+         * The uniform float time contains the time since the renderer
+         * was created in miliseconds, if the node is attached to a ProcessEventArg.
+         */        
         class PostProcessNode : public Scene::ISceneNode,
                                 public Core::IListener<Renderers::RenderingEventArg> {
             OE_SCENE_NODE(PostProcessNode, ISceneNode)
