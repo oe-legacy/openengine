@@ -11,4 +11,5 @@
 #include <Scene/TransformationNode.h>
 #include <Scene/VertexArrayNode.h>
 #include <Scene/MeshNode.h>
+#include <Scene/PostProcessNode.h>
 @OE_SCENE_NODE_INCLUDE_EXPANSION@
