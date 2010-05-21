@@ -29,6 +29,8 @@ public:
     static void Make(std::string directory);
     static std::string GetCWD();
     static std::list<std::string> ListFiles(std::string directory);
+    static std::list<std::string> Tokenize(std::string directory);
+    static std::string TokensToString(std::list<std::string> folders);
 };
 
 } //NS Resources

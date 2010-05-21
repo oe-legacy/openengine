@@ -6,6 +6,9 @@
 #include <sys/stat.h> //includes mkdir
 //#include <sys/types.h>
 #include <dirent.h>
+#include <iostream>
+#include <sstream>
+#include <Logging/Logger.h>
 
 namespace OpenEngine {
 namespace Resources {
@@ -22,7 +25,6 @@ std::string Directory::GetCWD() {
  *
  * @param directory the path to the directory
  * @return true if the directory exists, false otherwise
- * @throws ResourceException
  */
 bool Directory::Exists(std::string directory) {
     std::string back = GetCWD();
@@ -34,9 +36,36 @@ bool Directory::Exists(std::string directory) {
     }
 }
 
+std::list<std::string> Directory::Tokenize(std::string directory) {
+    std::list<std::string> out;
+    std::istringstream iss(directory);
+    std::string token;
+    while (getline(iss, token, '/')) {
+        out.push_back(token);
+    }
+    return out;
+}
+
+std::string Directory::TokensToString(std::list<std::string> folders) {
+    std::list<std::string>::iterator folder = folders.begin();
+    std::string directory = "";
+    while (folder != folders.end()) {
+        directory += *folder + "/";
+        folder++;
+    }
+    return directory;
+}
+
 void Directory::Make(std::string directory) {
+    std::list<std::string> dirs = Tokenize(directory);
+    if (dirs.size() > 1) {
+        dirs.pop_back();
+        Make(TokensToString(dirs));
+    }
+
     if (Directory::Exists(directory)) {
-        throw Core::Exception("directory allready exists: " + directory);
+        return;
+        //throw Core::Exception("directory allready exists: " + directory);
     }
     if (mkdir(directory.c_str(),0777) != 0) {
         throw Core::Exception("could not create directory: " + directory);
