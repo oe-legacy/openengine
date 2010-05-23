@@ -64,9 +64,10 @@ namespace OpenEngine {
 
             unsigned int time;
 
+            bool enabled;
+
         public:
             // Public variables
-            bool enabled;
             bool offscreenRendering;
 
         public:
@@ -85,20 +86,20 @@ namespace OpenEngine {
 
             ~PostProcessNode();
 
-            void Handle(Renderers::RenderingEventArg arg);
+            virtual void Handle(Renderers::RenderingEventArg arg);
 
             /**
              * Initialize effect specific settings, such as more
              * framebuffers or other variables.
              */
-            virtual void Initialize(Renderers::RenderingEventArg arg);
+            virtual void Initialize(Renderers::RenderingEventArg arg) {}
 
             /**
              * Handles any logic that needs to be done before the
              * effect, such as setting viewingvolume dependent
              * uniforms or updating time uniforms.
              */
-            virtual void PreEffect(Renderers::IRenderer& renderer, Math::Matrix<4,4,float> modelview);
+            virtual void PreEffect(Renderers::RenderingEventArg* arg, Math::Matrix<4,4,float>* modelview) {}
 
             /**
              * Gets the scene frame buffer, which all subnodes will be rendered to.
@@ -132,6 +133,10 @@ namespace OpenEngine {
              * rendered with the postprocess effect.
              */
             inline vector<ITexture2DPtr> GetFinalTexs() const { return finalTexs; }
+
+            void SetEnabled(bool e) { enabled = e; }
+
+            bool GetEnabled() { return enabled; }
         };
 
     }

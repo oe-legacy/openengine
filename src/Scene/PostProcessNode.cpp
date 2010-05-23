@@ -124,13 +124,5 @@ namespace OpenEngine {
             }
         }
 
-        void PostProcessNode::Initialize(RenderingEventArg arg){
-
-        }
-
-        void PostProcessNode::PreEffect(IRenderer& renderer, Matrix<4,4,float> modelview){
-
-        }
-
     }
 }
