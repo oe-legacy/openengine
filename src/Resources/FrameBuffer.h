@@ -1,6 +1,6 @@
 // Frame Buffer.
 // -------------------------------------------------------------------
-// Copyright (C) 2007 OpenEngine.dk (See AUTHORS) 
+// Copyright (C) 2010 OpenEngine.dk (See AUTHORS) 
 // 
 // This program is free software; It is covered by the GNU General 
 // Public License version 2 or any later version. 
@@ -53,6 +53,7 @@ namespace OpenEngine {
                     depth->SetMipmapping(false);
                     depth->SetCompression(false);
                     depth->SetWrapping(CLAMP_TO_EDGE);
+                    depth->SetFiltering(NONE);
                 }else
                     depth = ITexture2DPtr();
 
@@ -63,6 +64,7 @@ namespace OpenEngine {
                     texs[i]->SetMipmapping(false);
                     texs[i]->SetCompression(false);
                     texs[i]->SetWrapping(CLAMP_TO_EDGE);
+                    texs[i]->SetFiltering(NONE);
                 }
             }
             
@@ -131,13 +133,6 @@ namespace OpenEngine {
                     throw Exception("No attachment at index " + Utils::Convert::ToString<unsigned int>(i));
 #endif
                 return texs[i]; 
-            }
-
-            /**
-             * 
-             */
-            inline void SetColorAttachement(ITexture2DPtr tex, unsigned int i) {
-                
             }
 
         };
