@@ -38,7 +38,16 @@ namespace OpenEngine {
         /**
          * Texture Wrapping options
          */
-        enum Wrapping {CLAMP, CLAMP_TO_EDGE, REPEAT};
+        enum Wrapping {CLAMP = 0x2900, 
+                       CLAMP_TO_EDGE = 0x812F, 
+                       REPEAT = 0x2901};
+        
+        /**
+         * Texture filtering options
+         */
+        enum Filtering {NONE = 0x2700, // GL_NEAREST_MIPMAP_NEAREST
+                        BILINEAR = 0x2701, // GL_LINEAR_MIPMAP_NEAREST
+                        TRILINEAR = 0x2703}; // GL_LINEAR_MIPMAP_LINEAR
 
         /**
          * Basic texture interface.
@@ -51,6 +60,7 @@ namespace OpenEngine {
             unsigned char channels;
             Types::Type type;
             ColorFormat format;
+            Filtering filtering;
             Wrapping wrap;
             void* data;
             bool mipmapping;
@@ -101,6 +111,7 @@ namespace OpenEngine {
                 type = Types::NOTYPE;
                 format = Resources::UNKNOWN;
                 wrap = REPEAT;
+                filtering = BILINEAR;
             }
 
             virtual ~ITexture() {}
@@ -193,6 +204,18 @@ namespace OpenEngine {
              * @return Wrapping The wrapping used.
              */
             inline Wrapping GetWrapping() const { return wrap; }
+
+            /**
+             * Sets the texture wrapping used for this texture
+             */
+            virtual void SetFiltering(Filtering f) { filtering = f; }
+
+            /**
+             * Returns the texture wrapping used for this texture.
+             *
+             * @return Filtering The wrapping used.
+             */
+            inline Filtering GetFiltering() const { return filtering; }
 
             /**
              * Returns wether or not to use compression.
