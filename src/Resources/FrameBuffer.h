@@ -43,7 +43,7 @@ namespace OpenEngine {
                 texs.clear();
             }
 
-            FrameBuffer(Vector<2, int> dims, unsigned int colorBuffers = 1, bool useDepth = false)
+            FrameBuffer(Vector<2, int> dims, unsigned int colorBuffers = 1, bool useDepth = true)
                 : id(0), dimension(dims) {
                 unsigned int width = dimension[0];
                 unsigned int height = dimension[1];
@@ -103,13 +103,6 @@ namespace OpenEngine {
              * framebuffer. 
              */
             inline Vector<2, int> GetDimension() const { return dimension; }
-
-            /**
-             * Set the dimension of the framebuffer.
-             *
-             * @param dim A vector containing the dimension.
-             */
-            inline void SetDimension(Vector<2, int> dim) { dimension = dim; }
 
             /**
              * Get the texture containing the depth buffer. Returns a
