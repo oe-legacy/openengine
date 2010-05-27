@@ -122,7 +122,7 @@ namespace OpenEngine {
             inline Math::Vector<2, int> GetDimension() const { return dimensions; }
 
             /**
-             * Returns the shader that creates teh effect
+             * Returns the shader that creates the effect
              *
              * @return The shader holding the effect.
              */
