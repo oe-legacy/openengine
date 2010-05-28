@@ -70,13 +70,26 @@ namespace OpenEngine {
                 typename vector<Texture2DPtr(T) >::iterator itr = l.begin();
                 this->format = Resources::UNKNOWN;
                 unsigned int count = 1;
+                bool allSliceSameSize = true;
                 while (itr != l.end()) {
                     Texture2DPtr(T) tex = *itr;
                     tex->Load();
-                    if (this->width < tex->GetWidth())
-                        this->width = tex->GetWidth();
-                    if (this->height < tex->GetHeight())
-                        this->height = tex->GetHeight();
+                    unsigned int w = tex->GetWidth();
+                    unsigned int h = tex->GetHeight();
+                    if (w == 0 || h == 0)
+                        throw Core::Exception("texture with zero dimension");
+
+                    if (allSliceSameSize) {
+                        if (this->width != 0 && w != this->width)
+                            allSliceSameSize = false;
+                        else if (this->height != 0 && h != this->height)
+                            allSliceSameSize = false;
+                    }
+
+                    if (this->width < w)
+                        this->width = w;
+                    if (this->height < h)
+                        this->height = h;
                     if (this->channels < tex->GetChannels())
                         this->channels = tex->GetChannels();
 
@@ -93,23 +106,35 @@ namespace OpenEngine {
                     count++;
                 }
 
-                this->data = new T[this->width * this->height * 
-                                   this->depth * this->channels];
-                
-                for (unsigned int w = 0; w < this->width; ++w){
-                    for (unsigned int h = 0; h < this->height; ++h){
-                        float x = float(w) / float(this->width);
-                        float y = float(h) / float(this->height);
-                        for (unsigned int d = 0; d < this->depth; ++d){
-                            T* voxel = GetVoxel(w,h,d);
-                            Vector<4, T> color = l[d]->InterpolatedPixel(x, y);
-                            
-                            for (unsigned int c = 0; c < this->channels; ++c)
-                                voxel[c] = color.Get(c);
+                unsigned int lineWidth = this->width * this->channels;
+                unsigned long sliceSize = lineWidth * this->height;
+                unsigned long size = sliceSize * this->depth;
+                T* data = new T[size];
+                this->data = data;
+
+                if (allSliceSameSize) {
+                    for (unsigned int d = 0; d < this->depth; ++d) {
+                        T* from = l[d]->GetData();
+                        T* to = data + d * sliceSize;
+                        std::memcpy(to, from, sliceSize*sizeof(T));
+                    }
+                } else {
+                    // @todo: move resampling to a function for reuse
+                    for (unsigned int w = 0; w < this->width; ++w){
+                        for (unsigned int h = 0; h < this->height; ++h){
+                            float x = float(w) / float(this->width);
+                            float y = float(h) / float(this->height);
+                            for (unsigned int d = 0; d < this->depth; ++d){
+                                T* voxel = GetVoxel(w,h,d);
+                                Vector<4, T> color =
+                                    l[d]->InterpolatedPixel(x, y);
+                                
+                                for (unsigned int c = 0; c<this->channels; ++c)
+                                    voxel[c] = color.Get(c);
+                            }
                         }
                     }
                 }
-
             }
             
             virtual ~Texture3D() {
