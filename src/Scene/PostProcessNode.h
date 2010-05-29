@@ -59,8 +59,7 @@ namespace OpenEngine {
             // FBO attributes
             Vector<2, int> dimensions;
             Resources::FrameBuffer* sceneFrameBuffer;
-            Resources::FrameBuffer* effectFrameBuffer;
-            vector<ITexture2DPtr> finalTexs;
+            Resources::FrameBuffer* finalFrameBuffer;
 
             unsigned int time;
 
@@ -68,7 +67,7 @@ namespace OpenEngine {
 
         public:
             // Public variables
-            bool offscreenRendering;
+            //bool offscreenRendering;
 
         public:
             PostProcessNode();
@@ -81,7 +80,7 @@ namespace OpenEngine {
              */
             PostProcessNode(Resources::IShaderResourcePtr effect, 
                             Resources::FrameBuffer* sceneFrameBuffer,
-                            Resources::FrameBuffer* effectFrameBuffer = NULL);
+                            Resources::FrameBuffer* finalFrameBuffer = NULL);
             
 
             ~PostProcessNode();
@@ -107,11 +106,13 @@ namespace OpenEngine {
             inline Resources::FrameBuffer* GetSceneFrameBuffer() const { return sceneFrameBuffer; }
 
             /**
-             * Returns the effect framebuffer. This framebuffer
+             * Returns the final framebuffer. This framebuffer
              * contains the textures after the effect has been
-             * applied.
+             * applied. It will only be available if the effect
+             * requires a final image or if explicitly stated in the
+             * constructor.
              */
-            inline Resources::FrameBuffer* GetEffectFrameBuffer() const { return effectFrameBuffer; }
+            inline Resources::FrameBuffer* GetFinalFrameBuffer() const { return finalFrameBuffer; }
 
             /**
              * Returns the width and height of the images produced by
@@ -127,12 +128,6 @@ namespace OpenEngine {
              * @return The shader holding the effect.
              */
             inline Resources::IShaderResourcePtr GetEffect() { return effect; }
-
-            /**
-             * Returns a list of textures containing the last scene
-             * rendered with the postprocess effect.
-             */
-            inline vector<ITexture2DPtr> GetFinalTexs() const { return finalTexs; }
 
             void SetEnabled(bool e) { enabled = e; }
 

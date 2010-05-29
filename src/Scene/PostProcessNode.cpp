@@ -27,8 +27,7 @@ namespace OpenEngine {
             dimensions = Vector<2, int>(0);
             time = 0;
             enabled = false;
-            effectFrameBuffer = NULL;
-            finalTexs.clear();
+            finalFrameBuffer = NULL;
         }
 
         PostProcessNode::PostProcessNode(IShaderResourcePtr effect, 
@@ -37,43 +36,34 @@ namespace OpenEngine {
                                          bool useDepth)
             : effect(effect), 
               dimensions(dims), 
+              finalFrameBuffer(NULL),
               time(0),
               enabled(true) {
             sceneFrameBuffer = new FrameBuffer(dims, colorBuffers, useDepth);
-            
-            effectFrameBuffer = new FrameBuffer(dims, colorBuffers, useDepth);
-
-            finalTexs.clear();
         }
 
         PostProcessNode::PostProcessNode(Resources::IShaderResourcePtr effect, 
                                          Resources::FrameBuffer* sceneFrameBuffer,
-                                         Resources::FrameBuffer* effectFrameBuffer)
+                                         Resources::FrameBuffer* finalFrameBuffer)
             : effect(effect),
               dimensions(sceneFrameBuffer->GetDimension()),
               time(0),
               enabled(true){
             this->sceneFrameBuffer = sceneFrameBuffer;
 
-            if (effectFrameBuffer)
-                this->effectFrameBuffer = effectFrameBuffer;
-            else
-                this->effectFrameBuffer = sceneFrameBuffer->Clone();
-
-            finalTexs.clear();
+            this->finalFrameBuffer = finalFrameBuffer;
         }
 
 
         PostProcessNode::~PostProcessNode(){
             delete sceneFrameBuffer;
-            delete effectFrameBuffer;
+            if (finalFrameBuffer) delete finalFrameBuffer;
         }
 
         void PostProcessNode::Handle(Renderers::RenderingEventArg arg){
             switch(arg.renderer.GetCurrentStage()){
             case Renderers::IRenderer::RENDERER_INITIALIZE:
                 {
-                    arg.renderer.BindFrameBuffer(effectFrameBuffer);
                     arg.renderer.BindFrameBuffer(sceneFrameBuffer);
                     
                     effect->Load();
@@ -93,18 +83,16 @@ namespace OpenEngine {
                     // The final texture is undefined in the first
                     // pass, so link to original non effect texture
                     unsigned int finalColors = 0;
-                    for (unsigned int j = 0; j < effectFrameBuffer->GetNumberOfAttachments(); ++j){
+                    for (unsigned int j = 0; j < sceneFrameBuffer->GetNumberOfAttachments(); ++j){
                         string colorid = "finalColor" + Utils::Convert::ToString<unsigned int>(j);
                         if (effect->GetUniformID(colorid) >= 0){
                             finalColors = j + 1;
                             effect->SetTexture(colorid, sceneFrameBuffer->GetTexAttachment(j));
                         }
                     }
-                    //finalTexs.clear();
-                    for (unsigned int i = 0; i < finalColors; ++i){
-                        finalTexs.push_back(ITexture2DPtr(effectFrameBuffer->GetTexAttachment(i)->Clone()));
-                    }
-                
+                    if (finalFrameBuffer == NULL && finalColors > 0)
+                        finalFrameBuffer = new FrameBuffer(dimensions, finalColors, true);
+
                     if (effect->GetUniformID("time") >= 0){
                         effect->SetUniform("time", (float)time);
                         arg.renderer.ProcessEvent().Attach(*this);
