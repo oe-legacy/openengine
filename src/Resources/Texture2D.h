@@ -42,6 +42,7 @@ namespace OpenEngine {
                 this->channels = c;
                 this->format = ColorFormatFromChannels(c);
                 data = new T[w*h*c];
+                std::memset(data,0,h*w*c);
             }
             
             Texture2D(unsigned int w, unsigned int h, unsigned int c, T* d)

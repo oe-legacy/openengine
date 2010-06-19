@@ -43,7 +43,7 @@ namespace OpenEngine {
                 this->channels = c;
                 this->format = ColorFormatFromChannels(c);
                 data = new T[w*h*d*c];
-                std::memset(data,height*width*depth*channels,0);
+                std::memset(data,0,h*w*d*c);
             }
 
 
