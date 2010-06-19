@@ -111,7 +111,7 @@ namespace OpenEngine {
                 type = Types::NOTYPE;
                 format = Resources::UNKNOWN;
                 wrap = REPEAT;
-                filtering = BILINEAR;
+                filtering = TRILINEAR;
             }
 
             virtual ~ITexture() {}
