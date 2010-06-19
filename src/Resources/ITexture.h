@@ -102,6 +102,33 @@ namespace OpenEngine {
                 return Resources::UNKNOWN;
             }
 
+            unsigned char ChannelsFromColorFormat(ColorFormat c){
+                switch (c) {
+                case Resources::UNKNOWN: return 0;
+                case ALPHA:
+                case ALPHA_COMPRESSED:
+                case LUMINANCE:
+                case LUMINANCE_COMPRESSED:
+                case DEPTH:
+                case LUMINANCE32F:
+                    return 1;
+                case LUMINANCE_ALPHA:
+                case LUMINANCE_ALPHA_COMPRESSED:
+                    return 2;
+                case RGB:
+                case BGR:
+                case RGB_COMPRESSED:
+                case RGB32F:
+                    return 3;
+                case RGBA:
+                case BGRA:
+                case RGBA_COMPRESSED:
+                case RGBA32F:
+                    return 4;
+                }
+                return 0;
+            }
+
         public:
             ITexture() {
                 id = channels = 0;

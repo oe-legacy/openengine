@@ -21,11 +21,11 @@ namespace OpenEngine {
              * Type enumeration.
              */
             enum Type {NOTYPE = 0x0000,
-                       UBYTE  = 0x1401, 
-                       SBYTE   = 0x1400,
-                       UINT   = 0x1405, 
-                       INT    = 0x1404,
-                       FLOAT  = 0x1406};
+                       UBYTE  = 0x1401, // GL_UNSIGNED_BYTE
+                       SBYTE   = 0x1400, // GL_BYTE
+                       UINT   = 0x1405, // GL_UNSIGNED_INT
+                       INT    = 0x1404, // GL_INT
+                       FLOAT  = 0x1406}; // GL_FLOAT
             
             /**
              * Yields an OpenEngine Type based on the template

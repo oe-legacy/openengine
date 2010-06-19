@@ -44,6 +44,16 @@ namespace OpenEngine {
                 data = new T[w*h*c];
                 std::memset(data,0,h*w*c);
             }
+
+            Texture2D(unsigned int w, unsigned int h, ColorFormat c)
+                : ITexture2D() {
+                SetupType<T>();
+                this->width = w;
+                this->height = h;
+                this->format = c;
+                this->channels = ChannelsFromColorFormat(c);
+                data = new T[w*h*this->channels];
+            }
             
             Texture2D(unsigned int w, unsigned int h, unsigned int c, T* d)
                 : ITexture2D() {
