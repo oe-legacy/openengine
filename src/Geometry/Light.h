@@ -34,6 +34,14 @@ public:
 
     virtual ~Light() {}
 
+    Vector<4,float> GetAmbient() {return ambient;}
+    void SetAmbient(Vector<4,float> c) {ambient = c;}
+
+    Vector<4,float> GetDiffuse() {return diffuse;}
+    void SetDiffuse(Vector<4,float> c) {diffuse = c;}
+
+    Vector<4,float> GetSpecular() {return specular;}
+    void SetSpecular(Vector<4,float> c) {specular = c;}
 
 };
 
