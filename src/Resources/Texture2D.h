@@ -119,6 +119,12 @@ namespace OpenEngine {
                 return (T*) this->data;
             }
 
+            T& operator()(const unsigned int x,
+                          const unsigned int y,
+                          const unsigned int component = 0) {
+                return ((T*)data)[y*width*channels+x*channels+component];
+            }
+
             /**
              * Get a pointer to the specific pixel at (x, y). Uses the
              * wrapping mode specified to handle out of bounds values.
