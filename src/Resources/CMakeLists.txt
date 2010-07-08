@@ -42,4 +42,7 @@ TARGET_LINK_LIBRARIES(OpenEngine_Resources
   # link to all libraries that have added serializable objects
   ${OE_SERIALIZABLE_OBJECT_EXTENSIONS}
 )
-SUBDIRS(tests)
+
+IF(OE_BUILD_TESTS)
+  SUBDIRS(tests)
+ENDIF(OE_BUILD_TESTS)

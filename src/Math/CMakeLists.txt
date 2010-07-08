@@ -18,4 +18,7 @@ TARGET_LINK_LIBRARIES(OpenEngine_Math
   OpenEngine_Utils
 )
 
-SUBDIRS(tests)
+IF(OE_BUILD_TESTS)
+  SUBDIRS(tests)
+ENDIF(OE_BUILD_TESTS)
+

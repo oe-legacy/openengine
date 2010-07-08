@@ -15,4 +15,6 @@ ADD_LIBRARY(OpenEngine_Utils
   SelectionSet.h
 )
 
-SUBDIRS(tests)
+IF(OE_BUILD_TESTS)
+  SUBDIRS(tests)
+ENDIF(OE_BUILD_TESTS)

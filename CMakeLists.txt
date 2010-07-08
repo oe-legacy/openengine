@@ -12,6 +12,8 @@ SET(CMAKE_BUILD_TYPE debug)
 
 SET(CMAKE_VERBOSE_MAKEFILE 0)
 
+SET (OE_BUILD_TESTS true)
+
 ENABLE_TESTING()
 
 # Define OpenEngine special directories
@@ -38,6 +40,7 @@ SUBDIRS(
 SET(CMAKE_CONF_DIR ${OE_CONF_DIR}/cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupDebug.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupGCC.cmake)
+INCLUDE(${CMAKE_CONF_DIR}/SetupWii.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupVS.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupBoost.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupDoxygen.cmake)
