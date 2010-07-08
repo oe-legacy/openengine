@@ -213,7 +213,11 @@ Vector<3,float>* Face::Intersection(Vector<3,float> p1, Vector<3,float> p2) {
 /**  
  * Method 3, from http://www.blackpawn.com/texts/pointinpoly/default.html
  **/
-bool Face::Contains( Vector<3,float> point ) {
+bool Face::Contains( Vector<3,float> point, const float epsilon ) {
+
+    // Method 3 assumes point is in the same plane as the triangle
+    if (ComparePointPlane(point,epsilon) != 0) return false;
+
     // Compute vectors        
     Vector<3,float> v0 = vert[2] - vert[0];
     Vector<3,float> v1 = vert[1] - vert[0];

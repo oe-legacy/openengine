@@ -34,3 +34,7 @@ TARGET_LINK_LIBRARIES(OpenEngine_Geometry
   OpenEngine_Logging
   OpenEngine_Resources
 )
+
+IF(OE_BUILD_TESTS)
+  SUBDIRS(tests)
+ENDIF(OE_BUILD_TESTS)

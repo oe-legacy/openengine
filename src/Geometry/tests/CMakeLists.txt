@@ -1,0 +1,3 @@
+ADD_EXECUTABLE        (TestFace TestFace.cpp)
+TARGET_LINK_LIBRARIES (TestFace OpenEngine_Geometry)
+ADD_TEST              (TestFace TestFace)
