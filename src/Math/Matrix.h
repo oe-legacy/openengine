@@ -98,6 +98,19 @@ public:
         elm[1][0]=c; elm[1][1]=d;
     }
     /**
+     * Matrix-Vector multiplication. 2*2 matrices only.
+     */
+    const Vector<2,T> operator*(const Vector<2,T> v) {
+        BOOST_STATIC_ASSERT(M==2 && N==M);
+        Vector<2,T> r;
+        r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1);
+        r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1);
+        return r;
+    }
+    /**
+     * Matrix-Vector multiplication. 3*3 matrices only.
+     */
+    /**
      * Constructor for a 3x3 matrix.
      */
     Matrix(const T a, const T b, const T c, 
