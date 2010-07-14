@@ -201,7 +201,7 @@ Vector<3,float>* Face::Intersection(Vector<3,float> p1, Vector<3,float> p2) {
     if (intersectionPoint == NULL)
         return NULL;
     
-    if (this->Contains(*intersectionPoint))
+    if (this->ContainsInPrism(*intersectionPoint))
         return intersectionPoint;
 
     // If the intersection was not in the face itself delete the
@@ -209,15 +209,20 @@ Vector<3,float>* Face::Intersection(Vector<3,float> p1, Vector<3,float> p2) {
     delete intersectionPoint;
     return NULL;
 }
-    
+
+/**
+ * Test is a point lies on the plane of the face.
+ */
+bool Face::Contains(Vector<3,float> point, const float epsilon) {    
+    // Method 3 assumes point is in the same plane as the triangle
+    if (ComparePointPlane(point,epsilon) != 0) return false;    
+    return ContainsInPrism(point);
+}
+
 /**  
  * Method 3, from http://www.blackpawn.com/texts/pointinpoly/default.html
- **/
-bool Face::Contains( Vector<3,float> point, const float epsilon ) {
-
-    // Method 3 assumes point is in the same plane as the triangle
-    if (ComparePointPlane(point,epsilon) != 0) return false;
-
+ */
+bool Face::ContainsInPrism( Vector<3,float> point ) {
     // Compute vectors        
     Vector<3,float> v0 = vert[2] - vert[0];
     Vector<3,float> v1 = vert[1] - vert[0];

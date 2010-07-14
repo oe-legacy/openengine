@@ -73,7 +73,7 @@ public:
     Vector<3,float>* Intersection(Vector<3,float> p1, Vector<3,float> p2);
     Vector<2,float>  SplitTexture(int p1, int p2, Vector<3,float> inter);
     bool Contains( Vector<3,float> point, const float epsilon = EPS );
-
+    bool ContainsInPrism( Vector<3,float> point );
     void CalcTangentSpace();
 	void CalcHardNorm();
 
