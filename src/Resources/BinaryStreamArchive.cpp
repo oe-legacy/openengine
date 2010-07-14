@@ -125,7 +125,14 @@ public:
     void Visit##type(type* node) {                      \
         w.WriteInt(TAG_KEY,NODE_##type);                \
         w.Begin(CHILD_KEY,node->GetNumberOfNodes());    \
-        node->VisitSubNodes(*this);                     \
+        /* only serialize subNodes! */                  \
+        /* node->VisitSubNodes(*this); */               \
+        std::list<ISceneNode*>::iterator itr;           \
+        for(itr = node->subNodes.begin();               \
+            itr != node->subNodes.end();                \
+            itr++) {                                    \
+            (*itr)->Accept(*this);                      \
+        }                                               \
         w.End(CHILD_KEY);                               \
         node->Serialize(w);                             \
 }
