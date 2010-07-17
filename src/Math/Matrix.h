@@ -48,6 +48,16 @@ public:
                 elm[i][j] = (i==j)?(T)1:(T)0;
     }
     /**
+     * Copy constructor.
+     *
+     * @param m Matrix to copy
+     */
+    Matrix(const Matrix<M,N,T>& m) {
+        for (unsigned int i=0; i<M; i++)
+            for (unsigned int j=0; j<N; j++)
+                elm[i][j] = m.elm[i][j];
+    }
+    /**
      * Create matrix from scalar.
      * @code
      * Matrix<2,3,int> m(7);   // [(7, 7, 7), (7, 7, 7)]
@@ -61,17 +71,7 @@ public:
                 elm[i][j] = s;
     }
     /**
-     * Copy constructor.
-     *
-     * @param m Matrix to copy
-     */
-    Matrix(const Matrix<M,N,T>& m) {
-        for (unsigned int i=0; i<M; i++)
-            for (unsigned int j=0; j<N; j++)
-                elm[i][j] = m.elm[i][j];
-    }
-    /**
-     * Create matrix form array.
+     * Create matrix from array.
      *
      * @param a Array to create from
      */
@@ -81,15 +81,6 @@ public:
                 elm[i][j] = a[i*N + j];
     }
     /**
-     * Create a Mx3 matrix from 3 M-length vectors.
-     */
-    Matrix(const Vector<M,T> x, const Vector<M,T> y, const Vector<M,T> z) {
-        BOOST_STATIC_ASSERT(N==3);
-        x.ToArray(elm[0]);
-        y.ToArray(elm[1]);
-        z.ToArray(elm[2]);
-    }
-    /**
      * Constructor for a 2x2 matrix.
      */
     Matrix(const T a, const T b, const T c, const T d) {
@@ -97,19 +88,6 @@ public:
         elm[0][0]=a; elm[0][1]=b;
         elm[1][0]=c; elm[1][1]=d;
     }
-    /**
-     * Matrix-Vector multiplication. 2*2 matrices only.
-     */
-    const Vector<2,T> operator*(const Vector<2,T> v) {
-        BOOST_STATIC_ASSERT(M==2 && N==M);
-        Vector<2,T> r;
-        r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1);
-        r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1);
-        return r;
-    }
-    /**
-     * Matrix-Vector multiplication. 3*3 matrices only.
-     */
     /**
      * Constructor for a 3x3 matrix.
      */
@@ -133,6 +111,15 @@ public:
         elm[1][0]=e; elm[1][1]=f; elm[1][2]=g; elm[1][3]=h;
         elm[2][0]=i; elm[2][1]=j; elm[2][2]=k; elm[2][3]=l;
         elm[3][0]=o; elm[3][1]=p; elm[3][2]=q; elm[3][3]=r;
+    }
+    /**
+     * Create a Mx3 matrix from 3 M-length vectors.
+     */
+    Matrix(const Vector<M,T> x, const Vector<M,T> y, const Vector<M,T> z) {
+        BOOST_STATIC_ASSERT(N==3);
+        x.ToArray(elm[0]);
+        y.ToArray(elm[1]);
+        z.ToArray(elm[2]);
     }
     /**
      * Index access to matrix elements.
@@ -191,7 +178,17 @@ public:
         return r;
     }
     /**
-     * Matrix-Vector multiplication. 3*3 matrices only.
+     * Matrix-Vector multiplication of 2*2 matrices.
+     */
+    const Vector<2,T> operator*(const Vector<2,T> v) {
+        BOOST_STATIC_ASSERT(M==2 && N==M);
+        Vector<2,T> r;
+        r[0] = elm[0][0] * v.Get(0) + elm[0][1] * v.Get(1);
+        r[1] = elm[1][0] * v.Get(0) + elm[1][1] * v.Get(1);
+        return r;
+    }
+    /**
+     * Matrix-Vector multiplication of 3*3 matrices.
      */
     const Vector<3,T> operator*(const Vector<3,T> v) {
         BOOST_STATIC_ASSERT(M==3 && N==M);
