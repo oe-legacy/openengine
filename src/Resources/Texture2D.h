@@ -182,6 +182,12 @@ namespace OpenEngine {
              * return The color values as a Vector<4, T>
              */
             inline Vector<4, T> InterpolatedPixel(const float x, const float y){
+#if OE_SAFE
+                if ( 0 > x || x > 1)
+                    throw Core::Exception("x out of range");
+                if ( 0 > y || y > 1)
+                    throw Core::Exception("y out of range");
+#endif
                 unsigned int X = x * width;
                 unsigned int Y = y * height;
 

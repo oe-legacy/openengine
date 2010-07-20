@@ -252,6 +252,15 @@ namespace OpenEngine {
         inline Vector<4, T> InterpolatedVoxel(const float x,
                                               const float y,
                                               const float z){
+#if OE_SAFE
+            if ( 0 > x || x > 1)
+                throw Core::Exception("x out of range");
+            if ( 0 > y || y > 1)
+                throw Core::Exception("y out of range");
+            if ( 0 > z || z > 1)
+                throw Core::Exception("z out of range");
+#endif
+
                 unsigned int X = x * width;
                 unsigned int Y = y * height;
                 unsigned int Z = z * depth;
