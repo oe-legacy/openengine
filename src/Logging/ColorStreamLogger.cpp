@@ -12,6 +12,7 @@
 #include <Utils/DateTime.h>
 
 #include <string.h>
+#include <stdlib.h>
 
 namespace OpenEngine {
 namespace Logging {
