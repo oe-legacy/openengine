@@ -10,6 +10,8 @@ ADD_LIBRARY(OpenEngine_Core
   StateEvent.h
   Engine.h
   Engine.cpp
+  TickEngine.h
+  TickEngine.cpp
   Thread.h
   Thread.cpp
   Mutex.h
