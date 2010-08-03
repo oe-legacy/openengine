@@ -261,53 +261,53 @@ namespace OpenEngine {
                 throw Core::Exception("z out of range");
 #endif
 
-                unsigned int X = x * width;
-                unsigned int Y = y * height;
-                unsigned int Z = z * depth;
+	    unsigned int X = (unsigned int)(x * width);
+	    unsigned int Y = (unsigned int)(y * height);
+	    unsigned int Z = (unsigned int)(z * depth);
 
-                float dX = X / (float)width  - x;
-                float dY = Y / (float)height - y;
-                float dZ = Z / (float)depth  - z;
+	    float dX = X / (float)width  - x;
+	    float dY = Y / (float)height - y;
+	    float dZ = Z / (float)depth  - z;
 
-                // trilinear interpolation from:
-                // http://local.wasp.uwa.edu.au/~pbourke
-                // /miscellaneous/interpolation/
-                Vector<4, T> v000 = GetVoxelValues(X, Y, Z);
-                Vector<4, T> v100 = GetVoxelValues(X+1, Y, Z);
-                Vector<4, T> v001 = GetVoxelValues(X, Y+1, Z);
-                Vector<4, T> v101 = GetVoxelValues(X+1, Y+1, Z);
-                Vector<4, T> v010 = GetVoxelValues(X, Y, Z+1);
-                Vector<4, T> v110 = GetVoxelValues(X+1, Y, Z+1);
-                Vector<4, T> v011 = GetVoxelValues(X, Y+1, Z+1);
-                Vector<4, T> v111 = GetVoxelValues(X+1, Y+1, Z+1);
+	    // trilinear interpolation from:
+	    // http://local.wasp.uwa.edu.au/~pbourke
+	    // /miscellaneous/interpolation/
+	    Vector<4, T> v000 = GetVoxelValues(X, Y, Z);
+	    Vector<4, T> v100 = GetVoxelValues(X+1, Y, Z);
+	    Vector<4, T> v001 = GetVoxelValues(X, Y+1, Z);
+	    Vector<4, T> v101 = GetVoxelValues(X+1, Y+1, Z);
+	    Vector<4, T> v010 = GetVoxelValues(X, Y, Z+1);
+	    Vector<4, T> v110 = GetVoxelValues(X+1, Y, Z+1);
+	    Vector<4, T> v011 = GetVoxelValues(X, Y+1, Z+1);
+	    Vector<4, T> v111 = GetVoxelValues(X+1, Y+1, Z+1);
 
-                Vector<4, T> vxyz = 
-                    v000 * (1-dX) * (1-dY) * (1-dZ) +
-                    v100 * dX     * (1-dY) * (1-dZ) +
-                    v010 * (1-dX) * dY     * (1-dZ) +
-                    v001 * (1-dX) * (1-dY) * dZ     +
-                    v101 * dX     * (1-dY) * dZ     +
-                    v011 * (1-dX) * dY     * dZ     +
-                    v000 * dX     * dY     * (1-dZ) +
-                    v111 * dX     * dY     * dZ;
-                return vxyz;
-            }
-        };
+	    Vector<4, T> vxyz = 
+	      v000 * (1-dX) * (1-dY) * (1-dZ) +
+	      v100 * dX     * (1-dY) * (1-dZ) +
+	      v010 * (1-dX) * dY     * (1-dZ) +
+	      v001 * (1-dX) * (1-dY) * dZ     +
+	      v101 * dX     * (1-dY) * dZ     +
+	      v011 * (1-dX) * dY     * dZ     +
+	      v000 * dX     * dY     * (1-dZ) +
+	      v111 * dX     * dY     * dZ;
+	    return vxyz;
+	}
+      };
 
-        /**
-         * Texture 3D smart pointer.
-         */
-        typedef Texture3D<unsigned char>  UCharTexture3D;
-        typedef Texture3D<char>  CharTexture3D;
-        typedef Texture3D<unsigned int>  UIntTexture3D;
-        typedef Texture3D<int>  IntTexture3D;
-        typedef Texture3D<float>  FloatTexture3D;
-
-        typedef boost::shared_ptr<Texture3D<unsigned char> > UCharTexture3DPtr;
-        typedef boost::shared_ptr<Texture3D<char> > CharTexture3DPtr;
-        typedef boost::shared_ptr<Texture3D<unsigned int> > UIntTexture3DPtr;
-        typedef boost::shared_ptr<Texture3D<int> > IntTexture3DPtr;
-        typedef boost::shared_ptr<Texture3D<float> > FloatTexture3DPtr;
+      /**
+       * Texture 3D smart pointer.
+       */
+      typedef Texture3D<unsigned char>  UCharTexture3D;
+      typedef Texture3D<char>  CharTexture3D;
+      typedef Texture3D<unsigned int>  UIntTexture3D;
+      typedef Texture3D<int>  IntTexture3D;
+      typedef Texture3D<float>  FloatTexture3D;
+      
+      typedef boost::shared_ptr<Texture3D<unsigned char> > UCharTexture3DPtr;
+      typedef boost::shared_ptr<Texture3D<char> > CharTexture3DPtr;
+      typedef boost::shared_ptr<Texture3D<unsigned int> > UIntTexture3DPtr;
+      typedef boost::shared_ptr<Texture3D<int> > IntTexture3DPtr;
+      typedef boost::shared_ptr<Texture3D<float> > FloatTexture3DPtr;
 
 #define Texture3DPtr(T) boost::shared_ptr<Texture3D<T> >
     }

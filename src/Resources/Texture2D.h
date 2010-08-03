@@ -188,8 +188,8 @@ namespace OpenEngine {
                 if ( 0 > y || y > 1)
                     throw Core::Exception("y out of range");
 #endif
-                unsigned int X = x * width;
-                unsigned int Y = y * height;
+                unsigned int X = (unsigned int)(x * width);
+                unsigned int Y = (unsigned int)(y * height);
 
                 float dX = X / (float)width - x;
                 float dY = Y / (float)height - y;

@@ -382,7 +382,7 @@ public:
 #endif
         for (unsigned int i=0; i<N; i++)
             if( elm[i] != 0 )
-                elm[i] /= norm;
+	        elm[i] = (T)( ((float)elm[i])/norm );
     }
     /**
      * Distance between two vectors.

@@ -126,7 +126,7 @@ namespace OpenEngine {
             inline Math::Vector<N, T> ConvertVector(const Math::Vector<dim, type> value){ \
                 Math::Vector<N, T> vec;                                 \
                 for (unsigned int i = 0; i < N && i < dim; ++i)         \
-                    vec[i] = value.Get(i);                              \
+		  vec[i] = (T)value.Get(i);				\
                 return vec;                                             \
             }                                                           \
                                                                         \
@@ -169,7 +169,7 @@ namespace OpenEngine {
             inline void operator*=(const float s){                      \
                 for (unsigned int i = 1; i < this->size; ++i){          \
                     Math::Vector<N, T> element = vectorlist.GetElement(i); \
-                    vectorlist.SetElement(i, element * s);              \
+                    vectorlist.SetElement(i, element * (const T)s);	\
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator*(const float s){              \
@@ -180,7 +180,7 @@ namespace OpenEngine {
             inline void operator/=(const float s){                      \
                 for (unsigned int i = 1; i < this->size; ++i){          \
                     Math::Vector<N, T> element = vectorlist.GetElement(i); \
-                    vectorlist.SetElement(i, element / s);              \
+                    vectorlist.SetElement(i, element / (const T)s);	\
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator/(const float s){              \

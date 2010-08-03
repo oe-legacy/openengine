@@ -104,7 +104,7 @@ namespace OpenEngine {
                     break;
                 }
             case Renderers::IRenderer::RENDERER_PROCESS:
-                time += arg.approx / 1000.0f;
+	      time += (unsigned int)(arg.approx / 1000.0f);
                 effect->SetUniform("time", (float)time);
                 break;
             default:

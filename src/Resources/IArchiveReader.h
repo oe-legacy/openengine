@@ -46,6 +46,7 @@ protected:
     virtual void End(std::string key) = 0;
     virtual unsigned int ReadIndex() = 0;
 public:
+    virtual ~IArchiveReader() {}
     virtual int ReadInt(std::string key) = 0;
     virtual float ReadFloat(std::string key) = 0;
     virtual double ReadDouble(std::string key) = 0;

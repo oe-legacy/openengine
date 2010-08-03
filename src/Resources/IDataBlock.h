@@ -103,6 +103,8 @@ namespace OpenEngine {
                 policy = UNLOAD_AUTOMATIC;
             }
 
+	    virtual ~IDataBlock() {}
+
             /**
              * Clones the IDataBlock properties and it's data, except
              * for the id, which is set to 0.

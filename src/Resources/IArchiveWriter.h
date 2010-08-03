@@ -45,6 +45,7 @@ protected:
     virtual void End(std::string key) = 0;
     virtual void WriteIndex(unsigned int idx) = 0;
 public:
+    virtual ~IArchiveWriter() {}
     virtual void WriteInt(std::string key, int in) = 0;
     virtual void WriteFloat(std::string key, float in) = 0;
     virtual void WriteDouble(std::string key, double in) = 0;

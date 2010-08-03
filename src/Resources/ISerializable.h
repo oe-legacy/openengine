@@ -36,6 +36,7 @@ class ISerializable {
 private:
 
 public:
+    virtual ~ISerializable() {}
     virtual void Serialize(IArchiveWriter&) = 0;
     virtual void Deserialize(IArchiveReader&) = 0;
     virtual unsigned int GetSerialzationTag() = 0;
