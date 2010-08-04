@@ -144,6 +144,9 @@ namespace OpenEngine {
             virtual void GetElement(unsigned int i, Math::Vector<2, float> &element) = 0;
             virtual void GetElement(unsigned int i, Math::Vector<3, float> &element) = 0;
             virtual void GetElement(unsigned int i, Math::Vector<4, float> &element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<2, double> &element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<3, double> &element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<4, double> &element) = 0;
 
             /**
              * Sets the i'th element in the data block to the vector.
@@ -154,6 +157,9 @@ namespace OpenEngine {
             virtual void SetElement(unsigned int i, const Math::Vector<2, float> value) = 0;
             virtual void SetElement(unsigned int i, const Math::Vector<3, float> value) = 0;
             virtual void SetElement(unsigned int i, const Math::Vector<4, float> value) = 0;
+            virtual void SetElement(unsigned int i, const Math::Vector<2, double> value) = 0;
+            virtual void SetElement(unsigned int i, const Math::Vector<3, double> value) = 0;
+            virtual void SetElement(unsigned int i, const Math::Vector<4, double> value) = 0;
 
             /**
              * Get the type of the data block.

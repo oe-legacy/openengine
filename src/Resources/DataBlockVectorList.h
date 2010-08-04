@@ -14,6 +14,10 @@ VECTOR(2, float)
 VECTOR(3, float)
 VECTOR(4, float)
 
+VECTOR(2, double)
+VECTOR(3, double)
+VECTOR(4, double)
+
 /**
  * A list of usable scalars for data block math operations.
  */
