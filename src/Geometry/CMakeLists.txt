@@ -24,6 +24,7 @@ ADD_LIBRARY(OpenEngine_Geometry
   VertexArray.cpp
   GeometrySet.h
   GeometrySet.cpp
+  Vertex.h
   Mesh.h
   Mesh.cpp
   Light.h

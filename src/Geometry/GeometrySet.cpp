@@ -16,7 +16,8 @@ namespace OpenEngine {
     namespace Geometry{
 
         GeometrySet::GeometrySet() 
-            : vertices(IDataBlockPtr()), 
+            : size(0), 
+              vertices(IDataBlockPtr()), 
               normals(IDataBlockPtr()), 
               texCoords(), 
               colors(IDataBlockPtr()) {
@@ -27,8 +28,15 @@ namespace OpenEngine {
                                  IDataBlockList texCoords,
                                  IDataBlockPtr colors)
             : vertices(vertices), normals(normals), texCoords(texCoords), colors(colors){
+            if (vertices)
+                size = vertices->GetSize();
+            else if (normals)
+                size = normals->GetSize();
+            else if (colors)
+                size = colors->GetSize();
+            else if (!texCoords.empty())
+                size = (*texCoords.begin())->GetSize();
 #ifdef OE_SAFE
-            unsigned int size = vertices->GetSize();
             if (normals != NULL && normals->GetSize() != size)
                 throw Math::Exception("Normal block not of same size as vertex block");
             if (colors != NULL && colors->GetSize() != size)
@@ -44,7 +52,7 @@ namespace OpenEngine {
         }
 
         
-        GeometrySetPtr GeometrySet::Clone() {
+        GeometrySetPtr GeometrySet::Clone() {            
             IDataBlockPtr v = vertices ? vertices->Clone() : IDataBlockPtr();
             IDataBlockPtr n = normals ? normals->Clone() : IDataBlockPtr();
             IDataBlockPtr c = colors ? colors->Clone() : IDataBlockPtr();
