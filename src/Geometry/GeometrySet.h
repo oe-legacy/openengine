@@ -14,8 +14,11 @@
 #include <Geometry/Vertex.h>
 #include <boost/shared_ptr.hpp>
 #include <list>
+#include <vector>
+#include <Logging/Logger.h>
 
 using std::list;
+using std::vector;
 
 namespace OpenEngine {
     namespace Geometry{
@@ -44,7 +47,7 @@ namespace OpenEngine {
 
             Resources::IDataBlockPtr debugNormals;
 
-            //map<string, IDataBlockPtr> vertexAttrib;
+            map<string, IDataBlockPtr> attributeBlocks;
 
         public:
             GeometrySet();
@@ -69,22 +72,48 @@ namespace OpenEngine {
             /**
              * Get vertices.
              */
-            inline Resources::IDataBlockPtr GetVertices() const { return vertices; }
+            inline Resources::IDataBlockPtr GetVertices() const { return GetDataBlock("vertex"); }
 
             /**
              * Get normals.
              */
-            inline Resources::IDataBlockPtr GetNormals() const { return normals; }
+            inline Resources::IDataBlockPtr GetNormals() const { return GetDataBlock("normal"); }
 
             /**
              * Get colors.
              */
-            inline Resources::IDataBlockPtr GetColors() const { return colors; }
+            inline Resources::IDataBlockPtr GetColors() const { return GetDataBlock("color"); }
 
             /**
              * Get list of texcoords.
              */
-            inline Resources::IDataBlockList GetTexCoords() const { return texCoords; }
+            inline Resources::IDataBlockList GetTexCoords() const { 
+                Resources::IDataBlockList list;
+                unsigned int count = 0;
+                map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.find("texCoord0");
+                while (itr != attributeBlocks.end()) {
+                    list.push_back(itr->second);
+                    ++count;
+                    itr = attributeBlocks.find("texCoord" + Utils::Convert::ToString<unsigned int>(count));
+                }
+                return list;
+            }
+
+            /**
+             * Get IDataBlockPtr corrosponding to given attribute name.
+             */
+            inline Resources::IDataBlockPtr GetDataBlock(const std::string name) const { 
+                map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.find(name);
+                if (itr == attributeBlocks.end()) return Resources::IDataBlockPtr();
+                return itr->second;
+            }
+
+            /**
+             * Get IDataBlockPtr corrosponding to given attribute name.
+             */
+            inline map<string, IDataBlockPtr> GetDataBlocks() const { 
+                return attributeBlocks;
+            }
 
             /**
              * Get a list of lines representing the normals.
@@ -112,7 +141,7 @@ namespace OpenEngine {
                     attrs["texCoord" + Utils::Convert::ToString<unsigned int>(i)] = attr;
                 }
 
-                return attrs;
+                return Vertex<T>(attrs);
             }
 
             inline std::string ToString() const {

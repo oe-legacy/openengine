@@ -11,6 +11,7 @@
 #define _OE_VERTEX_H
 
 #include <Math/Vector.h>
+#include <Resources/Types/ResourceTypes.h>
 #include <map>
 #include <string>
 
@@ -18,10 +19,12 @@ using namespace std;
 
 namespace OpenEngine {
     using namespace Math;
+    using namespace Resources;
     namespace Geometry {
 
         template <class T> class Vertex {
         private:
+
             std::map<std::string, Vector<4, T> > attributes;
             
         public:
@@ -31,18 +34,23 @@ namespace OpenEngine {
             
             virtual ~Vertex() {}
             
-            inline Vector<4, T> GetAttribute(const std::string name) const {
+            inline Vector<4, T> GetValue(const std::string name) const {
                 return attributes.find(name)->second;
             }
 
-            inline typename std::map<std::string, Vector<4, T> >::iterator begin() {
+            inline bool Contains(const std::string name) const {
+                typename map<string, Vector<4, T> >::const_iterator itr = attributes.find(name);
+                return itr == attributes.end();
+            }
+
+            inline typename map<string, Vector<4, T> >::iterator begin() {
                 return attributes.begin();
             }
-            inline typename std::map<std::string, Vector<4, T> >::iterator end() {
+            inline typename map<string, Vector<4, T> >::iterator end() {
                 return attributes.end();
             }
             
-            inline void operator+=(const T& t) {
+            inline void operator+=(T t) {
                 typename map<string, Vector<4, T> >::iterator itr = attributes.begin();
                 while (itr != attributes.end()){
                     itr->second += t;
@@ -58,8 +66,8 @@ namespace OpenEngine {
                 }
             }
 
-            inline void operator/=(const T& t) {
-                typename map<string, Vector<4, T> >::iterator itr = attributes.begin();
+            inline void operator/=(T t) {
+                    typename map<string, Vector<4, T> >::iterator itr = attributes.begin();
                 while (itr != attributes.end()){
                     itr->second /= t;
                     ++itr;

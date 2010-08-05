@@ -25,7 +25,8 @@ namespace OpenEngine {
                        SBYTE   = 0x1400, // GL_BYTE
                        UINT   = 0x1405, // GL_UNSIGNED_INT
                        INT    = 0x1404, // GL_INT
-                       FLOAT  = 0x1406}; // GL_FLOAT
+                       FLOAT  = 0x1406, // GL_FLOAT
+                       DOUBLE  = 0x140A}; // GL_DOUBLE
             
             /**
              * Yields an OpenEngine Type based on the template
@@ -42,6 +43,8 @@ namespace OpenEngine {
                     return INT;
                 else if (typeid(T) == typeid(float))
                     return FLOAT;
+                else if (typeid(T) == typeid(double))
+                    return DOUBLE;
                 else 
                     return NOTYPE;
             }

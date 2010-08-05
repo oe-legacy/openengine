@@ -222,6 +222,15 @@ public:
         return r;
     }
     /**
+     * Destructive matrix addition.
+     */
+    const void operator+=(Matrix<M,N,T> m) {
+        for (unsigned int i=0; i<M; i++) 
+            for (unsigned int j=0; j<M; j++) {
+                elm[i][j] += m[i][j];
+            }
+    }
+    /**
      * Matrix addition.
      */
     const Matrix<M,N,T> operator+(Matrix<M,N,T> m) {

@@ -27,15 +27,25 @@ namespace OpenEngine {
                                  IDataBlockPtr normals,
                                  IDataBlockList texCoords,
                                  IDataBlockPtr colors)
-            : vertices(vertices), normals(normals), texCoords(texCoords), colors(colors){
-            if (vertices)
-                size = vertices->GetSize();
-            else if (normals)
-                size = normals->GetSize();
-            else if (colors)
-                size = colors->GetSize();
-            else if (!texCoords.empty())
-                size = (*texCoords.begin())->GetSize();
+            : vertices(vertices), normals(normals), texCoords(texCoords), colors(colors){                       
+
+            if (vertices){
+                attributeBlocks["vertex"] = vertices;
+            }
+            if (normals){
+                attributeBlocks["normal"] = normals;
+            }
+            if (colors){
+                attributeBlocks["color"] = colors;
+            }
+            IDataBlockList::const_iterator texs = texCoords.begin();
+            for (unsigned int i = 0; texs != texCoords.end(); ++i, ++texs){
+                attributeBlocks["texCoord" + Utils::Convert::ToString<unsigned int>(i)] = *texs;
+            }
+
+            if (attributeBlocks.begin() != attributeBlocks.end())
+                size = attributeBlocks.begin()->second->GetSize();
+
 #ifdef OE_SAFE
             if (normals != NULL && normals->GetSize() != size)
                 throw Math::Exception("Normal block not of same size as vertex block");
@@ -51,7 +61,6 @@ namespace OpenEngine {
 #endif
         }
 
-        
         GeometrySetPtr GeometrySet::Clone() {            
             IDataBlockPtr v = vertices ? vertices->Clone() : IDataBlockPtr();
             IDataBlockPtr n = normals ? normals->Clone() : IDataBlockPtr();
