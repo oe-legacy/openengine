@@ -40,14 +40,9 @@ namespace OpenEngine {
         class GeometrySet {
         protected:
             unsigned int size;
-            Resources::IDataBlockPtr vertices;
-            Resources::IDataBlockPtr normals;
-            Resources::IDataBlockList texCoords;
-            Resources::IDataBlockPtr colors;
+            map<string, IDataBlockPtr> attributeBlocks;
 
             Resources::IDataBlockPtr debugNormals;
-
-            map<string, IDataBlockPtr> attributeBlocks;
 
         public:
             GeometrySet();
@@ -56,6 +51,8 @@ namespace OpenEngine {
                  Resources::IDataBlockPtr normals = Resources::IDataBlockPtr(),
                  Resources::IDataBlockList texCoords = Resources::IDataBlockList(),
                  Resources::IDataBlockPtr colors = Resources::IDataBlockPtr());
+
+            GeometrySet(map<string, IDataBlockPtr> attrBlocks);
 
             /**
              * Clones the data in the geometry set.
@@ -123,24 +120,12 @@ namespace OpenEngine {
             template <class T> Vertex<T> GetVertex(const unsigned int index) const {
                 std::map<std::string, Vector<4, T> > attrs;
                 Vector<4, T> attr;
-                if (vertices){
-                    vertices->GetElement(index, attr);
-                    attrs["vertex"] = attr;
+                map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.begin();
+                while (itr != attributeBlocks.end()){
+                    itr->second->GetElement(index, attr);
+                    attrs[itr->first] = attr;
+                    ++itr;
                 }
-                if (normals){
-                    normals->GetElement(index, attr);
-                    attrs["normal"] = attr;
-                }
-                if (colors){
-                    colors->GetElement(index, attr);
-                    attrs["color"] = attr;
-                }
-                Resources::IDataBlockList::const_iterator itr = texCoords.begin();
-                for (unsigned int i = 0; itr != texCoords.end(); ++i, ++itr){
-                    (*itr)->GetElement(index, attr);
-                    attrs["texCoord" + Utils::Convert::ToString<unsigned int>(i)] = attr;
-                }
-
                 return Vertex<T>(attrs);
             }
 
