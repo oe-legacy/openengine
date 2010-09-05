@@ -8,7 +8,7 @@ ADD_LIBRARY(OpenEngine_Math
   RandomGenerator.h
   RandomGenerator.cpp
   Vector.h
-  VectorList.h
+#  VectorList.h
 #  VectorIterator.h
   Tensor.h
 )

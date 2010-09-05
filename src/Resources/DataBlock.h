@@ -11,7 +11,6 @@
 #define _DATA_BLOCK_H_
 
 #include <Resources/IDataBlock.h>
-#include <Math/VectorList.h>
 #include <string.h>
 
 namespace OpenEngine {
@@ -19,24 +18,12 @@ namespace OpenEngine {
 
         template <unsigned int N, class T>
         class DataBlock : public IDataBlock {
-        protected:
-            Math::VectorList<N, T> vectorlist;
-
         public:
             DataBlock(unsigned int s = 0, T* d = NULL,
                       BlockType b = ARRAY, UpdateMode u = STATIC)
                 : IDataBlock(s, d, b, u) {
                 if (d == NULL)
                     this->data = new T[N * s];
-                vectorlist = Math::VectorList<N, T>((T*)this->data, s);
-                this->dimension = N;
-                this->type = Types::GetResourceType<T>();
-            }
-
-            DataBlock(Math::VectorList<N, T> list,
-                      BlockType b = ARRAY, UpdateMode u = STATIC)
-                : IDataBlock(list.GetSize(), list.GetData(), b, u) {
-                vectorlist = list;
                 this->dimension = N;
                 this->type = Types::GetResourceType<T>();
             }
@@ -56,8 +43,6 @@ namespace OpenEngine {
                     this->data = new T[N * this->size];
                     memcpy(this->data, block->GetVoidDataPtr(), N * this->size * sizeof(T));
                 }
-
-                vectorlist = Math::VectorList<N, T>((T*)this->data, this->size);
             }
 
             ~DataBlock(){
@@ -82,7 +67,6 @@ namespace OpenEngine {
                 if (this->data){
                     delete [] (T*) this->data;
                     this->data = NULL;
-                    vectorlist = Math::VectorList<N, T>();
                 }
             }
 
@@ -99,26 +83,11 @@ namespace OpenEngine {
              * Gets the i'th element in the data block.
              */
             inline Math::Vector<N, T> GetElement(unsigned int i) const {
-                return vectorlist.GetElement(i);
+                T* data = (T*)this->data;
+                return Math::Vector<N, T>(data + i * N);
             }
             inline Math::Vector<N, T> operator[](const unsigned int i){
                 return GetElement(i);
-            }
-
-            /**
-             * Returns an iterator referring to the first element in
-             * the data block.
-             */
-            inline Math::VectorIterator<N, T> Begin() const {
-                return vectorlist.Begin();
-            }
-
-            /**
-             * Returns an iterator referring to the last element in
-             * the data block.
-             */
-            inline Math::VectorIterator<N, T> End() const {
-                return vectorlist.End();
             }
 
 #undef VECTOR
@@ -126,24 +95,26 @@ namespace OpenEngine {
             inline Math::Vector<N, T> ConvertVector(const Math::Vector<dim, type> value){ \
                 Math::Vector<N, T> vec;                                 \
                 for (unsigned int i = 0; i < N && i < dim; ++i)         \
-		  vec[i] = (T)value.Get(i);				\
+                    vec[i] = (T)value.Get(i);                           \
                 return vec;                                             \
             }                                                           \
                                                                         \
             inline void GetElement(unsigned int i, Math::Vector<dim, type> &element){ \
-                Math::Vector<N, T> vec = vectorlist.GetElement(i);      \
+                Math::Vector<N, T> vec = GetElement(i);                 \
                 for (unsigned int i = 0; i < dim; ++i)                  \
                     element[i] = i < N ? vec.Get(i) : 0;                \
             }                                                           \
             inline void SetElement(unsigned int i, const Math::Vector<dim, type> value){ \
                 Math::Vector<N, T> vec = ConvertVector(value);          \
-                vectorlist.SetElement(i, vec);                          \
+                T* data = ((T*)this->data) + i * N;                     \
+                for (unsigned int i = 0; i < N; ++ i)                   \
+                    data[i] = vec.Get(i);                               \
             }                                                           \
             inline void operator+=(const Math::Vector<dim, type> value) { \
                 Math::Vector<N, T> vec = ConvertVector(value);          \
                 for (unsigned int i = 0; i < this->size; ++i){          \
-                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
-                    vectorlist.SetElement(i, element + vec);            \
+                    Math::Vector<N, T> element = GetElement(i);         \
+                    SetElement(i, element + vec);                       \
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator+(const Math::Vector<dim, type> value) { \
@@ -154,8 +125,8 @@ namespace OpenEngine {
             inline void operator-=(const Math::Vector<dim, type> value) { \
                 Math::Vector<N, T> vec = ConvertVector(value);          \
                 for (unsigned int i = 0; i < this->size; ++i){          \
-                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
-                    vectorlist.SetElement(i, element - vec);            \
+                    Math::Vector<N, T> element = GetElement(i);         \
+                    SetElement(i, element - vec);                       \
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator-(const Math::Vector<dim, type> value) { \
@@ -168,8 +139,8 @@ namespace OpenEngine {
 #define SCALAR(type)                                                    \
             inline void operator*=(const float s){                      \
                 for (unsigned int i = 1; i < this->size; ++i){          \
-                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
-                    vectorlist.SetElement(i, element * (const T)s);	\
+                    Math::Vector<N, T> element = GetElement(i);         \
+                    SetElement(i, element * (const T)s);                \
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator*(const float s){              \
@@ -179,8 +150,8 @@ namespace OpenEngine {
             }                                                           \
             inline void operator/=(const float s){                      \
                 for (unsigned int i = 1; i < this->size; ++i){          \
-                    Math::Vector<N, T> element = vectorlist.GetElement(i); \
-                    vectorlist.SetElement(i, element / (const T)s);	\
+                    Math::Vector<N, T> element = GetElement(i);         \
+                    SetElement(i, element / (const T)s);                \
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator/(const float s){              \
@@ -193,14 +164,20 @@ namespace OpenEngine {
             
             inline void Normalize() {
                 for (unsigned int i = 1; i < this->size; ++i){          
-                    Math::Vector<N, T> element = vectorlist.GetElement(i); 
+                    Math::Vector<N, T> element = GetElement(i); 
                     element.Normalize();
-                    vectorlist.SetElement(i, element);            
+                    SetElement(i, element);            
                 }                                                       
             }
 
             std::string ToString(){
-                return vectorlist.ToString();
+                std::ostringstream out;
+                out << "[";
+                for (unsigned int i = 0; i+1 < size; ++i)
+                    out << GetElement(i) << ", ";
+                        
+                out << GetElement(size-1) << "]";
+                return out.str();
             }
         };
 

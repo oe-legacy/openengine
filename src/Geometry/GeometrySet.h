@@ -12,6 +12,7 @@
 
 #include <Resources/DataBlock.h>
 #include <Geometry/Vertex.h>
+#include <Utils/Convert.h>
 #include <boost/shared_ptr.hpp>
 #include <list>
 #include <vector>

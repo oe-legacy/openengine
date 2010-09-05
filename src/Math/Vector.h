@@ -32,12 +32,7 @@ template <unsigned int N, class T>
 class Vector {
 protected:
     // vector elements
-    T* elm;
-    T e[N];
-
-    inline void SetPointer() {
-        elm = e;
-    }
+    T elm[N];
 
 public:
     /**
@@ -47,7 +42,6 @@ public:
      * @endcode
      */
     Vector() {
-        SetPointer();
         for (unsigned int i=0; i<N; i++)
             elm[i] = 0;
     }
@@ -60,7 +54,6 @@ public:
      * @param s Scalar value in all indexes
      */
     explicit Vector(const T s) {
-        SetPointer();
         for (unsigned int i=0; i<N; i++)
             elm[i] = s;
     }
@@ -70,13 +63,11 @@ public:
      * @param v Vector to copy
      */
     Vector(const Vector<N,T>& v) {
-        SetPointer();
         for (unsigned int i=0;i<N;i++)
             elm[i] = v.elm[i];
     }
     Vector<N,T>& operator=(const Vector<N,T>& other) {
         if (this != &other) {
-            SetPointer();
             for (unsigned int i=0; i<N; i++)
                 elm[i] = other.elm[i];
         }
@@ -89,7 +80,6 @@ public:
      * @param a Array to copy
      */
     explicit Vector(const T a[N]) {
-        SetPointer();
         for (unsigned int i=0; i<N; i++)
             elm[i] = a[i];
     }
@@ -97,7 +87,6 @@ public:
      * Constructor for a 2 element vector.
      */
     Vector(const T x, const T y) {
-        SetPointer();
         BOOST_STATIC_ASSERT(N==2);
         elm[0]=x; elm[1]=y;
     }
@@ -105,7 +94,6 @@ public:
      * Constructor for a 3 element vector.
      */
     Vector(const T x, const T y, const T z) {
-        SetPointer();
         BOOST_STATIC_ASSERT(N==3);
         elm[0]=x; elm[1]=y; elm[2]=z;
     }
@@ -113,7 +101,6 @@ public:
      * Constructor for a 4 element vector.
      */
     Vector(const T x, const T y, const T z, const T w) {
-        SetPointer();
         BOOST_STATIC_ASSERT(N==4);
         elm[0]=x; elm[1]=y; elm[2]=z; elm[3]=w;
         
@@ -488,7 +475,7 @@ public:
      * @return The data pointer.
      */
     inline T* ToArray() const {
-        return elm;
+        return (T*)elm;
     }
     /**
      * String representation.
