@@ -250,31 +250,47 @@ namespace OpenEngine {
              * Destructive vector addition on all elements in the
              * datablock.
              */
+            virtual void operator+=(const Math::Vector<1, unsigned int> value) = 0;
             virtual void operator+=(const Math::Vector<2, float> value) = 0;
             virtual void operator+=(const Math::Vector<3, float> value) = 0;
             virtual void operator+=(const Math::Vector<4, float> value) = 0;
+            virtual void operator+=(const Math::Vector<2, double> value) = 0;
+            virtual void operator+=(const Math::Vector<3, double> value) = 0;
+            virtual void operator+=(const Math::Vector<4, double> value) = 0;
             /**
              * Nondestructive vector addition on all elements in the
              * datablock.
              */
+            virtual IDataBlockPtr operator+(const Math::Vector<1, unsigned int> value) = 0;
             virtual IDataBlockPtr operator+(const Math::Vector<2, float> value) = 0;
             virtual IDataBlockPtr operator+(const Math::Vector<3, float> value) = 0;
             virtual IDataBlockPtr operator+(const Math::Vector<4, float> value) = 0;
+            virtual IDataBlockPtr operator+(const Math::Vector<2, double> value) = 0;
+            virtual IDataBlockPtr operator+(const Math::Vector<3, double> value) = 0;
+            virtual IDataBlockPtr operator+(const Math::Vector<4, double> value) = 0;
 
             /**
              * Destructive vector subtraction on all elements in the
              * datablock.
              */
+            virtual void operator-=(const Math::Vector<1, unsigned int> value) = 0;
             virtual void operator-=(const Math::Vector<2, float> value) = 0;
             virtual void operator-=(const Math::Vector<3, float> value) = 0;
             virtual void operator-=(const Math::Vector<4, float> value) = 0;
+            virtual void operator-=(const Math::Vector<2, double> value) = 0;
+            virtual void operator-=(const Math::Vector<3, double> value) = 0;
+            virtual void operator-=(const Math::Vector<4, double> value) = 0;
             /**
              * Nondestructive vector subtraction on all elements in the
              * datablock.
              */
+            virtual IDataBlockPtr operator-(const Math::Vector<1, unsigned int> value) = 0;
             virtual IDataBlockPtr operator-(const Math::Vector<2, float> value) = 0;
             virtual IDataBlockPtr operator-(const Math::Vector<3, float> value) = 0;
             virtual IDataBlockPtr operator-(const Math::Vector<4, float> value) = 0;
+            virtual IDataBlockPtr operator-(const Math::Vector<2, double> value) = 0;
+            virtual IDataBlockPtr operator-(const Math::Vector<3, double> value) = 0;
+            virtual IDataBlockPtr operator-(const Math::Vector<4, double> value) = 0;
 
             /**
              * Destructive scalar multiplication on all elements in

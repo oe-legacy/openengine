@@ -140,7 +140,7 @@ namespace OpenEngine {
             inline void operator*=(const float s){                      \
                 for (unsigned int i = 1; i < this->size; ++i){          \
                     Math::Vector<N, T> element = GetElement(i);         \
-                    SetElement(i, element * (const T)s);                \
+                    SetElement(i, element * (T)s);                      \
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator*(const float s){              \
@@ -151,7 +151,7 @@ namespace OpenEngine {
             inline void operator/=(const float s){                      \
                 for (unsigned int i = 1; i < this->size; ++i){          \
                     Math::Vector<N, T> element = GetElement(i);         \
-                    SetElement(i, element / (const T)s);                \
+                    SetElement(i, element / (T)s);                      \
                 }                                                       \
             }                                                           \
             inline IDataBlockPtr operator/(const float s){              \
