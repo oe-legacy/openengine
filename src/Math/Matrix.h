@@ -224,7 +224,7 @@ public:
     /**
      * Destructive matrix addition.
      */
-    const void operator+=(Matrix<M,N,T> m) {
+    void operator+=(Matrix<M,N,T> m) {
         for (unsigned int i=0; i<M; i++) 
             for (unsigned int j=0; j<M; j++) {
                 elm[i][j] += m[i][j];
@@ -336,12 +336,10 @@ public:
         switch (N) {
         case 2:
             return elm[0][0] * elm[1][1] - elm[1][0] * elm[0][1];
-            break;
         case 3:
             return elm[0][0] * (elm[1][1]*elm[2][2] - elm[1][2] * elm[2][1])
                 - elm[0][1] * (elm[1][0]*elm[2][2] - elm[1][2] * elm[2][0])
                 + elm[0][2] * (elm[1][0]*elm[2][1] - elm[1][1] * elm[2][0]) ;
-            break;
         case 4:
 
             T value;
