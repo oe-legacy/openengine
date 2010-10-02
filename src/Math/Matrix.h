@@ -270,7 +270,7 @@ public:
      * @param i Row index
      * @return Row vector
      */
-    Vector<N,T> GetRow(const unsigned int i) {
+    Vector<N,T> GetRow(const unsigned int i) const {
         return Vector<N,T>(elm[i]);
     }
     /**
@@ -279,7 +279,7 @@ public:
      * @param j Column index
      * @return Column vector
      */
-    Vector<M,T> GetColumn(const unsigned int j) {
+    Vector<M,T> GetColumn(const unsigned int j) const {
         Vector<M,T> v;
         for (int i=0; i<M; i++)
             v[i] = elm[i][j];
@@ -317,7 +317,7 @@ public:
      * Returns the transposed matrix.
      * NOTE: Only works on 3*3 matrices.
      */
-    Matrix <M,N,T> GetTranspose() {
+    Matrix <M,N,T> GetTranspose() const {
         BOOST_STATIC_ASSERT(M==N&&M==3);
         return Matrix<M,N,T>(elm[0][0],elm[1][0],elm[2][0],
                              elm[0][1],elm[1][1],elm[2][1],
