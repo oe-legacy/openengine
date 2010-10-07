@@ -37,7 +37,7 @@ namespace OpenEngine {
                    unsigned int drawRange)
             : indexBuffer(indexBuffer), type(type), mat(mat), geom(geom),
               indexOffset(indexOffset), drawRange(drawRange) {
-#ifdef OE_SAFE
+#if OE_SAFE
             unsigned int size = indexBuffer->GetSize();
             if (indexOffset > size)
                 throw IndexOutOfBounds(indexOffset, 0, size);

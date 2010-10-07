@@ -41,7 +41,7 @@ namespace OpenEngine {
             if (attributeBlocks.begin() != attributeBlocks.end())
                 size = attributeBlocks.begin()->second->GetSize();
 
-#ifdef OE_SAFE
+#if OE_SAFE
             map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.begin();
             while (itr != attributeBlocks.end()){
                 if (itr->second->GetSize() != size)
