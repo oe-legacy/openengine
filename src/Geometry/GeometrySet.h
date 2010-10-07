@@ -100,17 +100,26 @@ namespace OpenEngine {
             /**
              * Get IDataBlockPtr corrosponding to given attribute name.
              */
-            inline Resources::IDataBlockPtr GetDataBlock(const std::string name) const { 
+            inline Resources::IDataBlockPtr GetAttributeList(const std::string name) const { 
                 map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.find(name);
                 if (itr == attributeBlocks.end()) return Resources::IDataBlockPtr();
                 return itr->second;
+            }
+            inline Resources::IDataBlockPtr GetDataBlock(const std::string name) const { 
+                return GetAttributeList(name);
             }
 
             /**
              * Get IDataBlockPtr corrosponding to given attribute name.
              */
-            inline map<string, IDataBlockPtr> GetDataBlocks() const { 
+            inline map<string, IDataBlockPtr> GetAttributeLists() const { 
                 return attributeBlocks;
+            }
+            // ** DEPRECATED **
+            inline map<string, IDataBlockPtr> GetDataBlocks() const { return GetAttributeLists(); }
+
+            inline void AddAttributeList(const std::string name, IDataBlockPtr attrs){
+                attributeBlocks[name] = attrs;
             }
 
             /**

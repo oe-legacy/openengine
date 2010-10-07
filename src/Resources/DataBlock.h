@@ -28,6 +28,18 @@ namespace OpenEngine {
                 this->type = Types::GetResourceType<T>();
             }
 
+            DataBlock(unsigned int s, Math::Vector<4, float> d,
+                      BlockType b = ARRAY, UpdateMode u = STATIC)
+                : IDataBlock(s, NULL, b, u) {
+                T* data = new T[N * s];
+                this->data = data;
+                this->dimension = N;
+                this->type = Types::GetResourceType<T>();
+                for (unsigned int i = 0; i < this->size; ++i){
+                    d.ToArray(data + i * N);
+                }
+            }
+
             DataBlock(IDataBlock* block) 
                 : IDataBlock(block->GetSize(), NULL, 
                              block->GetBlockType(), block->GetUpdateMode()){

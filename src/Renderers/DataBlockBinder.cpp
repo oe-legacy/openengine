@@ -149,18 +149,13 @@ namespace Renderers {
     }
     
     void DataBlockBinder::LoadGeometrySet(GeometrySetPtr geom){
-        if (geom->GetVertices() && geom->GetVertices()->GetID() == 0)
-            Bind(geom->GetVertices(), defaultpolicy);
-        if (geom->GetNormals() && geom->GetNormals()->GetID() == 0)
-            Bind(geom->GetNormals(), defaultpolicy);
-        if (geom->GetColors() && geom->GetColors()->GetID() == 0) 
-            Bind(geom->GetVertices(), defaultpolicy);
-        
-        IDataBlockList tl = geom->GetTexCoords();
-        IDataBlockList::iterator texc = tl.begin();
-        for (; texc != tl.end(); ++texc) {
-            if (*texc && (*texc)->GetID() == 0)
-                Bind(*texc, defaultpolicy);
+        map<string, IDataBlockPtr> attrs = geom->GetAttributeLists();
+        map<string, IDataBlockPtr>::iterator itr = attrs.begin();
+        while (itr != attrs.end()){
+
+            Bind(itr->second, defaultpolicy);
+            
+            ++itr;
         }
     }
     
