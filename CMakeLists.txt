@@ -24,6 +24,7 @@ SET(OE_LIB_DIR        "${OpenEngine_SOURCE_DIR}/libraries")
 #SET(OE_TESTS_DIR      "${OpenEngine_SOURCE_DIR}/tests")
 SET(OE_PROJECTS_DIR   "${OpenEngine_SOURCE_DIR}/projects")
 SET(OE_EXTENSIONS_DIR "${OpenEngine_SOURCE_DIR}/extensions")
+SET(OE_EXTERNALS_DIR "${OpenEngine_SOURCE_DIR}/externals")
 
 # Include paths
 INCLUDE_DIRECTORIES(
@@ -44,6 +45,7 @@ INCLUDE(${CMAKE_CONF_DIR}/SetupVS.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupBoost.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupDoxygen.cmake)
 
+INCLUDE(${CMAKE_CONF_DIR}/SetupExternals.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupExtensionsAndProjects.cmake)
 
 # some debug info
