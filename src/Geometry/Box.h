@@ -21,8 +21,15 @@ namespace OpenEngine {
     namespace Resources {
         class IArchiveWriter;
         class IArchiveReader;
+
+        class IDataBlock;
+        typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
+
     }
+
 namespace Geometry {
+
+
 
 using OpenEngine::Math::Vector;
 using namespace OpenEngine::Scene;
@@ -39,7 +46,6 @@ class Box : public ISerializable {
 
 friend class Tests;
     
-private:
 // private visitor class to collect faces in scene graphs
  class FaceCollector : public ISceneNodeVisitor {
  private:
@@ -74,8 +80,11 @@ public:
     Box() {}; // empty constructor for serialization
 
     explicit Box(FaceSet& faces);
-    explicit Box (ISceneNode& node);
+    explicit Box(ISceneNode& node);
+    explicit Box(IDataBlockPtr vertices);
     explicit Box(Vector<3, float> center, Vector<3, float> relCorner);
+
+    Vector<3,float> GetSize() const;
     
     Vector<3,float> GetCenter() const;
     Vector<3,float> GetCorner() const;

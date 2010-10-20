@@ -15,6 +15,12 @@
 #include <Resources/IArchiveWriter.h>
 #include <Resources/IArchiveReader.h>
 
+#include <Resources/IDataBlock.h>
+#include <Geometry/Mesh.h>
+#include <Geometry/GeometrySet.h>
+
+#include <Logging/Logger.h>
+
 namespace OpenEngine {
 namespace Geometry {
 
@@ -50,6 +56,37 @@ Box::Box(ISceneNode& node) {
     delete faces;
 
 }
+
+Box::Box(IDataBlockPtr vecs) {
+    Vector<3,float> minV, maxV;
+
+    for (unsigned int i=0;i<vecs->GetSize();i++) {
+        Vector<3,float> elm;
+        vecs->GetElement(i, elm);
+        if (elm[0] < minV[0]) minV[0] = elm[0];
+        if (elm[1] < minV[1]) minV[1] = elm[1];
+        if (elm[2] < minV[2]) minV[2] = elm[2];
+
+        if (elm[0] > maxV[0]) maxV[0] = elm[0];
+        if (elm[1] > maxV[1]) maxV[1] = elm[1];
+        if (elm[2] > maxV[2]) maxV[2] = elm[2];
+    }
+
+    SetCorner(0,0,0, minV);
+    SetCorner(1,1,1, maxV);
+
+    SetCorner(0,0,1, Vector<3,float>(minV[0], minV[1], maxV[2]));
+    SetCorner(0,1,0, Vector<3,float>(minV[0], maxV[1], minV[2]));
+    SetCorner(1,0,0, Vector<3,float>(maxV[0], minV[1], minV[2]));
+
+    SetCorner(1,0,1, Vector<3,float>(maxV[0], minV[1], maxV[2]));
+    SetCorner(0,1,1, Vector<3,float>(minV[0], maxV[1], maxV[2]));
+    SetCorner(1,1,0, Vector<3,float>(maxV[0], maxV[1], minV[2]));
+
+    center = (maxV - minV) / 2 + minV;
+    corner = maxV - center;
+
+ }
 
 /**
  * Create a bounding box specified by it's center and the relative
@@ -105,6 +142,11 @@ void Box::SetFromFaces(FaceSet& faces) {
     SetCorner(0,0,0, center+Vector<3,float>(-x,-y,-z));
 }
 
+
+Vector<3,float> Box::GetSize() const {
+    return GetCorner(1,1,1) - GetCorner(0,0,0);
+
+}
 
 /**
  * Get the center of the box.
