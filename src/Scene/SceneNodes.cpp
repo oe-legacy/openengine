@@ -29,7 +29,7 @@ ISceneNode* type::Clone() const {                               \
         
 // Type string
 #define SCENE_NODE(type)                                        \
-const std::string type::GetClassName() const {                  \
+const std::string type::GetNodeName() const {                   \
     return #type;                                               \
 }
 #include "SceneNodes.def"

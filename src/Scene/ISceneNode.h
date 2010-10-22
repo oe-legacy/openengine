@@ -17,7 +17,7 @@
 public:                                                 \
 virtual void Accept(ISceneNodeVisitor& v);              \
 virtual ISceneNode* Clone() const;                      \
-virtual const std::string GetClassName() const;         \
+virtual const std::string GetNodeName() const;         \
 private:
 
 
@@ -180,12 +180,12 @@ public:
      * Get the class name of a node as a string literal.
      * @code
      * ISceneNode* node = new TransformationNode();
-     * node->GetClassName() // => "TransformationNode"
+     * node->GetNodeName() // => "TransformationNode"
      * @endcode
      *
      * @return Node class name
      */
-    virtual const std::string GetClassName() const = 0;
+    virtual const std::string GetNodeName() const = 0;
 
     /**
      * Accept a visitor.

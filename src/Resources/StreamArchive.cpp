@@ -145,7 +145,7 @@ public:
 
 #define SCENE_NODE(type)                                \
     void Visit##type(type* node) {                      \
-        w._Write(node->GetClassName());                 \
+        w._Write(node->GetNodeName());                  \
         w.WriteInt(TAG_KEY,NODE_##type);                \
         w.Begin(CHILD_KEY,node->subNodes.size());       \
         /* only serialize subNodes! */                  \

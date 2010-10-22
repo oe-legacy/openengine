@@ -88,7 +88,7 @@ void GeometryNode::SetFaceSet(FaceSet* faces){
 }
 
 const std::string GeometryNode::ToString() const {
-    return GetClassName()
+    return GetNodeName()
         + "\nFaces: "
         + Utils::Convert::ToString(faces->Size());
 }

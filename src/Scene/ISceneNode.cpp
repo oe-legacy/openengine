@@ -66,7 +66,7 @@ int ISceneNode::IndexOfNode(ISceneNode* node) {
 }
 
 const string ISceneNode::ToString() const {
-    return this->GetClassName();
+    return this->GetNodeName();
 }
 
 /**
@@ -204,11 +204,11 @@ void ISceneNode::DeleteAllNodes() {
 }
 
 void ISceneNode::Serialize(Resources::IArchiveWriter& w) {
-    throw Exception(GetClassName() + " does not implement Serialize." );
+    throw Exception(GetNodeName() + " does not implement Serialize." );
 }
 
 void ISceneNode::Deserialize(Resources::IArchiveReader& r) {
-    throw Exception(GetClassName() + " does not implement Deserialize.");
+    throw Exception(GetNodeName() + " does not implement Deserialize.");
 }
 
 
