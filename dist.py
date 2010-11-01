@@ -217,7 +217,7 @@ def get_dists_helper(ds,dists):
         fp = distfile #path.join(dir,dist.split("/")[-1])
         if fp not in dists:
             if not path.isfile(fp):
-                print "== Download the dist to tmp!"
+                print "== Download the dist (%s) to tmp!" % (dist)
                 req = urllib2.Request(dist)
                 try: urllib2.urlopen(req)
                 except urllib2.URLError, e:
@@ -330,7 +330,8 @@ def unzip(file, dir):
 
 def mkrepo(name, dir, repo):
     loc = path.join(dir, name)
-    flags = darcs_version().startswith("2") and "--old-fashioned-inventory" or ""
+    # flags = darcs_version().startswith("2") and "--old-fashioned-inventory" or ""
+    flags = "" # We will not create darcs-1 repos any more \o/
     print "Creating new repository at: %s" % loc
     execute("darcs get %s --repodir %s" % (repo, loc))
     execute("rm -r %s" % path.join(loc,"_darcs"))
