@@ -4,6 +4,7 @@ ADD_LIBRARY(OpenEngine_Core
   IEvent.h
   IListener.h
   IModule.h
+  IReflectable.h
   Exceptions.h
   EngineEvents.h
   QueuedEvent.h
