@@ -28,6 +28,7 @@ namespace Scene {
     TransformationNode::TransformationNode(const TransformationNode& node)
         : ISceneNode(node)
         , ISceneNodeVisitor()
+        , IReflectable()
     {
         rotation = node.rotation;
         position = node.position;

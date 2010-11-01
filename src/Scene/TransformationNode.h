@@ -16,6 +16,7 @@
 #include <Math/Vector.h>
 #include <Math/Matrix.h>
 #include <Math/Quaternion.h>
+#include <Core/IReflectable.h>
 
 namespace OpenEngine {
     namespace Resources {
@@ -38,9 +39,12 @@ using OpenEngine::Math::Quaternion;
  *
  * @class TransformationNode TransformationNode.h Scene/TransformationNode.h
  */
-class TransformationNode : public ISceneNode, public ISceneNodeVisitor {
+    class TransformationNode : public ISceneNode
+                             , public ISceneNodeVisitor
+                             , public Core::IReflectable {
+#ifndef SWIG
     OE_SCENE_NODE(TransformationNode, ISceneNode)
-
+#endif
 public:
 
     // constructor / destructor
