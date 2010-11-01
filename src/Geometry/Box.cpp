@@ -220,6 +220,26 @@ void Box::Deserialize(Resources::IArchiveReader& r) {
     r.ReadArray("corners",corners,8);
 }
 
+std::vector<Line> Box::GetBoundingLines() const {
+    std::vector<Line> lines;
+
+    lines.push_back(Line(corners[0],corners[1]));
+    lines.push_back(Line(corners[2],corners[3]));
+    lines.push_back(Line(corners[4],corners[5]));
+    lines.push_back(Line(corners[6],corners[7]));
+
+    lines.push_back(Line(corners[0],corners[4]));
+    lines.push_back(Line(corners[1],corners[5]));
+    lines.push_back(Line(corners[2],corners[6]));
+    lines.push_back(Line(corners[3],corners[7]));
+
+    lines.push_back(Line(corners[0],corners[2]));
+    lines.push_back(Line(corners[4],corners[6]));
+    lines.push_back(Line(corners[1],corners[3]));
+    lines.push_back(Line(corners[5],corners[7]));
+
+    return lines;
+}
 
 } //NS Geometry
 } //NS OpenEngine

@@ -128,14 +128,17 @@ public:
  * Utility class to watch for texture change events.
  */
 class TextureLoader::Reloader
-    : public IListener<Texture2DChangedEventArg> {
+    : public IListener<Texture2DChangedEventArg>,
+      public IListener<Texture3DChangedEventArg> {
     IRenderer& renderer;
-    QueuedEvent<Texture2DChangedEventArg> queue;
+    QueuedEvent<Texture2DChangedEventArg> queue2d;
+    QueuedEvent<Texture3DChangedEventArg> queue3d;
 public:
     virtual ~Reloader() { }
     Reloader(IRenderer& renderer)
         : renderer(renderer) {
-        queue.Attach(*this);
+        queue2d.Attach(*this);
+        queue3d.Attach(*this);
     }
     // Reload the events in the queue.
     // @todo: This should preferably only send off one change event
@@ -143,7 +146,8 @@ public:
     // dimension field reflects the accumulated changes of the
     // texture.
     void ReloadQueue() {
-        queue.Release(); // will dispatch to: this->Handle(...)
+        queue2d.Release(); // will dispatch to: this->Handle(...)
+        queue3d.Release(); // will dispatch to: this->Handle(...)
     }
     // Rebind a textures that has changed.
     // This call can come through the queue or directly from the
@@ -155,6 +159,18 @@ public:
                                arg.width,
                                arg.height);
     }
+    // Rebind a 3D textures that has changed.
+    // This call can come through the queue or directly from the
+    // texture depending on the reload policy it was loaded with.
+    void Handle(Texture3DChangedEventArg arg) {
+        renderer.RebindTexture(arg.resource.get(), 
+                               arg.xOffset,
+                               arg.yOffset,
+                               arg.zOffset,
+                               arg.width,
+                               arg.height,
+                               arg.depth);
+    }
     // Add a texture depending on the reload policy.
     // In both cases we first remove any reference to this loader
     // so we do not listen multiple times. 
@@ -165,8 +181,22 @@ public:
             texr->ChangedEvent().Attach(*this);
         } else if (RELOAD_QUEUED == policy) {
             // Observe a texture for texture change with a queue.
-            texr->ChangedEvent().Detach(queue);
-            texr->ChangedEvent().Attach(queue);
+            texr->ChangedEvent().Detach(queue2d);
+            texr->ChangedEvent().Attach(queue2d);
+        }
+    }
+    // Add a 3D texture depending on the reload policy.
+    // In both cases we first remove any reference to this loader
+    // so we do not listen multiple times. 
+    void Add(ITexture3DPtr texr, ReloadPolicy policy) {
+        if (RELOAD_IMMEDIATE == policy) {
+            // Reload immediately on texture change.
+            texr->ChangedEvent().Detach(*this);
+            texr->ChangedEvent().Attach(*this);
+        } else if (RELOAD_QUEUED == policy) {
+            // Observe a texture for texture change with a queue.
+            texr->ChangedEvent().Detach(queue3d);
+            texr->ChangedEvent().Attach(queue3d);
         }
     }
 };
@@ -177,31 +207,50 @@ public:
  */
 class TextureLoader::InitLoader
     : public IListener<RenderingEventArg> {
-    struct pair {
+    struct pair2d {
         ITexture2DPtr t; ReloadPolicy p;
-        pair(ITexture2DPtr t, ReloadPolicy p)
+        pair2d(ITexture2DPtr t, ReloadPolicy p)
             : t(t), p(p) {}
     };
-    list<pair> queue;
+    struct pair3d {
+        ITexture3DPtr t; ReloadPolicy p;
+        pair3d(ITexture3DPtr t, ReloadPolicy p)
+            : t(t), p(p) {}
+    };
+    list<pair2d> queue2d;
+    list<pair3d> queue3d;
     Reloader& reloader;
 public:
     InitLoader(Reloader& reloader) : reloader(reloader) { }
     virtual ~InitLoader() {}
     void Add(ITexture2DPtr t, ReloadPolicy p) {
-        queue.push_back(pair(t,p));
+        queue2d.push_back(pair2d(t,p));
+    }
+    void Add(ITexture3DPtr t, ReloadPolicy p) {
+        queue3d.push_back(pair3d(t,p));
     }
     // This is called on the render initialize event. After processing
     // the queue we may clear it as no more init events can occur.
     void Handle(RenderingEventArg arg) {
-        list<pair>::iterator itr;
-        for (itr = queue.begin(); itr != queue.end(); itr++) {
+        list<pair2d>::iterator itr2d;
+        for (itr2d = queue2d.begin(); itr2d != queue2d.end(); itr2d++) {
             // Add for re-loading.
-            reloader.Add((*itr).t, (*itr).p);
+            reloader.Add((*itr2d).t, (*itr2d).p);
             // If an id is set we need not load it again.
-            if ((*itr).t->GetID() != 0) continue;
-            arg.renderer.LoadTexture((*itr).t);
+            if ((*itr2d).t->GetID() != 0) continue;
+            arg.renderer.LoadTexture((*itr2d).t);
         }
-        queue.clear();
+        queue2d.clear();
+
+        list<pair3d>::iterator itr3d;
+        for (itr3d = queue3d.begin(); itr3d != queue3d.end(); itr3d++) {
+            // Add for re-loading.
+            reloader.Add((*itr3d).t, (*itr3d).p);
+            // If an id is set we need not load it again.
+            if ((*itr3d).t->GetID() != 0) continue;
+            arg.renderer.LoadTexture((*itr3d).t);
+        }
+        queue3d.clear();
     }
 };
 
@@ -284,6 +333,27 @@ void TextureLoader::Load(ISceneNode& node, ReloadPolicy policy) {
  * used (\a RELOAD_NEVER). 
  */
 void TextureLoader::Load(ITexture2DPtr texr, ReloadPolicy policy) {
+    // Here we must remember to calculate the exact policy as it could
+    // change before the actual loading is performed.
+    policy = my(policy);
+    if (IRenderer::RENDERER_UNINITIALIZE == renderer.GetCurrentStage()) {
+        // Queue for later loading as no context exists for the renderer.
+        initloader->Add(texr, policy);
+    } else {
+        // If the texture has not already been loaded load it.
+        if (texr->GetID() == 0)
+            renderer.LoadTexture(texr);
+        // Listen for reload events (based on policy)
+        reloader->Add(texr, policy);
+    }
+}
+
+/**
+ * Load a 3D texture.
+ * If no reload policy flag is supplied the default policy will be
+ * used (\a RELOAD_NEVER). 
+ */
+void TextureLoader::Load(ITexture3DPtr texr, ReloadPolicy policy) {
     // Here we must remember to calculate the exact policy as it could
     // change before the actual loading is performed.
     policy = my(policy);

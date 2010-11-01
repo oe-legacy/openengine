@@ -127,5 +127,11 @@ Line* Line::ShortestLineBetweenLines(Line line) const {
                                    line.point2  - line.point1, line.point1);
 }
 
+std::string Line::ToString() const {
+    std::stringstream ss;
+	ss << "(" << point1 << "," << point2 << ")";
+	return ss.str();
+}
+
 } //NS Geometry
 } //NS OpenEngine

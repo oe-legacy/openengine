@@ -11,6 +11,7 @@
 #define _GEOMETRY_LINE_H_
 
 #include <Math/Vector.h>
+#include <sstream>
 
 namespace OpenEngine {
 namespace Geometry {
@@ -40,7 +41,18 @@ public:
     Line* ShortestLineBetweenLineAndRay( Vector<3,float> direction, Vector<3,float> pointOnLine) const;
     Line* ShortestLineBetweenLines( Line line ) const;
 
+    std::string ToString() const;
 };
+
+/**
+ * Stream operator to ease the use of ToString method.
+ */
+/*
+std::ostream& operator<<(std::ostream& os, const Line l) {
+    os<<l.ToString();
+    return os;
+}
+*/
 
 } //NS Geometry
 } //NS OpenEngine

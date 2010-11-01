@@ -15,6 +15,7 @@
 #include <Geometry/Line.h>
 #include <Geometry/Plane.h>
 #include <Geometry/Ray.h>
+#include <Geometry/Polygon.h>
 
 #include <Core/Exceptions.h>
 
@@ -106,8 +107,23 @@ bool Tests::Intersects(const Box& box, const Square& square) {
             Intersects(square, box.center + box.corner * Vector<3,float>(-1,-1,-1)) );
 }
 
-bool Tests::Intersects(const Box& box, const Plane& plane) {
-    throw NotImplemented();
+bool Tests::Intersects(const Box& box, const Plane& plane, Polygon* output) {
+    Polygon polygon;
+    // for each line connecting to points in the box
+    std::vector<Line> lines = box.GetBoundingLines();
+    for (unsigned int l=0; l<12; l++) {
+        float i;
+        Line line = lines[l];
+        if ( Tests::Intersects(plane, line, &i) ) {
+            Vector<3,float> point = (1-i) * line.point1 + i * line.point2;
+            polygon.AddPoint(point);
+        }
+    }
+    if (polygon.NumberOfPoints() < 3)
+        return false;
+
+    *output = polygon; 
+    return true;
 }
 
 /**
@@ -278,23 +294,22 @@ bool Tests::Intersects(const Plane& plane, const Vector<3,float> point) {
 }
 
 /**
- * http://local.wasp.uwa.edu.au/~pbourke/geometry/planeplane/
+ * // from: http://softsurfer.com/Archive/algorithm_0104/algorithm_0104B.htm
  */
-bool Tests::Intersects(const Plane& plane, const Line& line) {
-    throw NotImplemented();
-
-//     // compute normal for intersection
-//     Vector<3,float> n = normal % p.normal;
+bool Tests::Intersects(const Plane& plane, const Line& line, float* i) {
+    Vector<3,float> p0 = line.point1;
+    Vector<3,float> p1 = line.point2;
+    Vector<3,float> v0 = plane.GetPointOnPlane();
     
-//     float s1  = normal * normal;
-//     float s2  = p.normal * p.normal;
-//     float s12 = normal * p.normal;
-//     float d   = s1 * s2 - s12 * s12;
-//     float c1  = (distance * s2 - p.distance * s12) / d;
-//     float c2  = (p.distance * s1 - distance * s12) / d;
-
-//     Vector<3,float> point(c1 * normal + c2 * p.normal);
-//     return Line(point, point + n * 100);
+    Vector<3,float> n = plane.GetNormal();
+    float denom = n * (p1-p0);
+    if (fabs(denom) < 0.01) return false;
+    float sI = (n * (v0-p0))/denom;
+    if (0>sI || sI>1)
+        return false;
+    if (i!=NULL)
+        *i = sI;
+    return true;
 }
     
 /*

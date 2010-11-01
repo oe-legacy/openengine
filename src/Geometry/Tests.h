@@ -29,6 +29,7 @@ class Sphere;
 class Line;
 class Plane;
 class Ray;
+class Polygon;
 
 using OpenEngine::Math::Vector;
 
@@ -87,7 +88,7 @@ public:
     static bool Intersects(const Box& box, const Vector<3,float> point);
     static bool Intersects(const Box& box, const Sphere&        sphere);
     static bool Intersects(const Box& box, const Square&        square);
-    static bool Intersects(const Box& box, const Plane&          plane);
+    static bool Intersects(const Box& box, const Plane& plane, Polygon* output = NULL);
     static bool Intersects(const Box& box, const Line&            line);
     static bool Intersects(const Box& box, const Ray&              ray);
 
@@ -103,7 +104,7 @@ public:
     static bool Intersects(const Square& square, const Ray&              ray);
 
     static bool Intersects(const Plane& plane, const Vector<3,float> point);
-    static bool Intersects(const Plane& plane, const Line&            line);
+    static bool Intersects(const Plane& plane, const Line&            line, float* i = NULL);
     static bool Intersects(const Plane& plane, const Ray&              ray, Vector<3,float>* point = NULL);
 
     static bool Intersects(const Line& line, const Vector<3,float> point);

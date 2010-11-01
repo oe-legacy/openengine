@@ -19,7 +19,9 @@ namespace OpenEngine {
     namespace Renderers { class IRenderer; class RenderingEventArg; }
     namespace Resources{
         class ITexture2D;
+        class ITexture3D;
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
+        typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
     }
 }
 
@@ -73,6 +75,8 @@ public:
     void Load(Scene::ISceneNode& node,
               ReloadPolicy policy = RELOAD_DEFAULT);
     void Load(Resources::ITexture2DPtr texr,
+              ReloadPolicy policy = RELOAD_DEFAULT);
+    void Load(Resources::ITexture3DPtr texr,
               ReloadPolicy policy = RELOAD_DEFAULT);
     void SetDefaultReloadPolicy(ReloadPolicy policy);
 

@@ -48,6 +48,12 @@ public:
     Vector<3,float> GetNormal() const;
     float GetDistance() const;
     Vector<3,float> GetPointOnPlane() const;
+
+    std::string ToString() const {
+        std::stringstream ss;
+        ss << "(n=" << normal << ", p:" << point << ")";
+        return ss.str();
+    }
 };
 
 } //NS Common

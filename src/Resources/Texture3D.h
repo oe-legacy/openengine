@@ -14,11 +14,13 @@
 #include <Resources/Texture2D.h>
 #include <Math/Exceptions.h>
 #include <Resources/Exceptions.h>
+#include <Utils/Convert.h>
 
 #include <vector>
 using std::vector;
 
 namespace OpenEngine {
+    using Utils::Convert;
     namespace Resources {
 
         /**

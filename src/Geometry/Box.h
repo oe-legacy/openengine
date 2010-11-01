@@ -29,7 +29,7 @@ namespace OpenEngine {
 
 namespace Geometry {
 
-
+class Line;
 
 using OpenEngine::Math::Vector;
 using namespace OpenEngine::Scene;
@@ -94,6 +94,7 @@ public:
     void Serialize(Resources::IArchiveWriter& w);
     void Deserialize(Resources::IArchiveReader& r);
 
+    std::vector<Line> GetBoundingLines() const;
 };
 
 } //NS Common
