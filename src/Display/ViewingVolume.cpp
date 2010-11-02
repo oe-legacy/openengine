@@ -43,6 +43,21 @@ ViewingVolume::~ViewingVolume() {
 
 }
 
+void ViewingVolume::Update(const unsigned int width, const unsigned int height) {
+	float fov = PI/4;
+	float aspect = (float)width/(float)height;
+	float distNear = 1;
+	float distFar = 3000;
+	float f = 1 / tan( fov / 2 );
+	float a = ( distFar + distNear ) / ( distNear - distFar );
+	float b = (2 * distFar * distNear ) / ( distNear - distFar );
+	projection = Matrix<4,4,float>(f/aspect,	0,	0,	0,
+                                   0, 			f, 	0, 	0,
+                                   0,			0, 	a,	b,
+                                   0,			0, -1,	0);
+	projection.Transpose();
+}
+
 void ViewingVolume::SetPosition(const Vector<3,float> position) {
     this->position = position;
 }

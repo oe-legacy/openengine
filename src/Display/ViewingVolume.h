@@ -35,6 +35,8 @@ public:
     ViewingVolume();
     virtual ~ViewingVolume();
 
+    virtual void Update(const unsigned int width, const unsigned int height);
+
     virtual void SetPosition(const Vector<3,float> position);
     virtual void SetDirection(const Quaternion<float> direction);
     virtual Vector<3,float> GetPosition();

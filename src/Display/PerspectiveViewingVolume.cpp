@@ -37,6 +37,10 @@ PerspectiveViewingVolume::~PerspectiveViewingVolume() {
 
 }
 
+void PerspectiveViewingVolume::Update(const unsigned int width, const unsigned int height) {
+    aspect = (float)width/(float)height;
+}
+
 Matrix<4,4,float> PerspectiveViewingVolume::GetProjectionMatrix() {
 	float f = 1 / tan( fov / 2 );
 	float a = ( distFar + distNear ) / ( distNear - distFar );

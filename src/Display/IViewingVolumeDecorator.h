@@ -40,6 +40,10 @@ public:
      */
     virtual ~IViewingVolumeDecorator() {}
 
+    virtual void Update(const unsigned int width, const unsigned int height) {
+        volume.Update(width, height);
+    }
+
     /**
      * Set viewing volume position.
      * Defaults to setting the position on the decorated viewing

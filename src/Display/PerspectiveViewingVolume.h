@@ -32,6 +32,7 @@ public:
 
     // base implementation
     virtual Matrix<4,4,float> GetProjectionMatrix();
+    virtual void Update(const unsigned int width, const unsigned int height);
 
     // get / set methods
     virtual float GetFOV();

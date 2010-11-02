@@ -114,6 +114,15 @@ public:
      * @return True if part of the box is visible.
      */
     virtual bool IsVisible(const Box& box) = 0;
+
+    /**
+     * Update the projection with respect to the window dimensions
+     *
+     * @param width the width
+     * @param height the height
+     */
+    virtual void Update(const unsigned int width, const unsigned int height) = 0;
+    
 };
 
 } // NS Display

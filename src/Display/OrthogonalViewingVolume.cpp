@@ -41,6 +41,15 @@ OrthogonalViewingVolume::~OrthogonalViewingVolume() {
 void OrthogonalViewingVolume::UpdateDimensions() {
     //@TODO: Fill with clever code
 }
+
+void OrthogonalViewingVolume::Update(const unsigned int width, const unsigned int height) {
+    left = 0;
+    right = width;
+    top = 0;
+    bottom = height;
+}
+
+
 	
 float OrthogonalViewingVolume::GetLeft() {
     return left;
