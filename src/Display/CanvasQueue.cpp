@@ -46,7 +46,6 @@ namespace Display {
         for (; i != canvases.rend(); ++i) {
             ((IListener<Display::DeinitializeEventArg>*)*i)->Handle(arg);
         }
-        
     }
 
     unsigned int CanvasQueue::GetWidth() const {

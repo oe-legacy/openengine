@@ -41,6 +41,7 @@ protected:
     ISceneNode* scene;
     IRenderer* renderer;
 public:
+    IRenderCanvas(): ICanvas(), vv(NULL), scene(NULL), renderer(NULL) {}
     IRenderCanvas(ICanvasBackend* backend): ICanvas(backend), vv(NULL), scene(NULL), renderer(NULL) {}
     // IRenderCanvas(): vv(NULL), scene(NULL), renderer(NULL) {}
     virtual ~IRenderCanvas() {}
