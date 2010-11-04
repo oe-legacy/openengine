@@ -22,6 +22,7 @@ namespace OpenEngine {
 namespace Display {
    
 class IViewingVolume;
+class ICanvasBackend;
 using Renderers::IRenderer;
 using Scene::ISceneNode;
 
@@ -34,13 +35,14 @@ using Scene::ISceneNode;
  *
  * @class ICanvas ICanvas.h Display/ICanvas.h
  */
-class IRenderCanvas: public virtual ICanvas {
+class IRenderCanvas: public ICanvas {
 protected:
     IViewingVolume* vv;
     ISceneNode* scene;
     IRenderer* renderer;
 public:
-    IRenderCanvas(): vv(NULL), scene(NULL), renderer(NULL) {}
+    IRenderCanvas(ICanvasBackend* backend): ICanvas(backend), vv(NULL), scene(NULL), renderer(NULL) {}
+    // IRenderCanvas(): vv(NULL), scene(NULL), renderer(NULL) {}
     virtual ~IRenderCanvas() {}
 
     /**

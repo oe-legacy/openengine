@@ -14,6 +14,7 @@
 #include <Resources/ITexture2D.h>
 #include <Core/IListener.h>
 #include <Math/Vector.h>
+#include <Display/ICanvasBackend.h>
 
 namespace OpenEngine {
 namespace Display {
@@ -75,9 +76,14 @@ class ICanvas
 {
 protected:
     Vector<2,int> pos;
+    ICanvasBackend* backend;
 public:
-    virtual ~ICanvas() {}    
-
+    ICanvas(): backend(NULL) {}
+    ICanvas(ICanvasBackend* backend): backend(backend) {}
+    virtual ~ICanvas() {
+        if (backend)
+            delete backend;
+    }    
 
     /**
      * Get the origin position of the canvas.  

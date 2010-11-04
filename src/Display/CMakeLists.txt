@@ -3,7 +3,10 @@ ADD_LIBRARY(OpenEngine_Display
   Display.cpp
   IFrame.h
   ICanvas.h
+  ICanvasBackend.h
   IRenderCanvas.h
+  RenderCanvas.h
+  RenderCanvas.cpp
   CanvasQueue.h
   CanvasQueue.cpp
   IViewingVolume.h
