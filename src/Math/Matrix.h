@@ -441,6 +441,7 @@ public:
                 m(i,j) = elm[i][j];
         return m;
     }
+
     /**
      * Create array of matrix.
      *
@@ -451,6 +452,15 @@ public:
             for (unsigned int j=0; j<N; j++)
                 a[i*N + j] = elm[i][j];
     }
+    /**
+     * Returns a pointer directly into the Matrix' data core.
+     *
+     * @return The data pointer.
+     */
+    inline T* ToArray() const {
+        return (T*)elm;
+    }
+
     /**
      * String representation.
      * Ex. [(1, 2), (3, 4)]
