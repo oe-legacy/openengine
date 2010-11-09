@@ -30,6 +30,7 @@ class ICanvasBackend
 public:
     virtual ~ICanvasBackend() {}
     
+    virtual void Create(unsigned int width, unsigned int height) = 0;
     virtual void Init(unsigned int width, unsigned int height) = 0;
     virtual void Deinit() = 0;
     virtual void Pre() = 0;
