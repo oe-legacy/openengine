@@ -262,7 +262,7 @@ namespace OpenEngine {
             // Serialization
             virtual void Serialize(IArchiveWriter&) {}; // Todo make pure virtual.
             virtual void Deserialize(IArchiveReader&) {};
-            virtual unsigned int GetSerialzationTag() {return -1;}
+            virtual unsigned int GetSerialzationTag() {return (unsigned int)-1;}
             
             static std::string colorFomatToString(ColorFormat cf) {
                 switch(cf) {
