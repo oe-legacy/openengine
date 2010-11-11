@@ -67,7 +67,11 @@ void Directory::Make(std::string directory) {
         return;
         //throw Core::Exception("directory allready exists: " + directory);
     }
+	#if defined(_WIN32)
+    if (mkdir(directory.c_str()) != 0) {
+    #else
     if (mkdir(directory.c_str(),0777) != 0) {
+    #endif
         throw Core::Exception("could not create directory: " + directory);
     }
 }
