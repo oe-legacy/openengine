@@ -117,13 +117,13 @@ def prepare():
 
 def sys_exec_cmake():
     if system("win"):
-        execute("cmake -G \"NMake Makefiles\" ../")
+        execute("cmake -G \"MinGW Makefiles\" ../")
     else: 
         execute("cmake ../")
 
 def sys_exec_make(target):
     if system("win"):
-        execute("nmake "+target)
+        execute("mingw32-make --jobs %d %s" % (cores()+1, target))
     else:
         execute("make --jobs %d %s" % (cores()+1, target))
 
