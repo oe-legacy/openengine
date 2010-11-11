@@ -392,26 +392,29 @@ def darcs_version():
     return subprocess.Popen("darcs --version",shell=True,stdout=subprocess.PIPE).communicate()[0]
 
 def cores():
+    '''
+    Returns the number of CPUs in the system
+    '''
+    # ------------------------------------- #
+    # From: http://pyprocessing.berlios.de/ #
+    # ------------------------------------- #
     try:
+        count = 0
         if system("linux"):
-            count = 0
-            for line in open('/proc/cpuinfo'):
-                if line.startswith("core id"):
-                    count += 1
-            return max(count, 1)
-        if system("darwin"):
-            str = subprocess.Popen(["sysctl","hw.ncpu"],stdout=subprocess.PIPE).communicate()[0]
-            count = int(str.split(" ")[1].strip())
-            return max(count, 1)
-        # for windows we might want to look at:
-        # http://tgolden.sc.sabren.com/python/wmi.html
-        # but first we need to know that nmake supports jobs
-        # if system("win"):
-        #   count = 0
-        #   server = wmi.WMI("localhost")
-        #     for cpu in server.Win32_Processor():
-        #       count += cpu.NumberOfCores
-        #   return count
+            ##Another way
+            count = os.sysconf('SC_NPROCESSORS_ONLN')
+            #for line in open('/proc/cpuinfo'):
+            #    if line.startswith("core id"):
+            #        count += 1
+        elif system("darwin"):
+            ##Another way
+            count = num = int(os.popen('sysctl -n hw.ncpu').read())
+            #str = subprocess.Popen(["sysctl","hw.ncpu"],stdout=subprocess.PIPE).communicate()[0]
+            #count = int(str.split(" ")[1].strip())
+        elif system("win"):
+            ##Another way
+            count = int(os.environ['NUMBER_OF_PROCESSORS'])
+        return max(count, 1)
     # if an error occurs simply return one
     except Exception: pass
     return 1
