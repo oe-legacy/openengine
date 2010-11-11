@@ -123,7 +123,7 @@ def sys_exec_cmake():
 
 def sys_exec_make(target):
     if system("win"):
-        execute("mingw32-make --jobs %d %s" % (cores()+1, target))
+        execute("mingw32-make --jobs %s" % (target))
     else:
         execute("make --jobs %d %s" % (cores()+1, target))
 
