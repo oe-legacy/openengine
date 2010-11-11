@@ -10,7 +10,7 @@
 #ifndef _OE_META_TYPES_H_
 #define _OE_META_TYPES_H_
 
-#if defined(_WIN32)    
+#if defined(_MSC_VER)    
     typedef unsigned __int32 uint32_t;
     typedef unsigned __int64 uint64_t;
 #else
