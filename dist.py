@@ -176,12 +176,32 @@ def run_repo(repos):
         print "Updating %s from %s" % (relpath(p), r)
         execute("darcs %s %s --repodir %s" % (cmd, r, p))
 
+def get_windows_username():
+    #check for username file if it exist read it
+    if os.path.isfile("daimi.username.txt"):
+        f = open("daimi.username.txt", "r")
+        username = f.readline()
+        f.close()
+    else: #otherwise ask user for input, and make one
+        print 'daimi.username.txt not found'
+        answer=raw_input('Please enter your daimi user name: ')
+        f = open("daimi.username.txt", "w")
+        f.writelines(answer)
+        f.close()
+        username = answer
+    #add @ for USERNAME@
+    username += '@'
+    return username
+
 def commit_repo(user, repos):
     """
     push changes to repositories
     """
-    if user: user = user + "@"
-    else: user = ""
+    if system("win"):	
+        user = get_windows_username();
+    else:
+        if user: user = user + "@"
+        else: user = ""
     for p,r in repos:
         print "Commiting %s to %s" % (relpath(p), r)
         execute("darcs push %s%s --repodir %s" % (user, r, p))
