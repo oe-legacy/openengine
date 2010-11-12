@@ -401,18 +401,10 @@ def cores():
     try:
         count = 0
         if system("linux"):
-            ##Another way
             count = os.sysconf('SC_NPROCESSORS_ONLN')
-            #for line in open('/proc/cpuinfo'):
-            #    if line.startswith("core id"):
-            #        count += 1
         elif system("darwin"):
-            ##Another way
-            count = num = int(os.popen('sysctl -n hw.ncpu').read())
-            #str = subprocess.Popen(["sysctl","hw.ncpu"],stdout=subprocess.PIPE).communicate()[0]
-            #count = int(str.split(" ")[1].strip())
+            count = int(os.popen('sysctl -n hw.ncpu').read())
         elif system("win"):
-            ##Another way
             count = int(os.environ['NUMBER_OF_PROCESSORS'])
         return max(count, 1)
     # if an error occurs simply return one
