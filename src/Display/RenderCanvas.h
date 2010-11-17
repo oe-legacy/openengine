@@ -11,16 +11,22 @@
 #define _CONCRETE_RENDER_CANVAS_H_
 
 #include <Display/IRenderCanvas.h>
+#include <Math/Vector.h>
+
+using OpenEngine::Math::Vector;
 
 namespace OpenEngine {
 namespace Display {
     class ICanvasBackend;
 
+
 class RenderCanvas : public IRenderCanvas {
 private:
     bool init;
+    Vector<2,int> initSize;
 public:
-    RenderCanvas(ICanvasBackend* backend);
+    RenderCanvas(ICanvasBackend* backend, 
+                 Vector<2, int> initSize = (Vector<2, int>(0,0)));
     virtual ~RenderCanvas();
 
     void Handle(Display::InitializeEventArg arg);
