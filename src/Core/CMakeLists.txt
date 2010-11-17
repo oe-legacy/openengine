@@ -18,3 +18,10 @@ ADD_LIBRARY(OpenEngine_Core
   Mutex.h
   Mutex.cpp
 )
+
+IF(MINGW)
+	TARGET_LINK_LIBRARIES(
+	${PTHREAD_LIBRARY}
+	)
+ENDIF(MINGW)
+	

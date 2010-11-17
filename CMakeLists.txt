@@ -45,6 +45,10 @@ INCLUDE(${CMAKE_CONF_DIR}/SetupVS.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupBoost.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupDoxygen.cmake)
 
+IF(MINGW)
+	INCLUDE(${CMAKE_CONF_DIR}/FindPthread.cmake)
+ENDIF(MINGW)
+
 INCLUDE(${CMAKE_CONF_DIR}/SetupExternals.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupExtensionsAndProjects.cmake)
 
