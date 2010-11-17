@@ -1,3 +1,5 @@
-ADD_EXECUTABLE        (Tensors TensorTest.cpp)
-TARGET_LINK_LIBRARIES (Tensors OpenEngine_Math)
-ADD_TEST              (Tensors Tensors)
+IF(NOT MINGW)
+	ADD_EXECUTABLE        (Tensors TensorTest.cpp)
+	TARGET_LINK_LIBRARIES (Tensors OpenEngine_Math)
+	ADD_TEST              (Tensors Tensors)
+ENDIF(NOT MINGW)

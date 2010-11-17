@@ -1,3 +1,5 @@
-ADD_EXECUTABLE        (TestFace TestFace.cpp)
-TARGET_LINK_LIBRARIES (TestFace OpenEngine_Geometry)
-ADD_TEST              (TestFace TestFace)
+IF(NOT MINGW)
+	ADD_EXECUTABLE        (TestFace TestFace.cpp)
+	TARGET_LINK_LIBRARIES (TestFace OpenEngine_Geometry)
+	ADD_TEST              (TestFace TestFace)
+ENDIF(NOT MINGW)
