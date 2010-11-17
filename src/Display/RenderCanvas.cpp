@@ -17,9 +17,10 @@ namespace Display {
 
 using Core::Exception;
 
-RenderCanvas::RenderCanvas(ICanvasBackend* backend)
+RenderCanvas::RenderCanvas(ICanvasBackend* backend, Vector<2,int> initSize)
     : IRenderCanvas(backend)
     , init(false)
+    , initSize(initSize)
 {
 }
 
@@ -32,7 +33,10 @@ void RenderCanvas::Handle(Display::InitializeEventArg arg) {
     if (renderer == NULL) throw new Exception("NULL renderer in RenderCanvas.");
 #endif
     if (init) return;
-    backend->Init(arg.canvas.GetWidth(), arg.canvas.GetHeight());
+    if (initSize[0] + initSize[1] > 0)
+        backend->Init(initSize[0], initSize[1]);
+    else 
+        backend->Init(arg.canvas.GetWidth(), arg.canvas.GetHeight());
     vv->Update(arg.canvas.GetWidth(), arg.canvas.GetHeight());
     ((IListener<Renderers::InitializeEventArg>*)renderer)->Handle(Renderers::InitializeEventArg(*this));
     init = true;
