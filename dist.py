@@ -229,6 +229,7 @@ def get_dists(*args):
     """
     ds = parse(*args)['dist']
     dists = get_dists_helper(ds,[])
+    dists.append("src\\basic.dist")
     #print dists
     return dists
 
