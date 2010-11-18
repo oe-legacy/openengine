@@ -13,8 +13,8 @@
 import string, sys, subprocess, os, os.path as path
 import urllib, urllib2, zipfile, tarfile
 
-class ExecError(Exception):
-    "Exception thrown if execute(cmd) exited with error code != 0"
+# import the helpers from oelib.py
+from oelib import printCommands, error, execute, system, ExecError, cores
 
 def commands():
     return ((update,  "update"),
@@ -372,45 +372,8 @@ def ask(msg, default=True):
             return False
         a = raw_input("invalid answer. please type 'y' or 'n' ")
 
-def printCommands(cmds):
-    print "\n".join([f.__doc__.strip() for f,c in cmds])
-
-def execute(cmd):
-    proc = subprocess.Popen(cmd, shell=True)
-    proc.wait()
-    if proc.returncode != 0:
-        raise ExecError("%s exited with error code %i\n"
-                        % (cmd, proc.returncode))
-
-def error(err):
-    print err
-    sys.exit(1)
-
-def system(name):
-    return name == "any" or sys.platform.startswith(name)
-
 def darcs_version():
     return subprocess.Popen("darcs --version",shell=True,stdout=subprocess.PIPE).communicate()[0]
-
-def cores():
-    '''
-    Returns the number of CPUs in the system
-    '''
-    # ------------------------------------- #
-    # From: http://pyprocessing.berlios.de/ #
-    # ------------------------------------- #
-    try:
-        count = 0
-        if system("linux"):
-            count = os.sysconf('SC_NPROCESSORS_ONLN')
-        elif system("darwin"):
-            count = int(os.popen('sysctl -n hw.ncpu').read())
-        elif system("win"):
-            count = int(os.environ['NUMBER_OF_PROCESSORS'])
-        return max(count, 1)
-    # if an error occurs simply return one
-    except Exception: pass
-    return 1
 
 def main():
     # check run location

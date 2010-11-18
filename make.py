@@ -12,8 +12,8 @@
 
 import string, sys, subprocess, os, os.path as path
 
-# reuse the helpers from repo.py
-from dist import printCommands, error, execute, system, ExecError, cores
+# import the helpers from oelib.py
+from oelib import printCommands, error, execute, system, ExecError, cores
 
 build_dir = path.join(os.getcwd(), "build")
 
