@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -------------------------------------------------------------------
-# Helper script to manage OpenEngine distributions.
-# For usage information run ./dist.py help
+# Helper functions for dist.py and make.py
 # -------------------------------------------------------------------
 # Copyright (C) 2007 OpenEngine.dk (See AUTHORS)
 #
@@ -20,6 +19,9 @@ def printCommands(cmds):
     print "\n".join([f.__doc__.strip() for f,c in cmds])
 
 def execute(cmd):
+    '''
+    Execute system command
+    '''
     proc = subprocess.Popen(cmd, shell=True)
     proc.wait()
     if proc.returncode != 0:
@@ -27,19 +29,23 @@ def execute(cmd):
                         % (cmd, proc.returncode))
 
 def error(err):
+    '''
+    Print error message, and exit
+    '''
     print err
     sys.exit(1)
 
 def system(name):
+    '''
+    Returns true if name==any, or if name matches the system platform.
+    '''
     return name == "any" or sys.platform.startswith(name)
 
 def cores():
     '''
     Returns the number of CPUs in the system
+    Source: http://pyprocessing.berlios.de/
     '''
-    # ------------------------------------- #
-    # From: http://pyprocessing.berlios.de/ #
-    # ------------------------------------- #
     try:
         count = 0
         if system("linux"):
