@@ -12,6 +12,12 @@
 import string, sys, subprocess, os, os.path as path
 import urllib, urllib2, zipfile, tarfile
 
+def deleteFolder(folder):
+    if system("win"):
+        execute("rmdir /S /Q %s" % folder) 
+    else:
+        execute("rm -r %s" % folder)
+
 class ExecError(Exception):
     "Exception thrown if execute(cmd) exited with error code != 0"
 

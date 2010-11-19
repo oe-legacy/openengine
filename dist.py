@@ -14,7 +14,7 @@ import string, sys, subprocess, os, os.path as path
 import urllib, urllib2, zipfile, tarfile
 
 # import the helpers from oelib.py
-from oelib import printCommands, error, execute, system, ExecError, cores
+from oelib import deleteFolder, printCommands, error, execute, system, ExecError, cores
 
 def commands():
     return ((update,  "update"),
@@ -355,7 +355,7 @@ def mkrepo(name, dir, repo):
     flags = "" # We will not create darcs-1 repos any more \o/
     print "Creating new repository at: %s" % loc
     execute("darcs get %s --repodir %s" % (repo, loc))
-    execute("rm -r %s" % path.join(loc,"_darcs"))
+    deleteFolder(path.join(loc,"_darcs"))
     execute("darcs init %s --repodir %s" % (flags, loc))
 
 def relpath(path):
