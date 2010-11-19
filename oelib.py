@@ -13,6 +13,9 @@ import string, sys, subprocess, os, os.path as path
 import urllib, urllib2, zipfile, tarfile
 
 def deleteFolder(folder):
+    '''
+    Deletes a folder at the path of folder
+    '''
     if system("win"):
         execute("rmdir /S /Q %s" % folder) 
     else:
