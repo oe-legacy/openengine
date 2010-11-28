@@ -12,6 +12,15 @@ using namespace std;
 namespace OpenEngine {
 namespace Geometry {
 
+// Example Usage:
+//
+// TriangleIterator TI(triangleMesh->GetMesh(x));
+// for(TI.first(); TI.isGood(); TI++)
+// {
+//    triMesh->addTriangle(toBtVec(TI.vec[0]), toBtVec(TI.vec[1]), toBtVec(TI.vec[2]));
+// }
+//
+
 class TriangleIterator
 {
 	//---------
@@ -34,6 +43,27 @@ class TriangleIterator
 		~TriangleIterator(){}
 	
 		//Functionality
+        void first()
+        {
+            index=0;
+        }
+
+        bool isGood()
+        {
+            return index<Indices->GetSize();
+        }
+
+        bool isDone()
+        {
+            return index>=Indices->GetSize();
+        }
+
+        void operator++(int)
+        {
+            next();
+        }
+
+    private:
 		void next()
 		{
 			#ifdef OE_SAFE
@@ -45,20 +75,13 @@ class TriangleIterator
 			Vertices->GetElement(Indices->GetElement(index+2)[0], vec[2]);
 			index+=3;
 		}
-
-		bool isGood()
-		{
-			return index<Indices->GetSize();
-		}
-
-	private:
 	protected:
 	//---------
 	//Variables
 	public:
 		Vector<3,float> vec[3];
-	private:
 		unsigned int index;
+	private:
 		//These are drawn out of the MeshNode
 		Resources::IDataBlockPtr Vertices;
 		IndicesPtr Indices;
