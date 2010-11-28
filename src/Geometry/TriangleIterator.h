@@ -80,8 +80,8 @@ class TriangleIterator
 	//Variables
 	public:
 		Vector<3,float> vec[3];
-		unsigned int index;
 	private:
+		unsigned int index;
 		//These are drawn out of the MeshNode
 		Resources::IDataBlockPtr Vertices;
 		IndicesPtr Indices;
