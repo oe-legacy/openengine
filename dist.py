@@ -30,11 +30,17 @@ def update(*args):
     """
     update  [dist] -- default target. update all repositories.
     """
-    dists = get_dists(*args)
-    if dists:
-        run_repo(parse(*dists)["darcs"]) # run all dists
-    run_repo(parse(*args)["darcs"]) # run rest
-
+    olddists=0
+    while 1:
+        dists = get_dists(*args)
+        if(olddists==dists):
+            break
+        else:
+            if dists:
+                run_repo(parse(*dists)["darcs"]) # run all dists
+            run_repo(parse(*args)["darcs"]) # run rest
+        olddists=dists
+        
 def commit(*args):
     """
     commit [user]  -- commit to the development repositories.
