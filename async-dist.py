@@ -180,7 +180,6 @@ class Async_repo_download(Thread):
    def run(self):
         execute("darcs %s %s --repodir %s" % (self.cmd, self.r, self.p))
 
-
 def run_repo(repos):
     """
     fetch/update repositories
@@ -197,8 +196,6 @@ def run_repo(repos):
         current.start()
     for thread in threadlist:
         thread.join()
-
-
 
 def get_windows_username():
     #check for username file if it exist read it
@@ -217,10 +214,20 @@ def get_windows_username():
     username += '@'
     return username
 
+class Async_repo_upload(Thread):
+   def __init__ (self, user, r, p):
+        Thread.__init__(self)
+        self.user = user
+        self.r = r
+        self.p = p
+   def run(self):
+        execute("darcs push %s%s --repodir %s" % (self.user, self.r, self.p))
+
 def commit_repo(user, repos):
     """
     push changes to repositories
     """
+    threadlist = []
     if system("win"):	
         user = get_windows_username();
     else:
@@ -228,7 +235,11 @@ def commit_repo(user, repos):
         else: user = ""
     for p,r in repos:
         print "Commiting %s to %s" % (relpath(p), r)
-        execute("darcs push %s%s --repodir %s" % (user, r, p))
+        current = Async_repo_upload(user, r, p)
+        threadlist.append(current)
+        current.start()
+    for thread in threadlist:
+        thread.join()
 
 class Async_file_download_and_unpack(Thread):
    def __init__ (self, res, file, dir):
