@@ -1,13 +1,10 @@
-//TODO: Tjek form, vha getType på meshNode
+//! @TODO: Tjek form, vha. getType på meshNode
 
 #ifndef _TRIANGLE_ITERATOR_H
 #define _TRIANGLE_ITERATOR_H
 
 #include <Math\Vector.h>
 #include <Scene/MeshNode.h>
-
-#include <iostream>
-using namespace std;
 
 namespace OpenEngine {
 namespace Geometry {
@@ -20,7 +17,6 @@ namespace Geometry {
 //    triMesh->addTriangle(toBtVec(TI.vec[0]), toBtVec(TI.vec[1]), toBtVec(TI.vec[2]));
 // }
 //
-
 class TriangleIterator
 {
 	//---------

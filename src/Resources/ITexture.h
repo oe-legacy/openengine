@@ -260,7 +260,7 @@ namespace OpenEngine {
             virtual void SetCompression(bool c) { compression = c; }
 
             // Serialization
-            virtual void Serialize(IArchiveWriter&) {}; // Todo make pure virtual.
+            virtual void Serialize(IArchiveWriter&) {}; //! @Todo make pure virtual.
             virtual void Deserialize(IArchiveReader&) {};
             virtual unsigned int GetSerialzationTag() {return (unsigned int)-1;}
             
