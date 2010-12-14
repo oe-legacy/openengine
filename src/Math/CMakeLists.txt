@@ -11,6 +11,13 @@ ADD_LIBRARY(OpenEngine_Math
 #  VectorList.h
 #  VectorIterator.h
   Tensor.h
+  Color.h
+  HSLColor.h
+  HSLColor.cpp
+  RGBColor.h
+  RGBColor.cpp   
+  RGBAColor.h
+  RGBAColor.cpp   
 )
 
 TARGET_LINK_LIBRARIES(OpenEngine_Math
