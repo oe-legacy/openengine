@@ -32,6 +32,10 @@ float RGBColor::GetRed() {
 	return (*this)[0];
 }
 
+Vector<3,unsigned char> RGBColor::GetUChar() {
+    return Vector<3,unsigned char>((*this)[0]*255.0, (*this)[1]*255.0, (*this)[2]*255.0);
+}
+
 RGBColor::~RGBColor() {
 	// TODO Auto-generated destructor stub
 }

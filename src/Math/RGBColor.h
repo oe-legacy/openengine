@@ -17,7 +17,6 @@ namespace Math {
 class RGBColor 	: public Vector<3,float>
 				, public Color {
 private:
-	float data[3];
 public:
 	RGBColor();
 	RGBColor(float,float,float);
@@ -26,6 +25,7 @@ public:
 	float GetRed();
 	RGBColor GetRGB();
 	RGBAColor GetRGBA();
+    Vector<3,unsigned char> GetUChar();
 };
 
 }
