@@ -27,10 +27,11 @@ RGBColor HSLColor::GetRGB() {
 	float hue = (*this)[0];
 	float sat = (*this)[1];
 	float light = (*this)[2];
-	float chroma = (1 - abs(2*light - 1)) * sat;
+	float chroma = (1.0 - fabs(2.0*light - 1.0)) * sat;
 
-	int hh = hue/60.0;
-	float x = chroma * (1 - abs(hh % 2 - 1));
+	float hh = hue/60.0;
+	float x = chroma * (1.0 - fabs(fmod(hh , 2) - 1.0));
+
 
 	Vector<3,float> rgb1;
 	if      (0 <= hh && hh <= 1) rgb1 = Vector<3,float>(chroma,x,0);
