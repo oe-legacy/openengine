@@ -59,10 +59,12 @@ void ViewingVolume::Update(const unsigned int width, const unsigned int height) 
 }
 
 void ViewingVolume::SetPosition(const Vector<3,float> position) {
+    //    std::cout << "CamPos: " << position << std::endl;
     this->position = position;
 }
 
 void ViewingVolume::SetDirection(const Quaternion<float> direction) {
+    //    std::cout << "CamDir: " << direction << std::endl;
     this->direction = direction;
 }
 

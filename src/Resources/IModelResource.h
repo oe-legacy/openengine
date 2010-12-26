@@ -14,11 +14,13 @@
 
 // forward declaration
 namespace OpenEngine { namespace Scene { class ISceneNode; } }
+namespace OpenEngine { namespace Scene { class AnimationNode; } }
 
 namespace OpenEngine {
 namespace Resources {
 
 using OpenEngine::Scene::ISceneNode;
+using OpenEngine::Scene::AnimationNode;
 
 class IModelResource;
 
@@ -52,6 +54,10 @@ public:
      * geometry nodes
      */
     virtual ISceneNode* GetSceneNode() = 0;
+
+    virtual ISceneNode* GetMeshes() = 0;
+    virtual AnimationNode* GetAnimations() = 0;
+    //virtual DeformationNode* GetDeformations() = 0;
     
 };
 

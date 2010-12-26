@@ -24,7 +24,7 @@ SET(OE_LIB_DIR        "${OpenEngine_SOURCE_DIR}/libraries")
 #SET(OE_TESTS_DIR      "${OpenEngine_SOURCE_DIR}/tests")
 SET(OE_PROJECTS_DIR   "${OpenEngine_SOURCE_DIR}/projects")
 SET(OE_EXTENSIONS_DIR "${OpenEngine_SOURCE_DIR}/extensions")
-SET(OE_EXTERNALS_DIR "${OpenEngine_SOURCE_DIR}/dependencies")
+SET(OE_EXTERNALS_DIR  "${OpenEngine_SOURCE_DIR}/dependencies")
 
 # Include paths
 INCLUDE_DIRECTORIES(

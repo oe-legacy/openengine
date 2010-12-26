@@ -1,4 +1,6 @@
 @OE_AUTOGEN_HEADER@
+SCENE_NODE(AnimationNode)
+SCENE_NODE(AnimatedTransformationNode)
 SCENE_NODE(BlendingNode)
 SCENE_NODE(DirectionalLightNode)
 SCENE_NODE(GeometryNode)

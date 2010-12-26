@@ -1,6 +1,7 @@
 
 # OpenEngine components
 SUBDIRS(
+  Animation
   Core
   Devices
   Display

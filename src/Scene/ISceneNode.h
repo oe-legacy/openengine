@@ -17,9 +17,10 @@
 public:                                                 \
 virtual void Accept(ISceneNodeVisitor& v);              \
 virtual ISceneNode* Clone() const;                      \
-virtual const std::string GetNodeName() const;         \
-private:
-
+virtual const std::string GetNodeName() const;          \
+virtual void SetNodeName(std::string name);             \
+private:                                                \
+  std::string nodeName;
 
 namespace OpenEngine {
     namespace Resources {
@@ -145,6 +146,9 @@ public:
      * @return Node at index or NULL if out of bounds
      */
     virtual ISceneNode* GetNode(unsigned int index=0);
+
+
+    virtual void SetNodeName(std::string name) {};
 
     /**
      * Get index of a node

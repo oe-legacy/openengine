@@ -30,7 +30,18 @@ ISceneNode* type::Clone() const {                               \
 // Type string
 #define SCENE_NODE(type)                                        \
 const std::string type::GetNodeName() const {                   \
+ if ( ! nodeName.empty() )                                      \
+    return nodeName;                                            \
+ else                                                           \
     return #type;                                               \
+}
+#include "SceneNodes.def"
+#undef SCENE_NODE
+
+// Type string
+#define SCENE_NODE(type)                                        \
+void type::SetNodeName(std::string name) {                      \
+    this->nodeName = name;                                      \
 }
 #include "SceneNodes.def"
 #undef SCENE_NODE

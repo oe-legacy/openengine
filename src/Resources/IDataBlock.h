@@ -32,7 +32,7 @@ namespace OpenEngine {
         typedef std::list<IDataBlockPtr > IDataBlockList;
 
         /**
-         * The block type tells the engine the primairy purpuse of
+         * The block type tells the engine the primary purpose of
          * this data block.
          *
          * ARRAY means a standard data array.
@@ -68,7 +68,7 @@ namespace OpenEngine {
 
         /**
          * Basic data block interface. The data block consists of an
-         * array where each element is an N'th dimensional vector.
+         * array where each element is a N'th dimensional vector.
          *
          * @class IDataBlock IDataBlock.h Resources/IDataBlock.h
          */

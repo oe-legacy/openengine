@@ -206,6 +206,8 @@ const std::string RenderStateNode::ToString() const {
             str += " BINORMAL,";
         if ( IsOptionEnabled(TANGENT) )
             str += " TANGENT,";
+        if ( IsOptionEnabled(COLOR_MATERIAL) )
+            str += " COLOR_MATERIAL,";
         str[str.length() - 1] = ' ';
     }
     if (disabled != NONE) {
@@ -230,6 +232,8 @@ const std::string RenderStateNode::ToString() const {
             str += " BINORMAL,";
         if ( IsOptionDisabled(TANGENT) )
             str += " TANGENT,";
+        if ( IsOptionDisabled(COLOR_MATERIAL) )
+            str += " COLOR_MATERIAL,";
         str[str.length()-1] = ' ';
     }
     return str;

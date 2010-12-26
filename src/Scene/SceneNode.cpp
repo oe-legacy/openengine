@@ -20,15 +20,6 @@ SceneNode::SceneNode()
     
 }
 
-void SceneNode::Serialize(Resources::IArchiveWriter& w) {
-
-}
-
-void SceneNode::Deserialize(Resources::IArchiveReader& r) {
-
-}
-
-
 /**
  * Copy constructor.
  * Required to perform a shallow copy of the node.
@@ -45,6 +36,16 @@ SceneNode::SceneNode(const SceneNode& node) : ISceneNode(node) {
  * In this case we need not do anything.
  */
 SceneNode::~SceneNode() {
+
+}
+
+
+
+void SceneNode::Serialize(Resources::IArchiveWriter& w) {
+
+}
+
+void SceneNode::Deserialize(Resources::IArchiveReader& r) {
 
 }
 

@@ -114,7 +114,9 @@ public:
  *
  * @class IRenderer IRenderer.h Renderers/IRenderer.h
  */
-class IRenderer : public virtual IListener<Renderers::InitializeEventArg>, public virtual IListener<Renderers::DeinitializeEventArg>, public virtual IListener<Renderers::ProcessEventArg> {
+class IRenderer : public virtual IListener<Renderers::InitializeEventArg>, 
+                  public virtual IListener<Renderers::DeinitializeEventArg>, 
+                  public virtual IListener<Renderers::ProcessEventArg> {
 // protected:
 //     list<ICanvasListener*> dependencies;
 public:

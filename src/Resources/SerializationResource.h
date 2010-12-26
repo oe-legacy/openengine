@@ -15,6 +15,7 @@
 #include <Resources/IModelResource.h>
 #include <Resources/IResourcePlugin.h>
 #include <Scene/ISceneNode.h>
+#include <Scene/AnimationNode.h>
 
 namespace OpenEngine {
 namespace Resources {
@@ -28,9 +29,14 @@ class SerializationResource : public IModelResource {
 private:
     std::string file;
     Scene::ISceneNode* node;
+    Scene::AnimationNode* animations;
 public:
     SerializationResource(std::string file);
     Scene::ISceneNode* GetSceneNode();
+    Scene::ISceneNode* GetMeshes();
+    Scene::AnimationNode* GetAnimations();
+
+
     void Load();
     void Unload();
 };
