@@ -150,7 +150,7 @@ namespace OpenEngine {
 #undef SCALAR
 #define SCALAR(type)                                                    \
             inline void operator*=(const float s){                      \
-                for (unsigned int i = 1; i < this->size; ++i){          \
+                for (unsigned int i = 0; i < this->size; ++i){          \
                     Math::Vector<N, T> element = GetElement(i);         \
                     SetElement(i, element * (T)s);                      \
                 }                                                       \
@@ -161,7 +161,7 @@ namespace OpenEngine {
                 return clone;                                           \
             }                                                           \
             inline void operator/=(const float s){                      \
-                for (unsigned int i = 1; i < this->size; ++i){          \
+                for (unsigned int i = 0; i < this->size; ++i){          \
                     Math::Vector<N, T> element = GetElement(i);         \
                     SetElement(i, element / (T)s);                      \
                 }                                                       \
@@ -175,7 +175,7 @@ namespace OpenEngine {
 #include <Resources/DataBlockVectorList.h>
             
             inline void Normalize() {
-                for (unsigned int i = 1; i < this->size; ++i){          
+                for (unsigned int i = 0; i < this->size; ++i){          
                     Math::Vector<N, T> element = GetElement(i); 
                     element.Normalize();
                     SetElement(i, element);            
