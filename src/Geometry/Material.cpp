@@ -47,6 +47,8 @@ void Material::Copy(const Material& mat) {
     specular = mat.specular;
     emission = mat.emission;
     shininess = mat.shininess;
+
+    // TODO: deep copy texs2D and texs3D.
 }
 
 /**

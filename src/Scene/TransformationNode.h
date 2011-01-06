@@ -76,6 +76,8 @@ public:
 
     void Serialize(Resources::IArchiveWriter& w);
     void Deserialize(Resources::IArchiveReader& r);
+
+    const std::string ToString() const;
     
 private:
 

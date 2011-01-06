@@ -54,6 +54,15 @@ namespace OpenEngine {
             indexOffset = mesh.GetIndexOffset();
             drawRange = mesh.GetDrawingRange();
         }
+
+        MeshPtr Mesh::Clone() {
+            Resources::IndicesPtr idxBuf = indexBuffer;
+            GeometrySetPtr gs = geom->Clone();
+            //MaterialPtr matr = MaterialPtr(new Material(mat));
+            // TODO: deep copy material.
+            return MeshPtr(new Mesh(idxBuf, type, gs, mat, indexOffset, drawRange));
+        }
+
     }
 
 }

@@ -16,7 +16,6 @@ namespace Scene {
 
     //! Empty constructor.
     TransformationNode::TransformationNode() : scale(Vector<3,float>(1.0f)) {
-
     }
 
     /**
@@ -250,6 +249,48 @@ namespace Scene {
         scale = r.ReadVector<3,float>("scale");
     }
 
+
+    const std::string TransformationNode::ToString() const {
+        TransformationNode t(*this);
+        char str[256];
+        /*
+        Matrix<4,4,float> m = t.GetTransformationMatrix();
+        // Print transformation matrix
+        sprintf(str, "%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n", 
+                m[0][0], m[0][1], m[0][2], m[0][3],
+                m[1][0], m[1][1], m[1][2], m[1][3],
+                m[2][0], m[2][1], m[2][2], m[2][3],
+                m[3][0], m[3][1], m[3][2], m[3][3]); 
+        */
+
+              
+        // Print each transformation matrix
+        Matrix<4,4,float> m = rotation.GetMatrix().GetExpanded();
+        Vector<3,float> pos = position;
+        sprintf(str, "%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n", 
+                m[0][0], m[0][1], m[0][2], pos[0],
+                m[1][0], m[1][1], m[1][2], pos[1],
+                m[2][0], m[2][1], m[2][2], pos[2],
+                m[3][0], m[3][1], m[3][2], 1.0); 
+
+
+        /*
+        // Print accumulated transformation matrix
+        Vector<3,float>   accPos;
+        Quaternion<float> accRot;
+        Vector<3,float>   accSca;
+        t.GetAccumulatedTransformations(&accPos, &accRot, &accSca);
+        Matrix<3,3,float> m = accRot.GetMatrix();
+     
+        sprintf(str, "%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n%.3f %.3f %.3f %.3f\n", 
+                m[0][0], m[0][1], m[0][2], accPos[0],
+                m[1][0], m[1][1], m[1][2], accPos[1],
+                m[2][0], m[2][1], m[2][2], accPos[2],
+                    0.0,     0.0,     0.0, 1.0); 
+        */
+
+        return str;
+    }
 
 } // NS Modules
 } // NS OpenEngine

@@ -57,7 +57,6 @@ public:
 
     virtual ISceneNode* GetMeshes() = 0;
     virtual AnimationNode* GetAnimations() = 0;
-    //virtual DeformationNode* GetDeformations() = 0;
     
 };
 

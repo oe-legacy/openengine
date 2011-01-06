@@ -1,6 +1,4 @@
 @OE_AUTOGEN_HEADER@
-#include <Scene/AnimationNode.h>
-#include <Scene/AnimatedTransformationNode.h>
 #include <Scene/BlendingNode.h>
 #include <Scene/DirectionalLightNode.h>
 #include <Scene/GeometryNode.h>

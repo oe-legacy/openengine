@@ -1,6 +1,4 @@
 ADD_LIBRARY(OpenEngine_Scene
-  AnimationNode.cpp
-  AnimatedTransformationNode.cpp
   Scene.cpp
   Exceptions.h
   ISceneNode.h
@@ -51,7 +49,6 @@ TARGET_LINK_LIBRARIES(OpenEngine_Scene
   OpenEngine_Math
   OpenEngine_Utils
   OpenEngine_Geometry
-  OpenEngine_Animation
   OpenEngine_Logging
   OpenEngine_Resources
   # link to all libraries that have added extensions to the scene

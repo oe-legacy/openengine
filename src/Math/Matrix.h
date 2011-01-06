@@ -281,7 +281,7 @@ public:
      */
     Vector<M,T> GetColumn(const unsigned int j) const {
         Vector<M,T> v;
-        for (int i=0; i<M; i++)
+        for (unsigned int i=0; i<M; i++)
             v[i] = elm[i][j];
         return v;
     }
@@ -421,7 +421,7 @@ public:
      * m.GetExpanded()               // [(1,2,0), (3,4,0), (0,0,1)]
      * @endcode
      *
-     * @return Reduced matrix.
+     * @return Expanded matrix.
      */
     Matrix<M+1,N+1,T> GetExpanded() {
         Matrix<M+1,N+1,T> m;

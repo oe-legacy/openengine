@@ -19,9 +19,13 @@ using std::list;
 namespace OpenEngine {
     namespace Resources {
         class Indices;
-        typedef boost::shared_ptr<Indices > IndicesPtr;
+        typedef boost::shared_ptr<Indices> IndicesPtr;
     }
     namespace Geometry {
+        class Mesh;
+        typedef boost::shared_ptr<Mesh> MeshPtr;
+        typedef list<MeshPtr> MeshList;
+        
         class Material;
         typedef boost::shared_ptr<Material> MaterialPtr;
         class GeometrySet;
@@ -70,7 +74,12 @@ namespace OpenEngine {
              * Copy constructor.
              */
             Mesh(const Mesh& mesh);
-            
+
+            /**
+             * Clone mesh
+             */
+            virtual MeshPtr Clone();
+
             /**
              * Return the index buffer object.
              */
@@ -110,8 +119,6 @@ namespace OpenEngine {
              */
         };
 
-        typedef boost::shared_ptr<Mesh> MeshPtr;
-        typedef list<MeshPtr> MeshList;
 
     }
 }
