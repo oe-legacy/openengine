@@ -68,6 +68,15 @@ namespace OpenEngine {
                     
                     effect->Load();
 
+                    if(effect->GetShaderModel() < 2 ||
+                       !effect->HasVertexSupport() ||
+                       !effect->HasVertexSupport())
+                        enabled = false;
+
+                    TextureList texs = effect->GetTextures();
+                    for (unsigned int i = 0; i < texs.size(); ++i)
+                        arg.renderer.LoadTexture(texs[i]);
+
                     // Setup shader texture uniforms
                     ITexture2DPtr depthTex = sceneFrameBuffer->GetDepthTexture();
                     if (effect->GetUniformID("depth") >= 0 && depthTex != NULL)
@@ -104,7 +113,8 @@ namespace OpenEngine {
                     break;
                 }
             case Renderers::IRenderer::RENDERER_PROCESS:
-	      time += (unsigned int)(arg.approx / 1000.0f);
+                if (!enabled) return;
+                time += (unsigned int)(arg.approx / 1000.0f);
                 effect->SetUniform("time", (float)time);
                 break;
             default:

@@ -182,6 +182,10 @@ public:
      */
     virtual int GetAttributeID(const string name) = 0;
 
+    virtual int GetShaderModel() = 0;
+    virtual bool HasVertexSupport() = 0;
+    virtual bool HasGeometrySupport() = 0;
+    virtual bool HasFragmentSupport() = 0;
 };
 
 } // NS Resources
