@@ -105,10 +105,10 @@ namespace OpenEngine {
                     if (finalFrameBuffer == NULL && finalColors > 0)
                         finalFrameBuffer = new FrameBuffer(dimensions, finalColors, true);
 
-                    if (effect->GetUniformID("time") >= 0){
-                        effect->SetUniform("time", (float)time);
+                    if (effect->GetUniformID("time") >= 0 ||
+                        effect->GetUniformID("viewProjection") >= 0 ||
+                        effect->GetUniformID("viewProjectionInverse") >= 0)
                         arg.renderer.ProcessEvent().Attach(*this);
-                    }
                     
                     // Initialize post process specific code
                     Initialize(arg);
