@@ -11,6 +11,7 @@
 
 #include <Resources/IShaderResource.h>
 #include <Display/Viewport.h>
+#include <Display/IViewingVolume.h>
 #include <Logging/Logger.h>
 #include <Utils/Convert.h>
 
@@ -116,8 +117,17 @@ namespace OpenEngine {
                 }
             case Renderers::IRenderer::RENDERER_PROCESS:
                 if (!enabled) return;
-                time += (unsigned int)(arg.approx / 1000.0f);
-                effect->SetUniform("time", (float)time);
+                if (effect->GetUniformID("time") >= 0){
+                    time += (unsigned int)(arg.approx / 1000.0f);
+                    effect->SetUniform("time", (float)time);
+                }
+                
+                if (effect->GetUniformID("viewProjection") >= 0)
+                    effect->SetUniform("viewProjection", (arg.canvas.GetViewingVolume()->GetViewMatrix() *
+                                                          arg.canvas.GetViewingVolume()->GetProjectionMatrix());
+                if (effect->GetUniformID("viewProjectionInverse") >= 0)
+                    effect->SetUniform("viewProjectionInverse", (arg.canvas.GetViewingVolume()->GetViewMatrix() * 
+                                                                 arg.canvas.GetViewingVolume()->GetProjectionMatrix()).GetInverse());
                 break;
             default:
                 ;
