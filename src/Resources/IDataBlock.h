@@ -133,8 +133,8 @@ namespace OpenEngine {
              *
              * @return pointer to loaded data.
              */
-            inline void* GetVoidData() const { return data; }
-            /*DEPRECATED*/inline void* GetVoidDataPtr() const { return data; }
+            virtual void* GetVoidData() { return data; }
+            /*DEPRECATED*/virtual void* GetVoidDataPtr() { return data; }
 
             /**
              * Copies the i'th element of the datablock into the
