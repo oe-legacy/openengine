@@ -124,7 +124,7 @@ namespace OpenEngine {
                 
                 if (effect->GetUniformID("viewProjection") >= 0)
                     effect->SetUniform("viewProjection", (arg.canvas.GetViewingVolume()->GetViewMatrix() *
-                                                          arg.canvas.GetViewingVolume()->GetProjectionMatrix());
+                                                          arg.canvas.GetViewingVolume()->GetProjectionMatrix()));
                 if (effect->GetUniformID("viewProjectionInverse") >= 0)
                     effect->SetUniform("viewProjectionInverse", (arg.canvas.GetViewingVolume()->GetViewMatrix() * 
                                                                  arg.canvas.GetViewingVolume()->GetProjectionMatrix()).GetInverse());
