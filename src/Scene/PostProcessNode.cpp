@@ -70,8 +70,10 @@ namespace OpenEngine {
 
                     if(effect->GetShaderModel() < 2 ||
                        !effect->HasVertexSupport() ||
-                       !effect->HasVertexSupport())
+                       !effect->HasVertexSupport()){
                         enabled = false;
+                        return;
+                    }
 
                     TextureList texs = effect->GetTextures();
                     for (unsigned int i = 0; i < texs.size(); ++i)
