@@ -10,9 +10,10 @@
 #ifndef _I_DATA_BLOCK_H_
 #define _I_DATA_BLOCK_H_
 
+#include <Core/Exceptions.h>
+#include <Math/Vector.h>
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/IResource.h>
-#include <Math/Vector.h>
 
 #include <list>
 #include <string>
@@ -142,13 +143,13 @@ namespace OpenEngine {
              * @param i The index into the block.
              * @param element The vector to place the data in.
              */
-            virtual void GetElement(unsigned int i, Math::Vector<4, unsigned char> &element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<2, float> &element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<3, float> &element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<4, float> &element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<2, double> &element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<3, double> &element) = 0;
-            virtual void GetElement(unsigned int i, Math::Vector<4, double> &element) = 0;
+            virtual void GetElement(unsigned int i, Math::Vector<4, unsigned char> &element) { throw Core::NotImplemented(); }
+            virtual void GetElement(unsigned int i, Math::Vector<2, float> &element) { throw Core::NotImplemented(); }
+            virtual void GetElement(unsigned int i, Math::Vector<3, float> &element) { throw Core::NotImplemented(); }
+            virtual void GetElement(unsigned int i, Math::Vector<4, float> &element) { throw Core::NotImplemented(); }
+            virtual void GetElement(unsigned int i, Math::Vector<2, double> &element) { throw Core::NotImplemented(); }
+            virtual void GetElement(unsigned int i, Math::Vector<3, double> &element) { throw Core::NotImplemented(); }
+            virtual void GetElement(unsigned int i, Math::Vector<4, double> &element) { throw Core::NotImplemented(); }
 
             /**
              * Sets the i'th element in the data block to the vector.
@@ -156,13 +157,13 @@ namespace OpenEngine {
              * @param i The index into the block.
              * @param value The value to be set to.
              */
-            virtual void SetElement(unsigned int i, const Math::Vector<4, unsigned char> value) = 0;
-            virtual void SetElement(unsigned int i, const Math::Vector<2, float> value) = 0;
-            virtual void SetElement(unsigned int i, const Math::Vector<3, float> value) = 0;
-            virtual void SetElement(unsigned int i, const Math::Vector<4, float> value) = 0;
-            virtual void SetElement(unsigned int i, const Math::Vector<2, double> value) = 0;
-            virtual void SetElement(unsigned int i, const Math::Vector<3, double> value) = 0;
-            virtual void SetElement(unsigned int i, const Math::Vector<4, double> value) = 0;
+            virtual void SetElement(unsigned int i, const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
+            virtual void SetElement(unsigned int i, const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
+            virtual void SetElement(unsigned int i, const Math::Vector<3, float> value)  { throw Core::NotImplemented(); }
+            virtual void SetElement(unsigned int i, const Math::Vector<4, float> value)  { throw Core::NotImplemented(); }
+            virtual void SetElement(unsigned int i, const Math::Vector<2, double> value)  { throw Core::NotImplemented(); }
+            virtual void SetElement(unsigned int i, const Math::Vector<3, double> value)  { throw Core::NotImplemented(); }
+            virtual void SetElement(unsigned int i, const Math::Vector<4, double> value)  { throw Core::NotImplemented(); }
 
             /**
              * Get the type of the data block.
@@ -253,78 +254,78 @@ namespace OpenEngine {
              * Destructive vector addition on all elements in the
              * datablock.
              */
-            virtual void operator+=(const Math::Vector<4, unsigned char> value) = 0;
-            virtual void operator+=(const Math::Vector<1, unsigned int> value) = 0;
-            virtual void operator+=(const Math::Vector<2, float> value) = 0;
-            virtual void operator+=(const Math::Vector<3, float> value) = 0;
-            virtual void operator+=(const Math::Vector<4, float> value) = 0;
-            virtual void operator+=(const Math::Vector<2, double> value) = 0;
-            virtual void operator+=(const Math::Vector<3, double> value) = 0;
-            virtual void operator+=(const Math::Vector<4, double> value) = 0;
+            virtual void operator+=(const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<1, unsigned int> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<3, float> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<4, float> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<2, double> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<3, double> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<4, double> value)  { throw Core::NotImplemented(); }
             /**
              * Nondestructive vector addition on all elements in the
              * datablock.
              */
-            virtual IDataBlockPtr operator+(const Math::Vector<4, unsigned char> value) = 0;
-            virtual IDataBlockPtr operator+(const Math::Vector<1, unsigned int> value) = 0;
-            virtual IDataBlockPtr operator+(const Math::Vector<2, float> value) = 0;
-            virtual IDataBlockPtr operator+(const Math::Vector<3, float> value) = 0;
-            virtual IDataBlockPtr operator+(const Math::Vector<4, float> value) = 0;
-            virtual IDataBlockPtr operator+(const Math::Vector<2, double> value) = 0;
-            virtual IDataBlockPtr operator+(const Math::Vector<3, double> value) = 0;
-            virtual IDataBlockPtr operator+(const Math::Vector<4, double> value) = 0;
+            virtual IDataBlockPtr operator+(const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator+(const Math::Vector<1, unsigned int> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator+(const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator+(const Math::Vector<3, float> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator+(const Math::Vector<4, float> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator+(const Math::Vector<2, double> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator+(const Math::Vector<3, double> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator+(const Math::Vector<4, double> value)  { throw Core::NotImplemented(); }
 
             /**
              * Destructive vector subtraction on all elements in the
              * datablock.
              */
-            virtual void operator-=(const Math::Vector<4, unsigned char> value) = 0;
-            virtual void operator-=(const Math::Vector<1, unsigned int> value) = 0;
-            virtual void operator-=(const Math::Vector<2, float> value) = 0;
-            virtual void operator-=(const Math::Vector<3, float> value) = 0;
-            virtual void operator-=(const Math::Vector<4, float> value) = 0;
-            virtual void operator-=(const Math::Vector<2, double> value) = 0;
-            virtual void operator-=(const Math::Vector<3, double> value) = 0;
-            virtual void operator-=(const Math::Vector<4, double> value) = 0;
+            virtual void operator-=(const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<1, unsigned int> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<3, float> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<4, float> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<2, double> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<3, double> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<4, double> value)  { throw Core::NotImplemented(); }
             /**
              * Nondestructive vector subtraction on all elements in the
              * datablock.
              */
-            virtual IDataBlockPtr operator-(const Math::Vector<4, unsigned char> value) = 0;
-            virtual IDataBlockPtr operator-(const Math::Vector<1, unsigned int> value) = 0;
-            virtual IDataBlockPtr operator-(const Math::Vector<2, float> value) = 0;
-            virtual IDataBlockPtr operator-(const Math::Vector<3, float> value) = 0;
-            virtual IDataBlockPtr operator-(const Math::Vector<4, float> value) = 0;
-            virtual IDataBlockPtr operator-(const Math::Vector<2, double> value) = 0;
-            virtual IDataBlockPtr operator-(const Math::Vector<3, double> value) = 0;
-            virtual IDataBlockPtr operator-(const Math::Vector<4, double> value) = 0;
+            virtual IDataBlockPtr operator-(const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator-(const Math::Vector<1, unsigned int> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator-(const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator-(const Math::Vector<3, float> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator-(const Math::Vector<4, float> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator-(const Math::Vector<2, double> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator-(const Math::Vector<3, double> value)  { throw Core::NotImplemented(); }
+            virtual IDataBlockPtr operator-(const Math::Vector<4, double> value)  { throw Core::NotImplemented(); }
 
             /**
              * Destructive scalar multiplication on all elements in
              * the datablock.
              */
-            virtual void operator*=(const float s) = 0;
+            virtual void operator*=(const float s)  { throw Core::NotImplemented(); }
             /**
              * Nondestructive scalar multiplication on all elements in
              * the datablock.
              */
-            virtual IDataBlockPtr operator*(const float s) = 0;
+            virtual IDataBlockPtr operator*(const float s)  { throw Core::NotImplemented(); }
             
             /**
              * Destructive scalar division on all elements in the
              * datablock.
              */
-            virtual void operator/=(const float s) = 0;
+            virtual void operator/=(const float s)  { throw Core::NotImplemented(); }
             /**
              * Nondestructive scalar division on all elements in the
              * datablock.
              */
-            virtual IDataBlockPtr operator/(const float s) = 0;
+            virtual IDataBlockPtr operator/(const float s)  { throw Core::NotImplemented(); }
 
             /**
              * Destructively normalize all elements of the datablock.
              */
-            virtual void Normalize() = 0;
+            virtual void Normalize()  { throw Core::NotImplemented(); }
 
         };
         
