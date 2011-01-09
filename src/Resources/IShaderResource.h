@@ -26,6 +26,9 @@ typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
 class ITexture3D;
 typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
 
+class IDataBlock;
+typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
+
 using OpenEngine::Math::Vector;
 using OpenEngine::Math::Matrix;
 using std::string;
@@ -146,6 +149,14 @@ public:
      * @param value Attribute vector value.
      */
     virtual void SetAttribute(string name, Vector<3, float> value)=0;
+
+    /**
+     * Set a shader attribute.
+     *
+     * @param name Attribute name.
+     * @param value Attribute vector value.
+     */
+    virtual void SetAttribute(string name, IDataBlockPtr values)=0;
 
     /**
      * Binds an attribute by id.
