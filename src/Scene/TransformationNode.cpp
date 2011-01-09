@@ -11,6 +11,8 @@
 #include <Resources/IArchiveWriter.h>
 #include <Resources/IArchiveReader.h>
 
+#include <stdio.h>
+
 namespace OpenEngine {
 namespace Scene {
 
