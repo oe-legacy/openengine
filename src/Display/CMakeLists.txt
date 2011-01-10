@@ -26,6 +26,8 @@ ADD_LIBRARY(OpenEngine_Display
   Frustum.cpp
   TrackingCamera.h
   TrackingCamera.cpp
+  TrackingFollowCamera.h
+  TrackingFollowCamera.cpp
   FollowCamera.h
   FollowCamera.cpp
   InterpolatedViewingVolume.h
