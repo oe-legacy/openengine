@@ -33,6 +33,7 @@ void Material::Init() {
     shininess = 0.0;    
     texs2D = list<pair<string, ITexture2DPtr> >();
     texs3D = list<pair<string, ITexture3DPtr> >();
+    shading = NONE;
 }
 
 // initialize default material.

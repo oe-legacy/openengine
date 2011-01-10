@@ -63,6 +63,11 @@ private:
     void Init();
 
 public:
+    enum ShadingModel {
+        NONE,
+        PHONG 
+        // more to come ...
+    } shading;
     Vector<4,float> diffuse;     //!< diffuse color
     Vector<4,float> ambient;     //!< ambient color
     Vector<4,float> specular;    //!< specular color
