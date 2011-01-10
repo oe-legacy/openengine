@@ -55,8 +55,8 @@ using OpenEngine::Scene::TransformationNode;
 class TrackingCamera : public Camera {
 
 private:
-    //! Transformation node to follow.
-    TransformationNode* follow;
+    //! Transformation node to track.
+    TransformationNode* track;
 
     //! Transformation relative to the transformation node.
     Camera* local;
@@ -81,8 +81,8 @@ public:
     virtual void SetDirection(const Quaternion<float> direction);
     virtual void SignalRendering(const float dt);
 
-    // New follow cam methods
-    virtual void Follow(TransformationNode* node);
+    // New tracking cam methods
+    virtual void Track(TransformationNode* node);
 
 };
 

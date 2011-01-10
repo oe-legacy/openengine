@@ -23,7 +23,7 @@ using OpenEngine::Scene::TransformationNode;
  * @param volume Viewing volume to decorate.
  */
 TrackingCamera::TrackingCamera(IViewingVolume& volume)
-    : Camera(volume), follow(NULL) {
+    : Camera(volume), track(NULL) {
     local = new Camera(*(new ViewingVolume()));
 }
 
@@ -67,16 +67,16 @@ void TrackingCamera::SetDirection(const Quaternion<float> direction) {
 
 /**
  * On every signal from the renderer the follow camera collects the
- * transformation information from the node it is following and
+ * transformation information from the node it is tracking and
  * calculates its current state from this and its local
  * transformation.
  */
 void TrackingCamera::SignalRendering(const float dt) {
-    if (follow != NULL) {
+    if (track != NULL) {
         Vector<3,float> accPosition;
         Quaternion<float> accRotation;
         // get the transformations from the node chain
-        follow->GetAccumulatedTransformations(&accPosition, &accRotation);
+        track->GetAccumulatedTransformations(&accPosition, &accRotation);
         
         Vector<3,float> direction = accPosition - local->GetPosition();
  
@@ -103,6 +103,8 @@ void TrackingCamera::SignalRendering(const float dt) {
         volume.SetPosition(local->GetPosition());
         volume.SetDirection(local->GetDirection());
     }
+       
+
     // we call signal here for other volumes to perform signal tasks
     volume.SignalRendering(dt);
 }
@@ -112,8 +114,8 @@ void TrackingCamera::SignalRendering(const float dt) {
  *
  * @param node Transformation node to "follow".
  */
-void TrackingCamera::Follow(TransformationNode* node) {
-    follow = node;
+void TrackingCamera::Track(TransformationNode* node) {
+    track = node;
 }
 
 } // NS Display
