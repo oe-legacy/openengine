@@ -13,11 +13,13 @@
 #include <Math/Vector.h>
 #include <boost/shared_ptr.hpp>
 #include <Resources/ISerializable.h>
-#include <list>
+// #include <list>
 #include <utility>
 #include <string>
+#include <map>
 
-using std::list;
+// using std::list;
+using std::map;
 using std::pair;
 using std::string;
 
@@ -57,15 +59,17 @@ class Material : public Resources::ISerializable {
     OE_SERIALIZABLE_OBJECT(Material)
 
 private:
+    map<string, ITexture2DPtr> texs2D;
+    map<string, ITexture3DPtr> texs3D;
+
     void Copy(const Material& mat);
-
-
     void Init();
 
 public:
     enum ShadingModel {
         NONE,
-        PHONG 
+        PHONG,
+        BLINN
         // more to come ...
     } shading;
     Vector<4,float> diffuse;     //!< diffuse color
@@ -75,8 +79,6 @@ public:
     float shininess;             //!< shininess value
 
     IShaderResourcePtr  shad; //!< shader resource
-    list<pair<string, ITexture2DPtr> > texs2D;
-    list<pair<string, ITexture3DPtr> > texs3D;
     
     Material();
     explicit Material(const Material& material);
@@ -92,8 +94,8 @@ public:
     void AddTexture(ITexture2DPtr tex, std::string name);
     void AddTexture(ITexture3DPtr tex);
     void AddTexture(ITexture3DPtr tex, std::string name);
-    inline list<pair <string, ITexture2DPtr> > Get2DTextures() const { return texs2D; }
-    inline list<pair <string, ITexture3DPtr> > Get3DTextures() const { return texs3D; }
+    inline map<string, ITexture2DPtr> Get2DTextures() const { return texs2D; }
+    inline map<string, ITexture3DPtr> Get3DTextures() const { return texs3D; }
 
     void Serialize(IArchiveWriter& w);
     void Deserialize(IArchiveReader& r);

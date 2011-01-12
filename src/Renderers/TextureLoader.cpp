@@ -23,15 +23,15 @@
 #include <Resources/ITexture2D.h>
 #include <Resources/ITexture3D.h>
 #include <Resources/IShaderResource.h>
-#include <list>
+// #include <list>
+#include <map>
 #include <set>
 #include <Logging/Logger.h>
 
 namespace OpenEngine {
 namespace Renderers {
 
-using std::list;
-using std::set;
+using namespace std;
 
 using Core::Exception;
 using Core::IListener;
@@ -101,8 +101,8 @@ public:
     }
 
     void LoadMaterial(MaterialPtr mat){
-        list<pair <string, ITexture2DPtr> > texs2D = mat->Get2DTextures();
-        list<pair <string, ITexture2DPtr> >::iterator itr = texs2D.begin();
+        map<string, ITexture2DPtr> texs2D = mat->Get2DTextures();
+        map<string, ITexture2DPtr>::iterator itr = texs2D.begin();
         while(itr != texs2D.end()){
             ITexture2DPtr t = itr->second;
             if (t != NULL && t->GetID() == 0 &&

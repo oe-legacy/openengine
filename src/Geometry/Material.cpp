@@ -31,8 +31,8 @@ void Material::Init() {
     specular = Vector<4,float>(0.0,0.0,0.0,1.0);
     emission = Vector<4,float>(0.0,0.0,0.0,1.0);
     shininess = 0.0;    
-    texs2D = list<pair<string, ITexture2DPtr> >();
-    texs3D = list<pair<string, ITexture3DPtr> >();
+    texs2D = map<string, ITexture2DPtr>();
+    texs3D = map<string, ITexture3DPtr>();
     shading = NONE;
 }
 
@@ -112,7 +112,7 @@ void Material::AddTexture(Resources::ITexture2DPtr tex){
 }
 
 void Material::AddTexture(Resources::ITexture2DPtr tex, std::string name){
-    texs2D.push_back(pair<string, Resources::ITexture2DPtr>(name, tex));
+    texs2D[name] = tex;
 }
 
 void Material::AddTexture(Resources::ITexture3DPtr tex){
@@ -121,7 +121,7 @@ void Material::AddTexture(Resources::ITexture3DPtr tex){
 }
 
 void Material::AddTexture(Resources::ITexture3DPtr tex, std::string name){
-    texs3D.push_back(pair<string, Resources::ITexture3DPtr>(name, tex));
+    texs3D[name] = tex;
 }
 
 void Material::Serialize(Resources::IArchiveWriter& w) {
@@ -133,7 +133,7 @@ void Material::Serialize(Resources::IArchiveWriter& w) {
     
     w.WriteInt("texs2Dsize", texs2D.size());
     unsigned int i = 0;
-    list<pair<string, ITexture2DPtr> >::iterator itr = texs2D.begin();
+    map<string, ITexture2DPtr>::iterator itr = texs2D.begin();
     while (itr != texs2D.end()){
         string key = "tex2d" + Utils::Convert::ToString<unsigned int>(i);
         w.WriteString(key, itr->first);
@@ -143,7 +143,7 @@ void Material::Serialize(Resources::IArchiveWriter& w) {
         
     w.WriteInt("texs3Dsize", texs3D.size());
     i = 0;
-    list<pair<string, ITexture3DPtr> >::iterator itr3D = texs3D.begin();
+    map<string, ITexture3DPtr>::iterator itr3D = texs3D.begin();
     while (itr3D != texs3D.end()){
         string key = "tex3d" + Utils::Convert::ToString<unsigned int>(i);
         w.WriteString(key, itr3D->first);
@@ -165,7 +165,7 @@ void Material::Deserialize(Resources::IArchiveReader& r) {
         string key = "tex2d" + Utils::Convert::ToString<unsigned int>(i);
         string name = r.ReadString(key);
         ITexture2DPtr tex = r.ReadObjectPtr<ITexture2D>(key);
-        texs2D.push_back(pair<string, ITexture2DPtr>(name, tex));
+        texs2D[name] = tex;
     }
 
     texs3D.clear();
@@ -174,7 +174,7 @@ void Material::Deserialize(Resources::IArchiveReader& r) {
         string key = "tex3d" + Utils::Convert::ToString<unsigned int>(i);
         string name = r.ReadString(key);
         ITexture3DPtr tex = r.ReadObjectPtr<ITexture3D>(key);
-        texs3D.push_back(pair<string, ITexture3DPtr>(name, tex));
+        texs3D[name] = tex;
     }
 }
 
