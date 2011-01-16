@@ -17,10 +17,8 @@
 public:                                                 \
 virtual void Accept(ISceneNodeVisitor& v);              \
 virtual ISceneNode* Clone() const;                      \
-virtual const std::string GetNodeName() const;          \
-virtual void SetNodeName(std::string name);             \
-private:                                                \
-  std::string nodeName;
+virtual const std::string GetTypeName() const;          \
+private:
 
 namespace OpenEngine {
     namespace Resources {
@@ -147,9 +145,6 @@ public:
      */
     virtual ISceneNode* GetNode(unsigned int index=0);
 
-
-    virtual void SetNodeName(std::string name) {};
-
     /**
      * Get index of a node
      * @paren node Sub node
@@ -181,15 +176,29 @@ public:
     virtual ISceneNode* Clone() const = 0;
 
     /**
-     * Get the class name of a node as a string literal.
+     * Get the type/class name of a node as a string literal.
      * @code
      * ISceneNode* node = new TransformationNode();
-     * node->GetNodeName() // => "TransformationNode"
+     * node->GetTypeName() // => "TransformationNode"
      * @endcode
      *
-     * @return Node class name
+     * @return Node type/class name
      */
-    virtual const std::string GetNodeName() const = 0;
+    virtual const std::string GetTypeName() const = 0;
+
+    /**
+     * Get the generic info for this node instance.
+     *
+     * @return Node info string
+     */
+    virtual const std::string GetInfo() const { return info; };
+
+    /**
+     * Set the generic info for this node instance.
+     *
+     * @param info Node info string
+     */
+    virtual void SetInfo(const std::string info) { this->info = info; };
 
     /**
      * Accept a visitor.
@@ -212,6 +221,9 @@ private:
 
     //! The parent node
     ISceneNode* parent;
+
+    //! Generic info about the node
+    std::string info;
 
     //! Queue operation types.
     enum QueueType { DELETE_OP, REMOVE_OP };

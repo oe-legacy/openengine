@@ -183,7 +183,7 @@ RenderStateNode* RenderStateNode::GetDifference(RenderStateNode& other) const {
 
 
 const std::string RenderStateNode::ToString() const {
-    std::string str(GetNodeName());
+    std::string str(GetTypeName());
     if (enabled != NONE) {
         str += "\nEnabled:";
         if ( IsOptionEnabled(TEXTURE) )

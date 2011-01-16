@@ -55,9 +55,6 @@ public:
      */
     virtual ISceneNode* GetSceneNode() = 0;
 
-    virtual ISceneNode* GetMeshes() {return 0;};
-    virtual AnimationNode* GetAnimations() {return 0;};
-    
 };
 
 } // NS Resources

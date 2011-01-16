@@ -36,7 +36,7 @@ void VertexArrayNode::AddVertexArray(VertexArray& vertexArray) {
 }
 
 const std::string VertexArrayNode::ToString() const {
-    return GetNodeName()
+    return ISceneNode::ToString()
         + "\nArrays: "
         + Utils::Convert::ToString(vaList.size());
 }
