@@ -52,11 +52,11 @@ namespace Renderers {
          * Update the data block that was changed.
          */
         void Handle(IDataBlockChangedEventArg arg) {
-            /*
+            
             renderer.RebindDataBlock(arg.resource,
                                      arg.start,
                                      arg.end);
-            */
+            
         }
         /**
          * Adds a data block to the reloader.
