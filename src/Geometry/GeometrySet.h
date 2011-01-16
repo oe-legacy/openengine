@@ -35,13 +35,18 @@ namespace OpenEngine {
         typedef boost::shared_ptr<GeometrySet> GeometrySetPtr;
 
         /**
+         * Typedef attribute blocks
+         */
+        typedef map<string, IDataBlockPtr> AttributeBlocks;
+
+        /**
          * The geometry set class contains all of the pr. vertex
          * information of a mesh.
          */
         class GeometrySet {
         protected:
             unsigned int size;
-            map<string, IDataBlockPtr> attributeBlocks;
+            AttributeBlocks attributeBlocks;
 
             Resources::IDataBlockPtr debugNormals;
 
@@ -53,7 +58,7 @@ namespace OpenEngine {
                  Resources::IDataBlockList texCoords = Resources::IDataBlockList(),
                  Resources::IDataBlockPtr colors = Resources::IDataBlockPtr());
 
-            GeometrySet(map<string, IDataBlockPtr> attrBlocks);
+            GeometrySet(AttributeBlocks attrBlocks);
 
             /**
              * Clones the data in the geometry set.
@@ -88,7 +93,7 @@ namespace OpenEngine {
             inline Resources::IDataBlockList GetTexCoords() const { 
                 Resources::IDataBlockList list;
                 unsigned int count = 0;
-                map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.find("texCoord0");
+                AttributeBlocks::const_iterator itr = attributeBlocks.find("texCoord0");
                 while (itr != attributeBlocks.end()) {
                     list.push_back(itr->second);
                     ++count;
@@ -101,7 +106,7 @@ namespace OpenEngine {
              * Get IDataBlockPtr corrosponding to given attribute name.
              */
             inline Resources::IDataBlockPtr GetAttributeList(const std::string name) const { 
-                map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.find(name);
+                AttributeBlocks::const_iterator itr = attributeBlocks.find(name);
                 if (itr == attributeBlocks.end()) return Resources::IDataBlockPtr();
                 return itr->second;
             }
@@ -112,11 +117,11 @@ namespace OpenEngine {
             /**
              * Get IDataBlockPtr corrosponding to given attribute name.
              */
-            inline map<string, IDataBlockPtr> GetAttributeLists() const { 
+            inline AttributeBlocks GetAttributeLists() const { 
                 return attributeBlocks;
             }
             // ** DEPRECATED **
-            inline map<string, IDataBlockPtr> GetDataBlocks() const { return GetAttributeLists(); }
+            inline AttributeBlocks GetDataBlocks() const { return GetAttributeLists(); }
 
             inline void AddAttributeList(const std::string name, IDataBlockPtr attrs){
                 attributeBlocks[name] = attrs;
@@ -130,7 +135,7 @@ namespace OpenEngine {
             template <class T> Vertex<T> GetVertex(const unsigned int index) const {
                 std::map<std::string, Vector<4, T> > attrs;
                 Vector<4, T> attr;
-                map<string, IDataBlockPtr>::const_iterator itr = attributeBlocks.begin();
+                AttributeBlocks::const_iterator itr = attributeBlocks.begin();
                 while (itr != attributeBlocks.end()){
                     itr->second->GetElement(index, attr);
                     attrs[itr->first] = attr;
