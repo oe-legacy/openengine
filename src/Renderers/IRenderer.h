@@ -208,6 +208,9 @@ public:
      */
     virtual void BindDataBlock(IDataBlock* bo) = 0;
 
+    virtual void RebindDataBlock(Resources::IDataBlockPtr ptr, unsigned int start, unsigned int end) = 0;
+
+
     /**
      * Set the global background colour.
      * This is a product of OpenGL that treats the background colour

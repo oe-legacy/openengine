@@ -101,7 +101,8 @@ namespace OpenEngine {
                 data = d;
                 blockType = b;
                 updateMode = u;
-                policy = UNLOAD_AUTOMATIC;
+                //policy = UNLOAD_AUTOMATIC;
+                policy = UNLOAD_EXPLICIT;
             }
 
 	    virtual ~IDataBlock() {}
@@ -333,8 +334,10 @@ namespace OpenEngine {
          * IDataBlockChangedEventArg
          */
         class IDataBlockChangedEventArg {
+        public:
             IDataBlockPtr resource;
             unsigned int start, end;
+
             IDataBlockChangedEventArg(IDataBlockPtr r) 
                 : resource(r) {
                 start = 0;
