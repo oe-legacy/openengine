@@ -67,7 +67,12 @@ namespace OpenEngine {
                 {
                     arg.renderer.BindFrameBuffer(sceneFrameBuffer);
                     
-                    effect->Load();
+		    try {
+		      effect->Load();
+		    } catch (Exception&) {
+		      enabled = false;
+		      return;
+		    }
 
                     if(effect->GetShaderModel() < 2 ||
                        !effect->HasVertexSupport() ||
