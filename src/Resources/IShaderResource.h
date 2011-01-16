@@ -148,7 +148,7 @@ public:
      * @param name Attribute name.
      * @param value Attribute vector value.
      */
-    virtual void SetAttribute(string name, Vector<3, float> value)=0;
+    //virtual void SetAttribute(string name, Vector<3, float> value)=0;
 
     /**
      * Set a shader attribute.
@@ -159,12 +159,20 @@ public:
     virtual void SetAttribute(string name, IDataBlockPtr values)=0;
 
     /**
+     * Checks if a shader contains the attribute.
+     *
+     * @param name Attribute name.
+     *I @return bool.
+     */
+    virtual bool HasAttribute(string name) = 0;
+
+    /**
      * Binds an attribute by id.
      *
      * @param id Id to bind.
      * @param name Name to bind it to.
      */
-    virtual void BindAttribute(int id, string name)=0;
+    //virtual void BindAttribute(int id, string name)=0;
 
     /**
      * Bind a single vertex attribute.
@@ -172,7 +180,7 @@ public:
      * @param id Attribute id to bind.
      * @param vec Vector value to bind to.
      */
-    virtual void VertexAttribute(int id, Vector<3,float> vec)=0;
+    //virtual void VertexAttribute(int id, Vector<3,float> vec)=0;
 
     /**
      * Get the id an attribute is bound to.
@@ -180,7 +188,7 @@ public:
      * @param name Attribute name.
      * @return id Bound id.
      */
-    virtual int GetAttributeID(const string name) = 0;
+    //virtual int GetAttributeID(const string name) = 0;
 
     virtual int GetShaderModel() = 0;
     virtual bool HasVertexSupport() = 0;
