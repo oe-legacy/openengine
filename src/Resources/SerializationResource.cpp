@@ -52,15 +52,6 @@ ISceneNode* SerializationResource::GetSceneNode() {
     return node;
 }
 
-ISceneNode* SerializationResource::GetMeshes() {
-    return node;
-}
-
-AnimationNode* SerializationResource::GetAnimations() {
-    return animations;
-}
-
-
 } // NS Resources
 } // NS OpenEngine
 
