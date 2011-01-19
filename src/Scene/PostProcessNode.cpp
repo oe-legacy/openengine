@@ -113,14 +113,14 @@ namespace OpenEngine {
                     if (effect->GetUniformID("time") >= 0 ||
                         effect->GetUniformID("viewProjection") >= 0 ||
                         effect->GetUniformID("viewProjectionInverse") >= 0)
-                        arg.renderer.ProcessEvent().Attach(*this);
+                        arg.renderer.PreProcessEvent().Attach(*this);
                     
                     // Initialize post process specific code
                     Initialize(arg);
 
                     break;
                 }
-            case Renderers::IRenderer::RENDERER_PROCESS:
+            case Renderers::IRenderer::RENDERER_PREPROCESS:
                 if (!enabled) return;
                 if (effect->GetUniformID("time") >= 0){
                     time += (unsigned int)(arg.approx / 1000.0f);
@@ -130,9 +130,11 @@ namespace OpenEngine {
                 if (effect->GetUniformID("viewProjection") >= 0)
                     effect->SetUniform("viewProjection", (arg.canvas.GetViewingVolume()->GetViewMatrix() *
                                                           arg.canvas.GetViewingVolume()->GetProjectionMatrix()));
-                if (effect->GetUniformID("viewProjectionInverse") >= 0)
+                if (effect->GetUniformID("viewProjectionInverse") >= 0) {
                     effect->SetUniform("viewProjectionInverse", (arg.canvas.GetViewingVolume()->GetViewMatrix() * 
                                                                  arg.canvas.GetViewingVolume()->GetProjectionMatrix()).GetInverse());
+
+                }
                 break;
             default:
                 ;
