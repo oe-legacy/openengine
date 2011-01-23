@@ -46,9 +46,10 @@ public:
         WIREFRAME              = 1<<5,
         SOFT_NORMAL            = 1<<6,
         HARD_NORMAL            = 1<<7,
-        BINORMAL               = 1<<8,
-        TANGENT                = 1<<9,
-        COLOR_MATERIAL         = 1<<10,
+        AUTO_NORMAL            = 1<<8,
+        BINORMAL               = 1<<9,
+        TANGENT                = 1<<10,
+        COLOR_MATERIAL         = 1<<11,
     };
 
     //! Default constructor

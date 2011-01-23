@@ -183,60 +183,98 @@ RenderStateNode* RenderStateNode::GetDifference(RenderStateNode& other) const {
 
 
 const std::string RenderStateNode::ToString() const {
-    std::string str(GetTypeName());
-    if (enabled != NONE) {
-        str += "\nEnabled:";
-        if ( IsOptionEnabled(TEXTURE) )
-            str += " TEXTURE,";
-        if ( IsOptionEnabled(SHADER) )
-            str += " SHADER,";
-        if ( IsOptionEnabled(BACKFACE) )
-            str += " BACKFACE,";
-        if ( IsOptionEnabled(LIGHTING) )
-            str += " LIGHTING,";
-        if ( IsOptionEnabled(DEPTH_TEST) )
-            str += " DEPTH_TEST,";
-        if ( IsOptionEnabled(WIREFRAME) )
-            str += " WIREFRAME,";
-        if ( IsOptionEnabled(SOFT_NORMAL) )
-            str += " SOFT_NORMAL,";
-        if ( IsOptionEnabled(HARD_NORMAL) )
-            str += " HARD_NORMAL,";
-        if ( IsOptionEnabled(BINORMAL) )
-            str += " BINORMAL,";
-        if ( IsOptionEnabled(TANGENT) )
-            str += " TANGENT,";
-        if ( IsOptionEnabled(COLOR_MATERIAL) )
-            str += " COLOR_MATERIAL,";
-        str[str.length() - 1] = ' ';
-    }
-    if (disabled != NONE) {
-        str += "\nDisabled:";
-        if ( IsOptionDisabled(TEXTURE) )
-            str += " TEXTURE,";
-        if ( IsOptionDisabled(SHADER) )
-            str += " SHADER,";
-        if ( IsOptionDisabled(BACKFACE) )
-            str += " BACKFACE,";
-        if ( IsOptionDisabled(LIGHTING) )
-            str += " LIGHTING,";
-        if ( IsOptionDisabled(DEPTH_TEST) )
-            str += " DEPTH_TEST,";
-        if ( IsOptionDisabled(WIREFRAME) )
-            str += " WIREFRAME,";
-        if ( IsOptionDisabled(SOFT_NORMAL) )
-            str += " SOFT_NORMAL,";
-        if ( IsOptionDisabled(HARD_NORMAL) )
-            str += " HARD_NORMAL,";
-        if ( IsOptionDisabled(BINORMAL) )
-            str += " BINORMAL,";
-        if ( IsOptionDisabled(TANGENT) )
-            str += " TANGENT,";
-        if ( IsOptionDisabled(COLOR_MATERIAL) )
-            str += " COLOR_MATERIAL,";
-        str[str.length()-1] = ' ';
-    }
-    return str;
+    std::string estr = "\nEnabled:";
+    std::string dstr = "\nDisabled:";
+    std::string istr = "\nInherited:";
+    if ( IsOptionEnabled(TEXTURE) )
+        estr += " TEXTURE,";
+    else if ( IsOptionDisabled(TEXTURE) )
+        dstr += " TEXTURE,";
+    else
+        istr += " TEXTURE,";
+
+    if ( IsOptionEnabled(SHADER) )
+        estr += " SHADER,";
+    else if ( IsOptionDisabled(SHADER) )
+        dstr += " SHADER,";
+    else
+        istr += " SHADER,";
+
+    if ( IsOptionEnabled(BACKFACE) )
+        estr += " BACKFACE,";
+    else if ( IsOptionDisabled(BACKFACE) )
+        dstr += " BACKFACE,";
+    else
+        istr += " BACKFACE,";
+
+    if ( IsOptionEnabled(LIGHTING) )
+        estr += " LIGHTING,";
+    else if ( IsOptionDisabled(LIGHTING) )
+        dstr += " LIGHTING,";
+    else
+        istr += " LIGHTING,";
+
+    if ( IsOptionEnabled(DEPTH_TEST) )
+        estr += " DEPTH_TEST,";
+    else if ( IsOptionDisabled(DEPTH_TEST) )
+        dstr += " DEPTH_TEST,";
+    else
+        istr += " DEPTH_TEST,";
+
+    if ( IsOptionEnabled(WIREFRAME) )
+        estr += " WIREFRAME,";
+    else if ( IsOptionDisabled(WIREFRAME) )
+        dstr += " WIREFRAME,";
+    else
+        istr += " WIREFRAME,";
+
+    if ( IsOptionEnabled(SOFT_NORMAL) )
+        estr += " SOFT_NORMAL,";
+    else if ( IsOptionDisabled(SOFT_NORMAL) )
+        dstr += " SOFT_NORMAL,";
+    else
+        istr += " SOFT_NORMAL,";
+
+    if ( IsOptionEnabled(HARD_NORMAL) )
+        estr += " HARD_NORMAL,";
+    else if ( IsOptionDisabled(HARD_NORMAL) )
+        dstr += " HARD_NORMAL,";
+    else
+        istr += " HARD_NORMAL,";
+
+    if ( IsOptionEnabled(AUTO_NORMAL) )
+        estr += " AUTO_NORMAL,";
+    else if ( IsOptionDisabled(AUTO_NORMAL) )
+        dstr += " AUTO_NORMAL,";
+    else
+        istr += " AUTO_NORMAL,";
+
+    if ( IsOptionEnabled(BINORMAL) )
+        estr += " BINORMAL,";
+    else if ( IsOptionDisabled(BINORMAL) )
+        dstr += " BINORMAL,";
+    else
+        istr += " BINORMAL,";
+
+    if ( IsOptionEnabled(TANGENT) )
+        estr += " TANGENT,";
+    else if ( IsOptionDisabled(TANGENT) )
+        dstr += " TANGENT,";
+    else
+        istr += " TANGENT,";
+
+
+    if ( IsOptionEnabled(COLOR_MATERIAL) )
+        estr += " COLOR_MATERIAL,";
+    else if ( IsOptionDisabled(COLOR_MATERIAL) )
+        dstr += " COLOR_MATERIAL,";
+    else
+        istr += " COLOR_MATERIAL,";
+
+    estr[estr.length()-1] = ' ';
+    dstr[dstr.length()-1] = ' ';
+    istr[istr.length()-1] = ' ';
+    return GetTypeName() + estr + dstr + istr;
 }
 
 void RenderStateNode::Serialize(Resources::IArchiveWriter& w) {
