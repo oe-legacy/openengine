@@ -24,6 +24,7 @@ namespace Display {
  * @enum FrameOption
  */
 enum FrameOption {
+    FRAME_NONE       = 0x00000000,
     FRAME_OPENGL     = 0x00000002,
     FRAME_NOBORDER   = 0x00000020,
     FRAME_FULLSCREEN = 0x80000000,
