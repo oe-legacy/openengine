@@ -9,7 +9,7 @@
 # See the GNU General Public License for more details (see LICENSE).
 #--------------------------------------------------------------------
 
-import string, sys, subprocess, os, os.path as path
+import string, sys, platform, subprocess, os, os.path as path
 import urllib, urllib2, zipfile, tarfile
 
 def deleteFolder(folder):
@@ -48,7 +48,14 @@ def system(name):
     '''
     Returns true if name==any, or if name matches the system platform.
     '''
-    return name == "any" or sys.platform.startswith(name)
+    if name == "any":
+        return True
+    if name == "linux64":
+        return platform.machine() == "x86_64"
+    if name.startswith("linux"):
+        return platform.machine() != "x86_64"
+    else:
+        return sys.platform.startswith(name)
 
 def cores():
     '''
