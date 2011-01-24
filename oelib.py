@@ -50,7 +50,7 @@ def system(name):
     '''
     if name == "any":
         return True
-    if sys.platform.startswith("linux"):
+    if sys.platform.startswith("linux") and name.startswith("linux"):
         return (name == "linux64" and platform.machine() == "x86_64"
                 or platform.machine() != "x86_64")
     else:
