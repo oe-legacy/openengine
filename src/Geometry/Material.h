@@ -60,6 +60,7 @@ class Material : public Resources::ISerializable {
 
 private:
     map<string, ITexture2DPtr> texs2D;
+    map<ITexture2DPtr, unsigned int> uvIndices;
     map<string, ITexture3DPtr> texs3D;
 
     void Copy(const Material& mat);
@@ -92,6 +93,8 @@ public:
 
     void AddTexture(ITexture2DPtr tex);
     void AddTexture(ITexture2DPtr tex, std::string name);
+    void AddUVIndex(ITexture2DPtr tex, unsigned int index);
+    unsigned int GetUVIndex(ITexture2DPtr tex);
     void AddTexture(ITexture3DPtr tex);
     void AddTexture(ITexture3DPtr tex, std::string name);
     inline map<string, ITexture2DPtr> Get2DTextures() const { return texs2D; }

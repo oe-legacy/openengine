@@ -115,6 +115,14 @@ void Material::AddTexture(Resources::ITexture2DPtr tex, std::string name){
     texs2D[name] = tex;
 }
 
+void Material::AddUVIndex(ITexture2DPtr tex, unsigned int index) {
+    uvIndices[tex] = index;
+}
+
+unsigned int Material::GetUVIndex(ITexture2DPtr tex) {
+    return uvIndices[tex];
+}
+
 void Material::AddTexture(Resources::ITexture3DPtr tex){
     string name = "color" + Utils::Convert::ToString<unsigned int>(texs2D.size() + texs3D.size());
     AddTexture(tex, name);
