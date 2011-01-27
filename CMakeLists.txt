@@ -19,12 +19,20 @@ ENABLE_TESTING()
 # Define OpenEngine special directories
 SET(OE_SOURCE_DIR     "${OpenEngine_SOURCE_DIR}/src")
 SET(OE_BUILD_DIR      "${OpenEngine_SOURCE_DIR}/build")
+SET(OE_DEPS_DIR       "${OpenEngine_SOURCE_DIR}/dependencies")
+SET(OE_DEPS_BUILD_DIR "${OpenEngine_SOURCE_DIR}/deps-build")
 SET(OE_CONF_DIR       "${OpenEngine_SOURCE_DIR}/conf")
 SET(OE_LIB_DIR        "${OpenEngine_SOURCE_DIR}/libraries")
 #SET(OE_TESTS_DIR      "${OpenEngine_SOURCE_DIR}/tests")
 SET(OE_PROJECTS_DIR   "${OpenEngine_SOURCE_DIR}/projects")
 SET(OE_EXTENSIONS_DIR "${OpenEngine_SOURCE_DIR}/extensions")
-SET(OE_EXTERNALS_DIR  "${OpenEngine_SOURCE_DIR}/dependencies")
+
+SET(CMAKE_CONF_DIR ${OE_CONF_DIR}/cmake)
+
+# if DEPS flag is set we only build the external source dependencies.
+IF (DEPS)
+INCLUDE(${CMAKE_CONF_DIR}/SetupDependencies.cmake)
+ELSE(DEPS)
 
 # Include paths
 INCLUDE_DIRECTORIES(
@@ -38,7 +46,6 @@ SUBDIRS(
 )
 
 # Include configuration files
-SET(CMAKE_CONF_DIR ${OE_CONF_DIR}/cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupDebug.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupGCC.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupVS.cmake)
@@ -51,7 +58,7 @@ ELSE(MINGW)
 	INCLUDE(${CMAKE_CONF_DIR}/SetupBoost.cmake)
 ENDIF(MINGW)
 
-INCLUDE(${CMAKE_CONF_DIR}/SetupExternals.cmake)
+INCLUDE(${CMAKE_CONF_DIR}/SetupDependencies.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupExtensionsAndProjects.cmake)
 
 # some debug info
@@ -63,3 +70,5 @@ ENDIF(OE_DEBUG_CMAKE)
 IF(OE_MISSING_LIBS)
   MESSAGE(FATAL_ERROR "The following libraries are required but missing${OE_MISSING_LIBS}.")
 ENDIF(OE_MISSING_LIBS)
+
+ENDIF(DEPS)

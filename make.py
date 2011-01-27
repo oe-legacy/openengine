@@ -16,6 +16,7 @@ import string, sys, subprocess, os, os.path as path
 from oelib import printCommands, error, execute, system, ExecError, cores
 
 build_dir = path.join(os.getcwd(), "build")
+deps_dir = path.join(os.getcwd(), "deps-build")
 
 def commands():
     return ((build,   "all"),
@@ -27,6 +28,8 @@ def commands():
             (doc,     "doc"),
             (etags,   "etags"),
             (help,    "help"),
+            (deps,    "deps"),
+            (cleandeps, "deps-clean"),
             (make,    None))
 
 def build():
@@ -99,6 +102,25 @@ def help():
     print "Some useful targets are:"
     printCommands(commands())
 
+def deps():
+    prepare()
+    owd = os.getcwd()
+    os.chdir(deps_dir)
+    if not path.isfile(path.join(deps_dir, "Makefile")):
+        execute("cmake -DDEPS=true ../")
+    sys_exec_make("all")
+    os.chdir(owd)
+
+def cleandeps():
+    if not path.isdir(deps_dir):
+        return
+    for root, dirs, files in os.walk(deps_dir, topdown=False):
+        for name in files:
+            os.remove(path.join(root, name))
+        for name in dirs:
+            os.rmdir(path.join(root, name))
+    os.rmdir(deps_dir)
+
 def make(target):
     """
     <other>       -- forwarded to make in the build directory
@@ -114,6 +136,8 @@ def make(target):
 def prepare():
     if not path.isdir(build_dir):
         os.mkdir(build_dir)
+    if not path.isdir(deps_dir):
+        os.mkdir(deps_dir)
 
 def sys_exec_cmake():
     if system("win"):
