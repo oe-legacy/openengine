@@ -46,10 +46,10 @@ SUBDIRS(
 )
 
 # Include configuration files
+INCLUDE(${CMAKE_CONF_DIR}/SetupOEBuild.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupDebug.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupGCC.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupVS.cmake)
-INCLUDE(${CMAKE_CONF_DIR}/SetupDoxygen.cmake)
 
 IF(MINGW)
 	INCLUDE(${CMAKE_CONF_DIR}/FindPthread.cmake)
@@ -60,6 +60,7 @@ ENDIF(MINGW)
 
 INCLUDE(${CMAKE_CONF_DIR}/SetupDependencies.cmake)
 INCLUDE(${CMAKE_CONF_DIR}/SetupExtensionsAndProjects.cmake)
+INCLUDE(${CMAKE_CONF_DIR}/SetupDoxygen.cmake)
 
 # some debug info
 IF(OE_DEBUG_CMAKE)
