@@ -26,8 +26,8 @@ int Thread::Wait() {
 }
 
 
-void Thread::Sleep(long mills) {
-    usleep(mills);
+void Thread::Sleep(long usec) {
+    usleep(usec);
 }
 
 }
