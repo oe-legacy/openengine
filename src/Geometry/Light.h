@@ -11,12 +11,14 @@
 #define _OE_LIGHT_H_
 
 #include <Math/Vector.h>
+#include <Math/RGBAColor.h>
 
 
 namespace OpenEngine {
 namespace Geometry {
 
 using Math::Vector;
+using Math::RGBAColor;
 
 /**
  * Base class for light nodes.
@@ -36,12 +38,15 @@ public:
 
     Vector<4,float> GetAmbient() {return ambient;}
     void SetAmbient(Vector<4,float> c) {ambient = c;}
+    void SetAmbient(RGBAColor c) {ambient = c;}
 
     Vector<4,float> GetDiffuse() {return diffuse;}
     void SetDiffuse(Vector<4,float> c) {diffuse = c;}
+    void SetDiffuse(RGBAColor c) {diffuse = c;}
 
     Vector<4,float> GetSpecular() {return specular;}
     void SetSpecular(Vector<4,float> c) {specular = c;}
+    void SetSpecular(RGBAColor c) {specular = c;}
 
 };
 
