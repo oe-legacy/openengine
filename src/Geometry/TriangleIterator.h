@@ -3,7 +3,7 @@
 #ifndef _TRIANGLE_ITERATOR_H
 #define _TRIANGLE_ITERATOR_H
 
-#include <Math\Vector.h>
+#include <Math/Vector.h>
 #include <Scene/MeshNode.h>
 
 namespace OpenEngine {
