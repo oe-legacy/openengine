@@ -109,6 +109,7 @@ def deps():
     if not path.isfile(path.join(deps_dir, "Makefile")):
         execute("cmake -DDEPS=true ../")
     sys_exec_make("all")
+    sys_exec_make("install")
     os.chdir(owd)
 
 def cleandeps():
