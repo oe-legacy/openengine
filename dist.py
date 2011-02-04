@@ -54,7 +54,9 @@ def commit(*args):
     dists = get_dists(*args)    
     if dists:
         commit_repo(user, parse(*dists)["darcs-dev"]) # run dist
+        commit_git_repo(user, parse(*dists)["git"]) # run dist
     commit_repo(user, parse(*args)["darcs-dev"]) # run rest
+    commit_git_repo(user, parse(*args)["git"]) # run rest
 
 def data(*args):
     """
@@ -210,6 +212,13 @@ def get_windows_username():
     #add @ for USERNAME@
     username += '@'
     return username
+
+def commit_git_repo(user, repos):
+    for p,r,b in repos:
+        print "Commiting %s to %s (%s)" % (relpath(p), r, b)
+        repoP = path.join(p, ".git")
+        execute("git --git-dir=%s --work-tree=%s push %s %s" % (repoP,p,r,b))
+        
 
 def commit_repo(user, repos):
     """
