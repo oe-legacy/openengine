@@ -38,7 +38,9 @@ def update(*args):
         else:
             if dists:
                 run_repo(parse(*dists)["darcs"]) # run all dists
+                run_git_reop(parse(*dists)["git"])
             run_repo(parse(*args)["darcs"]) # run rest
+            run_git_reop(parse(*args)["git"])
         olddists=dists
         
 def commit(*args):
@@ -170,6 +172,16 @@ def usage():
     print "Some useful targets are:"
     printCommands(commands())
 
+def run_git_reop(repos):
+    for p,r,b in repos:
+        repoP = path.join(p,".git")
+        if not path.isdir(repoP):
+            print "Creating git repo"
+            execute("git --git-dir=%s --work-tree=%s init" % (repoP,p))
+
+        execute("git --git-dir=%s --work-tree=%s pull %s %s" % (repoP,p,r,b))
+        
+
 def run_repo(repos):
     """
     fetch/update repositories
@@ -283,9 +295,10 @@ def parse(*args):
     # error queue
     errors = []
     # entry dict with types:
+    #   git   : [(path, resource, branch)]
     #   darcs : [(path, resource)]
     #   data  : [(sys, path, resource)]
-    entries = { "darcs":[], "darcs-dev":[], "data":[], "dist":[]}
+    entries = { "darcs":[], "darcs-dev":[], "data":[], "dist":[], "git":[]}
     # parse each line in each file
     for file in files:
         f = open(file, "r")
@@ -298,7 +311,7 @@ def parse(*args):
                 continue
             # validate entry length
             e = filter(len, l.split())
-            if len(e) != 3:
+            if len(e) < 3:
                 errors.append("%s(%i): invalid entry." % (file, line))
             # check if the entry path is valid
             if e[1][0] != "/":
@@ -309,6 +322,12 @@ def parse(*args):
                 if e[0] == "darcs":
                     typ = "darcs"
                     elm = (p, e[2])
+                elif e[0] == "git":
+                    typ = "git"
+                    branch = "master"
+                    if len(e) >= 4:
+                        branch = e[3]
+                    elm = (p, e[2], branch)
                 elif e[0] == "darcs-dev":
                     typ = "darcs-dev"
                     elm = (p, e[2])
