@@ -181,6 +181,12 @@ RenderStateNode* RenderStateNode::GetDifference(RenderStateNode& other) const {
     return diff;
 }
 
+RenderStateNode* RenderStateNode::GetCombined(RenderStateNode& other) const {
+    RenderStateNode* combined = new RenderStateNode();
+    combined->enabled  = RenderStateOption(enabled  | other.enabled);
+    combined->disabled = RenderStateOption(disabled | other.disabled);
+    return combined;
+}
 
 const std::string RenderStateNode::ToString() const {
     std::string estr = "\nEnabled:";

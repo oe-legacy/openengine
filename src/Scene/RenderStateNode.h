@@ -70,6 +70,7 @@ public:
     void Invert();
     RenderStateNode* GetInverse() const;
     RenderStateNode* GetDifference(RenderStateNode& other) const;
+    RenderStateNode* GetCombined(RenderStateNode& other) const;
     const std::string ToString() const;
 
     void Serialize(Resources::IArchiveWriter& w);
