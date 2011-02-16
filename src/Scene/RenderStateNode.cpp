@@ -183,8 +183,8 @@ RenderStateNode* RenderStateNode::GetDifference(RenderStateNode& other) const {
 
 RenderStateNode* RenderStateNode::GetCombined(RenderStateNode& other) const {
     RenderStateNode* combined = new RenderStateNode();
-    combined->enabled  = RenderStateOption(enabled  | other.enabled);
-    combined->disabled = RenderStateOption(disabled | other.disabled);
+    combined->enabled  = RenderStateOption(RenderStateOption(enabled & ~other.disabled) | other.enabled);
+    combined->disabled = RenderStateOption(RenderStateOption(disabled & ~other.enabled)  | other.disabled);
     return combined;
 }
 
