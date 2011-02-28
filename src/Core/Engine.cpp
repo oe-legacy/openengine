@@ -41,6 +41,7 @@ void Engine::StartMainLoop() {
     time = Timer::GetTime();
 
     // run the engine loop
+    running = true;
     while (running) {
 
         // calculate the approximate frame time
@@ -72,7 +73,6 @@ void Engine::Start() {
         logger.warning << "Ignoring start request - engine already running." << logger.end;
         return;
     }
-    running = true;
     initialize.Notify(InitializeEventArg());
     StartMainLoop();
     deinitialize.Notify(DeinitializeEventArg());

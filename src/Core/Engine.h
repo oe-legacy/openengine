@@ -23,11 +23,11 @@ private:
     Event<InitializeEventArg>   initialize;
     Event<ProcessEventArg>      process;
     Event<DeinitializeEventArg> deinitialize;
-    void StartMainLoop();
 public:
     Engine();
     virtual void Start();
     virtual void Stop();
+    void StartMainLoop();
     virtual IEvent<InitializeEventArg>&   InitializeEvent();
     virtual IEvent<ProcessEventArg>&      ProcessEvent();
     virtual IEvent<DeinitializeEventArg>& DeinitializeEvent();
