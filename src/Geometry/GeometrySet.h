@@ -117,11 +117,11 @@ namespace OpenEngine {
             /**
              * Get IDataBlockPtr corresponding to given attribute name.
              */
-            inline AttributeBlocks GetAttributeLists() const { 
+            inline AttributeBlocks& GetAttributeLists() { 
                 return attributeBlocks;
             }
             // ** DEPRECATED **
-            inline AttributeBlocks GetDataBlocks() const { return GetAttributeLists(); }
+            inline AttributeBlocks& GetDataBlocks() { return GetAttributeLists(); }
 
             inline void AddAttributeList(const std::string name, IDataBlockPtr attrs){
                 attributeBlocks[name] = attrs;
