@@ -36,8 +36,8 @@ public:
      */
     template<class T> static string ToString(const T& t) {
         std::stringstream ss;
-	ss << t;
-	return ss.str();
+	    ss << t;
+	    return ss.str();
     }
 };
 
