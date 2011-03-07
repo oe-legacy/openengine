@@ -22,11 +22,13 @@ namespace OpenEngine {
              */
             enum Type {NOTYPE = 0x0000,
                        UBYTE  = 0x1401, // GL_UNSIGNED_BYTE
-                       SBYTE   = 0x1400, // GL_BYTE
+                       SBYTE  = 0x1400, // GL_BYTE
+                       USHORT = 0x1403, // GL_UNSIGNED_SHORT
+                       SHORT  = 0x1402, // GL_SHORT
                        UINT   = 0x1405, // GL_UNSIGNED_INT
                        INT    = 0x1404, // GL_INT
                        FLOAT  = 0x1406, // GL_FLOAT
-                       DOUBLE  = 0x140A}; // GL_DOUBLE
+                       DOUBLE = 0x140A}; // GL_DOUBLE
             
             /**
              * Yields an OpenEngine Type based on the template
