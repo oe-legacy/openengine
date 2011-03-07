@@ -39,6 +39,10 @@ namespace OpenEngine {
                     return UBYTE;
                 else if (typeid(T) == typeid(char))
                     return SBYTE;
+                else if (typeid(T) == typeid(unsigned short))
+                    return USHORT;
+                else if (typeid(T) == typeid(short))
+                    return SHORT;
                 else if (typeid(T) == typeid(unsigned int))
                     return UINT;
                 else if (typeid(T) == typeid(int))
