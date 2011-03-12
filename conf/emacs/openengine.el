@@ -145,3 +145,20 @@
                    (lambda () (interactive) (oe-compile "testv")))
     (local-set-key [(control c) (control f)]
                    (lambda () (interactive) (oe-compile "doc")))))
+
+
+(add-hook 'scheme-mode-hook
+  (lambda ()
+    ;; don't use tabs!
+    (setq indent-tabs-mode nil)
+    ;; key bindings
+    (local-set-key (kbd "C-c C-v") 'oe-compile)
+    ;; Indentation settings for special forms
+    (put 'cond 'scheme-indent-hook 0)
+    (put 'when 'scheme-indent-hook 1)
+    (put 'unless 'scheme-indent-hook 1)
+    (put 'c-define 'scheme-indent-hook 5)
+    (put 'c-lambda 'scheme-indent-hook 2)
+    (put 'c-declare 'scheme-indent-hook 0)
+    (put 'with-access 'scheme-indent-hook 2)
+    (put 'instantiate 'scheme-indent-hook 1)))
