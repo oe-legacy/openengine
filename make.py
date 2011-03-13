@@ -103,6 +103,9 @@ def help():
     printCommands(commands())
 
 def deps():
+    """
+    deps          -- compile dependency libraries
+    """
     prepare()
     owd = os.getcwd()
     os.chdir(deps_dir)
@@ -116,6 +119,9 @@ def deps():
     os.chdir(owd)
 
 def cleandeps():
+    """
+    cleandeps     -- remove compiled dependency libraries
+    """
     if not path.isdir(deps_dir):
         return
     for root, dirs, files in os.walk(deps_dir, topdown=False):
