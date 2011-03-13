@@ -162,3 +162,24 @@
     (put 'c-declare 'scheme-indent-hook 0)
     (put 'with-access 'scheme-indent-hook 2)
     (put 'instantiate 'scheme-indent-hook 1)))
+
+
+(when (locate-library "mmm-mode")
+  (setq mmm-global-mode nil) ;; enable with M-x mmm-mode
+  (setq mmm-submode-decoration-level 2)
+  (mmm-add-group 'gambit-scheme
+		 '((scheme-c
+		    :submode c-mode
+		    :face mmm-code-submode-face
+		    :front "#<<\\([a-zA-Z0-9_-]+\\)"
+		    :front-offset (end-of-line 1)
+		    :back "^~1$"
+		    :save-matches 1)))
+  (mmm-add-mode-ext-class 'scheme-mode nil 'gambit-scheme)
+  ;; c-mode fix: http://www.emacswiki.org/emacs/HtmlModeDeluxe
+  (with-temp-buffer
+    (c-mode)
+    (dolist (v (buffer-local-variables))
+      (when (string-match "\\`c-" (symbol-name (car v)))
+	(add-to-list 'mmm-save-local-variables
+		     `(,(car v) nil ,mmm-c-derived-modes))))))
