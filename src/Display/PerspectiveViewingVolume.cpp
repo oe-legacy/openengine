@@ -39,19 +39,20 @@ PerspectiveViewingVolume::~PerspectiveViewingVolume() {
 
 void PerspectiveViewingVolume::Update(const unsigned int width, const unsigned int height) {
     aspect = (float)width/(float)height;
+    UpdateProjection();   
 }
 
-Matrix<4,4,float> PerspectiveViewingVolume::GetProjectionMatrix() {
-	float f = 1 / tan( fov / 2 );
-	float a = ( distFar + distNear ) / ( distNear - distFar );
-	float b = (2 * distFar * distNear ) / ( distNear - distFar );
-	Matrix<4,4,float> matrix(f/aspect,  0,  0,  0,
-                             0,         f,  0,  0,
-                             0,         0,  a,  b,
-                             0,         0, -1,  0);
-	matrix.Transpose();
-	return matrix;
-}
+// Matrix<4,4,float> PerspectiveViewingVolume::GetProjectionMatrix() {
+// 	float f = 1 / tan( fov / 2 );
+// 	float a = ( distFar + distNear ) / ( distNear - distFar );
+// 	float b = (2 * distFar * distNear ) / ( distNear - distFar );
+// 	Matrix<4,4,float> matrix(f/aspect,  0,  0,  0,
+//                              0,         f,  0,  0,
+//                              0,         0,  a,  b,
+//                              0,         0, -1,  0);
+// 	matrix.Transpose();
+// 	return matrix;
+//}
 
 /**
  * Get the field of view.
@@ -171,6 +172,7 @@ void PerspectiveViewingVolume::UpdateProjection() {
     projection(2,3) = -2 * (distFar * distNear) * inv_d;
     projection(3,2) = -1;
     projection(3,3) = 0;
+    projection.Transpose();
 }
 
 } // NS Display
