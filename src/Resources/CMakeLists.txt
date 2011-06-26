@@ -5,6 +5,8 @@ ADD_LIBRARY(OpenEngine_Resources
   IFontResource.h
   IFontTextureResource.h
   Types/ResourceTypes.h
+  ICubemap.h
+  Cubemap.h
   ITexture.h
   ITexture2D.h
   Texture2D.h

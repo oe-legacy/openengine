@@ -10,6 +10,7 @@
 #ifndef _I_TEXTURE_H_
 #define _I_TEXTURE_H_
 
+#include <Core/Exceptions.h>
 #include <Resources/Types/ResourceTypes.h>
 #include <Resources/ISerializable.h>
 
@@ -29,11 +30,11 @@ namespace OpenEngine {
         /**
          * Color Format enumeration.
          */
-        enum ColorFormat { UNKNOWN, ALPHA, ALPHA_COMPRESSED, 
-                           LUMINANCE, LUMINANCE_COMPRESSED, DEPTH, LUMINANCE32F,
-                           LUMINANCE_ALPHA, LUMINANCE_ALPHA_COMPRESSED, 
-                           RGB, BGR, RGB_COMPRESSED, RGB32F, 
-                           RGBA, BGRA, RGBA_COMPRESSED, RGBA32F };
+        enum ColorFormat {UNKNOWN, ALPHA, ALPHA_COMPRESSED, 
+                          LUMINANCE, LUMINANCE_COMPRESSED, DEPTH, LUMINANCE32F,
+                          LUMINANCE_ALPHA, LUMINANCE_ALPHA_COMPRESSED, 
+                          RGB, BGR, RGB_COMPRESSED, RGB32F, 
+                          RGBA, BGRA, RGBA_COMPRESSED, RGBA32F };
 
         /**
          * Texture Wrapping options
@@ -233,14 +234,14 @@ namespace OpenEngine {
             inline Wrapping GetWrapping() const { return wrap; }
 
             /**
-             * Sets the texture wrapping used for this texture
+             * Sets the texture filtering used for this texture
              */
             virtual void SetFiltering(Filtering f) { filtering = f; }
 
             /**
-             * Returns the texture wrapping used for this texture.
+             * Returns the texture filtering used for this texture.
              *
-             * @return Filtering The wrapping used.
+             * @return Filtering The filtering used.
              */
             inline Filtering GetFiltering() const { return filtering; }
 
@@ -259,12 +260,22 @@ namespace OpenEngine {
              */
             virtual void SetCompression(bool c) { compression = c; }
 
+            static void* CreateDataArray(const int size, const ColorFormat f){
+                switch(f){
+                case RGBA: //RGBA32
+                    return new unsigned char[size*4];
+                    break;
+                default:
+                    throw Core::Exception("Colorformat not supported");
+                }
+            }
+
             // Serialization
             virtual void Serialize(IArchiveWriter&) {}; //! @Todo make pure virtual.
             virtual void Deserialize(IArchiveReader&) {};
             virtual unsigned int GetSerialzationTag() {return (unsigned int)-1;}
             
-            static std::string colorFomatToString(ColorFormat cf) {
+            static std::string colorFormatToString(ColorFormat cf) {
                 switch(cf) {
                 case Resources::UNKNOWN : return "UNKNOWN";
                 case Resources::ALPHA : return "ALPHA";
