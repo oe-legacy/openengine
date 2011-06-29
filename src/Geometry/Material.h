@@ -32,6 +32,8 @@ namespace OpenEngine {
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
         class ITexture3D;
         typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
+        class ICubemap;
+        typedef boost::shared_ptr<ICubemap> ICubemapPtr;
     }
 }
 
@@ -62,6 +64,7 @@ private:
     map<string, ITexture2DPtr> texs2D;
     map<ITexture2DPtr, unsigned int> uvIndices;
     map<string, ITexture3DPtr> texs3D;
+    map<string, ICubemapPtr> cubemaps;
 
     void Copy(const Material& mat);
     void Init();
@@ -97,8 +100,10 @@ public:
     unsigned int GetUVIndex(ITexture2DPtr tex);
     void AddTexture(ITexture3DPtr tex);
     void AddTexture(ITexture3DPtr tex, std::string name);
+    void AddTexture(ICubemapPtr tex, std::string name);
     inline map<string, ITexture2DPtr> Get2DTextures() const { return texs2D; }
     inline map<string, ITexture3DPtr> Get3DTextures() const { return texs3D; }
+    inline map<string, ICubemapPtr> GetCubemaps() const { return cubemaps; }
 
     void Serialize(IArchiveWriter& w);
     void Deserialize(IArchiveReader& r);

@@ -33,6 +33,7 @@ void Material::Init() {
     shininess = 0.0;    
     texs2D = map<string, ITexture2DPtr>();
     texs3D = map<string, ITexture3DPtr>();
+    cubemaps = map<string, ICubemapPtr>();
     shading = NONE;
 }
 
@@ -130,6 +131,10 @@ void Material::AddTexture(Resources::ITexture3DPtr tex){
 
 void Material::AddTexture(Resources::ITexture3DPtr tex, std::string name){
     texs3D[name] = tex;
+}
+
+void Material::AddTexture(Resources::ICubemapPtr tex, std::string name){
+    cubemaps[name] = tex;
 }
 
 void Material::Serialize(Resources::IArchiveWriter& w) {
