@@ -25,8 +25,12 @@ namespace Resources {
      */
     typedef boost::shared_ptr<Cubemap> CubemapPtr;
 
-
-    class Cubemap {
+    /**
+     * Basic cubemap implementation.
+     *
+     * @class Cubemap Cubemap.h Resources/Cubemap.h
+     */
+    class Cubemap : public virtual ICubemap {
     protected:
         int size;
         ColorFormat format;
@@ -48,6 +52,12 @@ namespace Resources {
     public:
         static inline CubemapPtr Create(const int size, const ColorFormat format) { 
             return CubemapPtr(new Cubemap(size, format));
+        }
+
+        ~Cubemap() {
+            ITexture::DeleteDataArray(negXData, format); ITexture::DeleteDataArray(posXData, format);
+            ITexture::DeleteDataArray(negYData, format); ITexture::DeleteDataArray(posYData, format);
+            ITexture::DeleteDataArray(negZData, format); ITexture::DeleteDataArray(posXData, format);
         }
 
         /**
@@ -143,8 +153,29 @@ namespace Resources {
                 break;
             }
         }
+        
+        /**
+         * Returns a pointer to the color data in its raw form.
+         */
+        virtual const void* GetRawData(const Face face) const {
+            switch(face){
+            case ICubemap::NEGATIVE_X:
+                return negXData;
+            case ICubemap::POSITIVE_X:
+                return posXData;
+            case ICubemap::NEGATIVE_Y:
+                return negYData;
+            case ICubemap::POSITIVE_Y:
+                return posYData;
+            case ICubemap::NEGATIVE_Z:
+                return negZData;
+            case ICubemap::POSITIVE_Z:
+                return posZData;
+            }
+            return NULL;
+        }
     };
-
+    
 }
 }
 

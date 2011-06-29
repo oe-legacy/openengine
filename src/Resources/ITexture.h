@@ -260,11 +260,21 @@ namespace OpenEngine {
              */
             virtual void SetCompression(bool c) { compression = c; }
 
-            static void* CreateDataArray(const int size, const ColorFormat f){
+            inline static void* CreateDataArray(const int size, const ColorFormat f){
                 switch(f){
                 case RGBA: //RGBA32
                     return new unsigned char[size*4];
                     break;
+                default:
+                    throw Core::Exception("Colorformat not supported");
+                }
+            }
+
+            inline static void DeleteDataArray(void* data, const ColorFormat f){
+                switch(f){
+                case RGBA: //RGBA32
+                    delete (unsigned char*) data;
+                    return;
                 default:
                     throw Core::Exception("Colorformat not supported");
                 }

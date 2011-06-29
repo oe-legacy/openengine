@@ -100,6 +100,12 @@ namespace Resources {
          * Sets the pixel color of the cubemaps face at (x,y).
          */
         virtual void SetPixel(const Math::RGBAColor& color, const Face face, const int x, const int y, const int miplevel = 0) = 0;
+
+        /**
+         * Returns a pointer to the color data in its raw form. The cubemap must
+         * be readable or an exception will be thrown.
+         */
+        virtual const void* GetRawData(const Face face) const = 0;
     };
     
 

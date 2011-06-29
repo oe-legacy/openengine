@@ -33,6 +33,8 @@ namespace OpenEngine {
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
         class ITexture3D;
         typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
+        class ICubemap;
+        typedef boost::shared_ptr<ICubemap> ICubemapPtr;
         class IDataBlock;
         typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
     }
@@ -51,6 +53,7 @@ using OpenEngine::Resources::ITexture2DPtr;
 using OpenEngine::Resources::ITexture2D;
 using OpenEngine::Resources::ITexture3DPtr;
 using OpenEngine::Resources::ITexture3D;
+using OpenEngine::Resources::ICubemapPtr;
 using OpenEngine::Resources::IDataBlock;
 
 using Core::IListener;
@@ -181,6 +184,7 @@ public:
     virtual void LoadTexture(ITexture2D* texr) = 0;
     virtual void LoadTexture(ITexture3DPtr texr) = 0;
     virtual void LoadTexture(ITexture3D* texr) = 0;
+    virtual void BindTexture(ICubemapPtr texr) = 0;
 
     /**
      * Rebinds a texture, uploading any new changes.
