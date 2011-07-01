@@ -100,9 +100,9 @@ namespace OpenEngine {
                     else if (this->format != tex->GetColorFormat())
                         throw Core::Exception("format mismatch on count: " +
                                               Convert::ToString(count) + " " +
-                                              colorFomatToString(this->format)
+                                              colorFormatToString(this->format)
                                               + "!=" +
-                                              colorFomatToString(tex->GetColorFormat()));
+                                              colorFormatToString(tex->GetColorFormat()));
 
                     ++itr;
                     count++;
