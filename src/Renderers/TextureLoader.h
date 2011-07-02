@@ -19,9 +19,11 @@ namespace OpenEngine {
     namespace Renderers { class IRenderer; class RenderingEventArg; }
     namespace Resources{
         class ITexture2D;
-        class ITexture3D;
         typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
+        class ITexture3D;
         typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
+        class ICubemap;
+        typedef boost::shared_ptr<ICubemap> ICubemapPtr;
     }
 }
 
@@ -77,6 +79,8 @@ public:
     void Load(Resources::ITexture2DPtr texr,
               ReloadPolicy policy = RELOAD_DEFAULT);
     void Load(Resources::ITexture3DPtr texr,
+              ReloadPolicy policy = RELOAD_DEFAULT);
+    void Load(Resources::ICubemapPtr texr,
               ReloadPolicy policy = RELOAD_DEFAULT);
     void SetDefaultReloadPolicy(ReloadPolicy policy);
 

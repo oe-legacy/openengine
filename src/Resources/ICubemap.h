@@ -39,12 +39,33 @@ namespace Resources {
      */
     class ICubemap {
     public:
+
         /**
          * An enumeration of the cubemap faces.
          */
-        enum Face {NEGATIVE_X, POSITIVE_X, 
-                   NEGATIVE_Y, POSITIVE_Y, 
-                   NEGATIVE_Z, POSITIVE_Z};
+        enum Face {NEGATIVE_X, 
+                   POSITIVE_X, 
+                   NEGATIVE_Y, 
+                   POSITIVE_Y, 
+                   NEGATIVE_Z, 
+                   POSITIVE_Z};
+
+        /** SHOULD BE MOVED TO CONTEXT!! **/
+        unsigned int id;
+        /**
+         * Get texture id.
+         *
+         * @return Texture id.
+         */
+        inline unsigned int GetID() const { return id; }
+
+        /**
+         * Set texture id.
+         *
+         * @param id Texture id.
+         */
+        virtual void SetID(int id) { this->id = id; }
+
 
         /**
          * Get width in pixels on loaded texture.

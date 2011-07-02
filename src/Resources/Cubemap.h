@@ -47,6 +47,8 @@ namespace Resources {
             posYData = ITexture::CreateDataArray(s*s,f);
             negZData = ITexture::CreateDataArray(s*s,f);
             posZData = ITexture::CreateDataArray(s*s,f);
+
+            this->id = 0;
         }
         
     public:
@@ -57,7 +59,7 @@ namespace Resources {
         ~Cubemap() {
             ITexture::DeleteDataArray(negXData, format); ITexture::DeleteDataArray(posXData, format);
             ITexture::DeleteDataArray(negYData, format); ITexture::DeleteDataArray(posYData, format);
-            ITexture::DeleteDataArray(negZData, format); ITexture::DeleteDataArray(posXData, format);
+            ITexture::DeleteDataArray(negZData, format); ITexture::DeleteDataArray(posZData, format);
         }
 
         /**

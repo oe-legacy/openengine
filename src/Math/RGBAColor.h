@@ -59,6 +59,7 @@ public:
     static inline RGBAColor Cyan()   { return RGBAColor(0.0f,1.0f,1.0f,1.0f); }
     static inline RGBAColor Red()    { return RGBAColor(1.0f,0.0f,0.0f,1.0f); }
     static inline RGBAColor Purple() { return RGBAColor(1.0f,0.0f,1.0f,1.0f); }
+    static inline RGBAColor Orange() { return RGBAColor(1.0f,0.5f,0.0f,1.0f); }
     static inline RGBAColor Yellow() { return RGBAColor(1.0f,1.0f,0.0f,1.0f); }
     static inline RGBAColor White()  { return RGBAColor(1.0f,1.0f,1.0f,1.0f); }
 

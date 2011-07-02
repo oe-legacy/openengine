@@ -22,6 +22,7 @@
 #include <Geometry/VertexArray.h>
 #include <Resources/ITexture2D.h>
 #include <Resources/ITexture3D.h>
+#include <Resources/ICubemap.h>
 #include <Resources/IShaderResource.h>
 // #include <list>
 #include <map>
@@ -51,6 +52,7 @@ using Resources::ITexture3DPtr;
 using Resources::Texture3DChangedEventArg;
 using Resources::IShaderResourcePtr;
 using Resources::TextureList;
+using namespace Resources;    
 using Scene::ISceneNode;
 using Scene::ISceneNodeVisitor;
 using Scene::GeometryNode;
@@ -217,8 +219,14 @@ class TextureLoader::InitLoader
         pair3d(ITexture3DPtr t, ReloadPolicy p)
             : t(t), p(p) {}
     };
+    struct pairCube {
+        ICubemapPtr t; ReloadPolicy p;
+        pairCube(ICubemapPtr t, ReloadPolicy p)
+            : t(t), p(p) {}
+    };
     list<pair2d> queue2d;
     list<pair3d> queue3d;
+    list<pairCube> queueCube;
     Reloader& reloader;
 public:
     InitLoader(Reloader& reloader) : reloader(reloader) { }
@@ -228,6 +236,9 @@ public:
     }
     void Add(ITexture3DPtr t, ReloadPolicy p) {
         queue3d.push_back(pair3d(t,p));
+    }
+    void Add(ICubemapPtr t, ReloadPolicy p) {
+        queueCube.push_back(pairCube(t,p));
     }
     // This is called on the render initialize event. After processing
     // the queue we may clear it as no more init events can occur.
@@ -251,6 +262,16 @@ public:
             arg.renderer.LoadTexture((*itr3d).t);
         }
         queue3d.clear();
+
+        list<pairCube>::const_iterator cubeItr;
+        for (cubeItr = queueCube.begin(); cubeItr != queueCube.end(); cubeItr++) {
+            // Add for re-loading.
+            // reloader.Add(cubeItr->t, cubeItr->p);
+            // If an id is set we need not load it again.
+            if (cubeItr->t->GetID() != 0) continue;
+            arg.renderer.BindTexture(cubeItr->t);
+        }
+        queueCube.clear();
     }
 };
 
