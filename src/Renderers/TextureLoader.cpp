@@ -390,5 +390,26 @@ void TextureLoader::Load(ITexture3DPtr texr, ReloadPolicy policy) {
     }
 }
 
+/**
+ * Load a cube map.
+ * If no reload policy flag is supplied the default policy will be
+ * used (\a RELOAD_NEVER). 
+ */
+void TextureLoader::Load(ICubemapPtr texr, ReloadPolicy policy) {
+    // Here we must remember to calculate the exact policy as it could
+    // change before the actual loading is performed.
+    policy = my(policy);
+    if (IRenderer::RENDERER_UNINITIALIZE == renderer.GetCurrentStage()) {
+        // Queue for later loading as no context exists for the renderer.
+        initloader->Add(texr, policy);
+    } else {
+        // If the texture has not already been loaded load it.
+        if (texr->GetID() == 0)
+            renderer.BindTexture(texr);
+        // Listen for reload events (based on policy)
+        // reloader->Add(texr, policy);
+    }
+}
+
 } // NS Renderers
 } // NS OpenEngine
