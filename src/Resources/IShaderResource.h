@@ -25,6 +25,8 @@ class ITexture2D;
 typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
 class ITexture3D;
 typedef boost::shared_ptr<ITexture3D> ITexture3DPtr;
+class ICubemap;
+typedef boost::shared_ptr<ICubemap> ICubemapPtr;
 
 class IDataBlock;
 typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
@@ -115,6 +117,7 @@ public:
      */
     virtual void SetTexture(string name, ITexture2DPtr tex, bool force = false) = 0;
     virtual void SetTexture(string name, ITexture3DPtr tex, bool force = false) = 0;
+    virtual void SetTexture(string name, ICubemapPtr tex, bool force = false) = 0;
 
     /**
      * Looks up the texture with the specified name and replaces tex
@@ -125,6 +128,7 @@ public:
      */
     virtual void GetTexture(string name, ITexture2DPtr &tex) = 0;
     virtual void GetTexture(string name, ITexture3DPtr &tex) = 0;
+    virtual void GetTexture(string name, ICubemapPtr &tex) = 0;
 
     /**
      * Looks up the id of the uniform with the given name. Doesn't
