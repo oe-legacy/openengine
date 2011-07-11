@@ -282,8 +282,6 @@ namespace OpenEngine {
                 }
             }
 
-            static void GenerateMipMap(ICubemapPtr map);
-
             // Serialization
             virtual void Serialize(IArchiveWriter&) {}; //! @Todo make pure virtual.
             virtual void Deserialize(IArchiveReader&) {};

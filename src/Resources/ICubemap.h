@@ -141,6 +141,17 @@ namespace Resources {
          */
         virtual void* GetRawData(const Face face, const int miplevel = 0) = 0;
         virtual const void* GetRawData(const Face face, const int miplevel = 0) const = 0;
+
+        /**
+         * Generates mipmaps for the entire cubemap map from the base level image
+         * data.
+         */
+        static void GenerateMipmaps(ICubemapPtr map);
+
+        /**
+         * Generates a mipmap 
+         */
+        static void GenerateMipmap(ICubemapPtr map, const Face face, const int miplevel);
     };
     
 

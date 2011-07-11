@@ -149,43 +149,18 @@ namespace Resources {
          * @return RGBAColor The pixel color.
          */
         virtual Math::RGBAColor GetPixel(const ICubemap::Face face, const int x, const int y, const int miplevel = 0) const {
-            const int index = x + y * size;
-            switch(face){
-            case ICubemap::NEGATIVE_X: 
-                return Math::RGBAColor::FromArray(negXData, index, format);
-            case ICubemap::POSITIVE_X: 
-                return Math::RGBAColor::FromArray(posXData, index, format);
-            case ICubemap::NEGATIVE_Y: 
-                return Math::RGBAColor::FromArray(negYData, index, format);
-            case ICubemap::POSITIVE_Y: 
-                return Math::RGBAColor::FromArray(posYData, index, format);
-            case ICubemap::NEGATIVE_Z: 
-                return Math::RGBAColor::FromArray(negZData, index, format);
-            case ICubemap::POSITIVE_Z: 
-                return Math::RGBAColor::FromArray(posZData, index, format);
-            }
-            return Math::RGBAColor();
+            const void* data = this->GetRawData(face, miplevel);
+            const int index = x + y * Width(miplevel);
+            return Math::RGBAColor::FromArray(data, index, format);
         }
         
         /**
          * Sets the pixel color of the cubemaps face at (x,y).
          */
         virtual void SetPixel(const Math::RGBAColor& color, const ICubemap::Face face, const int x, const int y, const int miplevel = 0) {
-            const int index = x + y * size;
-            switch(face){
-            case ICubemap::NEGATIVE_X: 
-                color.ToArray(negXData, index, format); break;
-            case ICubemap::POSITIVE_X: 
-                color.ToArray(posXData, index, format); break;
-            case ICubemap::NEGATIVE_Y: 
-                color.ToArray(negYData, index, format); break;
-            case ICubemap::POSITIVE_Y: 
-                color.ToArray(posYData, index, format); break;
-            case ICubemap::NEGATIVE_Z: 
-                color.ToArray(negZData, index, format); break;
-            case ICubemap::POSITIVE_Z: 
-                color.ToArray(posZData, index, format); break;
-            }
+            void* data = this->GetRawData(face, miplevel);
+            const int index = x + y * Width(miplevel);
+            color.ToArray(data, index, format);
         }
 
         /**
