@@ -21,11 +21,13 @@ namespace OpenEngine {
          * Forward declaration.
          */
         class ITexture;
+        class ICubemap;
         
         /**
          * Texture resource smart pointer.
          */
         typedef boost::shared_ptr<ITexture> ITexturePtr;
+        typedef boost::shared_ptr<ICubemap> ICubemapPtr;
 
         /**
          * Color Format enumeration.
@@ -279,6 +281,8 @@ namespace OpenEngine {
                     throw Core::Exception("Colorformat not supported");
                 }
             }
+
+            static void GenerateMipMap(ICubemapPtr map);
 
             // Serialization
             virtual void Serialize(IArchiveWriter&) {}; //! @Todo make pure virtual.

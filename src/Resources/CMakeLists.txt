@@ -8,6 +8,7 @@ ADD_LIBRARY(OpenEngine_Resources
   ICubemap.h
   Cubemap.h
   ITexture.h
+  ITexture.cpp
   ITexture2D.h
   Texture2D.h
   ITexture3D.h

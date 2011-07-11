@@ -11,6 +11,9 @@
 #define _CUBEMAP_RESOURCE_H_
 
 #include <Resources/ICubemap.h>
+#include <Resources/ITexture2D.h>
+#include <Utils/Convert.h>
+#include <Logging/Logger.h>
 
 namespace OpenEngine {
 namespace Resources {
@@ -35,25 +38,39 @@ namespace Resources {
         int size;
         ColorFormat format;
         Filtering filtering;
+        int mipcount;
         void *negXData, *posXData,
             *negYData, *posYData,
             *negZData, *posZData;
         
-        Cubemap(const int s, const ColorFormat f)
+        Cubemap(const int s, const ColorFormat f, bool mipmapping = true)
             : size(s), format(f), filtering(TRILINEAR) {
-            negXData = ITexture::CreateDataArray(s*s,f);
-            posXData = ITexture::CreateDataArray(s*s,f);
-            negYData = ITexture::CreateDataArray(s*s,f);
-            posYData = ITexture::CreateDataArray(s*s,f);
-            negZData = ITexture::CreateDataArray(s*s,f);
-            posZData = ITexture::CreateDataArray(s*s,f);
+            int arraySize;
+            mipcount = 1;
+            if (mipmapping){
+                int size = s;
+                arraySize = size*size;
+                while (size > 1){
+                    ++mipcount;
+                    size /= 2;
+                    arraySize += size*size;
+                }
+            } else
+                arraySize = s*s;
+
+            negXData = ITexture::CreateDataArray(arraySize,f);
+            posXData = ITexture::CreateDataArray(arraySize,f);
+            negYData = ITexture::CreateDataArray(arraySize,f);
+            posYData = ITexture::CreateDataArray(arraySize,f);
+            negZData = ITexture::CreateDataArray(arraySize,f);
+            posZData = ITexture::CreateDataArray(arraySize,f);
 
             this->id = 0;
         }
         
     public:
-        static inline CubemapPtr Create(const int size, const ColorFormat format) { 
-            return CubemapPtr(new Cubemap(size, format));
+        static inline CubemapPtr Create(const int size, const ColorFormat format, bool mipmapping = true) { 
+            return CubemapPtr(new Cubemap(size, format, mipmapping));
         }
 
         ~Cubemap() {
@@ -67,14 +84,26 @@ namespace Resources {
          *
          * @return width in pixels.
          */
-        virtual const int Width() const { return size; }
+        virtual const int Width(const int miplevel = 0) const { 
+            if (miplevel >= mipcount) return 0;
+            int s = size;
+            for (int m = 0; m < miplevel; ++m)
+                s /= 2;
+            return s; 
+        }
 
         /**
          * Get height in pixels on loaded texture.
          *
          * @return height in pixels.
          */
-        virtual const int Height() const { return size; }
+        virtual const int Height(const int miplevel = 0) const { 
+            if (miplevel >= mipcount) return 0;
+            int s = size;
+            for (int m = 0; m < miplevel; ++m)
+                s /= 2;
+            return s; 
+        }
 
         /**
          * Get color format of the texture.
@@ -94,6 +123,15 @@ namespace Resources {
          * @return Filtering The filtering used.
          */
         virtual const Filtering GetFiltering() const { return filtering; }
+
+        /**
+         * Returns true if the cubemap is mipmapped.
+         */
+        virtual const bool IsMipmapped() const { return mipcount > 1;}
+        /**
+         * Returns the number of mipmaps in this cubemap.
+         */
+        virtual const int MipmapCount() const { return mipcount; }
 
         /**
          * Returns true if the cubemap's color data is readable. This is always
@@ -136,45 +174,99 @@ namespace Resources {
             const int index = x + y * size;
             switch(face){
             case ICubemap::NEGATIVE_X: 
-                color.ToArray(negXData, index, format);
-                break;
+                color.ToArray(negXData, index, format); break;
             case ICubemap::POSITIVE_X: 
-                color.ToArray(posXData, index, format);
-                break;
+                color.ToArray(posXData, index, format); break;
             case ICubemap::NEGATIVE_Y: 
-                color.ToArray(negYData, index, format);
-                break;
+                color.ToArray(negYData, index, format); break;
             case ICubemap::POSITIVE_Y: 
-                color.ToArray(posYData, index, format);
-                break;
+                color.ToArray(posYData, index, format); break;
             case ICubemap::NEGATIVE_Z: 
-                color.ToArray(negZData, index, format);
-                break;
+                color.ToArray(negZData, index, format); break;
             case ICubemap::POSITIVE_Z: 
-                color.ToArray(posZData, index, format);
-                break;
+                color.ToArray(posZData, index, format); break;
+            }
+        }
+
+        /**
+         * Set the pixels on the specified face to be the same colors as the 2D texture.
+         */
+        virtual void SetPixels(const ITexture2DPtr source, const Face face, const int miplevel = 0) {
+            if ((int)source->GetWidth() != size || (int)source->GetHeight() != size)
+                throw Core::Exception("2D texture, " + Utils::Convert::ToString(source->GetWidth()) + "x" + Utils::Convert::ToString(source->GetHeight()) + 
+                                      ", and cubemap dimensions, " + Utils::Convert::ToString(size) + "x" + Utils::Convert::ToString(size) + ", must match.");
+
+            void* faceData = GetRawData(face);
+            switch(source->GetColorFormat()) {
+            case RGBA:
+                if (format == RGBA){
+                    memcpy(faceData, source->GetVoidDataPtr(), size * size * 4 * sizeof(unsigned char));
+                    break;
+                } else
+                    throw Core::Exception("Unsupported color format.");
+            default:
+                throw Core::Exception("Unsupported color format.");
             }
         }
         
         /**
          * Returns a pointer to the color data in its raw form.
          */
-        virtual const void* GetRawData(const Face face) const {
+        virtual void* GetRawData(const Face face, const int miplevel = 0) {
+            if (miplevel >= mipcount) return NULL;
+
+            unsigned char *data;
             switch(face){
-            case ICubemap::NEGATIVE_X:
-                return negXData;
-            case ICubemap::POSITIVE_X:
-                return posXData;
-            case ICubemap::NEGATIVE_Y:
-                return negYData;
-            case ICubemap::POSITIVE_Y:
-                return posYData;
-            case ICubemap::NEGATIVE_Z:
-                return negZData;
-            case ICubemap::POSITIVE_Z:
-                return posZData;
+            case ICubemap::NEGATIVE_X: data = (unsigned char*)negXData; break;
+            case ICubemap::POSITIVE_X: data = (unsigned char*)posXData; break;
+            case ICubemap::NEGATIVE_Y: data = (unsigned char*)negYData; break;
+            case ICubemap::POSITIVE_Y: data = (unsigned char*)posYData; break;
+            case ICubemap::NEGATIVE_Z: data = (unsigned char*)negZData; break;
+            case ICubemap::POSITIVE_Z: data = (unsigned char*)posZData; break;
             }
-            return NULL;
+
+            int offset;
+            switch(format){
+            case RGBA: offset = 4; break;
+            default:
+                throw Core::Exception("Unsupported color format.");
+            }
+
+            for (int mip = 0, s = size; mip < miplevel; ++mip, s /= 2) {
+                data += s * s * offset;
+            }
+
+            return (void*)data;
+        }
+
+        /**
+         * Returns a pointer to the color data in its raw form.
+         */
+        virtual const void* GetRawData(const Face face, const int miplevel = 0) const {
+            if (miplevel >= mipcount) return NULL;
+
+            unsigned char *data;
+            switch(face){
+            case ICubemap::NEGATIVE_X: data = (unsigned char*)negXData; break;
+            case ICubemap::POSITIVE_X: data = (unsigned char*)posXData; break;
+            case ICubemap::NEGATIVE_Y: data = (unsigned char*)negYData; break;
+            case ICubemap::POSITIVE_Y: data = (unsigned char*)posYData; break;
+            case ICubemap::NEGATIVE_Z: data = (unsigned char*)negZData; break;
+            case ICubemap::POSITIVE_Z: data = (unsigned char*)posZData; break;
+            }
+
+            int offset;
+            switch(format){
+            case RGBA: offset = 4; break;
+            default:
+                throw Core::Exception("Unsupported color format.");
+            }
+
+            for (int mip = 0, s = size; mip < miplevel; ++mip, s /= 2) {
+                data += s * s * offset;
+            }
+
+            return (void*)data;
         }
     };
     

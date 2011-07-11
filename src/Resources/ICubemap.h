@@ -20,13 +20,12 @@ namespace Resources {
      * Forward declarations.
      */
     class ICubemap;
+    typedef boost::shared_ptr<ICubemap> ICubemapPtr;
     class ICubemapChanged;
     class ICubemapDestroyed;
 
-    /**
-     * Cubemap smart pointer.
-     */
-    typedef boost::shared_ptr<ICubemap> ICubemapPtr;
+    class ITexture2D;
+    typedef boost::shared_ptr<ITexture2D> ITexture2DPtr;
 
     /**
      * Cubemap texture interface.
@@ -43,13 +42,13 @@ namespace Resources {
         /**
          * An enumeration of the cubemap faces.
          */
-        enum Face {NEGATIVE_X, 
-                   POSITIVE_X, 
-                   NEGATIVE_Y, 
-                   POSITIVE_Y, 
-                   NEGATIVE_Z, 
-                   POSITIVE_Z};
-
+        enum Face {POSITIVE_X = 0x8515,
+                   NEGATIVE_X = 0x8516,
+                   POSITIVE_Y = 0x8517,
+                   NEGATIVE_Y = 0x8518,
+                   POSITIVE_Z = 0x8519,
+                   NEGATIVE_Z = 0x851A};
+                   
         /** SHOULD BE MOVED TO CONTEXT!! **/
         unsigned int id;
         /**
@@ -72,14 +71,14 @@ namespace Resources {
          *
          * @return width in pixels.
          */
-        virtual const int Width() const = 0;
+        virtual const int Width(const int miplevel = 0) const = 0;
 
         /**
          * Get height in pixels on loaded texture.
          *
          * @return height in pixels.
          */
-        virtual const int Height() const = 0;
+        virtual const int Height(const int miplevel = 0) const = 0;
 
         /**
          * Get color format of the texture.
@@ -99,6 +98,15 @@ namespace Resources {
          * @return Filtering The filtering used.
          */
         virtual const Filtering GetFiltering() const = 0;
+
+        /**
+         * Returns true if the cubemap is mipmapped.
+         */
+        virtual const bool IsMipmapped() const = 0;
+        /**
+         * Returns the number of mipmaps in this cubemap.
+         */
+        virtual const int MipmapCount() const = 0;
 
         /**
          * Returns true if the cubemap's color data is readable. This is not the
@@ -123,10 +131,16 @@ namespace Resources {
         virtual void SetPixel(const Math::RGBAColor& color, const Face face, const int x, const int y, const int miplevel = 0) = 0;
 
         /**
+         * Set the pixels on the specified face to be the same colors as the 2D texture.
+         */
+        virtual void SetPixels(const ITexture2DPtr data, const Face face, const int miplevel = 0) = 0;
+
+        /**
          * Returns a pointer to the color data in its raw form. The cubemap must
          * be readable or an exception will be thrown.
          */
-        virtual const void* GetRawData(const Face face) const = 0;
+        virtual void* GetRawData(const Face face, const int miplevel = 0) = 0;
+        virtual const void* GetRawData(const Face face, const int miplevel = 0) const = 0;
     };
     
 
