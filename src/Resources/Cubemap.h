@@ -179,6 +179,36 @@ namespace Resources {
                     break;
                 } else
                     throw Core::Exception("Unsupported color format.");
+            case RGB:
+                if (format == RGBA){
+                    unsigned char* data = (unsigned char*)source->GetVoidDataPtr();
+                    unsigned char* rawdata = (unsigned char*)faceData;
+                    for (int x = 0; x < Width(); ++x)
+                        for (int y = 0; y < Height(); ++y){
+                            int index = x + y * Width();
+                            rawdata[index * 4]   = data[index * 3];
+                            rawdata[index * 4+1] = data[index * 3+1];
+                            rawdata[index * 4+2] = data[index * 3+2];
+                            rawdata[index * 4+3] = 255;
+                        }
+                    break;
+                } else
+                    throw Core::Exception("Unsupported color format.");
+            case BGR:
+                if (format == RGBA){
+                    unsigned char* data = (unsigned char*)source->GetVoidDataPtr();
+                    unsigned char* rawdata = (unsigned char*)faceData;
+                    for (int x = 0; x < Width(); ++x)
+                        for (int y = 0; y < Height(); ++y){
+                            int index = x + y * Width();
+                            rawdata[index * 4]   = data[index * 3+2];
+                            rawdata[index * 4+1] = data[index * 3+1];
+                            rawdata[index * 4+2] = data[index * 3];
+                            rawdata[index * 4+3] = 255;
+                        }
+                    break;
+                } else
+                    throw Core::Exception("Unsupported color format.");
             default:
                 throw Core::Exception("Unsupported color format.");
             }
