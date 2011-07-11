@@ -71,21 +71,21 @@ namespace Resources {
          *
          * @return width in pixels.
          */
-        virtual const int Width(const int miplevel = 0) const = 0;
+        virtual int Width(const int miplevel = 0) const = 0;
 
         /**
          * Get height in pixels on loaded texture.
          *
          * @return height in pixels.
          */
-        virtual const int Height(const int miplevel = 0) const = 0;
+        virtual int Height(const int miplevel = 0) const = 0;
 
         /**
          * Get color format of the texture.
          *
          * @return ColorFormat representing the way colors are stored
          */
-        virtual const ColorFormat GetColorFormat() const = 0;
+        virtual ColorFormat GetColorFormat() const = 0;
 
         /**
          * Sets the texture filtering used for this texture
@@ -97,16 +97,16 @@ namespace Resources {
          *
          * @return Filtering The filtering used.
          */
-        virtual const Filtering GetFiltering() const = 0;
+        virtual Filtering GetFiltering() const = 0;
 
         /**
          * Returns true if the cubemap is mipmapped.
          */
-        virtual const bool IsMipmapped() const = 0;
+        virtual bool IsMipmapped() const = 0;
         /**
          * Returns the number of mipmaps in this cubemap.
          */
-        virtual const int MipmapCount() const = 0;
+        virtual int MipmapCount() const = 0;
 
         /**
          * Returns true if the cubemap's color data is readable. This is not the
@@ -115,7 +115,7 @@ namespace Resources {
          *
          * @return True if the data in the texture can be read.
          */
-        virtual const bool IsReadable() const = 0;
+        virtual bool IsReadable() const = 0;
 
         /**
          * Returns the pixel color of the cubemaps face at (x,y). The cubemap

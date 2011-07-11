@@ -14,6 +14,7 @@
 #include <Resources/ITexture2D.h>
 #include <Utils/Convert.h>
 #include <Logging/Logger.h>
+#include <cstring>
 
 namespace OpenEngine {
 namespace Resources {
@@ -84,7 +85,7 @@ namespace Resources {
          *
          * @return width in pixels.
          */
-        virtual const int Width(const int miplevel = 0) const { 
+        virtual int Width(const int miplevel = 0) const { 
             if (miplevel >= mipcount) return 0;
             int s = size;
             for (int m = 0; m < miplevel; ++m)
@@ -97,7 +98,7 @@ namespace Resources {
          *
          * @return height in pixels.
          */
-        virtual const int Height(const int miplevel = 0) const { 
+        virtual int Height(const int miplevel = 0) const { 
             if (miplevel >= mipcount) return 0;
             int s = size;
             for (int m = 0; m < miplevel; ++m)
@@ -110,7 +111,7 @@ namespace Resources {
          *
          * @return ColorFormat representing the way colors are stored
          */
-        virtual const ColorFormat GetColorFormat() const { return format; }
+        virtual ColorFormat GetColorFormat() const { return format; }
 
         /**
          * Sets the texture filtering used for this texture
@@ -122,16 +123,16 @@ namespace Resources {
          *
          * @return Filtering The filtering used.
          */
-        virtual const Filtering GetFiltering() const { return filtering; }
+        virtual Filtering GetFiltering() const { return filtering; }
 
         /**
          * Returns true if the cubemap is mipmapped.
          */
-        virtual const bool IsMipmapped() const { return mipcount > 1;}
+        virtual bool IsMipmapped() const { return mipcount > 1;}
         /**
          * Returns the number of mipmaps in this cubemap.
          */
-        virtual const int MipmapCount() const { return mipcount; }
+        virtual int MipmapCount() const { return mipcount; }
 
         /**
          * Returns true if the cubemap's color data is readable. This is always
@@ -140,7 +141,7 @@ namespace Resources {
          *
          * @return True if the data in the texture can be read.
          */
-        virtual const bool IsReadable() const { return true; } // @TODO might not always be the case longterm.
+        virtual bool IsReadable() const { return true; } // @TODO might not always be the case longterm.
 
         /**
          * Returns the pixel color of the cubemaps face at (x,y). The cubemap
