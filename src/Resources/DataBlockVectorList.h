@@ -12,6 +12,8 @@
  */
 VECTOR(4, unsigned char)
 
+VECTOR(1, unsigned char)
+VECTOR(1, unsigned short)
 VECTOR(1, unsigned int)
 
 VECTOR(2, float)

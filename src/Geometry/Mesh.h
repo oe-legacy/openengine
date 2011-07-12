@@ -19,6 +19,8 @@ using std::list;
 namespace OpenEngine {
     namespace Resources {
         class Indices;
+        class IDataBlock;
+        typedef boost::shared_ptr<IDataBlock> IDataBlockPtr;
         typedef boost::shared_ptr<Indices> IndicesPtr;
     }
     namespace Geometry {
@@ -58,6 +60,8 @@ namespace OpenEngine {
             unsigned int drawRange;
             
         public:
+            Resources::IDataBlockPtr indices; // hack to enable indices of element size smaller than 4 bytes
+            
             Mesh(Resources::IndicesPtr indexBuffer,
                  Type type,
                  GeometrySetPtr geom,
