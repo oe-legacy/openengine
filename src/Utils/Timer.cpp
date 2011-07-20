@@ -303,6 +303,7 @@ bool Timer::IsRunning() const {
  * @return Current time.
  */
 Time Timer::GetTime() {
+    /*
 #if defined(_WIN32)
     #if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
         #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
@@ -321,10 +322,11 @@ Time Timer::GetTime() {
     res -= DELTA_EPOCH_IN_MICROSECS; 
     return Time(res / 1000000UL, res % 1000000UL);
 #else
+*/
     struct timeval t;
     gettimeofday( &t, NULL );
     return Time(t.tv_sec, t.tv_usec);
-#endif
+//#endif
 }
 
 } //NS Utils
