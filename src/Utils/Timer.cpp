@@ -17,12 +17,12 @@
 #include <stdio.h>
 #include <limits.h>
 #include <iomanip>
-
+/*
 #if defined(_WIN32)
     #include <Windows.h>
     #include <winbase.h>
 #endif
-
+*/
 namespace OpenEngine {
 namespace Utils {
 
