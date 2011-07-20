@@ -10,10 +10,10 @@
 #ifndef _OE_META_TIME_H_
 #define _OE_META_TIME_H_
 
-#if defined(_WIN32)
-  #include <time.h>
-#else
+//#if defined(_WIN32)
+//  #include <time.h>
+//#else
   #include <sys/time.h>
-#endif
+//#endif
 
 #endif // _OE_META_TIME_H_
