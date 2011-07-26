@@ -60,7 +60,9 @@ namespace OpenEngine {
             GeometrySetPtr gs = geom->Clone();
             //MaterialPtr matr = MaterialPtr(new Material(mat));
             // TODO: deep copy material.
-            return MeshPtr(new Mesh(idxBuf, type, gs, mat, indexOffset, drawRange));
+            MeshPtr mp = MeshPtr(new Mesh(idxBuf, type, gs, mat, indexOffset, drawRange));
+            mp->indices = indices;
+            return mp;
         }
 
     }
