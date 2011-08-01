@@ -42,15 +42,23 @@ Material::Material() {
     Init();
 }
 
+// initialize default material.
+Material::Material(std::string name) 
+    : name(name) {
+    Init();
+}
+
 // Shared copy initialization code
 void Material::Copy(const Material& mat) {
+    name = mat.GetName();
+    
   	ambient = mat.ambient;
     diffuse = mat.diffuse;
     specular = mat.specular;
     emission = mat.emission;
     shininess = mat.shininess;
 
-    // TODO: deep copy texs2D and texs3D.
+    // TODO: deep copy texs2D, texs3D
 }
 
 /**

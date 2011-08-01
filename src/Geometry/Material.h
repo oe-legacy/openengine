@@ -61,6 +61,8 @@ class Material : public Resources::ISerializable {
     OE_SERIALIZABLE_OBJECT(Material)
 
 private:
+    std::string name;
+    
     map<string, ITexture2DPtr> texs2D;
     map<ITexture2DPtr, unsigned int> uvIndices;
     map<string, ITexture3DPtr> texs3D;
@@ -85,6 +87,7 @@ public:
     IShaderResourcePtr  shad; //!< shader resource
     
     Material();
+    Material(std::string name);
     explicit Material(const Material& material);
     explicit Material(const MaterialPtr& material);
     explicit Material(Vector<4,float> amb, Vector<4,float> diff,
@@ -93,6 +96,8 @@ public:
     virtual ~Material();
 
     bool Equals(MaterialPtr mat);
+
+    inline const std::string GetName() const { return name; }
 
     void AddTexture(ITexture2DPtr tex);
     void AddTexture(ITexture2DPtr tex, std::string name);
