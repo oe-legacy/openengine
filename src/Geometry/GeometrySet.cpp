@@ -33,10 +33,12 @@ namespace OpenEngine {
             if (colors){
                 attributeBlocks["color"] = colors;
             }
-            IDataBlockList::const_iterator texs = texCoords.begin();
-            for (unsigned int i = 0; texs != texCoords.end(); ++i, ++texs){
-                attributeBlocks["texCoord" + Utils::Convert::ToString<unsigned int>(i)] = *texs;
-            }
+            // IDataBlockList::const_iterator texs = texCoords.begin();
+            // for (unsigned int i = 0; texs != texCoords.end(); ++i, ++texs){
+            //     attributeBlocks["texCoord" + Utils::Convert::ToString<unsigned int>(i)] = *texs;
+            // }
+            
+            textureCoords = texCoords;
 
             if (attributeBlocks.begin() != attributeBlocks.end())
                 size = attributeBlocks.begin()->second->GetSize();

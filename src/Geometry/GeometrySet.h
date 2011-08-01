@@ -47,7 +47,7 @@ namespace OpenEngine {
         protected:
             unsigned int size;
             AttributeBlocks attributeBlocks;
-
+            Resources::IDataBlockList textureCoords;
             Resources::IDataBlockPtr debugNormals;
 
         public:
@@ -91,15 +91,16 @@ namespace OpenEngine {
              * Get list of texcoords.
              */
             inline Resources::IDataBlockList GetTexCoords() const { 
-                Resources::IDataBlockList list;
-                unsigned int count = 0;
-                AttributeBlocks::const_iterator itr = attributeBlocks.find("texCoord0");
-                while (itr != attributeBlocks.end()) {
-                    list.push_back(itr->second);
-                    ++count;
-                    itr = attributeBlocks.find("texCoord" + Utils::Convert::ToString<unsigned int>(count));
-                }
-                return list;
+                // Resources::IDataBlockList list;
+                // unsigned int count = 0;
+                // AttributeBlocks::const_iterator itr = attributeBlocks.find("texCoord0");
+                // while (itr != attributeBlocks.end()) {
+                //     list.push_back(itr->second);
+                //     ++count;
+                //     itr = attributeBlocks.find("texCoord" + Utils::Convert::ToString<unsigned int>(count));
+                // }
+                
+                return textureCoords;
             }
 
             /**
