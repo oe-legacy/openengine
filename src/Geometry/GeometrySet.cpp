@@ -63,8 +63,9 @@ namespace OpenEngine {
                 newBlocks[itr->first] = itr->second->Clone();
                 ++itr;
             }
-
-            return GeometrySetPtr(new GeometrySet(newBlocks));
+            GeometrySet* gs = new GeometrySet(newBlocks);
+            gs->textureCoords = textureCoords;
+            return GeometrySetPtr(gs);
         }
 
 
