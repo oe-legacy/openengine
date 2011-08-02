@@ -23,8 +23,8 @@ namespace Display {
 class PerspectiveViewingVolume : public ViewingVolume {
 public:
 
-    PerspectiveViewingVolume(const float distNear = 10,
-                             const float distFar  = 30000,
+    PerspectiveViewingVolume(const float distNear = 1,
+                             const float distFar  = 3000,
                              const float aspect   = 4.0/3.0,
                              const float fov      = PI/4.0);
 

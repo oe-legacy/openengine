@@ -82,8 +82,9 @@ public:
     Vector<4,float> ambient;     //!< ambient color
     Vector<4,float> specular;    //!< specular color
     Vector<4,float> emission;    //!< emission color
+    
     float shininess;             //!< shininess value
-
+    float transparency;          //!< transparency value
     IShaderResourcePtr  shad; //!< shader resource
     
     Material();

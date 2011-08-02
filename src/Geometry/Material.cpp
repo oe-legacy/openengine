@@ -31,6 +31,7 @@ void Material::Init() {
     specular = Vector<4,float>(0.0,0.0,0.0,1.0);
     emission = Vector<4,float>(0.0,0.0,0.0,1.0);
     shininess = 0.0;    
+    transparency = 0.0;
     texs2D = map<string, ITexture2DPtr>();
     texs3D = map<string, ITexture3DPtr>();
     cubemaps = map<string, ICubemapPtr>();
