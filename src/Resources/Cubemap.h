@@ -86,11 +86,8 @@ namespace Resources {
          * @return width in pixels.
          */
         virtual int Width(const int miplevel = 0) const { 
-            if (miplevel >= mipcount) return 0;
-            int s = size;
-            for (int m = 0; m < miplevel; ++m)
-                s /= 2;
-            return s; 
+            const int w = size >> miplevel;
+            return w ? w : 1;
         }
 
         /**
@@ -99,11 +96,8 @@ namespace Resources {
          * @return height in pixels.
          */
         virtual int Height(const int miplevel = 0) const { 
-            if (miplevel >= mipcount) return 0;
-            int s = size;
-            for (int m = 0; m < miplevel; ++m)
-                s /= 2;
-            return s; 
+            const int h = size >> miplevel;
+            return h ? h : 1;
         }
 
         /**
