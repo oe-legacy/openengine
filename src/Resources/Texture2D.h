@@ -34,6 +34,20 @@ namespace OpenEngine {
                 SetupType<T>();
             }
 
+            Texture2D(unsigned int w, unsigned int h, ColorFormat format, unsigned int channels)
+                : ITexture2D() {
+                SetupType<T>();
+                this->width = w;
+                this->height = h;
+                this->channels = channels;
+                this->format = format;
+                data = NULL;
+                mipmapping = false;
+                compression = false;
+                wrap = CLAMP_TO_EDGE;
+                filtering = BILINEAR;
+            }
+
             Texture2D(unsigned int w, unsigned int h, unsigned int c)
                 : ITexture2D() {
                 SetupType<T>();
