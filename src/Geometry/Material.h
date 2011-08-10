@@ -11,6 +11,7 @@
 #define _MATERIAL_H_
 
 #include <Math/Vector.h>
+#include <Core/Event.h>
 #include <boost/shared_ptr.hpp>
 #include <Resources/ISerializable.h>
 // #include <list>
@@ -72,6 +73,14 @@ private:
     void Init();
 
 public:
+    class ChangedEventArg {
+    public:
+        ChangedEventArg(Material* material): material(material) {}
+        virtual ~ChangedEventArg(){}
+        Material* material;
+    };
+    Core::Event<ChangedEventArg> changedEvent;
+
     enum ShadingModel {
         NONE,
         PHONG,
