@@ -255,6 +255,8 @@ namespace OpenEngine {
              * Destructive vector addition on all elements in the
              * datablock.
              */
+            virtual void operator+=(const Math::Vector<1, unsigned char> value)  { throw Core::NotImplemented(); }
+            virtual void operator+=(const Math::Vector<1, unsigned short> value)  { throw Core::NotImplemented(); }
             virtual void operator+=(const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
             virtual void operator+=(const Math::Vector<1, unsigned int> value)  { throw Core::NotImplemented(); }
             virtual void operator+=(const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
@@ -267,6 +269,7 @@ namespace OpenEngine {
              * Nondestructive vector addition on all elements in the
              * datablock.
              */
+            virtual IDataBlockPtr operator+(const Math::Vector<1, unsigned char> value)  { throw Core::NotImplemented(); }
             virtual IDataBlockPtr operator+(const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
             virtual IDataBlockPtr operator+(const Math::Vector<1, unsigned int> value)  { throw Core::NotImplemented(); }
             virtual IDataBlockPtr operator+(const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
@@ -280,6 +283,8 @@ namespace OpenEngine {
              * Destructive vector subtraction on all elements in the
              * datablock.
              */
+            virtual void operator-=(const Math::Vector<1, unsigned char> value)  { throw Core::NotImplemented(); }
+            virtual void operator-=(const Math::Vector<1, unsigned short> value)  { throw Core::NotImplemented(); }
             virtual void operator-=(const Math::Vector<4, unsigned char> value)  { throw Core::NotImplemented(); }
             virtual void operator-=(const Math::Vector<1, unsigned int> value)  { throw Core::NotImplemented(); }
             virtual void operator-=(const Math::Vector<2, float> value)  { throw Core::NotImplemented(); }
