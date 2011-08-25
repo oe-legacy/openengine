@@ -161,6 +161,13 @@ public:
      * @return The canvas that will be mapped onto this frame.
      */
     virtual ICanvas* GetCanvas() = 0;
+
+    /**
+     * Set the render module (part of Render2)
+     */
+
+    virtual void SetRenderModule(IModule* renderModule) { throw "Not implemented"; }
+
 };
 
 } // NS Display
