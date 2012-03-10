@@ -54,9 +54,9 @@ def commit(*args):
     dists = get_dists(*args)    
     if dists:
         commit_repo(user, parse(*dists)["darcs-dev"]) # run dist
-        commit_git_repo(user, parse(*dists)["git"]) # run dist
+        commit_git_repo(user, parse(*dists)["git-dev"]) # run dist
     commit_repo(user, parse(*args)["darcs-dev"]) # run rest
-    commit_git_repo(user, parse(*args)["git"]) # run rest
+    commit_git_repo(user, parse(*args)["git-dev"]) # run rest
 
 def data(*args):
     """
@@ -310,7 +310,7 @@ def parse(*args):
     #   git   : [(path, resource, branch)]
     #   darcs : [(path, resource)]
     #   data  : [(sys, path, resource)]
-    entries = { "darcs":[], "darcs-dev":[], "data":[], "dist":[], "git":[]}
+    entries = { "darcs":[], "darcs-dev":[], "data":[], "dist":[], "git":[], "git-dev":[]}
     # parse each line in each file
     for file in files:
         f = open(file, "r")
@@ -343,6 +343,12 @@ def parse(*args):
                 elif e[0] == "darcs-dev":
                     typ = "darcs-dev"
                     elm = (p, e[2])
+                elif e[0] == "git-dev":
+                    typ = "git-dev"
+                    branch = "master"
+                    if len(e) >= 4:
+                        branch = e[3]
+                    elm = (p, e[2], branch)
                 elif e[0] == "dist":
                     typ = "dist"
                     elm = (p, e[2])
