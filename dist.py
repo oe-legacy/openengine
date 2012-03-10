@@ -38,9 +38,9 @@ def update(*args):
         else:
             if dists:
                 run_repo(parse(*dists)["darcs"]) # run all dists
-                run_git_reop(parse(*dists)["git"])
+                run_git_repo(parse(*dists)["git"])
             run_repo(parse(*args)["darcs"]) # run rest
-            run_git_reop(parse(*args)["git"])
+            run_git_repo(parse(*args)["git"])
         olddists=dists
         
 def commit(*args):
@@ -93,7 +93,7 @@ def install(dist):
     """
     if dist.startswith("proj:"):
         add_to_default("projects/%s/%s.dist" % (dist[5:],dist[5:]),
-                       "http://openengine.dk/code/projects/%s/%s.dist" % (dist[5:], dist[5:]))
+                       "https://raw.github.com/oe-legacy/projects-%s/master/%s.dist" % (dist[5:], dist[5:]))
         file = "default.dist"
     else:
         file = dist #.split("/")[-1]
@@ -174,8 +174,11 @@ def usage():
     print "Some useful targets are:"
     printCommands(commands())
 
-def run_git_reop(repos):
+def run_git_repo(repos):
     for p,r,b in repos:
+        if not os.path.exists(p):
+            os.mkdir(p)
+            print(p)
         repoP = path.join(p,".git")
         if not path.isdir(repoP):
             print "Creating git repo"
