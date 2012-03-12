@@ -1,0 +1,7 @@
+.gitignore
+build/
+oelib.pyc
+src/Resources/SerializableObjects.def
+src/Resources/SerializableObjects.h
+src/Scene/SceneNodes.def
+src/Scene/SceneNodes.h
