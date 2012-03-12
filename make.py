@@ -15,8 +15,9 @@ import string, sys, subprocess, os, os.path as path
 # import the helpers from oelib.py
 from oelib import printCommands, error, execute, system, ExecError, cores
 
-build_dir = path.join(os.getcwd(), "build")
-deps_dir = path.join(os.getcwd(), "deps-build")
+root_dir = os.getcwd()
+build_dir = path.join(root_dir, "build")
+deps_dir = path.join(root_dir, "deps-build")
 
 def commands():
     return ((build,   "all"),
@@ -49,6 +50,11 @@ def clean(delroot=True):
     """
     clean         -- delete all build files
     """
+    os.remove(path.join(root_dir, "oelib.pyc"))
+    os.remove(path.join(root_dir, "src/Resources/SerializableObjects.def"))
+    os.remove(path.join(root_dir, "src/Resources/SerializableObjects.h"))
+    os.remove(path.join(root_dir, "src/Scene/SceneNodes.def"))
+    os.remove(path.join(root_dir, "src/Scene/SceneNodes.h"))
     if not path.isdir(build_dir):
         return
     for root, dirs, files in os.walk(build_dir, topdown=False):
