@@ -22,12 +22,16 @@ namespace Utils {
     }
 
     std::ostream& operator<<(std::ostream& os, const DateTime datetime) {
-        os << std::setw(4) << std::setfill('0') << datetime.GetYear() << "/";
-        os << std::setw(2) << std::setfill('0') << datetime.GetMonth() << "/";
-        os << std::setw(2) << std::setfill('0') << datetime.GetDay() << " ";
-        os << std::setw(2) << std::setfill('0') << datetime.GetHour() << ":";
-        os << std::setw(2) << std::setfill('0') << datetime.GetMinute() << ":";
-        os << std::setw(2) << std::setfill('0') << datetime.GetSecond();
+        char fc = os.fill();
+        os.fill('0');
+        os << std::setw(4) << datetime.GetYear() << "/";
+        os << std::setw(2) << datetime.GetMonth() << "/";
+        os << std::setw(2) << datetime.GetDay() << " ";
+        os << std::setw(2) << datetime.GetHour() << ":";
+        os << std::setw(2) << datetime.GetMinute() << ":";
+        os << std::setw(2) << datetime.GetSecond();
+        os.flush();
+        os.fill(fc);
         return os;
     }
 
