@@ -50,11 +50,16 @@ def clean(delroot=True):
     """
     clean         -- delete all build files
     """
-    os.remove(path.join(root_dir, "oelib.pyc"))
-    os.remove(path.join(root_dir, "src/Resources/SerializableObjects.def"))
-    os.remove(path.join(root_dir, "src/Resources/SerializableObjects.h"))
-    os.remove(path.join(root_dir, "src/Scene/SceneNodes.def"))
-    os.remove(path.join(root_dir, "src/Scene/SceneNodes.h"))
+    if path.isfile(path.join(root_dir, "oelib.pyc")):
+        os.remove(path.join(root_dir, "oelib.pyc"))
+    if path.isfile(path.join(root_dir, "src/Resources/SerializableObjects.def")):
+        os.remove(path.join(root_dir, "src/Resources/SerializableObjects.def"))
+    if path.isfile(path.join(root_dir, "src/Resources/SerializableObjects.h")):
+        os.remove(path.join(root_dir, "src/Resources/SerializableObjects.h"))
+    if path.isfile(path.join(root_dir, "src/Scene/SceneNodes.def")):
+        os.remove(path.join(root_dir, "src/Scene/SceneNodes.def"))
+    if path.isfile(path.join(root_dir, "src/Scene/SceneNodes.h")):
+        os.remove(path.join(root_dir, "src/Scene/SceneNodes.h"))
     if not path.isdir(build_dir):
         return
     for root, dirs, files in os.walk(build_dir, topdown=False):
